@@ -79,6 +79,12 @@ target 'OrionMobileClient' do
 
   pod 'react-native-config', :path => '../node_modules/react-native-config'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+  pod 'RNRootViewBackground', :path => '../node_modules/react-native-root-view-background'
+
   target 'OrionMobileClientTests' do
     inherit! :complete
     # Pods for testing
