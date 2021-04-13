@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config>
-        <domain includeSubdomains="true">orion13.ddns.net</domain>
-        <domain includeSubdomains="true">192.168.0.106</domain>
+        <domain includeSubdomains="true">ip-2c41.proline.net.ua</domain>
+        <domain includeSubdomains="true">192.168.0.104</domain>
         <trust-anchors>
+            <certificates src="@raw/orionprod_ip_2c41"/>
+            <certificates src="@raw/oriondev"/>
             <certificates src="user"/>
             <certificates src="system"/>
         </trust-anchors>
