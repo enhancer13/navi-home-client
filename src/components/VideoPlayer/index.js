@@ -1,32 +1,22 @@
 import React, {Component} from 'react';
 import {Video} from 'expo-av';
 import {TouchableOpacity, StyleSheet, View, ActivityIndicator, Text, Animated, Image} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AjaxRequest from '../../../../helpers/AjaxRequest';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import Globals from '../../../../globals/Globals';
-import {LoadingActivityIndicator} from '../../../../components';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {GlobalStyles} from '../../../../globals/GlobalStyles';
+import {LoadingActivityIndicator} from '../index';
 
 const playerControlsHeight = wp(5);
 const iconSize = playerControlsHeight * 0.9;
-const appServicesEnum = Object.freeze({
-  PRODUCER: 'producer',
-  VIDEO_RECORDER: 'video-recorder',
-  MOTION_DETECTOR: 'motion-detector',
-});
+
 const videoPlayerInitialStatus = {
   isMuted: true,
   shouldPlay: true,
 };
 
 // noinspection JSUnresolvedVariable
-export default class VideoStreamingPlayer extends Component {
+export default class VideoPlayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +29,8 @@ export default class VideoStreamingPlayer extends Component {
     };
   }
 
-  videoError = () => {
+  videoError = (error) => {
+    console.log('error: ', error);
     this.player.unloadAsync();
     this.setState({
       videoError: true,
@@ -129,6 +120,7 @@ export default class VideoStreamingPlayer extends Component {
         console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
       }
     } else {
+      console.log('point 3');
       if (this.state.isPlaying !== playbackStatus.isPlaying && !this.playerStateChangeTimer) {
         if (playbackStatus.isPlaying) {
           this.setState({
@@ -136,6 +128,7 @@ export default class VideoStreamingPlayer extends Component {
           });
         } else {
           this.playerStateChangeTimer = setTimeout(async () => {
+            console.log('point 4');
             if (this.player) {
               let status = await this.player.getStatusAsync();
               if (!status.isPlaying) {
@@ -176,12 +169,6 @@ export default class VideoStreamingPlayer extends Component {
     }
   };
 
-  toggleAppService = async (service, currentState) => {
-    await AjaxRequest.put(Globals.Endpoints.Services.APPLICATION_SERVICE_ACTION(service, this.props.player.id, currentState), null, {
-      skipResponse: true,
-    });
-  };
-
   componentWillUnmount() {
     if (this.playerStateChangeTimer) {
       clearTimeout(this.playerStateChangeTimer);
@@ -189,8 +176,8 @@ export default class VideoStreamingPlayer extends Component {
     }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return prevState.isPlaying && !nextProps.player.servicesStatus.framesStreamerReady
+  /*static getDerivedStateFromProps(nextProps, prevState) {
+    return !nextProps.isPlaying
       ? {
           isPlaying: false,
           shouldPlay: false,
@@ -198,28 +185,21 @@ export default class VideoStreamingPlayer extends Component {
           playButtonIcon: 'play',
         }
       : null;
-  }
+  }*/
 
   render() {
-    let {
-      framesStreamerReady,
-      framesStreamerActive,
-      framesProducerActive,
-      videoRecorderActive,
-      motionDetectorActive,
-      framesProducerConnectionError,
-    } = this.props.player.servicesStatus;
+    const {loading, ready} = this.props;
     let video;
-    if (framesStreamerReady) {
+    if (ready) {
       let videoError = null;
       let videoThumb = null;
-      let videoLoading = null;
+      let videoBuffering = null;
       let videoControls = null;
 
       const error = this.state.videoError;
-      const loading = this.state.shouldPlay && !this.state.isPlaying && !error;
+      const buffering = this.state.shouldPlay && !this.state.isPlaying && !error;
       const paused = !this.state.shouldPlay && !error;
-
+      console.log('state: ', this.state);
       if (error) {
         videoError = (
           <View style={styles.onTopOfPlayerBlack}>
@@ -239,8 +219,8 @@ export default class VideoStreamingPlayer extends Component {
           </View>
         );
       } else {
-        if (loading) {
-          videoLoading = (
+        if (buffering) {
+          videoBuffering = (
             <View style={styles.onTopOfPlayer}>
               <ActivityIndicator size="large" color="white" />
             </View>
@@ -276,6 +256,10 @@ export default class VideoStreamingPlayer extends Component {
       video = (
         <View style={styles.videoPlayerContainer}>
           <Video
+            useNativeControls={true}
+            /*
+            usePoster
+*/
             onError={this.videoError}
             resizeMode={Video.RESIZE_MODE_COVER}
             style={styles.videoPlayer}
@@ -288,11 +272,11 @@ export default class VideoStreamingPlayer extends Component {
           />
           {videoError}
           {videoThumb}
-          {videoLoading}
+          {videoBuffering}
           {videoControls}
         </View>
       );
-    } else if (framesProducerActive && framesStreamerActive) {
+    } else if (loading) {
       video = (
         <View style={styles.videoPlayerContainer}>
           <LoadingActivityIndicator />
@@ -301,49 +285,7 @@ export default class VideoStreamingPlayer extends Component {
     } else {
       video = <View style={styles.videoPlayerContainer} />;
     }
-    return (
-      <View style={styles.container}>
-        {video}
-        <LinearGradient colors={['#6a5aeb', '#6959e1', '#383873']} style={styles.playerControls}>
-          <View style={styles.playerControlsLeftContainer}>
-            {framesStreamerReady && !this.state.videoError ? (
-              <View>
-                <TouchableOpacity style={styles.playerControlButton} onPress={this.clickFullscreenButton}>
-                  <MaterialCommunityIcons name={'fullscreen'} color={'white'} size={iconSize} />
-                </TouchableOpacity>
-              </View>
-            ) : null}
-          </View>
-          <View style={styles.playerDetails}>
-            <Text style={styles.playerDetailsText}>{this.props.player.name}</Text>
-          </View>
-          <View style={styles.playerControlsContainer}>
-            <TouchableOpacity
-              style={styles.playerControlButton}
-              onPress={() => this.toggleAppService(appServicesEnum.MOTION_DETECTOR, motionDetectorActive)}>
-              <MaterialCommunityIcons
-                name={motionDetectorActive ? 'motion-sensor' : 'motion-sensor-off'}
-                color={motionDetectorActive ? 'white' : '#2d2d67'}
-                size={iconSize}
-              />
-            </TouchableOpacity>
-            <View style={styles.playerControlButton}>
-              <AntDesign name="disconnect" color={framesProducerConnectionError ? '#b81ac5' : '#2d2d67'} size={iconSize} />
-            </View>
-            <TouchableOpacity
-              style={styles.playerControlButton}
-              onPress={() => this.toggleAppService(appServicesEnum.VIDEO_RECORDER, videoRecorderActive)}>
-              <Ionicons name="ios-recording-outline" color={videoRecorderActive ? 'white' : '#2d2d67'} size={iconSize} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.playerControlButton}
-              onPress={() => this.toggleAppService(appServicesEnum.PRODUCER, framesProducerActive)}>
-              <Ionicons name="ios-power" color={framesProducerActive ? 'white' : '#2d2d67'} size={iconSize} />
-            </TouchableOpacity>
-          </View>
-        </LinearGradient>
-      </View>
-    );
+    return <View style={styles.container}>{video}</View>;
   }
 }
 
@@ -386,40 +328,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: 0,
-  },
-  playerControlButton: {
-    marginRight: wp(2.5),
-  },
-  playerControls: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    height: playerControlsHeight,
-  },
-  playerControlsContainer: {
-    flex: 0.33,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    height: playerControlsHeight,
-  },
-  playerControlsLeftContainer: {
-    flex: 0.33,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: playerControlsHeight,
-  },
-  playerDetails: {
-    flex: 0.33,
-  },
-  // eslint-disable-next-line react-native/no-color-literals
-  playerDetailsText: {
-    color: 'white',
-    fontSize: GlobalStyles.defaultFontSize,
-    textAlign: 'center',
-    textAlignVertical: 'center',
   },
   videoPlayer: {
     height: '100%',

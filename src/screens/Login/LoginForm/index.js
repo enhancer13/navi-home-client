@@ -10,10 +10,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Globals from '../../../globals/Globals';
 import {GlobalStyles} from '../../../globals/GlobalStyles';
 import {LoadingActivityIndicator} from '../../../components';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import AnimatedPressable from '../../../components/AnimatedPressable';
+import AnimatedButton from '../../../components/AnimatedButton';
 import DefaultText from '../../../components/DefaultText';
 import DefaultTextInput from '../../../components/DefaultTextInput';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -217,7 +217,7 @@ export default class LoginForm extends Component {
               <LoadingActivityIndicator />
             ) : (
               <View style={styles.submitContainer}>
-                <AnimatedPressable containerStyle={styles.submitButton} onItemPress={this.handleCredentialsSubmit} text="SUBMIT" />
+                <AnimatedButton containerStyle={styles.submitButton} onItemPress={this.handleCredentialsSubmit} text="SUBMIT" />
                 {biometricSupport ? (
                   <TouchableOpacity style={styles.touchableIconContainer} onPress={this.handleBiometrySubmit}>
                     <Icon name="finger-print-outline" color={GlobalStyles.violetIconColor} size={iconSize} />
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   messageContainer: {
-    height: rowHeight,
+    height: hp(15),
     width: '80%',
   },
   // eslint-disable-next-line react-native/no-color-literals

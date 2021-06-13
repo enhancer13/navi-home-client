@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   listItemContainer: {
-    backgroundColor: GlobalStyles.listItem.backgroundColor,
+    backgroundColor: GlobalStyles.lightBackgroundColor,
     borderRadius: 10,
     marginBottom: 7,
     marginTop: 3,
@@ -195,13 +195,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   listItemTitle: {
-    color: GlobalStyles.listItem.textColor,
+    color: GlobalStyles.blackTextColor,
   },
   usersContainer: {
     opacity: 0.4,
   },
   usersText: {
-    color: GlobalStyles.listItem.textColor,
+    color: GlobalStyles.blackTextColor,
     fontSize: 12,
   },
   // eslint-disable-next-line react-native/no-color-literals

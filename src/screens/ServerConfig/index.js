@@ -8,7 +8,7 @@ import {DefaultNavigationBar} from '../../components';
 import {LoadingActivityIndicator} from '../../components';
 import DefaultSafeAreaView from '../../components/DefaultSafeAreaView';
 import DefaultText from '../../components/DefaultText';
-import AnimatedPressable from '../../components/AnimatedPressable';
+import AnimatedButton from '../../components/AnimatedButton';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import DefaultTextInput from '../../components/DefaultTextInput';
 
@@ -142,12 +142,12 @@ export default class ServerConfig extends Component {
             )}
           </View>
           <View style={styles.actionsContainer}>
-            <AnimatedPressable onItemPress={() => this.handleServerActions(serverActionsEnum.TEST)} text="Test connection" />
+            <AnimatedButton onItemPress={() => this.handleServerActions(serverActionsEnum.TEST)} text="Test connection" />
             <View style={styles.rightButtonGroup}>
               {action === serverActionsEnum.EDIT ? (
-                <AnimatedPressable onItemPress={() => this.handleServerActions(serverActionsEnum.DELETE)} text="Delete" />
+                <AnimatedButton onItemPress={() => this.handleServerActions(serverActionsEnum.DELETE)} text="Delete" />
               ) : null}
-              <AnimatedPressable
+              <AnimatedButton
                 containerStyle={{marginLeft: wp(2)}}
                 onItemPress={() => this.handleServerActions(action)}
                 text={action === serverActionsEnum.ADD ? 'Save' : 'Update'}

@@ -4,6 +4,9 @@ import CheckBox from '@react-native-community/checkbox';
 import {GlobalStyles} from '../../globals/GlobalStyles';
 import {ScaleAnimation} from '../../animations';
 
+const itemMargin = 1;
+const itemPadding = 3;
+
 export default class SelectableItem extends Component {
   scaleInAnimated = new Animated.Value(0);
   scaleOutAnimated = new Animated.Value(0);
@@ -18,7 +21,7 @@ export default class SelectableItem extends Component {
   };
 
   render() {
-    const {selectionMode, item, itemComponent} = this.props;
+    const {selectionMode, ItemComponent, width, item} = this.props;
     return (
       <Pressable
         onPress={this.props.onItemPress}
@@ -29,17 +32,19 @@ export default class SelectableItem extends Component {
           ScaleAnimation.pressOutAnimation(this.scaleInAnimated);
         }}
         onLongPress={this.onItemLongPress}
-        style={item.selected ? styles.containerSelected : styles.container}>
+        style={[{width: width - 2 * itemMargin}, styles.container, item.selected ? styles.selected : null]}>
         {selectionMode ? (
           <CheckBox
             style={styles.selectionCheckBox}
             disabled={false}
             value={item.selected}
             onValueChange={this.props.onItemPress}
-            tintColors={{true: GlobalStyles.violetColor, false: 'white'}}
+            tintColors={{true: GlobalStyles.violetIconColor, false: GlobalStyles.whiteIconColor}}
           />
         ) : null}
-        <Animated.View style={ScaleAnimation.getScaleTransformationStyle(this.scaleInAnimated)}>{itemComponent}</Animated.View>
+        <Animated.View style={[styles.itemContainer, ScaleAnimation.getScaleTransformationStyle(this.scaleInAnimated)]}>
+          <ItemComponent item={item} width={width - 2 * (itemMargin + itemPadding)} />
+        </Animated.View>
       </Pressable>
     );
   }
@@ -49,17 +54,18 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 2,
+    margin: itemMargin,
   },
-  containerSelected: {
-    alignItems: 'center',
-    backgroundColor: GlobalStyles.violetBackgroundColor,
-    justifyContent: 'center',
-    margin: 2,
+  itemContainer: {
+    padding: itemPadding,
+    width: '100%',
+  },
+  selected: {
+    backgroundColor: GlobalStyles.violetColor,
     zIndex: 0,
   },
   selectionCheckBox: {
-    left: '10%',
+    alignItems: 'center',
     position: 'absolute',
     top: '10%',
     zIndex: 1,

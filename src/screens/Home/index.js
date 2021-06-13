@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LiveStreaming from './LiveStreaming';
-import Devices from './Devices';
+import Settings from './Settings';
 import Alarm from './Alarm';
 import MyAccount from './MyAccount';
 import messaging from '@react-native-firebase/messaging';
@@ -94,7 +93,6 @@ export default class Home extends Component {
   }
 
   render() {
-    let themeStyle = GlobalStyles;
     return (
       <DefaultSafeAreaView>
         <DefaultNavigationBar />
@@ -104,9 +102,9 @@ export default class Home extends Component {
           tabBarPosition="bottom"
           scrollEnabled={true}
           tabBarOptions={{
-            activeTintColor: themeStyle.navigationBar.activeTintColor,
-            inactiveTintColor: themeStyle.navigationBar.inactiveTintColor,
-            pressColor: themeStyle.navigationBar.pressColor,
+            activeTintColor: GlobalStyles.violetColor,
+            inactiveTintColor: GlobalStyles.lightGreyColor,
+            pressColor: GlobalStyles.lightVioletColor,
             showIcon: true,
             labelStyle: {fontSize: GlobalStyles.defaultFontSize, textTransform: 'none', padding: 0, margin: 0},
             iconStyle: {
@@ -126,7 +124,7 @@ export default class Home extends Component {
               padding: 0,
               margin: 0,
             },
-            style: themeStyle.navigationBar.barStyle,
+            style: styles.barStyle,
           }}>
           <Tab.Screen
             name="Live Streaming"
@@ -149,11 +147,18 @@ export default class Home extends Component {
               tabBarIcon: ({color}) => <FontAwesome name="bell" color={color} size={iconSize} />,
             }}
           />
+          {/*<Tab.Screen*/}
+          {/*  name="Devices"*/}
+          {/*  component={Devices}*/}
+          {/*  options={{*/}
+          {/*    tabBarIcon: ({color}) => <MaterialCommunityIcons name="devices" color={color} size={iconSize} />,*/}
+          {/*  }}*/}
+          {/*/>*/}
           <Tab.Screen
-            name="Devices"
-            component={Devices}
+            name="Settings"
+            component={Settings}
             options={{
-              tabBarIcon: ({color}) => <MaterialCommunityIcons name="devices" color={color} size={iconSize} />,
+              tabBarIcon: ({color}) => <Ionicons name="ios-settings" color={color} size={iconSize} />,
             }}
           />
           <Tab.Screen
@@ -181,6 +186,9 @@ export default class Home extends Component {
 }
 
 const styles = StyleSheet.create({
+  barStyle: {
+    backgroundColor: GlobalStyles.lightBackgroundColor,
+  },
   overlay: {
     alignItems: 'stretch',
     flexDirection: 'column',

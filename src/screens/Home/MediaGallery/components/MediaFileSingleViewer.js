@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Dimensions, Modal, Share, Text, View} from 'react-native';
 import Globals from '../../../../globals/Globals';
 import AuthService from '../../../../helpers/AuthService';
-import MediaFileTypes from './MediaFileTypes';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -19,18 +18,20 @@ export default class MediaFileSingleViewer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: [],
+      media: [],
       initialImageIndex: 0,
     };
   }
 
-  onShare = async (image) => {
-    const base64Data = await ajaxRequest.get(Globals.Endpoints.MediaGallery.IMAGE_BASE64(image.item), {headers: {Accept: 'text/plain'}});
+  onShare = async (media) => {
+    const limitedAccessLink = await ajaxRequest.get(Globals.Endpoints.MediaGallery.LIMITED_ACCESS_LINK(media.item), {
+      headers: {Accept: 'text/plain'},
+    });
     const shareOptions = {
-      title: 'My Application',
-      message: 'Use my application',
-      url: `data:image/jpg;base64,${base64Data}`,
-      subject: 'Share information from your application',
+      title: `Sharing ${media.item.fileName}`,
+      message: limitedAccessLink,
+      url: '',
+      subject: '',
     };
     try {
       const result = await Share.share(shareOptions);
@@ -49,32 +50,31 @@ export default class MediaFileSingleViewer extends Component {
   static getDerivedStateFromProps(nextProps) {
     const files = [...nextProps.files];
     const headers = AuthService.getAuthorizationHeader();
-    const images = files
-      .filter((item) => item.fileType === MediaFileTypes.IMAGE)
-      .map((item) => {
-        return {
-          url: AuthService.buildFetchUrl(Globals.Endpoints.MediaGallery.IMAGE(item)),
-          width: item.width,
-          height: item.height,
-          thumbnail: {
-            url: AuthService.buildFetchUrl(Globals.Endpoints.MediaGallery.IMAGE_THUMB(item)),
+    const media = files.map((item) => {
+      return {
+        url: AuthService.buildFetchUrl(Globals.Endpoints.MediaGallery.MEDIA(item)),
+        width: item.width,
+        height: item.height,
+        mediaType: item.fileType,
+        thumbnail: {
+          url: AuthService.buildFetchUrl(Globals.Endpoints.MediaGallery.MEDIA_THUMB(item)),
+        },
+        props: {
+          source: {
+            headers: headers,
           },
-          props: {
-            source: {
-              headers: headers,
-            },
-          },
-          item,
-        };
-      });
+        },
+        item,
+      };
+    });
     return {
-      images,
-      initialImageIndex: images.findIndex((item) => item.item.id === nextProps.initialFile.id),
+      media: media,
+      initialImageIndex: media.findIndex((item) => item.item.id === nextProps.initialFile.id),
     };
   }
 
   renderHeader = (currentIndex) => {
-    const currentImage = this.state.images[currentIndex].item;
+    const currentImage = this.state.media[currentIndex].item;
     return (
       <View style={{justifyContent: 'center', height: 40, width: Dimensions.get('window').width, backgroundColor: 'rgba(135,105,255,0.4)'}}>
         <Text style={{color: 'white', alignSelf: 'center', fontSize: 15}}>{currentImage.fileName}</Text>
@@ -83,7 +83,7 @@ export default class MediaFileSingleViewer extends Component {
   };
 
   renderFooter = (currentIndex) => {
-    const image = this.state.images[currentIndex];
+    const image = this.state.media[currentIndex];
     return (
       <View style={{width: wp(100)}}>
         <View
@@ -100,7 +100,7 @@ export default class MediaFileSingleViewer extends Component {
           <TouchableScale>
             <MaterialCommunityIcons name="delete" color={iconColor} size={iconSize} />
           </TouchableScale>
-          <TouchableScale>
+          <TouchableScale onPress={() => this.onShare(image)}>
             <Entypo name="share" color={iconColor} size={iconSize} />
           </TouchableScale>
           <TouchableScale>
@@ -112,11 +112,11 @@ export default class MediaFileSingleViewer extends Component {
   };
 
   render() {
-    const {images, initialImageIndex} = this.state;
+    const {media, initialImageIndex} = this.state;
     return (
       <Modal visible={this.props.visible} transparent={true} onRequestClose={this.props.onRequestClose}>
         <ImageViewer
-          imageUrls={images}
+          imageUrls={media}
           index={initialImageIndex}
           onSwipeDown={this.props.onRequestClose}
           renderHeader={this.renderHeader}

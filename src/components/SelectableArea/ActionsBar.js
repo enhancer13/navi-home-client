@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {Animated, Dimensions, StyleSheet, View} from 'react-native';
+import {Animated, StyleSheet, View} from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {GlobalStyles} from '../../globals/GlobalStyles';
 
-const barHeight = Dimensions.get('window').height * 0.05;
-const iconSize = barHeight * 0.8;
-const iconColor = '#6959d5';
+const iconColor = GlobalStyles.lightIconColor;
 
 export default class ActionsBar extends Component {
   constructor(props) {
@@ -37,18 +37,26 @@ export default class ActionsBar extends Component {
   }
 
   render() {
+    const {onSave, onDelete, onSelectAll, onDeselectAll, style} = this.props;
+    const iconSize = style.height * 0.8;
     return (
       <Animated.View
-        style={[this.props.style, styles.actionsBar, {opacity: this.actionsBarAnimationValue, transform: [{scale: this.actionsBarAnimationValue}]}]}>
+        style={[styles.actionsBar, style, {opacity: this.actionsBarAnimationValue, transform: [{scale: this.actionsBarAnimationValue}]}]}>
         <View style={styles.dynamicItemsContainer}>
-          <TouchableScale onPress={this.props.onSave}>
+          <TouchableScale onPress={onSave} style={styles.iconContainer}>
             <Entypo name="save" color={iconColor} size={iconSize} />
           </TouchableScale>
-          <TouchableScale onPress={this.props.onDelete}>
+          <TouchableScale onPress={onDelete} style={styles.iconContainer}>
             <MaterialCommunityIcons name="delete" color={iconColor} size={iconSize} />
           </TouchableScale>
+          <TouchableScale onPress={onSelectAll} style={styles.iconContainer}>
+            <MaterialIcons name="check-box" color={iconColor} size={iconSize} />
+          </TouchableScale>
+          <TouchableScale onPress={onDeselectAll} style={styles.iconContainer}>
+            <MaterialIcons name="check-box-outline-blank" color={iconColor} size={iconSize} />
+          </TouchableScale>
         </View>
-        <View style={styles.fixedItemsContainer}>
+        <View style={{...styles.fixedItemsContainer, width: iconSize * 1.05}}>
           <TouchableScale onPress={this.closingAnimation}>
             <AntDesign name="closesquareo" color={iconColor} size={iconSize} />
           </TouchableScale>
@@ -59,26 +67,24 @@ export default class ActionsBar extends Component {
 }
 
 const styles = StyleSheet.create({
-  // eslint-disable-next-line react-native/no-color-literals
   actionsBar: {
-    flex: 1,
-    flexDirection: 'row',
     alignSelf: 'center',
-    backgroundColor: 'rgba(218,209,252,0.9)',
     borderRadius: 5,
-    height: barHeight,
-    width: Dimensions.get('window').width * 0.9,
+    flexDirection: 'row',
+    flexGrow: 1,
   },
   dynamicItemsContainer: {
     alignItems: 'center',
     flexDirection: 'row',
     flexGrow: 1,
     justifyContent: 'flex-start',
-    marginLeft: 5,
+    marginRight: 5,
   },
   fixedItemsContainer: {
     justifyContent: 'center',
-    marginRight: 5,
-    width: iconSize * 1.05,
+    marginLeft: 5,
+  },
+  iconContainer: {
+    marginRight: 10,
   },
 });
