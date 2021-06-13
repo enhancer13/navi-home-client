@@ -1,71 +1,38 @@
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const GlobalStyles = {
+  //Predefined UI Elements color scheme with complex colors - DefaultTextInput
   colorScheme: {
     VIOLET: 'violet',
     BLACK: 'black',
   },
-  defaultFontSize: hp(1.8),
 
+  defaultFontSize: hp(1.8),
+  defaultTitleFontSize: hp(2.4),
+
+  //Text Colors
+  whiteTextColor: 'white',
+  lightTextColor: '#f1f1f1',
+  greyTextColor: 'grey',
+  blackTextColor: 'black',
+  lightVioletTextColor: 'rgba(135,105,255,0.4)',
+  violetTextColor: '#6959d5',
+
+  //Container Colors
   violetBackgroundColor: '#6959d5',
   lightBackgroundColor: '#f1f1f1',
 
-  whiteTextColor: 'white',
-  blackTextColor: 'black',
-  violetTextColor: '#6959d5',
-  lightVioletTextColor: 'rgba(135,105,255,0.4)',
-  greyTextColor: 'grey',
-
+  //Icon Colors
   whiteIconColor: 'white',
+  lightIconColor: '#f1f1f1',
   violetIconColor: '#6959d5',
 
+  //Colors of other UI elements
   violetColor: '#6959d5',
-  lightVioletColor: 'rgba(135,105,255,0.4)',
-
-  containerNoPadding: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    backgroundColor: '#f1f1f1',
-  },
-  backgroundImage: {
-    flex: 1,
-    width: '100%',
-    resizeMode: 'cover',
-    justifyContent: 'center',
-    backgroundColor: '#f1f1f1',
-  },
-  navigationBar: {
-    backgroundColor: '#ebebeb',
-    activeTintColor: '#6959d5',
-    inactiveTintColor: '#abacc3',
-    pressColor: '#6d6e85',
-    barStyle: {
-      backgroundColor: '#ebebeb',
-    },
-  },
-  navigationHeader: {
-    color: '#f1f1f1',
-    backgroundColor: '#6959d5',
-  },
-  statusBar: {
-    backgroundColor: '#6959d5',
-    barStyle: 'light-content',
-  },
-  listItem: {
-    backgroundColor: '#efefef',
-    textColor: 'black',
-  },
-  switch: {
-    trackColorActive: '#6959d5',
-    trackColorInactive: 'white',
-    thumbColorActive: 'white',
-    thumbColorInactive: '#b4b5cb',
-  },
-  checkbox: {
-    active: '#6959d5',
-    inactive: '#b4b5cb',
-  },
+  lightVioletColor: '#a79efc',
+  softLightVioletColor: '#edecff',
+  greyColor: 'grey',
+  lightGreyColor: '#abacc3',
 };
 
 export {GlobalStyles};

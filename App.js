@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './src/screens/Home';
-import {AppState, Platform, SafeAreaView, StyleSheet} from 'react-native';
+import {AppState} from 'react-native';
 import Storage from './src/helpers/Storage';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import {GlobalStyles} from './src/globals/GlobalStyles';
@@ -14,10 +14,10 @@ import {SafeAreaProvider} from 'react-native-safe-area-context/src/SafeAreaConte
 const RootStackNavigator = createStackNavigator();
 const screenOptions = {
   headerStyle: {
-    backgroundColor: GlobalStyles.navigationHeader.backgroundColor,
+    backgroundColor: GlobalStyles.violetBackgroundColor,
   },
-  headerTintColor: GlobalStyles.navigationHeader.color,
-  headerTitleStyle: {color: GlobalStyles.navigationHeader.color},
+  headerTintColor: GlobalStyles.lightIconColor,
+  headerTitleStyle: {color: GlobalStyles.lightTextColor},
   headerTitleAlign: 'center',
 };
 

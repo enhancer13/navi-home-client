@@ -1,17 +1,24 @@
 import React from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import AuthService from '../../../../helpers/AuthService';
 import Globals from '../../../../globals/Globals';
 import FastImage from 'react-native-fast-image';
+import MediaFileTypes from './MediaFileTypes';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const windowWidth = Dimensions.get('window').width;
-
-function MediaGalleryFile(props) {
+function MediaFile(props) {
+  const {item, width} = props;
+  // noinspection JSSuspiciousNameCombination
   return (
-    <View style={styles.itemContainer}>
+    <View style={[styles.itemContainer, {height: width, width: width}]}>
+      {item.fileType === MediaFileTypes.VIDEO ? (
+        <View style={styles.playButton}>
+          <Ionicons name={'play'} color={'white'} size={width * 0.3} />
+        </View>
+      ) : null}
       <FastImage
         source={{
-          uri: AuthService.buildFetchUrl(Globals.Endpoints.MediaGallery.IMAGE_THUMB(props.item)),
+          uri: AuthService.buildFetchUrl(Globals.Endpoints.MediaGallery.MEDIA_THUMB(item)),
           headers: AuthService.getAuthorizationHeader(),
           priority: FastImage.priority.normal,
         }}
@@ -25,15 +32,20 @@ function MediaGalleryFile(props) {
 const styles = StyleSheet.create({
   image: {
     flexGrow: 1,
-    width: windowWidth * 0.33,
+    height: '100%',
+    width: '100%',
   },
   itemContainer: {
     alignItems: 'center',
     flexDirection: 'column',
-    height: windowWidth * 0.33,
     justifyContent: 'center',
-    width: windowWidth * 0.33,
+  },
+  playButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    zIndex: 1,
   },
 });
 
-export default MediaGalleryFile;
+export default MediaFile;
