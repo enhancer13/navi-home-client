@@ -4,7 +4,6 @@ import auth from '@react-native-firebase/auth';
 import Storage from './Storage';
 import Globals from '../globals/Globals';
 import {StackActions} from '@react-navigation/native';
-import {hasInternetCredentials} from 'react-native-keychain';
 
 class AuthService {
   #tokenPrefix = 'Bearer ';
@@ -60,11 +59,11 @@ class AuthService {
   logout = async () => {
     try {
       this.#accessToken = null;
+      this.#resetNavigator();
       await auth().signOut();
     } catch (e) {
       console.error('Unable to sign out from firebase account.');
     }
-    this.#resetNavigator();
   };
 
   #resetNavigator = () => {
@@ -72,8 +71,8 @@ class AuthService {
   };
 
   hasCredentials = async (serverName, username) => {
-    let account = this.#getInternetAccount(serverName, username);
-    return await Keychain.hasInternetCredentials(account);
+    const account = this.#getInternetAccount(serverName, username);
+    return await Keychain.hasInternetCredentials(account + '_accessToken');
   };
 
   tryBiometricAuthentication = async (serverName, username, navigation) => {
@@ -106,14 +105,7 @@ class AuthService {
     );
     await Storage.setTextItem(Globals.Authorization.USERNAME, username);
     const account = this.#getInternetAccount(serverName, username);
-    if (await hasInternetCredentials(account)) {
-      await Keychain.resetInternetCredentials(account);
-    }
-    await Keychain.setInternetCredentials(account, username, JSON.stringify(data), {
-      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
-      storage: Keychain.STORAGE_TYPE.RSA,
-      rules: Keychain.SECURITY_RULES.AUTOMATIC_UPGRADE,
-    });
+    await this.#saveTokenStorage(account, username, data);
     this.#accessToken = data.accessToken;
     await this.#tryAuthenticateFirebase();
   };
@@ -151,13 +143,48 @@ class AuthService {
     await Storage.setTextItem(Globals.Authorization.FIREBASE_ACCOUNT, JSON.stringify(firebaseAccount));
   };
 
-  #accessTokenStorage = async (account) => {
+  #saveTokenStorage = async (account, username, storage) => {
+    //refresh toke is the most sensitive part, use RSA Encryption (with biometrics).
+    const optionsRSA = {
+      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
+      storage: Keychain.STORAGE_TYPE.RSA,
+      rules: Keychain.SECURITY_RULES.AUTOMATIC_UPGRADE,
+    };
+    const refreshTokenAccount = account + '_refreshToken';
+    await Keychain.resetInternetCredentials(refreshTokenAccount);
+    await Keychain.setInternetCredentials(refreshTokenAccount, username, storage.refreshToken, optionsRSA);
+
+    //access token could be stored with AES	Encryption (without human interaction).
+    const optionsAES = {
+      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
+      storage: Keychain.STORAGE_TYPE.RSA,
+      rules: Keychain.SECURITY_RULES.AUTOMATIC_UPGRADE,
+    };
+    const accessTokenAccount = account + '_accessToken';
+    await Keychain.resetInternetCredentials(accessTokenAccount);
+    await Keychain.setInternetCredentials(accessTokenAccount, username, storage.accessToken, optionsAES);
+  };
+
+  #getTokenStorage = async (account) => {
     try {
-      return await Keychain.getInternetCredentials(account, {
+      const refreshTokenAccount = account + '_refreshToken';
+      const refreshTokenData = await Keychain.getInternetCredentials(refreshTokenAccount, {
         authenticationPrompt: {
           title: 'Please verify your identity.',
         },
       });
+      if (typeof refreshTokenData === 'boolean') {
+        return false;
+      }
+      const accessTokenAccount = account + '_accessToken';
+      const accessTokenData = await Keychain.getInternetCredentials(accessTokenAccount);
+      if (typeof accessTokenData === 'boolean') {
+        return false;
+      }
+      return {
+        accessToken: accessTokenData.password,
+        refreshToken: refreshTokenData.password,
+      };
     } catch (e) {
       if (e.message.includes('code: 13, msg: Cancel')) {
         throw new Error('Canceled');
@@ -184,11 +211,11 @@ class AuthService {
       throw new Error('Biometry check is not supported or not configured on this device, please authenticate with your credentials.');
     }
     const account = this.#getInternetAccount(serverName, username);
-    const result = await this.#accessTokenStorage(account);
-    if (typeof result === 'boolean') {
+    const tokenStorage = await this.#getTokenStorage(account);
+    if (typeof tokenStorage === 'boolean') {
       throw new Error('There is no authentication information stored on this device.');
     }
-    const tokenStorage = JSON.parse(result.password);
+
     if (!this.#isTokenExpired(tokenStorage.accessToken)) {
       return tokenStorage.accessToken;
     }
@@ -208,11 +235,7 @@ class AuthService {
       },
       {skipAuthorization: true},
     );
-    await Keychain.setInternetCredentials(account, username, JSON.stringify(data), {
-      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
-      storage: Keychain.STORAGE_TYPE.RSA,
-      rules: Keychain.SECURITY_RULES.AUTOMATIC_UPGRADE,
-    });
+    await this.#saveTokenStorage(account, username, data);
     return data.accessToken;
   };
 

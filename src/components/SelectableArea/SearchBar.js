@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {SearchBar} from 'react-native-elements';
 import {StyleSheet} from 'react-native';
 import {GlobalStyles} from '../../globals/GlobalStyles';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class DefaultSearchBar extends Component {
   constructor(props) {
@@ -41,10 +42,10 @@ export default class DefaultSearchBar extends Component {
         }}
         onClear={this.props.onClear}
         value={this.state.searchValue}
-        containerStyle={[this.props.style, styles.container]}
+        containerStyle={[styles.container, this.props.style]}
         inputContainerStyle={styles.inputContainerStyle}
         inputStyle={styles.inputStyle}
-        placeholderTextColor={'rgba(238,234,255,0.4)'}
+        placeholderTextColor={'rgba(238,234,255,0.6)'}
         searchIcon={false}
         clearIcon={styles.searchIcon}
       />
@@ -57,14 +58,17 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyles.violetBackgroundColor,
     borderBottomWidth: 0,
     borderTopWidth: 0,
+    padding: 0,
+    width: '100%',
   },
   inputContainerStyle: {
-    backgroundColor: '#8578d9',
-    height: 35,
+    backgroundColor: GlobalStyles.lightVioletColor,
+    height: '100%',
   },
   inputStyle: {
+    alignSelf: 'center',
     color: GlobalStyles.whiteTextColor,
-    fontSize: 15,
+    fontSize: GlobalStyles.defaultFontSize,
   },
   searchIcon: {
     color: GlobalStyles.whiteTextColor,

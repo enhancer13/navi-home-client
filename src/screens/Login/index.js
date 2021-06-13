@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     alignSelf: 'center',
-    bottom: hp(10),
+    bottom: 0,
     position: 'absolute',
   },
 });

@@ -1,49 +1,32 @@
 import React, {Component} from 'react';
 import Globals from '../../../../globals/Globals';
-import ajaxRequest from '../../../../helpers/AjaxRequest';
-import {SearchHeader} from '../../../../components/SearchHeader';
-import {SelectableFlatList} from '../../../../components/SelectableFlatList';
+import {isTablet} from 'react-native-device-info';
+import {EntityEditor} from '../../../../components/EntityEditor';
 import MediaFile from './MediaFile';
 import MediaFileSingleViewer from './MediaFileSingleViewer';
-import MediaFileTypes from './MediaFileTypes';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 
-class MediaFileViewer extends Component {
+const numColumns = isTablet() ? 5 : 3;
+const entityName = Globals.Entities.MEDIA_GALLERY_FILE;
+const parentEntityName = Globals.Entities.MEDIA_GALLERY_FOLDER;
+
+export default class MediaFileViewer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      folder: {},
-      files: [],
-      loading: true,
-      searchValue: '',
       singleViewerActive: false,
       singleViewerInitialFile: {},
+      files: [],
     };
   }
 
-  searchQueryBuilder = (fileName) => {
-    if (!fileName) {
-      fileName = '';
-    }
-    return `?sort=fileName,desc&fileName=${fileName}&equal=false`;
-  };
-
-  fetchData = async (searchValue) => {
-    if (typeof searchValue === 'undefined') {
-      searchValue = this.state.searchValue;
-    }
-    const url = Globals.Endpoints.MediaGallery.FILES(this.state.folder.id) + this.searchQueryBuilder(searchValue);
-    const response = await ajaxRequest.get(url);
+  onMediaFilePress = async (file, files) => {
     this.setState({
-      files: response.filter((item) => item.fileType === MediaFileTypes.IMAGE),
-      loading: false,
-      searchValue,
+      singleViewerActive: true,
+      singleViewerInitialFile: file,
+      files,
     });
   };
-
-  componentDidMount() {
-    this.fetchData();
-  }
 
   static getDerivedStateFromProps(nextProps) {
     return {
@@ -52,30 +35,19 @@ class MediaFileViewer extends Component {
   }
 
   render() {
-    const {loading, files, folder, singleViewerActive, singleViewerInitialFile} = this.state;
+    const {singleViewerActive, singleViewerInitialFile, folder} = this.state;
     return (
-      <View style={styles.container}>
-        <SearchHeader
-          {...this.props}
-          onSearch={this.fetchData}
-          onSearchClear={this.fetchData}
-          title={'File Viewer'}
-          subTitle={`Number of images: ${folder.countImages}, videos: ${folder.countVideos}`}
-          backButton={true}
-          enableSearch={false}
-        />
-        <SelectableFlatList
-          numColumns={3}
+      <View>
+        <EntityEditor
+          navigation={this.props.navigation}
+          entityName={entityName}
           ItemComponent={MediaFile}
-          items={files}
-          onItemPress={(file) => {
-            this.setState({
-              singleViewerActive: true,
-              singleViewerInitialFile: file,
-            });
-          }}
-          loading={loading}
-          onRefresh={this.fetchData}
+          numColumns={numColumns}
+          title={'File Viewer'}
+          backButton={true}
+          onItemPress={this.onMediaFilePress}
+          parentEntityName={parentEntityName}
+          parentEntity={folder}
         />
         <MediaFileSingleViewer
           visible={singleViewerActive}
@@ -91,11 +63,3 @@ class MediaFileViewer extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export {MediaFileViewer};

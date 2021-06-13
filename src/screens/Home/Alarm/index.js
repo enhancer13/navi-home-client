@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, Dimensions, RefreshControl} from 'react-native';
+import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import ajaxRequest from '../../../helpers/AjaxRequest';
 import Globals from '../../../globals/Globals';
 import AlarmProfile from './AlarmProfile';
 import {LoadingActivityIndicator} from '../../../components';
 import {GlobalStyles} from '../../../globals/GlobalStyles';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class Alarm extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class Alarm extends Component {
   render() {
     const {loading, alarmProfiles} = this.state;
     return (
-      <View style={GlobalStyles.container}>
+      <View>
         <View style={styles.informationBar} />
         {loading ? (
           <LoadingActivityIndicator />
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#abacc3',
     elevation: 2,
-    height: Dimensions.get('window').height * 0.1,
+    height: hp(10),
     width: '100%',
   },
 });
