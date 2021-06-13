@@ -4,8 +4,10 @@ import TouchableScale from 'react-native-touchable-scale';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {GlobalStyles} from '../../globals/GlobalStyles';
 import DefaultSearchBar from './SearchBar';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import ActionsBar from './ActionsBar';
 
-export default class SearchHeader extends Component {
+export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,13 +66,25 @@ export default class SearchHeader extends Component {
   };
 
   render() {
-    const {title, subTitle, backButton, navigation, enableSearch} = this.props;
+    const {
+      title,
+      subTitle,
+      backButton,
+      navigation,
+      enableSearch,
+      selectionMode,
+      onStopSelectionMode,
+      onSelectAll,
+      onDeselectAll,
+      onSave,
+      onDelete,
+    } = this.props;
     const {searchMode, searchBarScale, searchValue} = this.state;
     return (
       <View style={styles.container}>
         {backButton ? (
           <TouchableScale onPress={navigation.goBack}>
-            <Ionicon name="arrow-back" color={'white'} size={24} />
+            <Ionicon name="arrow-back" color={'white'} size={30} />
           </TouchableScale>
         ) : null}
         <View style={styles.columnContainer}>
@@ -100,8 +114,19 @@ export default class SearchHeader extends Component {
               </TouchableScale>
             ) : null}
           </View>
-          <View>
-            <Text style={styles.subTitleText}>{subTitle}</Text>
+          <View style={styles.rowContainer}>
+            {selectionMode ? (
+              <ActionsBar
+                onSave={onSave}
+                onDelete={onDelete}
+                onSelectAll={onSelectAll}
+                onDeselectAll={onDeselectAll}
+                onClose={onStopSelectionMode}
+                style={styles.actionsBar}
+              />
+            ) : (
+              <Text style={styles.subTitleText}>{subTitle}</Text>
+            )}
           </View>
         </View>
       </View>
@@ -110,6 +135,12 @@ export default class SearchHeader extends Component {
 }
 
 const styles = StyleSheet.create({
+  actionsBar: {
+    alignSelf: 'flex-start',
+    borderTopColor: GlobalStyles.lightBackgroundColor,
+    borderTopWidth: 2,
+    height: hp(5),
+  },
   columnContainer: {
     flexDirection: 'column',
     flexGrow: 1,
@@ -120,23 +151,25 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyles.violetBackgroundColor,
     elevation: 5,
     flexDirection: 'row',
-    height: 75,
+    height: hp(10),
     justifyContent: 'center',
-    paddingLeft: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   rowContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    height: 50,
+    flexGrow: 1,
+    height: hp(5),
   },
   subTitleText: {
     alignSelf: 'flex-start',
     color: GlobalStyles.whiteTextColor,
-    fontSize: 15,
+    fontSize: GlobalStyles.defaultFontSize,
   },
   titleText: {
     alignSelf: 'flex-start',
     color: GlobalStyles.whiteTextColor,
-    fontSize: 25,
+    fontSize: GlobalStyles.defaultTitleFontSize,
   },
 });

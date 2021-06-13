@@ -3,7 +3,6 @@ import * as React from 'react';
 import {
     Animated,
     CameraRoll,
-    Dimensions,
     FlatList,
     I18nManager,
     Image,
@@ -17,35 +16,27 @@ import {
 import ImageZoom from 'react-native-image-pan-zoom';
 import FastImage from 'react-native-fast-image'
 import styles from './image-viewer.style';
-import {IImageInfo, IImageSize, Props, State} from './image-viewer.type';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import VideoPlayer from '../VideoPlayer'
+import {IImageSize, IMediaInfo, Props, State} from './image-viewer.type';
 
 export default class ImageViewer extends React.Component<Props, State> {
     public static defaultProps = new Props();
     public state = new State();
 
-    // 背景透明度渐变动画
     private fadeAnim = new Animated.Value(0);
 
-    // 当前基准位置
     private standardPositionX = 0;
 
-    // 整体位移，用来切换图片用
     private positionXNumber = 0;
     private positionX = new Animated.Value(0);
 
     private width = 0;
     private height = 0;
 
-    private thumbnailWidth = 0;
-    private thumbnailHeight = 0;
-
     private styles = styles(0, 0, 'transparent');
 
-    // 是否执行过 layout. fix 安卓不断触发 onLayout 的 bug
     private hasLayout = false;
 
-    // 记录已加载的图片 index
     private loadedIndex = new Map<number, boolean>();
 
     private handleLongPressWithIndex = new Map<number, any>();
@@ -66,12 +57,9 @@ export default class ImageViewer extends React.Component<Props, State> {
 
     public componentDidUpdate(prevProps: Props, prevState: State) {
         if (prevProps.index !== this.props.index) {
-            // 立刻预加载要看的图
             this.loadImage(this.props.index || 0);
-
             this.jumpToCurrentImage();
 
-            // 显示动画
             Animated.timing(this.fadeAnim, {
                 toValue: 1,
                 duration: 200,
@@ -80,17 +68,12 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
     }
 
-    /**
-     * props 有变化时执行
-     */
     public init(nextProps: Props) {
         if (nextProps.imageUrls.length === 0) {
-            // 隐藏时候清空
             this.fadeAnim.setValue(0);
             return this.setState(new State());
         }
 
-        // 给 imageSizes 塞入空数组
         const imageSizes: IImageSize[] = [];
         nextProps.imageUrls.forEach(imageUrl => {
             imageSizes.push({
@@ -107,12 +90,8 @@ export default class ImageViewer extends React.Component<Props, State> {
                 imageSizes
             },
             () => {
-                // 立刻预加载要看的图
                 this.loadImage(nextProps.index || 0);
-
                 this.jumpToCurrentImage();
-
-                // 显示动画
                 Animated.timing(this.fadeAnim, {
                     toValue: 1,
                     duration: 200,
@@ -129,19 +108,13 @@ export default class ImageViewer extends React.Component<Props, State> {
         this.imageRefs[index] && this.imageRefs[index].reset();
     };
 
-    /**
-     * 调到当前看图位置
-     */
+
     public jumpToCurrentImage() {
-        // 跳到当前图的位置
         this.positionXNumber = this.width * (this.state.currentShowIndex || 0) * (I18nManager.isRTL ? 1 : -1);
         this.standardPositionX = this.positionXNumber;
         this.positionX.setValue(this.positionXNumber);
     }
 
-    /**
-     * 加载图片，主要是获取图片长与宽
-     */
     public loadImage(index: number) {
         if (!this!.state!.imageSizes![index]) {
             return;
@@ -155,9 +128,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         const image = this.props.imageUrls[index];
         const imageStatus = {...this!.state!.imageSizes![index]};
 
-        // 保存 imageSize
         const saveImageSize = () => {
-            // 如果已经 success 了，就不做处理
             if (this!.state!.imageSizes![index] && this!.state!.imageSizes![index].status !== 'loading') {
                 return;
             }
@@ -168,28 +139,21 @@ export default class ImageViewer extends React.Component<Props, State> {
         };
 
         if (this!.state!.imageSizes![index].status === 'success') {
-            // 已经加载过就不会加载了
             return;
         }
 
-        // 如果已经有宽高了，直接设置为 success
         if (this!.state!.imageSizes![index].width > 0 && this!.state!.imageSizes![index].height > 0) {
             imageStatus.status = 'success';
             saveImageSize();
             return;
         }
 
-        // 是否加载完毕了图片大小
-        const sizeLoaded = false;
-        // 是否加载完毕了图片
         let imageLoaded = false;
-
         // Tagged success if url is started with file:, or not set yet(for custom source.uri).
         if (!image.url || image.url.startsWith(`file:`)) {
             imageLoaded = true;
         }
 
-        // 如果已知源图片宽高，直接设置为 success
         if (image.width && image.height) {
             if (this.props.enablePreload && imageLoaded === false) {
                 Image.prefetch(image.url);
@@ -225,17 +189,12 @@ export default class ImageViewer extends React.Component<Props, State> {
         );
     }
 
-    /**
-     * 预加载图片
-     */
     public preloadImage = (index: number) => {
         if (index < this.state.imageSizes!.length) {
             this.loadImage(index + 1);
         }
     };
-    /**
-     * 触发溢出水平滚动
-     */
+
     public handleHorizontalOuterRangeOffset = (offsetX: number = 0) => {
         this.positionXNumber = this.standardPositionX + offsetX;
         this.positionX.setValue(this.positionXNumber);
@@ -253,9 +212,6 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
     };
 
-    /**
-     * 手势结束，但是没有取消浏览大图
-     */
     public handleResponderRelease = (vx: number = 0) => {
         const vxRTL = I18nManager.isRTL ? -vx : vx;
         const isLeftMove = I18nManager.isRTL
@@ -266,16 +222,13 @@ export default class ImageViewer extends React.Component<Props, State> {
             : this.positionXNumber - this.standardPositionX < -(this.props.flipThreshold || 0);
 
         if (vxRTL > 0.7) {
-            // 上一张
             this.goBack.call(this);
 
-            // 这里可能没有触发溢出滚动，为了防止图片不被加载，调用加载图片
             if (this.state.currentShowIndex || 0 > 0) {
                 this.loadImage((this.state.currentShowIndex || 0) - 1);
             }
             return;
         } else if (vxRTL < -0.7) {
-            // 下一张
             this.goNext.call(this);
             if (this.state.currentShowIndex || 0 < this.props.imageUrls.length - 1) {
                 this.loadImage((this.state.currentShowIndex || 0) + 1);
@@ -284,14 +237,11 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
 
         if (isLeftMove) {
-            // 上一张
             this.goBack.call(this);
         } else if (isRightMove) {
-            // 下一张
             this.goNext.call(this);
             return;
         } else {
-            // 回到之前的位置
             this.resetPosition.call(this);
             return;
         }
@@ -329,23 +279,14 @@ export default class ImageViewer extends React.Component<Props, State> {
         );
     };
 
-    /**
-     * 到上一张
-     */
     public goBack = () => {
         this.goToIndex((this.state.currentShowIndex || 0) - 1)
     };
 
-    /**
-     * 到下一张
-     */
     public goNext = () => {
         this.goToIndex((this.state.currentShowIndex || 0) + 1)
     };
 
-    /**
-     * 回到原位
-     */
     public resetPosition() {
         this.positionXNumber = this.standardPositionX;
         Animated.timing(this.positionX, {
@@ -355,10 +296,7 @@ export default class ImageViewer extends React.Component<Props, State> {
         }).start();
     }
 
-    /**
-     * 长按
-     */
-    public handleLongPress = (image: IImageInfo) => {
+    public handleLongPress = (image: IMediaInfo) => {
         if (this.props.saveToLocalByLongPress) {
             this.setState({isShowMenu: true});
         }
@@ -368,27 +306,18 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
     };
 
-    /**
-     * 单击
-     */
     public handleClick = () => {
         if (this.props.onClick) {
             this.props.onClick(this.handleCancel, this.state.currentShowIndex);
         }
     };
 
-    /**
-     * 双击
-     */
     public handleDoubleClick = () => {
         if (this.props.onDoubleClick) {
             this.props.onDoubleClick(this.handleCancel);
         }
     };
 
-    /**
-     * 退出
-     */
     public handleCancel = () => {
         this.hasLayout = false;
         if (this.props.onCancel) {
@@ -396,9 +325,6 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
     };
 
-    /**
-     * 完成布局
-     */
     public handleLayout = (event: any) => {
         if (event.nativeEvent.layout.width !== this.width) {
             this.hasLayout = true;
@@ -407,40 +333,36 @@ export default class ImageViewer extends React.Component<Props, State> {
             this.height = event.nativeEvent.layout.height;
             this.styles = styles(this.width, this.height, this.props.backgroundColor || 'transparent');
 
-            // 强制刷新
             this.forceUpdate();
             this.jumpToCurrentImage();
         }
     };
 
-    /**
-     * onPress of thumbnail,
-     * load image at index and scroll ImageZoom to index.
-     */
     public handleThumbnailClick = (index: number) => {
         this.loadImage(index)
         this.goToIndex(index)
     }
 
-    private renderThumbnail(params: { item: IImageInfo, index: number }) {
+    private renderThumbnail(params: { item: IMediaInfo, index: number }) {
         const {item, index} = params;
         const {thumbnail} = item;
         const selected = (index === this.state.currentShowIndex);
         return (
-                <Pressable onPress={() => this.handleThumbnailClick(index)}>
-                    <FastImage resizeMode={FastImage.resizeMode.contain}
-                               style={[this.styles.thumbnailImage, selected && this.styles.thumbnailImageSelected]}
-                               source={{
-                                   uri: thumbnail.url,
-                                   priority: FastImage.priority.normal,
-                                   headers: item.props.source.headers,
-                               }}/>
-                </Pressable>
+            <Pressable onPress={() => this.handleThumbnailClick(index)}>
+                <FastImage resizeMode={FastImage.resizeMode.contain}
+                           style={[this.styles.thumbnailImage, selected && this.styles.thumbnailImageSelected]}
+                           source={{
+                               uri: thumbnail.url,
+                               priority: FastImage.priority.normal,
+                               headers: item.props.source.headers,
+                           }}/>
+            </Pressable>
         )
     }
 
     private getThumbnails() {
         if (this.props.showThumbnails) {
+            const itemLength = Number(this.styles.thumbnailImage.width);
             return (
                 <FlatList
                     horizontal={true}
@@ -448,168 +370,184 @@ export default class ImageViewer extends React.Component<Props, State> {
                     data={this.props.imageUrls}
                     style={this.styles.thumbnailsFlatList}
                     renderItem={(item) => this.renderThumbnail(item)}
-                    keyExtractor={(item: IImageInfo, index: number) => index.toString()}
-                    removeClippedSubviews
+                    keyExtractor={(item: IMediaInfo, index: number) => index.toString()}
+                    onScrollToIndexFailed={(info) => {
+                    }}
+                    initialScrollIndex={this.props.index}
+                    getItemLayout={(data, index) => {
+                        return {length: itemLength, offset: itemLength * index, index};
+                    }
+                    }
+                    removeClippedSubviews={true}
                 />
             )
         }
         return null;
     }
 
-    /**
-     * 获得整体内容
-     */
     public getContent() {
-        // 获得屏幕宽高
         const screenWidth = this.width;
         const screenHeight = this.height;
 
-        const ImageElements = this.props.imageUrls.map((image, index) => {
+        const MediaElements = this.props.imageUrls.map((mediaInfo, index) => {
             if ((this.state.currentShowIndex || 0) > index + 1 || (this.state.currentShowIndex || 0) < index - 1) {
                 return <View key={index} style={{width: screenWidth, height: screenHeight}}/>;
             }
 
             if (!this.handleLongPressWithIndex.has(index)) {
-                this.handleLongPressWithIndex.set(index, this.handleLongPress.bind(this, image));
+                this.handleLongPressWithIndex.set(index, this.handleLongPress.bind(this, mediaInfo));
             }
 
-            let width = this!.state!.imageSizes![index] && this!.state!.imageSizes![index].width;
-            let height = this.state.imageSizes![index] && this.state.imageSizes![index].height;
-            const imageInfo = this.state.imageSizes![index];
+            console.log(mediaInfo.mediaType);
 
-            if (!imageInfo || !imageInfo.status) {
-                return <View key={index} style={{width: screenWidth, height: screenHeight}}/>;
-            }
+            if (mediaInfo.mediaType == 'IMAGE') {
+                let width = this!.state!.imageSizes![index] && this!.state!.imageSizes![index].width;
+                let height = this.state.imageSizes![index] && this.state.imageSizes![index].height;
+                const imageInfo = this.state.imageSizes![index];
 
-            // 如果宽大于屏幕宽度,整体缩放到宽度是屏幕宽度
-            if (width > screenWidth) {
-                const widthPixel = screenWidth / width;
-                width *= widthPixel;
-                height *= widthPixel;
-            }
+                if (!imageInfo || !imageInfo.status) {
+                    return <View key={index} style={{width: screenWidth, height: screenHeight}}/>;
+                }
 
-            // 如果此时高度还大于屏幕高度,整体缩放到高度是屏幕高度
-            if (height > screenHeight) {
-                const HeightPixel = screenHeight / height;
-                width *= HeightPixel;
-                height *= HeightPixel;
-            }
+                if (width > screenWidth) {
+                    const widthPixel = screenWidth / width;
+                    width *= widthPixel;
+                    height *= widthPixel;
+                }
 
-            const Wrapper = ({children, ...others}: any) => (
-                <ImageZoom
-                    cropWidth={this.width}
-                    cropHeight={this.height}
-                    maxOverflow={this.props.maxOverflow}
-                    horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset}
-                    responderRelease={this.handleResponderRelease}
-                    onMove={this.props.onMove}
-                    onLongPress={this.handleLongPressWithIndex.get(index)}
-                    onClick={this.handleClick}
-                    onDoubleClick={this.handleDoubleClick}
-                    enableSwipeDown={this.props.enableSwipeDown}
-                    swipeDownThreshold={this.props.swipeDownThreshold}
-                    onSwipeDown={this.handleSwipeDown}
-                    pinchToZoom={this.props.enableImageZoom}
-                    enableDoubleClickZoom={this.props.enableImageZoom}
-                    doubleClickInterval={this.props.doubleClickInterval}
-                    {...others}
-                >
-                    {children}
-                </ImageZoom>
-            );
+                if (height > screenHeight) {
+                    const HeightPixel = screenHeight / height;
+                    width *= HeightPixel;
+                    height *= HeightPixel;
+                }
 
-            switch (imageInfo.status) {
-                case 'loading':
-                    return (
-                        <Wrapper
-                            key={index}
-                            style={{
-                                ...this.styles.modalContainer,
-                                ...this.styles.loadingContainer
-                            }}
-                            imageWidth={screenWidth}
-                            imageHeight={screenHeight}
-                        >
-                            <View style={this.styles.loadingContainer}>{this!.props!.loadingRender!()}</View>
-                        </Wrapper>
-                    );
-                case 'success':
-                    if (!image.props) {
-                        image.props = {};
-                    }
+                const Wrapper = ({children, ...others}: any) => (
+                    <ImageZoom
+                        cropWidth={this.width}
+                        cropHeight={this.height}
+                        maxOverflow={this.props.maxOverflow}
+                        horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset}
+                        responderRelease={this.handleResponderRelease}
+                        onMove={this.props.onMove}
+                        onLongPress={this.handleLongPressWithIndex.get(index)}
+                        onClick={this.handleClick}
+                        onDoubleClick={this.handleDoubleClick}
+                        enableSwipeDown={this.props.enableSwipeDown}
+                        swipeDownThreshold={this.props.swipeDownThreshold}
+                        onSwipeDown={this.handleSwipeDown}
+                        pinchToZoom={this.props.enableImageZoom}
+                        enableDoubleClickZoom={this.props.enableImageZoom}
+                        doubleClickInterval={this.props.doubleClickInterval}
+                        {...others}
+                    >
+                        {children}
+                    </ImageZoom>
+                );
 
-                    if (!image.props.style) {
-                        image.props.style = {};
-                    }
-                    image.props.style = {
-                        ...this.styles.imageStyle, // User config can override above.
-                        ...image.props.style,
-                        width,
-                        height
-                    };
-
-                    if (typeof image.props.source === 'number') {
-                        // source = require(..), doing nothing
-                    } else {
-                        if (!image.props.source) {
-                            image.props.source = {};
+                switch (imageInfo.status) {
+                    case 'loading':
+                        return (
+                            <Wrapper
+                                key={index}
+                                style={{
+                                    ...this.styles.modalContainer,
+                                    ...this.styles.loadingContainer
+                                }}
+                                imageWidth={screenWidth}
+                                imageHeight={screenHeight}
+                            >
+                                <View style={this.styles.loadingContainer}>{this!.props!.loadingRender!()}</View>
+                            </Wrapper>
+                        );
+                    case 'success':
+                        if (!mediaInfo.props) {
+                            mediaInfo.props = {};
                         }
-                        image.props.source = {
-                            uri: image.url,
-                            ...image.props.source
+
+                        if (!mediaInfo.props.style) {
+                            mediaInfo.props.style = {};
+                        }
+                        mediaInfo.props.style = {
+                            ...this.styles.imageStyle, // User config can override above.
+                            ...mediaInfo.props.style,
+                            width,
+                            height
                         };
-                    }
-                    if (this.props.enablePreload) {
-                        this.preloadImage(this.state.currentShowIndex || 0);
-                    }
-                    return (
-                        <ImageZoom
-                            key={index}
-                            ref={el => (this.imageRefs[index] = el)}
-                            cropWidth={this.width}
-                            cropHeight={this.height}
-                            maxOverflow={this.props.maxOverflow}
-                            horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset}
-                            responderRelease={this.handleResponderRelease}
-                            onMove={this.props.onMove}
-                            onLongPress={this.handleLongPressWithIndex.get(index)}
-                            onClick={this.handleClick}
-                            onDoubleClick={this.handleDoubleClick}
-                            imageWidth={width}
-                            imageHeight={height}
-                            enableSwipeDown={this.props.enableSwipeDown}
-                            swipeDownThreshold={this.props.swipeDownThreshold}
-                            onSwipeDown={this.handleSwipeDown}
-                            panToMove={!this.state.isShowMenu}
-                            pinchToZoom={this.props.enableImageZoom && !this.state.isShowMenu}
-                            enableDoubleClickZoom={this.props.enableImageZoom && !this.state.isShowMenu}
-                            doubleClickInterval={this.props.doubleClickInterval}
-                            minScale={this.props.minScale}
-                            maxScale={this.props.maxScale}
-                        >
-                            {this!.props!.renderImage!(image.props)}
-                        </ImageZoom>
-                    );
-                case 'fail':
-                    return (
-                        <Wrapper
-                            key={index}
-                            style={this.styles.modalContainer}
-                            imageWidth={this.props.failImageSource ? this.props.failImageSource.width : screenWidth}
-                            imageHeight={this.props.failImageSource ? this.props.failImageSource.height : screenHeight}
-                        >
-                            {this.props.failImageSource &&
-                            this!.props!.renderImage!({
-                                source: {
-                                    uri: this.props.failImageSource.url
-                                },
-                                style: {
-                                    width: this.props.failImageSource.width,
-                                    height: this.props.failImageSource.height
-                                }
-                            })}
-                        </Wrapper>
-                    );
+
+                        if (typeof mediaInfo.props.source === 'number') {
+                            // source = require(..), doing nothing
+                        } else {
+                            if (!mediaInfo.props.source) {
+                                mediaInfo.props.source = {};
+                            }
+                            mediaInfo.props.source = {
+                                uri: mediaInfo.url,
+                                ...mediaInfo.props.source
+                            };
+                        }
+                        if (this.props.enablePreload) {
+                            this.preloadImage(this.state.currentShowIndex || 0);
+                        }
+                        return (
+                            <ImageZoom
+                                key={index}
+                                ref={el => (this.imageRefs[index] = el)}
+                                cropWidth={this.width}
+                                cropHeight={this.height}
+                                maxOverflow={this.props.maxOverflow}
+                                horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset}
+                                responderRelease={this.handleResponderRelease}
+                                onMove={this.props.onMove}
+                                onLongPress={this.handleLongPressWithIndex.get(index)}
+                                onClick={this.handleClick}
+                                onDoubleClick={this.handleDoubleClick}
+                                imageWidth={width}
+                                imageHeight={height}
+                                enableSwipeDown={this.props.enableSwipeDown}
+                                swipeDownThreshold={this.props.swipeDownThreshold}
+                                onSwipeDown={this.handleSwipeDown}
+                                panToMove={!this.state.isShowMenu}
+                                pinchToZoom={this.props.enableImageZoom && !this.state.isShowMenu}
+                                enableDoubleClickZoom={this.props.enableImageZoom && !this.state.isShowMenu}
+                                doubleClickInterval={this.props.doubleClickInterval}
+                                minScale={this.props.minScale}
+                                maxScale={this.props.maxScale}
+                            >
+                                {this!.props!.renderImage!(mediaInfo.props)}
+                            </ImageZoom>
+                        );
+                    case 'fail':
+                        return (
+                            <Wrapper
+                                key={index}
+                                style={this.styles.modalContainer}
+                                imageWidth={this.props.failImageSource ? this.props.failImageSource.width : screenWidth}
+                                imageHeight={this.props.failImageSource ? this.props.failImageSource.height : screenHeight}
+                            >
+                                {this.props.failImageSource &&
+                                this!.props!.renderImage!({
+                                    source: {
+                                        uri: this.props.failImageSource.url
+                                    },
+                                    style: {
+                                        width: this.props.failImageSource.width,
+                                        height: this.props.failImageSource.height
+                                    }
+                                })}
+                            </Wrapper>
+                        );
+                }
+            } else if (mediaInfo.mediaType == 'VIDEO') {
+                const player = {
+                    src: {
+                        uri: mediaInfo.url,
+                        ...mediaInfo.props.source
+                    },
+                    thumbSrc: mediaInfo.thumbnail.url
+                }
+                return (
+                    <VideoPlayer player={player} loading={false} ready={true} />
+                )
             }
         });
 
@@ -630,14 +568,12 @@ export default class ImageViewer extends React.Component<Props, State> {
                         </TouchableWithoutFeedback>
                     </View>
 
-                    <Animated.View
-                        style={{
-                            ...this.styles.moveBox,
-                            transform: [{translateX: this.positionX}],
-                            width: this.width * this.props.imageUrls.length
-                        }}
-                    >
-                        {ImageElements}
+                    <Animated.View style={{
+                        ...this.styles.moveBox,
+                        transform: [{translateX: this.positionX}],
+                        width: this.width * this.props.imageUrls.length
+                    }}>
+                        {MediaElements}
                     </Animated.View>
                     {this!.props!.renderIndicator!((this.state.currentShowIndex || 0) + 1, this.props.imageUrls.length)}
 
@@ -663,9 +599,6 @@ export default class ImageViewer extends React.Component<Props, State> {
         );
     }
 
-    /**
-     * 保存当前图片到本地相册
-     */
     public saveToLocal = () => {
         if (!this.props.onSave) {
             CameraRoll.saveToCameraRoll(this.props.imageUrls[this.state.currentShowIndex || 0].url);
@@ -722,7 +655,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     };
 
     public render() {
-        let childs: React.ReactElement<any> = null as any;
+        let childs: React.ReactElement;
 
         childs = (
             <View>

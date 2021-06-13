@@ -12,11 +12,11 @@ interface IOnMove {
 
 export class Props {
   public show?: boolean = false;
-  public imageUrls: IImageInfo[] = [];
+  public imageUrls: IMediaInfo[] = [];
   public flipThreshold?: number = 80;
   public maxOverflow?: number = 300;
   public index?: number = 0;
-  public failImageSource?: IImageInfo = undefined;
+  public failImageSource?: IMediaInfo = undefined;
   public backgroundColor?: string = 'black';
   public footerContainerStyle?: object = {};
   public menuContext?: any = { saveToLocal: 'save to the album', cancel: 'cancel' };
@@ -35,7 +35,7 @@ export class Props {
   public thumbnailContainerStyle?: ViewStyle = {};
   public showThumbnails?: boolean = false;
 
-  public onLongPress?: (image?: IImageInfo) => void = () => {};
+  public onLongPress?: (image?: IMediaInfo) => void = () => {};
   public onClick?: (close?: () => any, currentShowIndex?: number) => void = () => {};
   public onDoubleClick?: (close?: () => any) => void = () => {};
   public onSave?: (url: string) => void = () => {};
@@ -98,7 +98,8 @@ export interface IThumbnailInfo {
   props?: any;
 }
 
-export interface IImageInfo {
+export interface IMediaInfo {
+  mediaType: 'IMAGE' | 'VIDEO';
   url: string;
   thumbnail?: IThumbnailInfo;
   width?: number;
