@@ -1,3 +1,3 @@
-import EntityEditor from './EntityEditor';
+import EntityEditorList from './EntityEditorList';
 
-export {EntityEditor};
+export {EntityEditorList};

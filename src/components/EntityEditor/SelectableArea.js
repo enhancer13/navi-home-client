@@ -5,15 +5,36 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Header from './Header';
 import SelectableItem from './SelectableItem';
 import PropTypes from 'prop-types';
+import Entity from './Entity';
 
 export default class SelectableArea extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectionMode: false,
-      items: [],
+      entities: [],
     };
   }
+
+  deselectAll = () => {
+    this.setState((prevState) => {
+      const entities = [...prevState.entities];
+      entities.forEach((el) => el.setSelected(false));
+      return {
+        entities,
+      };
+    });
+  };
+
+  selectAll = () => {
+    this.setState((prevState) => {
+      const entities = [...prevState.entities];
+      entities.forEach((el) => el.setSelected(true));
+      return {
+        entities,
+      };
+    });
+  };
 
   stopSelectionMode = () => {
     this.deselectAll();
@@ -22,101 +43,99 @@ export default class SelectableArea extends Component {
     });
   };
 
-  startSelectionMode = () => {
-    this.setState({selectionMode: true});
-  };
-
-  deselectAll = () => {
-    this.setState((prevState) => {
-      const items = [...prevState.items];
-      items.forEach((el) => (el.selected = false));
-      return {
-        items,
-      };
-    });
-  };
-
-  selectAll = () => {
-    this.setState((prevState) => {
-      const items = [...prevState.items];
-      items.forEach((el) => (el.selected = true));
-      return {
-        items,
-      };
-    });
-  };
-
-  renderItem = (item) => {
-    const {ItemComponent, numColumns} = this.props;
+  renderItem = ({item}) => {
+    const entity = item;
+    const {ItemComponent, numColumns, entityData, onRefresh} = this.props;
     const {selectionMode} = this.state;
-    const itemWidth = wp(Math.floor(100 / numColumns));
+    const colWidth = wp(Math.floor(100 / numColumns));
     return (
       <SelectableItem
         selectionMode={selectionMode}
-        onItemPress={() => {
-          if (selectionMode) {
+        entityData={entityData}
+        onEntityPress={() => {
+          if (this.state.selectionMode) {
             this.setState((prevState) => {
-              item.selected = !item.selected;
-              const items = [...prevState.items];
+              entity.toggleSelected();
+              const entities = [...prevState.entities];
               return {
-                items,
+                entities,
               };
             });
           } else {
-            this.props.onItemPress(item);
+            this.props.onEntityPress(entity);
           }
         }}
-        width={itemWidth}
-        //height={itemWidth}
-        onItemLongPress={this.startSelectionMode}
-        item={item}
+        onRefresh={onRefresh}
+        width={colWidth}
+        onEntityLongPress={() => this.setState({selectionMode: true})}
+        entity={entity}
         ItemComponent={ItemComponent}
       />
     );
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const items = [...nextProps.items];
-    items.forEach((item) => {
-      const previousItem = prevState.items.find((el) => el.id === item.id);
-      item.selected = previousItem ? previousItem.selected : false;
+    const entities = [...nextProps.entities];
+    entities.forEach((entity) => {
+      const previousItem = prevState.entities.find((el) => el.getItem().id === entity.getItem().id);
+      entity.setSelected(previousItem ? previousItem.isSelected() : false);
     });
     return {
-      items,
+      entities,
     };
   }
 
   render() {
-    const {loading, numColumns, title, subTitle, onSearch, onSearchClear, navigation, backButton, enableSearch, onSave, onDelete} = this.props;
-    const {items, selectionMode} = this.state;
+    const {
+      loading,
+      numColumns,
+      title,
+      subTitle,
+      onSearch,
+      onSearchClear,
+      navigation,
+      backButton,
+      enableSearch,
+      onSave,
+      onCopy,
+      onDelete,
+      onRevert,
+      onRefresh,
+      entityData: {databaseMethods},
+    } = this.props;
+    const {entities, selectionMode} = this.state;
+    const selectedItems = entities.filter((entity) => entity.isSelected());
     return (
       <View style={styles.container}>
         <Header
-          onSave={onSave}
-          onDelete={onDelete}
+          onSave={() => onSave(selectedItems)}
+          onCopy={() => onCopy(selectedItems)}
+          onDelete={() => onDelete(selectedItems)}
+          onRevert={() => onRevert(selectedItems)}
           onSelectAll={this.selectAll}
           onDeselectAll={this.deselectAll}
           navigation={navigation}
           onSearch={onSearch}
           onSearchClear={onSearchClear}
-          title={selectionMode ? `Selected items: ${items.filter((item) => item.selected).length} / ${items.length}` : title}
+          title={selectionMode ? `Selected items: ${entities.filter((entity) => entity.isSelected()).length} / ${entities.length}` : title}
           subTitle={subTitle}
           backButton={backButton}
           enableSearch={enableSearch}
           selectionMode={selectionMode}
           onStopSelectionMode={this.stopSelectionMode}
+          databaseMethods={databaseMethods}
         />
         {loading ? (
           <LoadingActivityIndicator />
         ) : (
           <FlatList
             numColumns={numColumns}
-            keyExtractor={(item) => item.id.toString()}
-            data={items}
-            renderItem={({item}) => this.renderItem(item)}
+            keyExtractor={(entity) => entity.getItem().id.toString()}
+            data={entities}
+            renderItem={this.renderItem}
             style={styles.flatList}
-            columnWrapperStyle={styles.columnWrapperStyle}
-            refreshControl={<RefreshControl refreshing={loading} onRefresh={this.props.onRefresh} />}
+            columnWrapperStyle={numColumns > 1 ? styles.columnWrapperStyle : null}
+            refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}
             onEndReachedThreshold={0}
             onEndReached={this.props.onEndReached}
           />
@@ -131,15 +150,18 @@ SelectableArea.propTypes = {
     navigate: PropTypes.func.isRequired,
   }).isRequired,
   ItemComponent: PropTypes.elementType.isRequired,
-  items: PropTypes.array.isRequired,
+  entityData: PropTypes.object.isRequired,
+  entities: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   subTitle: PropTypes.string.isRequired,
   numColumns: PropTypes.number,
-  onItemPress: PropTypes.func.isRequired,
+  onEntityPress: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  onCopy: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onRevert: PropTypes.func.isRequired,
   onSearchClear: PropTypes.func.isRequired,
   onRefresh: PropTypes.func.isRequired,
   onEndReached: PropTypes.func.isRequired,
@@ -156,7 +178,5 @@ const styles = StyleSheet.create({
   },
   flatList: {
     marginTop: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
   },
 });

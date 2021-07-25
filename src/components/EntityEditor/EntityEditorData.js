@@ -1,6 +1,12 @@
 import AjaxRequest from '../../helpers/AjaxRequest';
 import Globals from '../../globals/Globals';
 
+const controllerAuthorization = Object.freeze({
+  GENERAL: 'GENERAL',
+  JWT: 'JWT',
+  BASIC: 'BASIC',
+});
+
 // noinspection JSUnresolvedVariable
 class EntityEditorData {
   #entitiesMap;
@@ -23,7 +29,9 @@ class EntityEditorData {
   }
 
   GetEntityData(entityName) {
-    return this.#entitiesMap.get(entityName);
+    const entityData = this.#entitiesMap.get(entityName);
+    entityData.controllerUrl = entityData.controllerUrls[controllerAuthorization.JWT];
+    return entityData;
   }
 }
 

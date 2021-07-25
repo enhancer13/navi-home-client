@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
+import {StyleSheet} from 'react-native';
 import Globals from '../../../../globals/Globals';
 import {isTablet} from 'react-native-device-info';
-import {EntityEditor} from '../../../../components/EntityEditor';
+import {EntityEditorList} from '../../../../components/EntityEditor';
 import MediaFile from './MediaFile';
 import MediaFileSingleViewer from './MediaFileSingleViewer';
 import {View} from 'react-native';
@@ -35,23 +36,23 @@ export default class MediaFileViewer extends Component {
   }
 
   render() {
-    const {singleViewerActive, singleViewerInitialFile, folder} = this.state;
+    const {singleViewerActive, singleViewerInitialFile, folder, files} = this.state;
     return (
-      <View>
-        <EntityEditor
+      <View style={styles.container}>
+        <EntityEditorList
           navigation={this.props.navigation}
           entityName={entityName}
           ItemComponent={MediaFile}
           numColumns={numColumns}
           title={'File Viewer'}
           backButton={true}
-          onItemPress={this.onMediaFilePress}
+          onEntityPress={this.onMediaFilePress}
           parentEntityName={parentEntityName}
           parentEntity={folder}
         />
         <MediaFileSingleViewer
           visible={singleViewerActive}
-          files={this.state.files}
+          files={files}
           initialFile={singleViewerInitialFile}
           onRequestClose={() => {
             this.setState({
@@ -63,3 +64,9 @@ export default class MediaFileViewer extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
