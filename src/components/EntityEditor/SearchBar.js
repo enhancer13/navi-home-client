@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {SearchBar} from 'react-native-elements';
 import {StyleSheet} from 'react-native';
 import {GlobalStyles} from '../../globals/GlobalStyles';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class DefaultSearchBar extends Component {
   constructor(props) {

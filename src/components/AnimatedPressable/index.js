@@ -4,24 +4,21 @@ import {ScaleAnimation} from '../../animations';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 export default class AnimatedPressable extends Component {
-  scaleInAnimated = new Animated.Value(0);
-  scaleOutAnimated = new Animated.Value(0);
+  scaleInAnimated = new ScaleAnimation();
 
   render() {
     return (
       <Pressable
         onPress={this.props.onItemPress}
         onPressIn={() => {
-          ScaleAnimation.pressInAnimation(this.scaleInAnimated);
+          this.scaleInAnimated.startScaleInAnimation();
         }}
         onPressOut={() => {
-          ScaleAnimation.pressOutAnimation(this.scaleInAnimated);
+          this.scaleInAnimated.startScaleOutAnimation();
         }}
         onLongPress={this.props.onItemLongPress}
         style={this.props.containerStyle}>
-        <Animated.View style={[ScaleAnimation.getScaleTransformationStyle(this.scaleInAnimated), styles.animatedContainer]}>
-          {this.props.children}
-        </Animated.View>
+        <Animated.View style={[this.scaleInAnimated.getStyle(), styles.animatedContainer]}>{this.props.children}</Animated.View>
       </Pressable>
     );
   }

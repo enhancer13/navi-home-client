@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AuthService from '../../../helpers/AuthService';
 import * as Keychain from 'react-native-keychain';
 import Storage from '../../../helpers/Storage';
-import {Picker} from '@react-native-community/picker';
+import {Picker} from '@react-native-picker/picker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Globals from '../../../globals/Globals';

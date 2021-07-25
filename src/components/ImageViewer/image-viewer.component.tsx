@@ -398,8 +398,6 @@ export default class ImageViewer extends React.Component<Props, State> {
                 this.handleLongPressWithIndex.set(index, this.handleLongPress.bind(this, mediaInfo));
             }
 
-            console.log(mediaInfo.mediaType);
-
             if (mediaInfo.mediaType == 'IMAGE') {
                 let width = this!.state!.imageSizes![index] && this!.state!.imageSizes![index].width;
                 let height = this.state.imageSizes![index] && this.state.imageSizes![index].height;

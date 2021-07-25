@@ -5,22 +5,21 @@ import {GlobalStyles} from '../../globals/GlobalStyles';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 export default class AnimatedButton extends Component {
-  scaleInAnimated = new Animated.Value(0);
-  scaleOutAnimated = new Animated.Value(0);
+  scaleAnimation = new ScaleAnimation();
 
   render() {
     return (
       <Pressable
         onPress={this.props.onItemPress}
         onPressIn={() => {
-          ScaleAnimation.pressInAnimation(this.scaleInAnimated);
+          this.scaleAnimation.startScaleInAnimation();
         }}
         onPressOut={() => {
-          ScaleAnimation.pressOutAnimation(this.scaleInAnimated);
+          this.scaleAnimation.startScaleOutAnimation();
         }}
         onLongPress={this.props.onItemLongPress}
         style={this.props.containerStyle}>
-        <Animated.View style={[ScaleAnimation.getScaleTransformationStyle(this.scaleInAnimated), styles.animatedContainer]}>
+        <Animated.View style={[this.scaleAnimation.getStyle(), styles.animatedContainer]}>
           <Text style={styles.buttonText}>{this.props.text}</Text>
         </Animated.View>
       </Pressable>

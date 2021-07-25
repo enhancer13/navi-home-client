@@ -5,7 +5,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LiveStreaming from './LiveStreaming';
 import Settings from './Settings';
-import Alarm from './Alarm';
+import AlarmProfileEntityEditor from './Alarm';
 import MyAccount from './MyAccount';
 import messaging from '@react-native-firebase/messaging';
 import AuthService from '../../helpers/AuthService';
@@ -15,6 +15,7 @@ import {DefaultNavigationBar} from '../../components';
 import MediaGalleryNavigator from './MediaGallery';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import DefaultSafeAreaView from '../../components/DefaultSafeAreaView';
+import FlashMessage from 'react-native-flash-message';
 
 const Tab = createMaterialTopTabNavigator();
 const iconSize = wp(6);
@@ -106,7 +107,7 @@ export default class Home extends Component {
             inactiveTintColor: GlobalStyles.lightGreyColor,
             pressColor: GlobalStyles.lightVioletColor,
             showIcon: true,
-            labelStyle: {fontSize: GlobalStyles.defaultFontSize, textTransform: 'none', padding: 0, margin: 0},
+            label: {fontSize: GlobalStyles.defaultFontSize, textTransform: 'none', padding: 0, margin: 0},
             iconStyle: {
               height: hp(6),
               width: hp(6),
@@ -142,7 +143,7 @@ export default class Home extends Component {
           />
           <Tab.Screen
             name="Alarm Settings"
-            component={Alarm}
+            component={AlarmProfileEntityEditor}
             options={{
               tabBarIcon: ({color}) => <FontAwesome name="bell" color={color} size={iconSize} />,
             }}
@@ -180,6 +181,7 @@ export default class Home extends Component {
             </View>
           </Overlay>
         </View>
+        <FlashMessage position="bottom" />
       </DefaultSafeAreaView>
     );
   }

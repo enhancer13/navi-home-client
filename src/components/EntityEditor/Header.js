@@ -58,7 +58,6 @@ export default class Header extends Component {
   };
 
   onSearch = (searchValue) => {
-    console.log(searchValue);
     this.setState({
       searchValue,
     });
@@ -77,7 +76,10 @@ export default class Header extends Component {
       onSelectAll,
       onDeselectAll,
       onSave,
+      onCopy,
       onDelete,
+      onRevert,
+      databaseMethods,
     } = this.props;
     const {searchMode, searchBarScale, searchValue} = this.state;
     return (
@@ -118,11 +120,14 @@ export default class Header extends Component {
             {selectionMode ? (
               <ActionsBar
                 onSave={onSave}
+                onCopy={onCopy}
                 onDelete={onDelete}
+                onRevert={onRevert}
                 onSelectAll={onSelectAll}
                 onDeselectAll={onDeselectAll}
                 onClose={onStopSelectionMode}
                 style={styles.actionsBar}
+                allowedActions={{...databaseMethods, select: true}}
               />
             ) : (
               <Text style={styles.subTitleText}>{subTitle}</Text>

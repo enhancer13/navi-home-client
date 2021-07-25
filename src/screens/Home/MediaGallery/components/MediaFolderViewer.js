@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import Globals from '../../../../globals/Globals';
 import MediaFolder from './MediaFolder';
 import {isTablet} from 'react-native-device-info';
-import {EntityEditor} from '../../../../components/EntityEditor';
+import {EntityEditorList} from '../../../../components/EntityEditor';
 
 const numColumns = isTablet() ? 5 : 3;
 const entityName = Globals.Entities.MEDIA_GALLERY_FOLDER;
 
 export default class MediaFolderViewer extends Component {
-  onFilePress = (folder) => {
+  onMediaFolderPress = (folder) => {
     this.props.navigation.navigate('MediaFileViewer', {
       folder,
     });
@@ -16,14 +16,14 @@ export default class MediaFolderViewer extends Component {
 
   render() {
     return (
-      <EntityEditor
+      <EntityEditorList
         navigation={this.props.navigation}
         entityName={entityName}
         ItemComponent={MediaFolder}
         numColumns={numColumns}
         title={'Media Gallery'}
         backButton={false}
-        onItemPress={this.onFilePress}
+        onEntityPress={this.onMediaFolderPress}
       />
     );
   }

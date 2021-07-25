@@ -6,7 +6,7 @@ const GlobalStyles = {
     VIOLET: 'violet',
     BLACK: 'black',
   },
-
+  smallFontSize: hp(1.4),
   defaultFontSize: hp(1.8),
   defaultTitleFontSize: hp(2.4),
 
@@ -19,13 +19,19 @@ const GlobalStyles = {
   violetTextColor: '#6959d5',
 
   //Container Colors
+  whiteBackgroundColor: 'white',
   violetBackgroundColor: '#6959d5',
   lightBackgroundColor: '#f1f1f1',
+  orangeBackgroundColor: '#f8c64e',
+  blueBackgroundColor: '#a1cbff',
+  greyBackgroundColor: 'grey',
+  lightGreyBackgroundColor: '#abacc3',
 
   //Icon Colors
   whiteIconColor: 'white',
   lightIconColor: '#f1f1f1',
   violetIconColor: '#6959d5',
+  transparentIconColor: 'transparent',
 
   //Colors of other UI elements
   violetColor: '#6959d5',
