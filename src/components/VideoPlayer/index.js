@@ -120,7 +120,6 @@ export default class VideoPlayer extends Component {
         console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
       }
     } else {
-      console.log('point 3');
       if (this.state.isPlaying !== playbackStatus.isPlaying && !this.playerStateChangeTimer) {
         if (playbackStatus.isPlaying) {
           this.setState({

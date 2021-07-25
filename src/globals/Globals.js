@@ -14,7 +14,13 @@ export default {
     POST: 'POST',
     DELETE: 'DELETE',
   },
+  Formats: {
+    TIME: 'HH:mm:ss',
+    DATE: 'YYYY-MM-DD',
+    DATETIME: 'YYYY-MM-DD HH:mm:ss',
+  },
   Entities: {
+    ALARM_PROFILE: 'AlarmProfile',
     VIDEO_CAMERA: 'VideoSource',
     MEDIA_GALLERY_FOLDER: 'MediaGalleryFolder',
     MEDIA_GALLERY_FILE: 'MediaGalleryFile',
@@ -30,21 +36,13 @@ export default {
       APPLICATION_SERVICE_ACTION: (service, videoSourceId, currentState) =>
         `/api/jwt/services/${service}/${videoSourceId}/${currentState ? 'stop' : 'start'}`,
     },
-    Entities: {
-      ALARM_PROFILES: '/api/jwt/alarm-profile',
-      VIDEO_CAMERAS: '/api/jwt/video-sources',
-    },
     MediaGallery: {
-      MEDIA: ({fileName, mediaGalleryFolder}) => `/api/jwt/media/${mediaGalleryFolder.folderName}/${fileName}`,
-      IMAGE_BASE64: ({fileName, mediaGalleryFolder}) => `/api/jwt/media/base64/${mediaGalleryFolder.folderName}/${fileName}`,
-      MEDIA_THUMB: ({fileName, mediaGalleryFolder}) => {
+      MEDIA: ({fileName, folderName}) => `/api/jwt/media/${folderName}/${fileName}`,
+      MEDIA_THUMB: ({fileName, folderName}) => {
         fileName = fileName.substr(0, fileName.lastIndexOf('.')) + '_thumb.png';
-        return `/api/jwt/media/${mediaGalleryFolder.folderName}/${fileName}`;
+        return `/api/jwt/media/${folderName}/${fileName}`;
       },
       LIMITED_ACCESS_LINK: ({fileName, mediaGalleryFolder}) => `/api/jwt/media/${mediaGalleryFolder.folderName}/${fileName}/access`,
-      FILE: (fileId) => `/api/jwt/media-gallery-file/${fileId}`,
-      FILES: (folderId) => `/api/jwt/media-gallery-folder/${folderId}/files`,
-      FOLDERS: '/api/jwt/media-gallery-folder',
     },
     Streaming: {
       THUMBNAIL: (videoSourceId) => `/api/jwt/streaming/${videoSourceId}/${videoSourceId}_thumb.png`,

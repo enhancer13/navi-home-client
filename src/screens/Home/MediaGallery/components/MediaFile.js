@@ -1,3 +1,5 @@
+// noinspection JSSuspiciousNameCombination
+
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import AuthService from '../../../../helpers/AuthService';
