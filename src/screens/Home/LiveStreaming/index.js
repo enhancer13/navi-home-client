@@ -41,7 +41,7 @@ export default class LiveStreaming extends Component {
   initFirebaseListener() {
     this.firebaseMessageListener = messaging().onMessage(async (remoteMessage) => {
       if (remoteMessage.data.videoSourceWrappers) {
-        let videoSourceWrappers = JSON.parse(remoteMessage.data.videoSourceWrappers);
+        const videoSourceWrappers = JSON.parse(remoteMessage.data.videoSourceWrappers);
         this.updateVideoPlayers(videoSourceWrappers);
       }
     });
@@ -64,9 +64,7 @@ export default class LiveStreaming extends Component {
   }
 
   componentWillUnmount() {
-    if (this.firebaseMessageListener) {
-      this.firebaseMessageListener();
-    }
+    this.firebaseMessageListener && this.firebaseMessageListener();
   }
 
   render() {
