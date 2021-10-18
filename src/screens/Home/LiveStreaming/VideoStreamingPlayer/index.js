@@ -201,7 +201,7 @@ export default class VideoStreamingPlayer extends Component {
   }
 
   render() {
-    let {
+    const {
       framesStreamerReady,
       framesStreamerActive,
       framesProducerActive,

@@ -70,7 +70,7 @@ export default class EntityEditor extends Component {
             editable={inputEnabled}
             secureTextEntry={fieldDataType === FieldDataType.PASSWORD}
             label={fieldTitle}
-            value={fieldValue.toString()}
+            value={fieldValue !== null ? fieldValue.toString() : ''}
             fieldStatus={fieldStatus}
             onChangeText={(value) => this.updateFieldValue(fieldName, value)}
           />
