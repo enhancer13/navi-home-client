@@ -37,10 +37,10 @@ export default {
         `/api/jwt/services/${service}/${videoSourceId}/${currentState ? 'stop' : 'start'}`,
     },
     MediaGallery: {
-      MEDIA: ({fileName, folderName}) => `/api/jwt/media/${folderName}/${fileName}`,
-      MEDIA_THUMB: ({fileName, folderName}) => {
+      MEDIA: ({fileName, mediaGalleryFolder}) => `/api/jwt/media/${mediaGalleryFolder.folderName}/${fileName}`,
+      MEDIA_THUMB: ({fileName, mediaGalleryFolder}) => {
         fileName = fileName.substr(0, fileName.lastIndexOf('.')) + '_thumb.png';
-        return `/api/jwt/media/${folderName}/${fileName}`;
+        return `/api/jwt/media/${mediaGalleryFolder.folderName}/${fileName}`;
       },
       LIMITED_ACCESS_LINK: ({fileName, mediaGalleryFolder}) => `/api/jwt/media/${mediaGalleryFolder.folderName}/${fileName}/access`,
     },

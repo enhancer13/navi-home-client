@@ -37,7 +37,7 @@ class AuthService {
     if (!extraOptions.skipAuthorization) {
       headers = {...headers, ...this.getAuthorizationHeader()};
     }
-    console.log(url);
+    console.log(options.method, url);
 
     return Promise.race([
       fetch(url, {...options, headers: headers})
@@ -138,7 +138,7 @@ class AuthService {
     if (!firebaseAccount) {
       throw new Error('There is no FIREBASE account registered for current user.');
     }
-    await auth().signInWithEmailAndPassword(firebaseAccount.username, firebaseAccount.password);
+    await auth().signInWithEmailAndPassword(firebaseAccount.login, firebaseAccount.password);
     delete firebaseAccount.password;
     await Storage.setTextItem(Globals.Authorization.FIREBASE_ACCOUNT, JSON.stringify(firebaseAccount));
   };

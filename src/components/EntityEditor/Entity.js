@@ -120,7 +120,7 @@ export default class Entity {
   }
 
   isModified() {
-    return Object.keys(this.#requestItem).length > 2; //id and fieldsDeleteRequestDto are always included
+    return !this.isNew() && Object.keys(this.#requestItem).length > 2; //id and fieldsDeleteRequestDto are always included
   }
 
   isNew() {
