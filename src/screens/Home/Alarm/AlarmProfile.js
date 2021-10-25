@@ -10,7 +10,7 @@ import EntityViewContainer from '../../../components/EntityEditor/EntityViewCont
 import DefaultText from '../../../components/DefaultText';
 import {ScaleAnimation} from '../../../animations';
 import Dialog from 'react-native-dialog';
-import {showError} from '../../../components/Popups/Popups';
+import {showError} from '../../../components/ApplicationMessaging/Popups';
 
 const alarmActionIconWidth = 20;
 const DaysOfWeekEnum = Object.freeze({
