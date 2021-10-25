@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import messaging from '@react-native-firebase/messaging';
-import AuthService from '../../helpers/AuthService';
 import {showError, showInformation, showSuccess, showWarning} from './Popups';
 import FlashMessage from 'react-native-flash-message';
 
@@ -12,21 +11,6 @@ const MessageType = Object.freeze({
 });
 
 export default class FirebaseMessageHandler extends Component {
-  firebaseInit() {
-    messaging()
-      .getToken()
-      .then((clientToken) => AuthService.updateFirebaseClientToken(clientToken))
-      .catch((ex) => {
-        console.log('Unable to set client token.', ex);
-      });
-
-    try {
-      messaging().onTokenRefresh((clientToken) => AuthService.updateFirebaseClientToken(clientToken));
-    } catch (ex) {
-      console.error('Unable to refresh client token.', ex);
-    }
-  }
-
   initFirebaseMessaging = () => {
     // Check whether an application is opened by notification from quite state
     messaging().onNotificationOpenedApp((remoteMessage) => {

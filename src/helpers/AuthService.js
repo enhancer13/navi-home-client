@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import Storage from './Storage';
 import Globals from '../globals/Globals';
 import {StackActions} from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
 
 class AuthService {
   #tokenPrefix = 'Bearer ';
@@ -110,7 +111,7 @@ class AuthService {
     await this.#tryAuthenticateFirebase();
   };
 
-  updateFirebaseClientToken = async (clientToken) => {
+  #updateFirebaseClientToken = async (clientToken) => {
     const firebaseAccount = JSON.parse(await Storage.getTextItem(Globals.Authorization.FIREBASE_ACCOUNT));
     const url = this.buildFetchUrl(Globals.Endpoints.SERVICE_ACCOUNTS);
     await this.fetchMethod(
@@ -141,6 +142,19 @@ class AuthService {
     await auth().signInWithEmailAndPassword(firebaseAccount.login, firebaseAccount.password);
     delete firebaseAccount.password;
     await Storage.setTextItem(Globals.Authorization.FIREBASE_ACCOUNT, JSON.stringify(firebaseAccount));
+
+    messaging()
+      .getToken()
+      .then((clientToken) => this.#updateFirebaseClientToken(clientToken))
+      .catch((ex) => {
+        console.log('Unable to set client token.', ex);
+      });
+
+    try {
+      messaging().onTokenRefresh((clientToken) => this.#updateFirebaseClientToken(clientToken));
+    } catch (ex) {
+      console.error('Unable to refresh client token.', ex);
+    }
   };
 
   #saveTokenStorage = async (account, username, storage) => {
