@@ -182,8 +182,9 @@ export default class LiveStreaming extends Component {
 
   initFirebaseListener() {
     this.firebaseMessageListener = messaging().onMessage(async (remoteMessage) => {
-      if (remoteMessage.data.serviceStatusContainers) {
-        const serviceStatusContainers = JSON.parse(remoteMessage.data.serviceStatusContainers);
+      if (remoteMessage.data.applicationStatus) {
+        const applicationStatus = JSON.parse(remoteMessage.data.applicationStatus);
+        const serviceStatusContainers = applicationStatus.serviceStatusContainers;
         this.updateVideoPlayers(serviceStatusContainers);
       }
     });

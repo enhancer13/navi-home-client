@@ -12,7 +12,7 @@ import EntityEditor from './EntityEditor';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {ScaleAnimation, SlideAnimation} from '../../animations';
 import Entity from './Entity';
-import {showSuccess, showError} from '../Popups/Popups';
+import {showSuccess, showError} from '../ApplicationMessaging/Popups';
 import {ConfirmationDialog} from './Dialog';
 import messaging from '@react-native-firebase/messaging';
 
@@ -262,8 +262,8 @@ export default class EntityEditorList extends Component {
   initFirebaseListener() {
     this.firebaseMessageListener = messaging().onMessage(async (remoteMessage) => {
       const {entityName} = this.props;
-      if (remoteMessage.data.EntityEditor) {
-        const entityEditorEvent = JSON.parse(remoteMessage.data.EntityEditor);
+      if (remoteMessage.data.entityEditor) {
+        const entityEditorEvent = JSON.parse(remoteMessage.data.entityEditor);
         if (entityEditorEvent.entityName !== entityName.toLowerCase()) {
           return;
         }
