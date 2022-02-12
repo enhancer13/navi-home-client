@@ -1,16 +1,19 @@
-import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LiveStreaming from './LiveStreaming';
 import Settings from './Settings';
 import AlarmProfileEntityEditor from './Alarm';
 import MyAccount from './MyAccount';
-import {GlobalStyles} from '../../globals/GlobalStyles';
-import {DefaultNavigationBar} from '../../components';
+import { GlobalStyles } from '../../globals/GlobalStyles';
+import { DefaultNavigationBar } from '../../components';
 import MediaGalleryNavigator from './MediaGallery';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import DefaultSafeAreaView from '../../components/DefaultSafeAreaView';
 import FirebaseMessageHandler from '../../components/ApplicationMessaging/FirebaseMessageHandler';
 
@@ -25,7 +28,9 @@ export default class Home extends Component {
         <DefaultNavigationBar />
         <Tab.Navigator
           initialRouteName="Live"
-          swipeEnabled={false}
+          screenOptions={{
+            swipeEnabled: false,
+          }}
           tabBarPosition="bottom"
           scrollEnabled={true}
           tabBarOptions={{
@@ -33,7 +38,12 @@ export default class Home extends Component {
             inactiveTintColor: GlobalStyles.lightGreyColor,
             pressColor: GlobalStyles.lightVioletColor,
             showIcon: true,
-            label: {fontSize: GlobalStyles.defaultFontSize, textTransform: 'none', padding: 0, margin: 0},
+            label: {
+              fontSize: GlobalStyles.defaultFontSize,
+              textTransform: 'none',
+              padding: 0,
+              margin: 0,
+            },
             iconStyle: {
               height: hp(6),
               width: hp(6),
@@ -52,40 +62,56 @@ export default class Home extends Component {
               margin: 0,
             },
             style: styles.barStyle,
-          }}>
+          }}
+        >
           <Tab.Screen
             name="Live Streaming"
             component={LiveStreaming}
             options={{
-              tabBarIcon: ({focused, color}) => <FontAwesome name="video-camera" focused={focused} color={color} size={iconSize} />,
+              tabBarIcon: ({ focused, color }) => (
+                <FontAwesome
+                  name="video-camera"
+                  focused={focused}
+                  color={color}
+                  size={iconSize}
+                />
+              ),
             }}
           />
           <Tab.Screen
             name="Media Gallery"
             component={MediaGalleryNavigator}
             options={{
-              tabBarIcon: ({color}) => <Ionicons name="images" color={color} size={iconSize} />,
+              tabBarIcon: ({ color }) => (
+                <Ionicons name="images" color={color} size={iconSize} />
+              ),
             }}
           />
           <Tab.Screen
             name="Alarm Settings"
             component={AlarmProfileEntityEditor}
             options={{
-              tabBarIcon: ({color}) => <FontAwesome name="bell" color={color} size={iconSize} />,
+              tabBarIcon: ({ color }) => (
+                <FontAwesome name="bell" color={color} size={iconSize} />
+              ),
             }}
           />
           <Tab.Screen
             name="Settings"
             component={Settings}
             options={{
-              tabBarIcon: ({color}) => <Ionicons name="ios-settings" color={color} size={iconSize} />,
+              tabBarIcon: ({ color }) => (
+                <Ionicons name="ios-settings" color={color} size={iconSize} />
+              ),
             }}
           />
           <Tab.Screen
             name="My Account"
             component={MyAccount}
             options={{
-              tabBarIcon: ({color}) => <FontAwesome name="user" color={color} size={iconSize} />,
+              tabBarIcon: ({ color }) => (
+                <FontAwesome name="user" color={color} size={iconSize} />
+              ),
             }}
           />
         </Tab.Navigator>

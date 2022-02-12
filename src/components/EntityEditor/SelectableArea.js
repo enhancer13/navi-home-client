@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
-import {LoadingActivityIndicator} from '../index';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import React, { Component } from 'react';
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
+import { LoadingActivityIndicator } from '../index';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Header from './Header';
 import SelectableItem from './SelectableItem';
 import PropTypes from 'prop-types';
@@ -43,10 +43,10 @@ export default class SelectableArea extends Component {
     });
   };
 
-  renderItem = ({item}) => {
+  renderItem = ({ item }) => {
     const entity = item;
-    const {ItemComponent, numColumns, entityData, onRefresh} = this.props;
-    const {selectionMode} = this.state;
+    const { ItemComponent, numColumns, entityData, onRefresh } = this.props;
+    const { selectionMode } = this.state;
     const colWidth = wp(Math.floor(100 / numColumns));
     return (
       <SelectableItem
@@ -67,7 +67,7 @@ export default class SelectableArea extends Component {
         }}
         onRefresh={onRefresh}
         width={colWidth}
-        onEntityLongPress={() => this.setState({selectionMode: true})}
+        onEntityLongPress={() => this.setState({ selectionMode: true })}
         entity={entity}
         ItemComponent={ItemComponent}
       />
@@ -77,7 +77,9 @@ export default class SelectableArea extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const entities = [...nextProps.entities];
     entities.forEach((entity) => {
-      const previousItem = prevState.entities.find((el) => el.getItem().id === entity.getItem().id);
+      const previousItem = prevState.entities.find(
+        (el) => el.getItem().id === entity.getItem().id
+      );
       entity.setSelected(previousItem ? previousItem.isSelected() : false);
     });
     return {
@@ -101,9 +103,9 @@ export default class SelectableArea extends Component {
       onDelete,
       onRevert,
       onRefresh,
-      entityData: {databaseMethods},
+      entityData: { databaseMethods },
     } = this.props;
-    const {entities, selectionMode} = this.state;
+    const { entities, selectionMode } = this.state;
     const selectedItems = entities.filter((entity) => entity.isSelected());
     return (
       <View style={styles.container}>
@@ -117,7 +119,13 @@ export default class SelectableArea extends Component {
           navigation={navigation}
           onSearch={onSearch}
           onSearchClear={onSearchClear}
-          title={selectionMode ? `Selected items: ${entities.filter((entity) => entity.isSelected()).length} / ${entities.length}` : title}
+          title={
+            selectionMode
+              ? `Selected items: ${
+                  entities.filter((entity) => entity.isSelected()).length
+                } / ${entities.length}`
+              : title
+          }
           subTitle={subTitle}
           backButton={backButton}
           enableSearch={enableSearch}
@@ -134,8 +142,12 @@ export default class SelectableArea extends Component {
             data={entities}
             renderItem={this.renderItem}
             style={styles.flatList}
-            columnWrapperStyle={numColumns > 1 ? styles.columnWrapperStyle : null}
-            refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}
+            columnWrapperStyle={
+              numColumns > 1 ? styles.columnWrapperStyle : null
+            }
+            refreshControl={
+              <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+            }
             onEndReachedThreshold={0}
             onEndReached={this.props.onEndReached}
           />

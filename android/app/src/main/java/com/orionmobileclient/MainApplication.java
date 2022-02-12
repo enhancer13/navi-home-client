@@ -5,24 +5,17 @@ import android.content.Context;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.orionmobileclient.generated.BasePackageList;
-
-import org.unimodules.adapters.react.ModuleRegistryAdapter;
-import org.unimodules.adapters.react.ReactModuleRegistryProvider;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
-    private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(new BasePackageList().getPackageList());
-
-    private final ReactNativeHost mReactNativeHost =
-            new ReactNativeHost(this) {
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
                 @Override
                 public boolean getUseDeveloperSupport() {
                     return BuildConfig.DEBUG;
@@ -30,15 +23,7 @@ public class MainApplication extends Application implements ReactApplication {
 
                 @Override
                 protected List<ReactPackage> getPackages() {
-                    List<ReactPackage> packages = new PackageList(this).getPackages();
-                    // Packages that cannot be autolinked yet can be added manually here, for example:
-                    // packages.add(new MyReactNativePackage());
-                    // Add unimodules
-                    List<ReactPackage> unimodules = Collections.singletonList(
-                            new ModuleRegistryAdapter(mModuleRegistryProvider)
-                    );
-                    packages.addAll(unimodules);
-                    return packages;
+                    return new PackageList(this).getPackages();
                 }
 
                 @Override

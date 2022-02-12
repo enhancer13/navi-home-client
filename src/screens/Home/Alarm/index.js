@@ -1,7 +1,7 @@
 import React from 'react';
 import Globals from '../../../globals/Globals';
 import AlarmProfile from './AlarmProfile';
-import {EntityEditorList} from '../../../components/EntityEditor';
+import { EntityEditorList } from '../../../components/EntityEditor';
 
 function AlarmProfileEntityEditor(props) {
   return (

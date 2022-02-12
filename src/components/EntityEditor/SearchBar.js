@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {SearchBar} from 'react-native-elements';
-import {StyleSheet} from 'react-native';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import React, { Component } from 'react';
+import { SearchBar } from 'react-native-elements';
+import { StyleSheet } from 'react-native';
+import { GlobalStyles } from '../../globals/GlobalStyles';
 
 export default class DefaultSearchBar extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ export default class DefaultSearchBar extends Component {
           if (this.timeout) {
             clearTimeout(this.timeout);
           }
-          this.setState({searchValue: text});
+          this.setState({ searchValue: text });
           this.timeout = setTimeout(() => this.props.onChangeText(text), 500);
         }}
         onClear={this.props.onClear}

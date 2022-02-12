@@ -1,8 +1,8 @@
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import React from 'react';
-import {StyleSheet, Text, View, ViewPropTypes} from 'react-native';
+import { StyleSheet, Text, View, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
-import {GlobalStyles} from '../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../globals/GlobalStyles';
 
 const Status = Object.freeze({
   NEW: 'New',
@@ -11,9 +11,17 @@ const Status = Object.freeze({
 });
 
 function StatusLabel(props) {
-  const {status, style} = props;
+  const { status, style } = props;
   return status !== Status.UNMODIFIED ? (
-    <View style={[styles.container, status === Status.NEW ? styles.newStatusContainer : styles.modifiedStatusContainer, style]}>
+    <View
+      style={[
+        styles.container,
+        status === Status.NEW
+          ? styles.newStatusContainer
+          : styles.modifiedStatusContainer,
+        style,
+      ]}
+    >
       <Text style={styles.text}>{status}</Text>
     </View>
   ) : null;
@@ -24,7 +32,7 @@ StatusLabel.propTypes = {
   style: ViewPropTypes.style,
 };
 
-export {StatusLabel, Status};
+export { StatusLabel, Status };
 
 const styles = StyleSheet.create({
   container: {
