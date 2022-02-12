@@ -1,18 +1,33 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {GlobalStyles} from '../../../globals/GlobalStyles';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { GlobalStyles } from '../../../globals/GlobalStyles';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {Icon} from 'react-native-elements';
-import {StatusLabel} from './StatusLabel';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Icon } from 'react-native-elements';
+import { StatusLabel } from './StatusLabel';
 import DefaultText from '../../DefaultText';
 import DefaultTextInput from '../../DefaultTextInput';
 
 function LabeledInput(props) {
-  const {label, iconName, iconType, iconLeft, iconRight, onIconPress, fieldStatus, showClear, onClear} = props;
+  const {
+    label,
+    iconName,
+    iconType,
+    iconLeft,
+    iconRight,
+    onIconPress,
+    fieldStatus,
+    showClear,
+    onClear,
+  } = props;
   const icon = iconName && (
     <TouchableOpacity onPress={onIconPress} style={styles.iconContainer}>
-      <Icon name={iconName} type={iconType} color={GlobalStyles.violetIconColor} size={hp(4)} />
+      <Icon
+        name={iconName}
+        type={iconType}
+        color={GlobalStyles.violetIconColor}
+        size={hp(4)}
+      />
     </TouchableOpacity>
   );
   return (
@@ -24,10 +39,22 @@ function LabeledInput(props) {
       <View style={styles.rowContainer}>
         {iconLeft && icon}
         <View style={styles.container}>
-          <DefaultTextInput {...props} colorScheme={GlobalStyles.colorScheme.BLACK} style={styles.textInput} />
+          <DefaultTextInput
+            {...props}
+            colorScheme={GlobalStyles.colorScheme.BLACK}
+            style={styles.textInput}
+          />
           {showClear && (
-            <TouchableOpacity onPress={onClear} style={styles.clearIconContainer}>
-              <Icon name={'remove'} type={'font-awesome'} color={GlobalStyles.lightGreyColor} size={hp(3)} />
+            <TouchableOpacity
+              onPress={onClear}
+              style={styles.clearIconContainer}
+            >
+              <Icon
+                name={'remove'}
+                type={'font-awesome'}
+                color={GlobalStyles.lightGreyColor}
+                size={hp(3)}
+              />
             </TouchableOpacity>
           )}
         </View>

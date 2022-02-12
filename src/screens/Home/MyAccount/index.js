@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import AuthService from '../../../helpers/AuthService';
 import Globals from '../../../globals/Globals';
 import MenuList from '../../../components/MenuList';
+import { StackActions } from '@react-navigation/native';
 
 export default class MyAccount extends Component {
   items = [
@@ -20,7 +21,10 @@ export default class MyAccount extends Component {
         name: 'sign-out',
         type: 'font-awesome',
       },
-      action: () => AuthService.logout(this.props.navigation),
+      action: async () => {
+        await AuthService.logout();
+        this.props.navigation.dispatch(StackActions.popToTop());
+      },
     },
   ];
 

@@ -1,5 +1,4 @@
 apply plugin: "com.android.application"
-apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 apply plugin: 'com.google.gms.google-services'
 
@@ -85,7 +84,6 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/expo-constants/scripts/get-app-config-android.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -198,11 +196,10 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-analytics:18.0.1'
 
-    implementation project(':unimodules-core')
-
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    addUnimodulesDependencies()
+    compile project(':react-native-video')
+    implementation "androidx.appcompat:appcompat:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {GlobalStyles} from '../../../globals/GlobalStyles';
+import React, { Component } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { GlobalStyles } from '../../../globals/GlobalStyles';
 import PropTypes from 'prop-types';
 import MultiSelect from 'react-native-multiple-select';
 import Pagination from '../../../helpers/Pagination';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import FormatUtils from '../utils/FormatUtils';
-import {Icon} from 'react-native-elements';
-import {Cache} from 'react-native-cache';
-import AsyncStorage from '@react-native-community/async-storage';
-import {StatusLabel} from './StatusLabel';
+import { Icon } from 'react-native-elements';
+import { Cache } from 'react-native-cache';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusLabel } from './StatusLabel';
 
 const searchPolicies = Object.freeze({
   STATIC: 'STATIC',
@@ -42,7 +42,7 @@ export default class LabeledMultiSelectPicker extends Component {
   }
 
   static getDerivedStateFromProps(nextProps) {
-    const {selectedData, mode} = nextProps;
+    const { selectedData, mode } = nextProps;
     let selectedItems = [];
     if (selectedData !== null) {
       switch (mode) {
@@ -56,7 +56,9 @@ export default class LabeledMultiSelectPicker extends Component {
           selectedItems = [selectedData];
           break;
         default:
-          throw new Error(`Not supported LabeledMultiSelectPicker mode: ${mode}.`);
+          throw new Error(
+            `Not supported LabeledMultiSelectPicker mode: ${mode}.`
+          );
       }
     }
     return {
@@ -65,18 +67,22 @@ export default class LabeledMultiSelectPicker extends Component {
   }
 
   onSelectedItemsChange = (selectedItems) => {
-    this.setState({selectedItems}, () => {
-      const {onChange, mode} = this.props;
+    this.setState({ selectedItems }, () => {
+      const { onChange, mode } = this.props;
       let selectedData;
       switch (mode) {
         case selectModes.SELECT:
           selectedData = selectedItems[0];
           break;
         case selectModes.SINGLE_SELECT:
-          selectedData = this.state.items.find((item) => selectedItems[0] === item[uniqueKey]);
+          selectedData = this.state.items.find(
+            (item) => selectedItems[0] === item[uniqueKey]
+          );
           break;
         case selectModes.MULTIPLE_SELECT:
-          selectedData = this.state.items.filter((item) => selectedItems.find((el) => el === item[uniqueKey]));
+          selectedData = this.state.items.filter((item) =>
+            selectedItems.find((el) => el === item[uniqueKey])
+          );
           break;
       }
       onChange(selectedData);
@@ -97,7 +103,7 @@ export default class LabeledMultiSelectPicker extends Component {
   };
 
   processUserInput = async (searchValue, delay = 500) => {
-    const {mode, searchPolicy} = this.props;
+    const { mode, searchPolicy } = this.props;
     if (searchPolicy === searchPolicies.STATIC || mode === selectModes.SELECT) {
       return;
     }
@@ -109,12 +115,14 @@ export default class LabeledMultiSelectPicker extends Component {
   };
 
   fetchInitialData = () => {
-    const {paginationData, mode, staticValues} = this.props;
+    const { paginationData, mode, staticValues } = this.props;
     if (mode === selectModes.SELECT) {
       this.setState({
         items: Object.keys(staticValues).map((key) => ({
           [uniqueKey]: key,
-          [selectModeSearchFieldName]: FormatUtils.formatEnumValue(staticValues[key]),
+          [selectModeSearchFieldName]: FormatUtils.formatEnumValue(
+            staticValues[key]
+          ),
         })),
       });
       return;
@@ -133,8 +141,8 @@ export default class LabeledMultiSelectPicker extends Component {
   }
 
   render() {
-    const {label, paginationData, mode, fieldStatus, editable} = this.props;
-    const {items, selectedItems} = this.state;
+    const { label, paginationData, mode, fieldStatus, editable } = this.props;
+    const { items, selectedItems } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.rowContainer}>
@@ -150,13 +158,15 @@ export default class LabeledMultiSelectPicker extends Component {
               single={mode !== selectModes.MULTIPLE_SELECT}
               canAddItems={false}
               uniqueKey={uniqueKey}
-              onSelectedItemsChange={(newItems) => editable && this.onSelectedItemsChange(newItems)}
+              onSelectedItemsChange={(newItems) =>
+                editable && this.onSelectedItemsChange(newItems)
+              }
               selectedItems={selectedItems}
               styleMainWrapper={styles.multiSelectWrapper}
-              styleDropdownMenu={{height: GlobalStyles.defaultFontSize * 3}}
+              styleDropdownMenu={{ height: GlobalStyles.defaultFontSize * 3 }}
               selectText="Pick Items"
               searchInputPlaceholderText="Search Items..."
-              styleTextTag={{fontSize: GlobalStyles.smallFontSize}}
+              styleTextTag={{ fontSize: GlobalStyles.smallFontSize }}
               fontSize={GlobalStyles.defaultFontSize}
               itemFontSize={GlobalStyles.defaultFontSize}
               //onChangeInput={(searchValue) => this.processUserInput(searchValue)}
@@ -167,15 +177,27 @@ export default class LabeledMultiSelectPicker extends Component {
               selectedItemTextColor={GlobalStyles.lightVioletColor}
               selectedItemIconColor={GlobalStyles.lightVioletColor}
               itemTextColor={GlobalStyles.blackTextColor}
-              displayKey={paginationData ? paginationData.searchFieldName : selectModeSearchFieldName}
+              displayKey={
+                paginationData
+                  ? paginationData.searchFieldName
+                  : selectModeSearchFieldName
+              }
               submitButtonColor={GlobalStyles.lightVioletColor}
               submitButtonText="Submit"
               removeSelected
             />
           </View>
           {mode === selectModes.MULTIPLE_SELECT && (
-            <TouchableOpacity onPress={() => editable && this.multiSelect._removeAllItems()} style={styles.iconContainer}>
-              <Icon name={'remove'} type={'font-awesome'} color={GlobalStyles.violetIconColor} size={hp(4)} />
+            <TouchableOpacity
+              onPress={() => editable && this.multiSelect._removeAllItems()}
+              style={styles.iconContainer}
+            >
+              <Icon
+                name={'remove'}
+                type={'font-awesome'}
+                color={GlobalStyles.violetIconColor}
+                size={hp(4)}
+              />
             </TouchableOpacity>
           )}
         </View>
@@ -187,7 +209,11 @@ export default class LabeledMultiSelectPicker extends Component {
 LabeledMultiSelectPicker.propTypes = {
   label: PropTypes.string.isRequired,
   objectName: PropTypes.string,
-  selectedData: PropTypes.oneOfType([PropTypes.object.isRequired, PropTypes.array.isRequired, PropTypes.string.isRequired]),
+  selectedData: PropTypes.oneOfType([
+    PropTypes.object.isRequired,
+    PropTypes.array.isRequired,
+    PropTypes.string.isRequired,
+  ]),
   fieldStatus: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   searchPolicy: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),

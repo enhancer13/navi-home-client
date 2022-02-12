@@ -1,18 +1,29 @@
-import React, {Component} from 'react';
-import {Dimensions, Modal, Share, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import {
+  Modal,
+  Share,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Globals from '../../../../globals/Globals';
 import AuthService from '../../../../helpers/AuthService';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import TouchableScale from 'react-native-touchable-scale';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import ajaxRequest from '../../../../helpers/AjaxRequest';
-import ImageViewer from '../../../../components/ImageViewer';
+import MediaViewer from '../../../../components/MediaViewer';
+import { GlobalStyles } from '../../../../globals/GlobalStyles';
+import AnimatedPressableIcon from '../../../../components/AnimatedPressableIcon';
 
-const barHeight = hp(5);
+const largeIconSize = hp(7);
+const barHeight = largeIconSize / 1.5;
 const iconSize = barHeight * 0.8;
-const iconColor = '#6959d5';
 
 export default class MediaFileSingleViewer extends Component {
   constructor(props) {
@@ -24,9 +35,12 @@ export default class MediaFileSingleViewer extends Component {
   }
 
   onShare = async (media) => {
-    const limitedAccessLink = await ajaxRequest.get(Globals.Endpoints.MediaGallery.LIMITED_ACCESS_LINK(media.item), {
-      headers: {Accept: 'text/plain'},
-    });
+    const limitedAccessLink = await ajaxRequest.get(
+      Globals.Endpoints.MediaGallery.LIMITED_ACCESS_LINK(media.item),
+      {
+        headers: { Accept: 'text/plain' },
+      }
+    );
     const shareOptions = {
       title: `Sharing ${media.item.fileName}`,
       message: limitedAccessLink,
@@ -52,12 +66,16 @@ export default class MediaFileSingleViewer extends Component {
     const headers = AuthService.getAuthorizationHeader();
     const media = files.map((item) => {
       return {
-        url: AuthService.buildFetchUrl(Globals.Endpoints.MediaGallery.MEDIA(item)),
+        url: AuthService.buildFetchUrl(
+          Globals.Endpoints.MediaGallery.MEDIA(item)
+        ),
         width: item.width,
         height: item.height,
         mediaType: item.fileType,
         thumbnail: {
-          url: AuthService.buildFetchUrl(Globals.Endpoints.MediaGallery.MEDIA_THUMB(item)),
+          url: AuthService.buildFetchUrl(
+            Globals.Endpoints.MediaGallery.MEDIA_THUMB(item)
+          ),
         },
         props: {
           source: {
@@ -69,15 +87,19 @@ export default class MediaFileSingleViewer extends Component {
     });
     return {
       media: media,
-      initialImageIndex: media.findIndex((item) => item.item.id === nextProps.initialFile.id),
+      initialImageIndex: media.findIndex(
+        (item) => item.item.id === nextProps.initialFile.id
+      ),
     };
   }
 
   renderHeader = (currentIndex) => {
     const currentImage = this.state.media[currentIndex].item;
     return (
-      <View style={{justifyContent: 'center', height: 40, width: Dimensions.get('window').width, backgroundColor: 'rgba(135,105,255,0.4)'}}>
-        <Text style={{color: 'white', alignSelf: 'center', fontSize: 15}}>{currentImage.fileName}</Text>
+      <View style={styles.header}>
+        <Text style={{ color: 'white', alignSelf: 'center', fontSize: 15 }}>
+          {currentImage.fileName}
+        </Text>
       </View>
     );
   };
@@ -85,38 +107,44 @@ export default class MediaFileSingleViewer extends Component {
   renderFooter = (currentIndex) => {
     const image = this.state.media[currentIndex];
     return (
-      <View style={{width: wp(100)}}>
-        <View
-          style={{
-            alignSelf: 'center',
-            flexDirection: 'row',
-            width: wp(70),
-            justifyContent: 'space-around',
-            borderRadius: 5,
-            //alignContent: 'space-around',
-            backgroundColor: 'rgba(135,105,255,0.15)',
-            marginBottom: 40,
-          }}>
-          <TouchableScale>
-            <MaterialCommunityIcons name="delete" color={iconColor} size={iconSize} />
-          </TouchableScale>
-          <TouchableScale onPress={() => this.onShare(image)}>
-            <Entypo name="share" color={iconColor} size={iconSize} />
-          </TouchableScale>
-          <TouchableScale>
-            <AntDesign name="clouddownload" color={iconColor} size={iconSize} />
-          </TouchableScale>
-        </View>
+      <View style={styles.footer}>
+        <TouchableOpacity onPress={() => {}}>
+          <MaterialCommunityIcons
+            name="delete"
+            color={GlobalStyles.whiteIconColor}
+            size={iconSize}
+          />
+        </TouchableOpacity>
+        <AnimatedPressableIcon
+          onPress={() => this.onShare(image)} //TODO
+          IconComponent={Entypo}
+          iconName="share"
+          iconColor={GlobalStyles.whiteIconColor}
+          size={largeIconSize}
+          backgroundColor={GlobalStyles.lightVioletColor}
+          isRound={true}
+        />
+        <TouchableOpacity onPress={() => {}}>
+          <AntDesign
+            name="clouddownload"
+            color={GlobalStyles.whiteIconColor}
+            size={iconSize}
+          />
+        </TouchableOpacity>
       </View>
     );
   };
 
   render() {
-    const {media, initialImageIndex} = this.state;
+    const { media, initialImageIndex } = this.state;
     return (
-      <Modal visible={this.props.visible} transparent={true} onRequestClose={this.props.onRequestClose}>
-        <ImageViewer
-          imageUrls={media}
+      <Modal
+        visible={this.props.visible}
+        transparent={true}
+        onRequestClose={this.props.onRequestClose}
+      >
+        <MediaViewer
+          mediaUrls={media}
           index={initialImageIndex}
           onSwipeDown={this.props.onRequestClose}
           renderHeader={this.renderHeader}
@@ -128,3 +156,23 @@ export default class MediaFileSingleViewer extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  footer: {
+    alignItems: 'center',
+    backgroundColor: GlobalStyles.violetBackgroundColor,
+    flexDirection: 'row',
+    height: barHeight,
+    justifyContent: 'space-between',
+    marginBottom: 0,
+    paddingLeft: hp(1),
+    paddingRight: hp(1),
+    width: wp(100),
+  },
+  header: {
+    backgroundColor: GlobalStyles.violetColor,
+    height: hp(5),
+    justifyContent: 'center',
+    width: wp(100),
+  },
+});

@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {FlatList, View, StyleSheet, RefreshControl} from 'react-native';
+import React, { Component } from 'react';
+import { FlatList, View, StyleSheet, RefreshControl } from 'react-native';
 import AuthService from '../../../helpers/AuthService';
 import AjaxRequest from '../../../helpers/AjaxRequest';
 import VideoStreamingPlayer from './VideoStreamingPlayer';
 import messaging from '@react-native-firebase/messaging';
 import Globals from '../../../globals/Globals';
-import {LoadingActivityIndicator} from '../../../components';
+import { LoadingActivityIndicator } from '../../../components';
 
 export default class LiveStreaming extends Component {
   // constructor(props) {
@@ -160,34 +160,41 @@ export default class LiveStreaming extends Component {
   }
 
   updateVideoPlayers = (serviceStatusContainers) => {
-    let players = [];
+    const videoSources = [];
     serviceStatusContainers.forEach((serviceStatusContainer) => {
-      let videoSourceId = serviceStatusContainer.videoSource.id;
-      players.push({
+      const videoSourceId = serviceStatusContainer.videoSource.id;
+      videoSources.push({
         id: videoSourceId,
         name: serviceStatusContainer.videoSource.cameraName,
         servicesStatus: serviceStatusContainer.servicesStatus,
-        thumbSrc: AuthService.buildFetchUrl(Globals.Endpoints.Streaming.THUMBNAIL(videoSourceId)),
-        src: {
-          uri: AuthService.buildFetchUrl(Globals.Endpoints.Streaming.HLS_PLAYLIST(videoSourceId)),
-          headers: AuthService.getAuthorizationHeader(),
-        },
+        thumbUri: AuthService.buildFetchUrl(
+          Globals.Endpoints.Streaming.THUMBNAIL(videoSourceId)
+        ),
+        uri: AuthService.buildFetchUrl(
+          Globals.Endpoints.Streaming.HLS_PLAYLIST(videoSourceId)
+        ),
+        headers: AuthService.getAuthorizationHeader(),
       });
     });
 
     this.setState({
-      players: players,
+      videoSources,
     });
   };
 
   initFirebaseListener() {
-    this.firebaseMessageListener = messaging().onMessage(async (remoteMessage) => {
-      if (remoteMessage.data.applicationStatus) {
-        const applicationStatus = JSON.parse(remoteMessage.data.applicationStatus);
-        const serviceStatusContainers = applicationStatus.serviceStatusContainers;
-        this.updateVideoPlayers(serviceStatusContainers);
+    this.firebaseMessageListener = messaging().onMessage(
+      async (remoteMessage) => {
+        if (remoteMessage.data.applicationStatus) {
+          const applicationStatus = JSON.parse(
+            remoteMessage.data.applicationStatus
+          );
+          const serviceStatusContainers =
+            applicationStatus.serviceStatusContainers;
+          this.updateVideoPlayers(serviceStatusContainers);
+        }
       }
-    });
+    );
   }
 
   fetchVideoPlayers = () => {
@@ -212,17 +219,24 @@ export default class LiveStreaming extends Component {
   }
 
   render() {
-    const {loading} = this.state;
+    const { loading, videoSources } = this.state;
     return (
       <View style={styles.container}>
         {loading ? (
           <LoadingActivityIndicator />
         ) : (
           <FlatList
-            data={this.state.players}
-            renderItem={({item}) => <VideoStreamingPlayer player={item} />}
+            data={videoSources}
+            renderItem={({ item }) => (
+              <VideoStreamingPlayer videoSource={item} />
+            )}
             keyExtractor={(item) => item.id.toString()}
-            refreshControl={<RefreshControl refreshing={loading} onRefresh={this.fetchVideoPlayers} />}
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                onRefresh={this.fetchVideoPlayers}
+              />
+            }
           />
         )}
       </View>

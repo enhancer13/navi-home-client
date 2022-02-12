@@ -85,6 +85,8 @@ target 'OrionMobileClient' do
 
   pod 'RNRootViewBackground', :path => '../node_modules/react-native-root-view-background'
 
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
   target 'OrionMobileClientTests' do
     inherit! :complete
     # Pods for testing

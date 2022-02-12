@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {Animated, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../globals/GlobalStyles';
 import DefaultSearchBar from './SearchBar';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ActionsBar from './ActionsBar';
 
 export default class Header extends Component {
@@ -81,7 +81,7 @@ export default class Header extends Component {
       onRevert,
       databaseMethods,
     } = this.props;
-    const {searchMode, searchBarScale, searchValue} = this.state;
+    const { searchMode, searchBarScale, searchValue } = this.state;
     return (
       <View style={styles.container}>
         {backButton ? (
@@ -92,14 +92,27 @@ export default class Header extends Component {
         <View style={styles.columnContainer}>
           <View style={styles.rowContainer}>
             {/* eslint-disable-next-line react-native/no-inline-styles */}
-            <View style={{flexGrow: 1}}>
+            <View style={{ flexGrow: 1 }}>
               {searchMode ? (
-                <Animated.View style={{transform: [{scaleX: searchBarScale}]}}>
-                  <DefaultSearchBar onChangeText={this.onSearch} onClear={this.onSearch} searchValue={searchValue} />
+                <Animated.View
+                  style={{ transform: [{ scaleX: searchBarScale }] }}
+                >
+                  <DefaultSearchBar
+                    onChangeText={this.onSearch}
+                    onClear={this.onSearch}
+                    searchValue={searchValue}
+                  />
                 </Animated.View>
               ) : (
                 <View>
-                  <Animated.Text style={[styles.titleText, {opacity: this.state.titleTextOpacity}]}>{title}</Animated.Text>
+                  <Animated.Text
+                    style={[
+                      styles.titleText,
+                      { opacity: this.state.titleTextOpacity },
+                    ]}
+                  >
+                    {title}
+                  </Animated.Text>
                 </View>
               )}
             </View>
@@ -111,8 +124,13 @@ export default class Header extends Component {
                   } else {
                     this.searchBarOpenAnimation();
                   }
-                }}>
-                <Ionicon name={searchMode ? 'close-outline' : 'search-outline'} color={'white'} size={30} />
+                }}
+              >
+                <Ionicon
+                  name={searchMode ? 'close-outline' : 'search-outline'}
+                  color={'white'}
+                  size={30}
+                />
               </TouchableScale>
             ) : null}
           </View>
@@ -127,7 +145,7 @@ export default class Header extends Component {
                 onDeselectAll={onDeselectAll}
                 onClose={onStopSelectionMode}
                 style={styles.actionsBar}
-                allowedActions={{...databaseMethods, select: true}}
+                allowedActions={{ ...databaseMethods, select: true }}
               />
             ) : (
               <Text style={styles.subTitleText}>{subTitle}</Text>

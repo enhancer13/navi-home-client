@@ -1,11 +1,11 @@
-import {Animated, Pressable, StyleSheet} from 'react-native';
-import React, {Component} from 'react';
+import { Animated, Pressable, StyleSheet } from 'react-native';
+import React, { Component } from 'react';
 import CheckBox from '@react-native-community/checkbox';
-import {GlobalStyles} from '../../globals/GlobalStyles';
-import {ScaleAnimation} from '../../animations';
+import { GlobalStyles } from '../../globals/GlobalStyles';
+import { ScaleAnimation } from '../../animations';
 import PropTypes from 'prop-types';
 import Entity from './Entity';
-import {StatusLabel} from './controls/StatusLabel';
+import { StatusLabel } from './controls/StatusLabel';
 
 const itemMargin = 1;
 const itemPadding = 3;
@@ -14,7 +14,7 @@ export default class SelectableItem extends Component {
   scaleAnimation = new ScaleAnimation();
 
   onEntityLongPress = () => {
-    const {selectionMode, onEntityPress, onEntityLongPress} = this.props;
+    const { selectionMode, onEntityPress, onEntityLongPress } = this.props;
     if (selectionMode) {
       return;
     }
@@ -23,7 +23,15 @@ export default class SelectableItem extends Component {
   };
 
   render() {
-    const {selectionMode, ItemComponent, width, entity, entityData, onRefresh, onEntityPress} = this.props;
+    const {
+      selectionMode,
+      ItemComponent,
+      width,
+      entity,
+      entityData,
+      onRefresh,
+      onEntityPress,
+    } = this.props;
     return (
       <Pressable
         onPress={onEntityPress}
@@ -34,19 +42,34 @@ export default class SelectableItem extends Component {
           this.scaleAnimation.startScaleOutAnimation();
         }}
         onLongPress={this.onEntityLongPress}
-        style={[{width: width - 2 * itemMargin}, styles.container, entity.selected ? styles.selected : null]}>
+        style={[
+          { width: width - 2 * itemMargin },
+          styles.container,
+          entity.selected ? styles.selected : null,
+        ]}
+      >
         {selectionMode ? (
           <CheckBox
             style={styles.selectionCheckBox}
             disabled={false}
             value={entity.isSelected()}
             onValueChange={onEntityPress}
-            tintColors={{true: GlobalStyles.violetIconColor, false: GlobalStyles.transparentIconColor}}
+            tintColors={{
+              true: GlobalStyles.violetIconColor,
+              false: GlobalStyles.transparentIconColor,
+            }}
           />
         ) : null}
         <StatusLabel style={styles.statusLabel} status={entity.getStatus()} />
-        <Animated.View style={[styles.itemContainer, this.scaleAnimation.getStyle()]}>
-          <ItemComponent item={entity.getItem()} width={width - 2 * (itemMargin + itemPadding)} entityData={entityData} onRefresh={onRefresh} />
+        <Animated.View
+          style={[styles.itemContainer, this.scaleAnimation.getStyle()]}
+        >
+          <ItemComponent
+            item={entity.getItem()}
+            width={width - 2 * (itemMargin + itemPadding)}
+            entityData={entityData}
+            onRefresh={onRefresh}
+          />
         </Animated.View>
       </Pressable>
     );

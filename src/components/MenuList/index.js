@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {Icon, ListItem} from 'react-native-elements';
+import React, { Component } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { Icon, ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../globals/GlobalStyles';
 import Storage from '../../helpers/Storage';
 
 export default class MenuList extends Component {
@@ -22,12 +22,12 @@ export default class MenuList extends Component {
     if (item.stateProperty) {
       const stateProperty = item.stateProperty;
       const value = !this.state[item.stateProperty];
-      await this.setState({[item.stateProperty]: value});
+      await this.setState({ [item.stateProperty]: value });
       await Storage.setBooleanItem(stateProperty, value);
     }
   };
 
-  renderItem = ({item}) => (
+  renderItem = ({ item }) => (
     <ListItem
       Component={TouchableScale}
       friction={90}
@@ -35,14 +35,20 @@ export default class MenuList extends Component {
       activeScale={0.95}
       containerStyle={styles.listItemContainer}
       bottomDivider
-      onPress={() => this.listItemOnPress(item)}>
-      <Icon name={item.icon.name} type={item.icon.type} color={GlobalStyles.violetIconColor} />
+      onPress={() => this.listItemOnPress(item)}
+    >
+      <Icon
+        name={item.icon.name}
+        type={item.icon.type}
+        color={GlobalStyles.violetIconColor}
+      />
       <ListItem.Content>
         <ListItem.Title
           style={{
             color: GlobalStyles.blackTextColor,
             fontSize: GlobalStyles.defaultFontSize,
-          }}>
+          }}
+        >
           {item.name}
         </ListItem.Title>
       </ListItem.Content>
@@ -62,7 +68,9 @@ export default class MenuList extends Component {
     this.props.items
       .filter((item) => item.stateProperty)
       .forEach((item) => {
-        Storage.getBooleanItem(item.stateProperty).then((value) => this.setState({[item.stateProperty]: value}));
+        Storage.getBooleanItem(item.stateProperty).then((value) =>
+          this.setState({ [item.stateProperty]: value })
+        );
       });
   }
 

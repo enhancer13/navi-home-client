@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Globals from '../globals/Globals';
 import Defaults from '../defaults/Defaults';
 
@@ -37,7 +37,9 @@ export default class Storage {
     try {
       await AsyncStorage.setItem(name, value);
     } catch (e) {
-      console.warn(`Unable to save text item: ${name}, ${value} in AsyncStorage`);
+      console.warn(
+        `Unable to save text item: ${name}, ${value} in AsyncStorage`
+      );
     }
   };
 

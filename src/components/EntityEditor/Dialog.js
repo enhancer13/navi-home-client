@@ -3,7 +3,7 @@ import Dialog from 'react-native-dialog';
 import PropTypes from 'prop-types';
 
 function ConfirmationDialog(props) {
-  const {message, visible, onConfirm, onCancel} = props;
+  const { message, visible, onConfirm, onCancel } = props;
   const title = 'Confirm action';
   return (
     <Dialog.Container visible={visible}>
@@ -22,4 +22,4 @@ ConfirmationDialog.propTypes = {
   onCancel: PropTypes.func.isRequired,
 };
 
-export {ConfirmationDialog};
+export { ConfirmationDialog };

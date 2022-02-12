@@ -1,4 +1,4 @@
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const GlobalStyles = {
   //Predefined UI Elements color scheme with complex colors - DefaultTextInput
@@ -24,8 +24,10 @@ const GlobalStyles = {
   lightBackgroundColor: '#f1f1f1',
   orangeBackgroundColor: '#f8c64e',
   blueBackgroundColor: '#a1cbff',
+  blackBackgroundColor: 'black',
   greyBackgroundColor: 'grey',
   lightGreyBackgroundColor: '#abacc3',
+  transparentBackgroundColor: 'transparent',
 
   //Icon Colors
   whiteIconColor: 'white',
@@ -41,4 +43,4 @@ const GlobalStyles = {
   lightGreyColor: '#abacc3',
 };
 
-export {GlobalStyles};
+export { GlobalStyles };

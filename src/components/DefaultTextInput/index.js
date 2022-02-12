@@ -1,11 +1,11 @@
-import {StyleSheet, TextInput} from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import React from 'react';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../globals/GlobalStyles';
 import PropTypes from 'prop-types';
 
 const DefaultTextInput = (props) => {
   let placeholderTextColor, textColor;
-  const {colorScheme, style} = props;
+  const { colorScheme, style } = props;
   switch (colorScheme) {
     case GlobalStyles.colorScheme.VIOLET:
       textColor = GlobalStyles.violetTextColor;
@@ -23,7 +23,13 @@ const DefaultTextInput = (props) => {
     color: textColor,
     ...style,
   };
-  return <TextInput {...props} style={textInputStyle} placeholderTextColor={placeholderTextColor} />;
+  return (
+    <TextInput
+      {...props}
+      style={textInputStyle}
+      placeholderTextColor={placeholderTextColor}
+    />
+  );
 };
 
 DefaultTextInput.propTypes = {

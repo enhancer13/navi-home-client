@@ -1,9 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import LoginForm from './LoginForm';
-import {Animated, StyleSheet} from 'react-native';
-import {DefaultNavigationBar} from '../../components';
+import { Animated, StyleSheet } from 'react-native';
+import { DefaultNavigationBar } from '../../components';
 import DefaultSafeAreaView from '../../components/DefaultSafeAreaView';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const backgroundIcons = [
   {
@@ -147,12 +150,15 @@ export default class Login extends Component {
   };
 
   componentDidMount() {
-    this._onFocusUnsubscribe = this.props.navigation.addListener('focus', () => {
-      if (!this.state.initialized) {
-        this.loadingAnimation();
-        this.setState({initialized: true});
+    this._onFocusUnsubscribe = this.props.navigation.addListener(
+      'focus',
+      () => {
+        if (!this.state.initialized) {
+          this.loadingAnimation();
+          this.setState({ initialized: true });
+        }
       }
-    });
+    );
   }
 
   componentWillUnmount() {
@@ -164,7 +170,15 @@ export default class Login extends Component {
       <DefaultSafeAreaView>
         <DefaultNavigationBar />
         {this.animatedImages}
-        <Animated.View style={[styles.formContainer, {opacity: this.loginFormAnimationValue, transform: [{scale: this.loginFormAnimationValue}]}]}>
+        <Animated.View
+          style={[
+            styles.formContainer,
+            {
+              opacity: this.loginFormAnimationValue,
+              transform: [{ scale: this.loginFormAnimationValue }],
+            },
+          ]}
+        >
           <LoginForm
             ref={(form) => {
               this.form = form;

@@ -1,4 +1,4 @@
-import {Animated} from 'react-native';
+import { Animated } from 'react-native';
 
 class ScaleAnimation {
   #animated;
@@ -13,7 +13,7 @@ class ScaleAnimation {
       outputRange: [startSize, endSize],
     });
     return {
-      transform: [{scale: interpolation}],
+      transform: [{ scale: interpolation }],
     };
   }
 
@@ -67,7 +67,7 @@ class SlideAnimation {
   }
 
   getStyle() {
-    return {transform: [{translateY: this.#animated}]};
+    return { transform: [{ translateY: this.#animated }] };
   }
 
   startAnimation(toValue, duration = 800) {
@@ -83,4 +83,4 @@ class SlideAnimation {
   }
 }
 
-export {ScaleAnimation, SlideAnimation, FadeAnimation};
+export { ScaleAnimation, SlideAnimation, FadeAnimation };

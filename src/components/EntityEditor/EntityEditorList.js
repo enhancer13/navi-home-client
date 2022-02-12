@@ -1,19 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Pagination from '../../helpers/Pagination';
-import {Animated, StyleSheet, View} from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 import SelectableArea from './SelectableArea';
 import entityEditorData from './EntityEditorData';
 import PropTypes from 'prop-types';
-import {isTablet} from 'react-native-device-info';
+import { isTablet } from 'react-native-device-info';
 import AjaxRequest from '../../helpers/AjaxRequest';
-import {FAB} from 'react-native-elements';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import { FAB } from 'react-native-elements';
+import { GlobalStyles } from '../../globals/GlobalStyles';
 import EntityEditor from './EntityEditor';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {ScaleAnimation, SlideAnimation} from '../../animations';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { ScaleAnimation, SlideAnimation } from '../../animations';
 import Entity from './Entity';
-import {showSuccess, showError} from '../ApplicationMessaging/Popups';
-import {ConfirmationDialog} from './Dialog';
+import { showSuccess, showError } from '../ApplicationMessaging/Popups';
+import { ConfirmationDialog } from './Dialog';
 import messaging from '@react-native-firebase/messaging';
 
 export default class EntityEditorList extends Component {
@@ -52,11 +52,17 @@ export default class EntityEditorList extends Component {
       editorActive: true,
       currentEntity: entity,
     });
-    Animated.parallel([this.scaleAnimation.getAnimation(1, 400), this.slideAnimation.getAnimation(0, 400)]).start();
+    Animated.parallel([
+      this.scaleAnimation.getAnimation(1, 400),
+      this.slideAnimation.getAnimation(0, 400),
+    ]).start();
   };
 
   closeEditor = (entity) => {
-    Animated.parallel([this.scaleAnimation.getAnimation(0, 400), this.slideAnimation.getAnimation(hp(100), 400)]).start(() => {
+    Animated.parallel([
+      this.scaleAnimation.getAnimation(0, 400),
+      this.slideAnimation.getAnimation(hp(100), 400),
+    ]).start(() => {
       this.setState((prevState) => {
         const entities = [...prevState.entities];
         const index = entities.findIndex((item) => entity.equals(item));
@@ -99,9 +105,13 @@ export default class EntityEditorList extends Component {
     //do not override the new entities
     const currentEntities = [...this.state.entities];
     const newEntities = currentEntities.filter((entity) => entity.isNew());
-    const modifiedEntities = currentEntities.filter((entity) => entity.isModified());
+    const modifiedEntities = currentEntities.filter((entity) =>
+      entity.isModified()
+    );
 
-    const loadedEntities = response.data.map((item) => new Entity(item)).concat(newEntities);
+    const loadedEntities = response.data
+      .map((item) => new Entity(item))
+      .concat(newEntities);
     if (currentPage === 1 && modifiedEntities.length > 0) {
       modifiedEntities.forEach((modifiedEntity) => {
         const entity = loadedEntities.find((e) => e.equals(modifiedEntity));
@@ -113,7 +123,10 @@ export default class EntityEditorList extends Component {
       });
     }
 
-    const entities = currentPage === 1 ? loadedEntities : currentEntities.concat(loadedEntities);
+    const entities =
+      currentPage === 1
+        ? loadedEntities
+        : currentEntities.concat(loadedEntities);
     this.sortEntities(entities);
     this.setState({
       entities,
@@ -136,7 +149,9 @@ export default class EntityEditorList extends Component {
   };
 
   onCopy = (selectedEntities) => {
-    const copiedEntities = selectedEntities.map((entity) => Entity.Copy(entity, this.entityData));
+    const copiedEntities = selectedEntities.map((entity) =>
+      Entity.Copy(entity, this.entityData)
+    );
     this.setState((prevState) => {
       const entities = [...prevState.entities].concat(copiedEntities);
       return {
@@ -149,8 +164,13 @@ export default class EntityEditorList extends Component {
   onRevert = (selectedEntities) => {
     this.setState((prevState) => {
       let entities = [...prevState.entities];
-      entities.filter((entity) => selectedEntities.some((e) => e.equals(entity))).forEach((entity) => entity.revertChanges());
-      entities = entities.filter((entity) => !(entity.isNew() && selectedEntities.some((e) => e.equals(entity))));
+      entities
+        .filter((entity) => selectedEntities.some((e) => e.equals(entity)))
+        .forEach((entity) => entity.revertChanges());
+      entities = entities.filter(
+        (entity) =>
+          !(entity.isNew() && selectedEntities.some((e) => e.equals(entity)))
+      );
       return {
         entities,
       };
@@ -158,21 +178,29 @@ export default class EntityEditorList extends Component {
   };
 
   onSave = async (selectedEntities) => {
-    const {databaseMethods, controllerUrl} = this.entityData;
+    const { databaseMethods, controllerUrl } = this.entityData;
     try {
       const newEntities = selectedEntities.filter((entity) => entity.isNew());
       let requestItems = newEntities.map((entity) => entity.getRequestItem());
       if (databaseMethods.create && requestItems.length > 0) {
-        const response = await AjaxRequest.post(controllerUrl, JSON.stringify(requestItems));
+        const response = await AjaxRequest.post(
+          controllerUrl,
+          JSON.stringify(requestItems)
+        );
         this.removeEntitiesFromState(newEntities);
         this.addEntitiesToState(response.data.map((item) => new Entity(item)));
         showSuccess(`Successfully created ${newEntities.length} item(s).`);
       }
 
-      const modifiedEntities = selectedEntities.filter((entity) => entity.isModified());
+      const modifiedEntities = selectedEntities.filter((entity) =>
+        entity.isModified()
+      );
       requestItems = modifiedEntities.map((entity) => entity.getRequestItem());
       if (databaseMethods.update && requestItems.length > 0) {
-        const response = await AjaxRequest.put(controllerUrl, JSON.stringify(requestItems));
+        const response = await AjaxRequest.put(
+          controllerUrl,
+          JSON.stringify(requestItems)
+        );
         this.removeEntitiesFromState(modifiedEntities);
         this.addEntitiesToState(response.data.map((item) => new Entity(item)));
         showSuccess(`Successfully updated ${modifiedEntities.length} item(s).`);
@@ -183,8 +211,10 @@ export default class EntityEditorList extends Component {
   };
 
   onDeleteRequest = (selectedEntities) => {
-    const {sortFieldName} = this.paginationDetails;
-    const entityNames = selectedEntities.map((entity) => entity.getFieldValue(sortFieldName)).join(', ');
+    const { sortFieldName } = this.paginationDetails;
+    const entityNames = selectedEntities
+      .map((entity) => entity.getFieldValue(sortFieldName))
+      .join(', ');
     const message = `Do you want to delete ${entityNames}? You cannot undo this action.`;
     this.showDialog(message, () => this.onDelete(selectedEntities));
   };
@@ -194,9 +224,13 @@ export default class EntityEditorList extends Component {
     const newEntities = selectedEntities.filter((entity) => entity.isNew());
     this.removeEntitiesFromState(newEntities);
 
-    const {databaseMethods, controllerUrl} = this.entityData;
-    const entitiesToDelete = selectedEntities.filter((entity) => !entity.isNew());
-    const requestItems = entitiesToDelete.map((entity) => entity.getRequestItem());
+    const { databaseMethods, controllerUrl } = this.entityData;
+    const entitiesToDelete = selectedEntities.filter(
+      (entity) => !entity.isNew()
+    );
+    const requestItems = entitiesToDelete.map((entity) =>
+      entity.getRequestItem()
+    );
     try {
       if (databaseMethods.delete && requestItems.length > 0) {
         await AjaxRequest.delete(controllerUrl, JSON.stringify(requestItems));
@@ -209,11 +243,11 @@ export default class EntityEditorList extends Component {
   };
 
   onEntityPress = (entity) => {
-    const {onEntityPress} = this.props;
+    const { onEntityPress } = this.props;
     if (onEntityPress) {
       onEntityPress(
         entity.getItem(),
-        this.state.entities.map((e) => e.getItem()),
+        this.state.entities.map((e) => e.getItem())
       );
     } else {
       this.openEditor(entity);
@@ -222,7 +256,9 @@ export default class EntityEditorList extends Component {
 
   removeEntitiesFromState = (entitiesToDelete) => {
     this.setState((prevState) => {
-      const entities = [...prevState.entities].filter((entity) => !entitiesToDelete.some((e) => e.equals(entity)));
+      const entities = [...prevState.entities].filter(
+        (entity) => !entitiesToDelete.some((e) => e.equals(entity))
+      );
       return {
         entities,
         currentEntity: null,
@@ -243,42 +279,57 @@ export default class EntityEditorList extends Component {
 
   sortEntities = (entities) => {
     //for now descending by default TODO
-    const {sortFieldName} = this.paginationDetails;
-    entities.sort((a, b) => a.getFieldValue(sortFieldName).localeCompare(b.getFieldValue(sortFieldName))).reverse();
+    const { sortFieldName } = this.paginationDetails;
+    entities
+      .sort((a, b) =>
+        a
+          .getFieldValue(sortFieldName)
+          .localeCompare(b.getFieldValue(sortFieldName))
+      )
+      .reverse();
   };
 
   onSearch = (searchValue) => {
-    this.pagination.fetchPage(this.processServerResponse, searchValue).then(() => {
-      this.setState({
-        activeSearchValue: searchValue,
+    this.pagination
+      .fetchPage(this.processServerResponse, searchValue)
+      .then(() => {
+        this.setState({
+          activeSearchValue: searchValue,
+        });
       });
-    });
   };
 
   onRefresh = async () => {
-    await this.pagination.fetchPage(this.processServerResponse, this.state.activeSearchValue);
+    await this.pagination.fetchPage(
+      this.processServerResponse,
+      this.state.activeSearchValue
+    );
   };
 
   initFirebaseListener() {
-    this.firebaseMessageListener = messaging().onMessage(async (remoteMessage) => {
-      const {entityName} = this.props;
-      if (remoteMessage.data.entityEditor) {
-        const entityEditorEvent = JSON.parse(remoteMessage.data.entityEditor);
-        if (entityEditorEvent.entityName !== entityName.toLowerCase()) {
-          return;
+    this.firebaseMessageListener = messaging().onMessage(
+      async (remoteMessage) => {
+        const { entityName } = this.props;
+        if (remoteMessage.data.entityEditor) {
+          const entityEditorEvent = JSON.parse(remoteMessage.data.entityEditor);
+          if (entityEditorEvent.entityName !== entityName.toLowerCase()) {
+            return;
+          }
+          await this.onRefresh();
         }
-        await this.onRefresh();
       }
-    });
+    );
   }
 
   async componentDidMount() {
     await this.entityEditorData.Initialize();
-    const {entityName, parentEntityName, parentEntity} = this.props;
-    this.paginationDetails = this.entityEditorData.GetPaginationData(entityName);
+    const { entityName, parentEntityName, parentEntity } = this.props;
+    this.paginationDetails =
+      this.entityEditorData.GetPaginationData(entityName);
 
     if (parentEntityName) {
-      const parentPrimarySearchField = this.entityEditorData.GetPrimarySearchField(parentEntityName);
+      const parentPrimarySearchField =
+        this.entityEditorData.GetPrimarySearchField(parentEntityName);
       this.paginationDetails.extraSearchCondition = `&${parentPrimarySearchField}=${parentEntity[parentPrimarySearchField]}`;
     }
     this.entityData = this.entityEditorData.GetEntityData(entityName);
@@ -292,12 +343,32 @@ export default class EntityEditorList extends Component {
   }
 
   render() {
-    const {editorDetails, loading, entities, activeSearchValue, editorActive, currentEntity, dialog} = this.state;
-    const {ItemComponent, navigation, numColumns = isTablet() ? 2 : 1, title, backButton = true, enableSearch = true} = this.props;
+    const {
+      editorDetails,
+      loading,
+      entities,
+      activeSearchValue,
+      editorActive,
+      currentEntity,
+      dialog,
+    } = this.state;
+    const {
+      ItemComponent,
+      navigation,
+      numColumns = isTablet() ? 2 : 1,
+      title,
+      backButton = true,
+      enableSearch = true,
+    } = this.props;
     return (
       <View style={styles.container}>
         {editorActive && (
-          <Animated.View style={[styles.entityEditorContainer, this.slideAnimation.getStyle()]}>
+          <Animated.View
+            style={[
+              styles.entityEditorContainer,
+              this.slideAnimation.getStyle(),
+            ]}
+          >
             <EntityEditor
               title={title + ' Editor'}
               entity={currentEntity}
@@ -310,7 +381,12 @@ export default class EntityEditorList extends Component {
             />
           </Animated.View>
         )}
-        <Animated.View style={[styles.selectableAreaContainer, this.scaleAnimation.getStyle(1, 0)]}>
+        <Animated.View
+          style={[
+            styles.selectableAreaContainer,
+            this.scaleAnimation.getStyle(1, 0),
+          ]}
+        >
           <SelectableArea
             navigation={navigation}
             ItemComponent={ItemComponent}
@@ -330,12 +406,28 @@ export default class EntityEditorList extends Component {
             onSearch={this.onSearch}
             onSearchClear={this.onSearch}
             onRefresh={this.onRefresh}
-            onEndReached={() => this.pagination.fetchNextPage(this.processServerResponse, activeSearchValue)}
+            onEndReached={() =>
+              this.pagination.fetchNextPage(
+                this.processServerResponse,
+                activeSearchValue
+              )
+            }
           />
           {this.entityData.databaseMethods.create && (
-            <FAB onPress={this.onCreate} title="Create" placement="right" loading={loading} color={GlobalStyles.lightVioletColor} />
+            <FAB
+              onPress={this.onCreate}
+              title="Create"
+              placement="right"
+              loading={loading}
+              color={GlobalStyles.lightVioletColor}
+            />
           )}
-          <ConfirmationDialog message={dialog.message} visible={dialog.isActive} onConfirm={dialog.onConfirm} onCancel={this.closeDialog} />
+          <ConfirmationDialog
+            message={dialog.message}
+            visible={dialog.isActive}
+            onConfirm={dialog.onConfirm}
+            onCancel={this.closeDialog}
+          />
         </Animated.View>
       </View>
     );
