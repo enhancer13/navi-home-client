@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import DefaultText from '../../DefaultText';
 import PropTypes from 'prop-types';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {GlobalStyles} from '../../../globals/GlobalStyles';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { GlobalStyles } from '../../../globals/GlobalStyles';
 
 function CategoryDivider(props) {
   return (

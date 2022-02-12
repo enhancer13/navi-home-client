@@ -1,5 +1,4 @@
 {
-  "parser": "babel-eslint",
   "plugins": [
     "react",
     "react-native"
@@ -16,6 +15,14 @@
   },
   "extends": "@react-native-community",
   "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "singleQuote": true,
+        "semi": true
+      }
+    ],
+    "quotes": [2, "single", { "avoidEscape": true }],
     "react-native/no-unused-styles": 2,
     "react-native/split-platform-components": 2,
     "react-native/no-inline-styles": 2,
@@ -29,7 +36,7 @@
         "ignoreStyleProperties": false
       }
     ],
-    "react/prop-types": "off",
+    "react/prop-types": "off"
   }
 }
 

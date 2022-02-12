@@ -1,3 +1,3 @@
 import EntityEditorList from './EntityEditorList';
 
-export {EntityEditorList};
+export { EntityEditorList };

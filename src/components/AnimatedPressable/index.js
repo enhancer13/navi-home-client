@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Animated, Pressable, StyleSheet} from 'react-native';
-import {ScaleAnimation} from '../../animations';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import React, { Component } from 'react';
+import { Animated, Pressable, StyleSheet } from 'react-native';
+import { ScaleAnimation } from '../../animations';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default class AnimatedPressable extends Component {
   scaleInAnimated = new ScaleAnimation();
@@ -17,8 +17,13 @@ export default class AnimatedPressable extends Component {
           this.scaleInAnimated.startScaleOutAnimation();
         }}
         onLongPress={this.props.onItemLongPress}
-        style={this.props.containerStyle}>
-        <Animated.View style={[this.scaleInAnimated.getStyle(), styles.animatedContainer]}>{this.props.children}</Animated.View>
+        style={this.props.containerStyle}
+      >
+        <Animated.View
+          style={[this.scaleInAnimated.getStyle(), styles.animatedContainer]}
+        >
+          {this.props.children}
+        </Animated.View>
       </Pressable>
     );
   }

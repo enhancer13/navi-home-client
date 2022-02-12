@@ -1,11 +1,11 @@
-import {StyleSheet, View} from 'react-native';
-import React, {Component} from 'react';
+import { StyleSheet, View } from 'react-native';
+import React, { Component } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import PropTypes from 'prop-types';
 import LabeledInput from './LabeledInput';
 import Moment from 'moment';
 import Globals from '../../../globals/Globals';
-import {Status} from './StatusLabel';
+import { Status } from './StatusLabel';
 
 const pickerModes = Object.freeze({
   TIME: 'TIME',
@@ -29,7 +29,7 @@ export default class LabeledDateTimePicker extends Component {
     if (selectedValue) {
       const momentValue = Moment(selectedValue);
       if (!momentValue.isSame(this.state.momentValue)) {
-        const {mode, onChange} = this.props;
+        const { mode, onChange } = this.props;
         onChange(momentValue.format(Globals.Formats[mode]));
       }
     }
@@ -44,7 +44,10 @@ export default class LabeledDateTimePicker extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.value !== null) {
-      const momentValue = Moment(nextProps.value, Globals.Formats[nextProps.mode]);
+      const momentValue = Moment(
+        nextProps.value,
+        Globals.Formats[nextProps.mode]
+      );
       if (momentValue !== prevState.momentValue) {
         return {
           momentValue,
@@ -57,14 +60,18 @@ export default class LabeledDateTimePicker extends Component {
   }
 
   render() {
-    const {label, mode, fieldStatus, editable} = this.props;
-    const {momentValue, pickerMode, showPicker} = this.state;
+    const { label, mode, fieldStatus, editable } = this.props;
+    const { momentValue, pickerMode, showPicker } = this.state;
     return (
       <View style={styles.rowContainer}>
         {(mode === pickerModes.DATE || mode === pickerModes.DATETIME) && (
           <LabeledInput
             label={label}
-            value={momentValue ? momentValue.format(Globals.Formats[pickerModes.DATE]) : ''}
+            value={
+              momentValue
+                ? momentValue.format(Globals.Formats[pickerModes.DATE])
+                : ''
+            }
             fieldStatus={fieldStatus}
             keyboardType={'default'}
             editable={false}
@@ -79,8 +86,14 @@ export default class LabeledDateTimePicker extends Component {
         {(mode === pickerModes.TIME || mode === pickerModes.DATETIME) && (
           <LabeledInput
             label={mode === pickerModes.DATETIME ? '' : label}
-            value={momentValue ? momentValue.format(Globals.Formats[pickerModes.TIME]) : ''}
-            fieldStatus={mode === pickerModes.DATETIME ? Status.UNMODIFIED : fieldStatus}
+            value={
+              momentValue
+                ? momentValue.format(Globals.Formats[pickerModes.TIME])
+                : ''
+            }
+            fieldStatus={
+              mode === pickerModes.DATETIME ? Status.UNMODIFIED : fieldStatus
+            }
             keyboardType={'default'}
             editable={false}
             iconName={'time-outline'}

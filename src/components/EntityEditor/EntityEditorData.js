@@ -13,24 +13,35 @@ class EntityEditorData {
 
   async Initialize() {
     if (!this.#entitiesMap) {
-      const response = await AjaxRequest.get(Globals.Endpoints.ENTITY_EDITOR_DATA);
-      this.#entitiesMap = new Map(response.map((item) => [item.objectName, item]));
+      const response = await AjaxRequest.get(
+        Globals.Endpoints.ENTITY_EDITOR_DATA
+      );
+      this.#entitiesMap = new Map(
+        response.map((item) => [item.objectName, item])
+      );
     }
   }
 
   GetPaginationData(entityName) {
     const entityData = this.GetEntityData(entityName);
     const searchFieldName = this.GetPrimarySearchField(entityName);
-    return {baseUrl: entityData.controllerUrl, sortFieldName: searchFieldName, searchFieldName: searchFieldName};
+    return {
+      baseUrl: entityData.controllerUrl,
+      sortFieldName: searchFieldName,
+      searchFieldName: searchFieldName,
+    };
   }
 
   GetPrimarySearchField(entityName) {
-    return this.GetEntityData(entityName).objectFields.find((field) => field.primarySearchField).fieldName;
+    return this.GetEntityData(entityName).objectFields.find(
+      (field) => field.primarySearchField
+    ).fieldName;
   }
 
   GetEntityData(entityName) {
     const entityData = this.#entitiesMap.get(entityName);
-    entityData.controllerUrl = entityData.controllerUrls[controllerAuthorization.JWT];
+    entityData.controllerUrl =
+      entityData.controllerUrls[controllerAuthorization.JWT];
     return entityData;
   }
 }

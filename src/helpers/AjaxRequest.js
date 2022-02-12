@@ -10,17 +10,25 @@ const _ajaxRequest = async (url, method, body, extraOptions) => {
   if (body) {
     options.body = body;
   }
-  return AuthService.fetchMethod(url.match(urlRegex) ? url : AuthService.buildFetchUrl(url), options, extraOptions);
+  return AuthService.fetchMethod(
+    url.match(urlRegex) ? url : AuthService.buildFetchUrl(url),
+    options,
+    extraOptions
+  );
 };
 
 const ajaxRequest = {
-  get: (url, extraOptions) => _ajaxRequest(url, Globals.httpMethod.GET, null, extraOptions),
+  get: (url, extraOptions) =>
+    _ajaxRequest(url, Globals.httpMethod.GET, null, extraOptions),
 
-  put: (url, body, extraOptions) => _ajaxRequest(url, Globals.httpMethod.PUT, body, extraOptions),
+  put: (url, body, extraOptions) =>
+    _ajaxRequest(url, Globals.httpMethod.PUT, body, extraOptions),
 
-  post: (url, body, extraOptions) => _ajaxRequest(url, Globals.httpMethod.POST, body, extraOptions),
+  post: (url, body, extraOptions) =>
+    _ajaxRequest(url, Globals.httpMethod.POST, body, extraOptions),
 
-  delete: (url, body, extraOptions) => _ajaxRequest(url, Globals.httpMethod.DELETE, body, extraOptions),
+  delete: (url, body, extraOptions) =>
+    _ajaxRequest(url, Globals.httpMethod.DELETE, body, extraOptions),
 };
 
 export default ajaxRequest;

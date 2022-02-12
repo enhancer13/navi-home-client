@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import EntityUtils from './utils/EntityUtils';
-import {Status} from './controls/StatusLabel';
+import { Status } from './controls/StatusLabel';
 
 export default class Entity {
   static #idSequence = 0;
@@ -18,17 +18,19 @@ export default class Entity {
     };
   }
 
-  static Create({objectFields}) {
+  static Create({ objectFields }) {
     const item = EntityUtils.createDefaultItem(objectFields);
     item.id = Entity.getNextId();
     return new Entity(item);
   }
 
-  static Copy(entity, {objectFields}) {
+  static Copy(entity, { objectFields }) {
     const item = entity.getItem();
     const itemClone = cloneDeep(item);
     itemClone.id = Entity.getNextId();
-    const searchFieldName = objectFields.find((field) => field.primarySearchField).fieldName;
+    const searchFieldName = objectFields.find(
+      (field) => field.primarySearchField
+    ).fieldName;
     itemClone[searchFieldName] = `copy of "${item[searchFieldName]}"`;
     return new Entity(itemClone);
   }
@@ -81,12 +83,15 @@ export default class Entity {
       if (index === -1) {
         return;
       }
-      fieldsDeleteRequestDto.fieldNames = fieldsDeleteRequestDto.fieldNames.slice(index, 1);
+      fieldsDeleteRequestDto.fieldNames =
+        fieldsDeleteRequestDto.fieldNames.slice(index, 1);
     }
   }
 
   getFieldStatus(fieldName) {
-    return this.isFieldModified(fieldName) ? Status.MODIFIED : Status.UNMODIFIED;
+    return this.isFieldModified(fieldName)
+      ? Status.MODIFIED
+      : Status.UNMODIFIED;
   }
 
   updateWith(entity) {
@@ -103,7 +108,10 @@ export default class Entity {
     const originalItemProperty = this.#originalItem[fieldName];
     const fieldType = typeof itemProperty;
     if (fieldType === 'object' && Array.isArray(itemProperty)) {
-      return EntityUtils.isCollectionUpdated(itemProperty, originalItemProperty);
+      return EntityUtils.isCollectionUpdated(
+        itemProperty,
+        originalItemProperty
+      );
     } else if (fieldType === 'object') {
       return EntityUtils.isObjectUpdated(itemProperty, originalItemProperty);
     }

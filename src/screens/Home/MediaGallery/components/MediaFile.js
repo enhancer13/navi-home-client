@@ -1,7 +1,7 @@
 // noinspection JSSuspiciousNameCombination
 
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import AuthService from '../../../../helpers/AuthService';
 import Globals from '../../../../globals/Globals';
 import FastImage from 'react-native-fast-image';
@@ -9,10 +9,10 @@ import MediaFileTypes from './MediaFileTypes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 function MediaFile(props) {
-  const {item, width} = props;
+  const { item, width } = props;
   // noinspection JSSuspiciousNameCombination
   return (
-    <View style={[styles.itemContainer, {height: width, width: width}]}>
+    <View style={[styles.itemContainer, { height: width, width: width }]}>
       {item.fileType === MediaFileTypes.VIDEO ? (
         <View style={styles.playButton}>
           <Ionicons name={'play'} color={'white'} size={width * 0.3} />
@@ -20,7 +20,9 @@ function MediaFile(props) {
       ) : null}
       <FastImage
         source={{
-          uri: AuthService.buildFetchUrl(Globals.Endpoints.MediaGallery.MEDIA_THUMB(item)),
+          uri: AuthService.buildFetchUrl(
+            Globals.Endpoints.MediaGallery.MEDIA_THUMB(item)
+          ),
           headers: AuthService.getAuthorizationHeader(),
           priority: FastImage.priority.normal,
         }}

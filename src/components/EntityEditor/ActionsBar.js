@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {Animated, StyleSheet, View} from 'react-native';
+import React, { Component } from 'react';
+import { Animated, StyleSheet, View } from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../globals/GlobalStyles';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -39,11 +39,28 @@ export default class ActionsBar extends Component {
   }
 
   render() {
-    const {onSave, onCopy, onDelete, onSelectAll, onDeselectAll, onRevert, allowedActions, style} = this.props;
+    const {
+      onSave,
+      onCopy,
+      onDelete,
+      onSelectAll,
+      onDeselectAll,
+      onRevert,
+      allowedActions,
+      style,
+    } = this.props;
     const iconSize = style.height * 0.8;
     return (
       <Animated.View
-        style={[styles.actionsBar, style, {opacity: this.actionsBarAnimationValue, transform: [{scale: this.actionsBarAnimationValue}]}]}>
+        style={[
+          styles.actionsBar,
+          style,
+          {
+            opacity: this.actionsBarAnimationValue,
+            transform: [{ scale: this.actionsBarAnimationValue }],
+          },
+        ]}
+      >
         <View style={styles.dynamicItemsContainer}>
           {(allowedActions.create || allowedActions.update) && (
             <View style={styles.rowContainer}>
@@ -57,16 +74,34 @@ export default class ActionsBar extends Component {
           )}
           {allowedActions.delete && (
             <TouchableScale onPress={onDelete} style={styles.iconContainer}>
-              <MaterialCommunityIcons name="delete" color={iconColor} size={iconSize} />
+              <MaterialCommunityIcons
+                name="delete"
+                color={iconColor}
+                size={iconSize}
+              />
             </TouchableScale>
           )}
           {allowedActions.select && (
             <View style={styles.rowContainer}>
-              <TouchableScale onPress={onSelectAll} style={styles.iconContainer}>
-                <MaterialIcons name="check-box" color={iconColor} size={iconSize} />
+              <TouchableScale
+                onPress={onSelectAll}
+                style={styles.iconContainer}
+              >
+                <MaterialIcons
+                  name="check-box"
+                  color={iconColor}
+                  size={iconSize}
+                />
               </TouchableScale>
-              <TouchableScale onPress={onDeselectAll} style={styles.iconContainer}>
-                <MaterialIcons name="check-box-outline-blank" color={iconColor} size={iconSize} />
+              <TouchableScale
+                onPress={onDeselectAll}
+                style={styles.iconContainer}
+              >
+                <MaterialIcons
+                  name="check-box-outline-blank"
+                  color={iconColor}
+                  size={iconSize}
+                />
               </TouchableScale>
             </View>
           )}
@@ -78,7 +113,7 @@ export default class ActionsBar extends Component {
             </View>
           )}
         </View>
-        <View style={{...styles.fixedItemsContainer, width: iconSize * 1.05}}>
+        <View style={{ ...styles.fixedItemsContainer, width: iconSize * 1.05 }}>
           <TouchableScale onPress={this.closingAnimation}>
             <AntDesign name="closesquareo" color={iconColor} size={iconSize} />
           </TouchableScale>

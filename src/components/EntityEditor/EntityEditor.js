@@ -1,17 +1,17 @@
 // noinspection JSUnresolvedVariable
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Entity from './Entity';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {GlobalStyles} from '../../globals/GlobalStyles';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { GlobalStyles } from '../../globals/GlobalStyles';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ActionsBar from './ActionsBar';
 import LabeledSwitch from './controls/LabeledSwitch';
 import LabeledInput from './controls/LabeledInput';
 import LabeledDateTimePicker from './controls/LabeledDateTimePicker';
 import LabeledMultiSelectPicker from './controls/LabeledMultiSelectPicker';
 import FieldDataType from './FieldDataType';
-import {Status} from './controls/StatusLabel';
+import { Status } from './controls/StatusLabel';
 
 // noinspection JSUnresolvedVariable
 export default class EntityEditor extends Component {
@@ -22,7 +22,7 @@ export default class EntityEditor extends Component {
 
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.entity) {
-      const {entity, entityData} = nextProps;
+      const { entity, entityData } = nextProps;
       return {
         entity,
         entityData,
@@ -46,7 +46,7 @@ export default class EntityEditor extends Component {
 
   revertChanges = () => {
     this.setState((prevState) => {
-      const {entity} = prevState;
+      const { entity } = prevState;
       entity.revertChanges();
       return {
         entity,
@@ -54,19 +54,31 @@ export default class EntityEditor extends Component {
     });
   };
 
-  renderField = ({item}) => {
-    const {fieldDataType, fieldTitle, fieldName, searchPolicy, fieldEnumValues, objectName} = item;
-    const {entity, isActive} = this.state;
+  renderField = ({ item }) => {
+    const {
+      fieldDataType,
+      fieldTitle,
+      fieldName,
+      searchPolicy,
+      fieldEnumValues,
+      objectName,
+    } = item;
+    const { entity, isActive } = this.state;
     const inputEnabled = !item.inputDisabled && isActive;
     const fieldValue = entity.getFieldValue(fieldName);
-    const fieldStatus = entity.getStatus() !== Status.NEW ? entity.getFieldStatus(fieldName) : Status.UNMODIFIED;
+    const fieldStatus =
+      entity.getStatus() !== Status.NEW
+        ? entity.getFieldStatus(fieldName)
+        : Status.UNMODIFIED;
     switch (fieldDataType) {
       case FieldDataType.TEXT:
       case FieldDataType.NUMBER:
       case FieldDataType.PASSWORD:
         return (
           <LabeledInput
-            keyboardType={fieldDataType === FieldDataType.NUMBER ? 'numeric' : 'default'}
+            keyboardType={
+              fieldDataType === FieldDataType.NUMBER ? 'numeric' : 'default'
+            }
             editable={inputEnabled}
             secureTextEntry={fieldDataType === FieldDataType.PASSWORD}
             label={fieldTitle}
@@ -101,7 +113,10 @@ export default class EntityEditor extends Component {
       case FieldDataType.MULTIPLE_SELECT:
       case FieldDataType.SINGLE_SELECT:
       case FieldDataType.SELECT:
-        const paginationData = fieldDataType === FieldDataType.SELECT ? null : this.props.entityEditorData.GetPaginationData(objectName);
+        const paginationData =
+          fieldDataType === FieldDataType.SELECT
+            ? null
+            : this.props.entityEditorData.GetPaginationData(objectName);
         return (
           <LabeledMultiSelectPicker
             label={fieldTitle}
@@ -117,11 +132,13 @@ export default class EntityEditor extends Component {
           />
         );
       default:
-        throw new Error(`Not supported field data type: ${FieldDataType[fieldDataType]}`);
+        throw new Error(
+          `Not supported field data type: ${FieldDataType[fieldDataType]}`
+        );
     }
   };
 
-  buildFlatListData = ({objectFields, auditable}) => {
+  buildFlatListData = ({ objectFields, auditable }) => {
     const fields = [...objectFields];
     fields.sort((a, b) => {
       return a.rowGroup - b.rowGroup || a.fieldOrder - b.fieldOrder;
@@ -146,12 +163,16 @@ export default class EntityEditor extends Component {
   };
 
   render() {
-    const {title, onSave, onCopy, onDelete, onClose, entityData} = this.props;
-    const {entity, isActive} = this.state;
+    const { title, onSave, onCopy, onDelete, onClose, entityData } = this.props;
+    const { entity, isActive } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <Text style={[styles.titleText, {opacity: this.state.titleTextOpacity}]}>{title}</Text>
+          <Text
+            style={[styles.titleText, { opacity: this.state.titleTextOpacity }]}
+          >
+            {title}
+          </Text>
           <ActionsBar
             onSave={() => onSave([entity])}
             onCopy={() => onCopy([entity])}
@@ -159,12 +180,16 @@ export default class EntityEditor extends Component {
             onClose={() => onClose(entity)}
             onRevert={this.revertChanges}
             style={styles.actionsBar}
-            allowedActions={isActive ? {...entityData.databaseMethods} : {}}
+            allowedActions={isActive ? { ...entityData.databaseMethods } : {}}
             selectionActions={false}
           />
         </View>
         <View style={styles.flatList}>
-          <FlatList keyExtractor={(field) => field.fieldName.toString()} data={this.buildFlatListData(entityData)} renderItem={this.renderField} />
+          <FlatList
+            keyExtractor={(field) => field.fieldName.toString()}
+            data={this.buildFlatListData(entityData)}
+            renderItem={this.renderField}
+          />
         </View>
       </View>
     );

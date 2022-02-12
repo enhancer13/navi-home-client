@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
-import {ListItem} from 'react-native-elements';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { GlobalStyles } from '../../globals/GlobalStyles';
 import PropTypes from 'prop-types';
 
 export default class EntityViewContainer extends Component {
@@ -10,10 +10,10 @@ export default class EntityViewContainer extends Component {
   }
 
   render() {
-    const {width, title, leftContent, mainContent} = this.props;
+    const { width, title, leftContent, mainContent } = this.props;
     return (
-      <View style={[styles.container, {width: width}]}>
-        <ListItem containerStyle={[styles.listItemContainer, {width: width}]}>
+      <View style={[styles.container, { width: width }]}>
+        <ListItem containerStyle={[styles.listItemContainer, { width: width }]}>
           {leftContent}
           {leftContent ? <View style={styles.verticalDivider} /> : null}
           <ListItem.Content style={styles.listItemContent}>
