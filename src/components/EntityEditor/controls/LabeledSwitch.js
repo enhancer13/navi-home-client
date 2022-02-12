@@ -1,12 +1,12 @@
-import {StyleSheet, Switch, Text, View} from 'react-native';
-import {GlobalStyles} from '../../../globals/GlobalStyles';
+import { StyleSheet, Switch, Text, View } from 'react-native';
+import { GlobalStyles } from '../../../globals/GlobalStyles';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {StatusLabel} from './StatusLabel';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { StatusLabel } from './StatusLabel';
 
 function LabeledSwitch(props) {
-  const {label, value, fieldStatus, onValueChange, editable} = props;
+  const { label, value, fieldStatus, onValueChange, editable } = props;
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>
@@ -16,7 +16,10 @@ function LabeledSwitch(props) {
       <Switch
         value={value}
         onValueChange={(val) => editable && onValueChange(val)}
-        trackColor={{false: GlobalStyles.lightGreyColor, true: GlobalStyles.lightVioletColor}}
+        trackColor={{
+          false: GlobalStyles.lightGreyColor,
+          true: GlobalStyles.lightVioletColor,
+        }}
         thumbColor={value ? GlobalStyles.violetColor : GlobalStyles.greyColor}
       />
     </View>

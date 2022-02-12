@@ -1,4 +1,4 @@
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 
 export default class Popups {
   static showError(message) {
@@ -38,4 +38,4 @@ const showError = Popups.showError;
 const showSuccess = Popups.showSuccess;
 const showWarning = Popups.showWarning;
 const showInformation = Popups.showInformation;
-export {showError, showSuccess, showWarning, showInformation};
+export { showError, showSuccess, showWarning, showInformation };

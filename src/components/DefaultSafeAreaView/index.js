@@ -1,8 +1,12 @@
-import {Platform, SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import { Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import React from 'react';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../globals/GlobalStyles';
 
-const DefaultSafeAreaView = (props) => <SafeAreaView style={[props.style, styles.container]}>{props.children}</SafeAreaView>;
+const DefaultSafeAreaView = (props) => (
+  <SafeAreaView style={[props.style, styles.container]}>
+    {props.children}
+  </SafeAreaView>
+);
 
 export default DefaultSafeAreaView;
 

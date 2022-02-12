@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
 import Globals from '../../../../globals/Globals';
-import {isTablet} from 'react-native-device-info';
-import {EntityEditorList} from '../../../../components/EntityEditor';
+import { isTablet } from 'react-native-device-info';
+import { EntityEditorList } from '../../../../components/EntityEditor';
 import MediaFile from './MediaFile';
 import MediaFileSingleViewer from './MediaFileSingleViewer';
-import {View} from 'react-native';
+import { View } from 'react-native';
 
 const numColumns = isTablet() ? 5 : 3;
 const entityName = Globals.Entities.MEDIA_GALLERY_FILE;
@@ -36,7 +36,8 @@ export default class MediaFileViewer extends Component {
   }
 
   render() {
-    const {singleViewerActive, singleViewerInitialFile, folder, files} = this.state;
+    const { singleViewerActive, singleViewerInitialFile, folder, files } =
+      this.state;
     return (
       <View style={styles.container}>
         <EntityEditorList

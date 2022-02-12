@@ -1,19 +1,22 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AuthService from '../../../helpers/AuthService';
 import * as Keychain from 'react-native-keychain';
 import Storage from '../../../helpers/Storage';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Globals from '../../../globals/Globals';
-import {GlobalStyles} from '../../../globals/GlobalStyles';
-import {LoadingActivityIndicator} from '../../../components';
+import { GlobalStyles } from '../../../globals/GlobalStyles';
+import { LoadingActivityIndicator } from '../../../components';
 import AnimatedButton from '../../../components/AnimatedButton';
 import DefaultText from '../../../components/DefaultText';
 import DefaultTextInput from '../../../components/DefaultTextInput';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -35,7 +38,7 @@ export default class LoginForm extends Component {
   handleServerEdit = () => {
     const {
       servers,
-      data: {serverName},
+      data: { serverName },
     } = this.state;
     if (servers.length > 0) {
       this.props.navigation.navigate('ServerConfig', {
@@ -51,7 +54,7 @@ export default class LoginForm extends Component {
 
   handleCredentialsChange = (key, value) => {
     this.setState({
-      data: {...this.state.data, [key]: value},
+      data: { ...this.state.data, [key]: value },
     });
   };
 
@@ -71,10 +74,13 @@ export default class LoginForm extends Component {
   tryAutoBiometrySubmit = async () => {
     const {
       biometricSupport,
-      data: {username, serverName},
+      data: { username, serverName },
     } = this.state;
     if (username && serverName) {
-      const hasCredentials = await AuthService.hasCredentials(serverName, username);
+      const hasCredentials = await AuthService.hasCredentials(
+        serverName,
+        username
+      );
       if (!this.state.biometryExercised && biometricSupport && hasCredentials) {
         await this.handleBiometrySubmit();
         this.setState({
@@ -89,8 +95,8 @@ export default class LoginForm extends Component {
       this.setState({
         loading: true,
       });
-      let {serverName, username} = this.state.data;
-      AuthService.tryBiometricAuthentication(serverName, username, this.props.navigation)
+      let { serverName, username } = this.state.data;
+      AuthService.tryBiometricAuthentication(serverName, username)
         .then(this.handleSuccessLogin)
         .catch((error) => {
           this.setState({
@@ -100,13 +106,14 @@ export default class LoginForm extends Component {
         });
     } else {
       this.setState({
-        errorText: 'Biometric authentication is not supported or not configured on this device, please login with your credentials.',
+        errorText:
+          'Biometric authentication is not supported or not configured on this device, please login with your credentials.',
       });
     }
   };
 
   handleCredentialsSubmit = () => {
-    let {username, password, serverName} = this.state.data;
+    let { username, password, serverName } = this.state.data;
     if (username.length === 0 || password.length === 0) {
       this.setState({
         errorText: 'Invalid login or password.',
@@ -119,7 +126,7 @@ export default class LoginForm extends Component {
       });
       return;
     }
-    AuthService.tryCredentialsAuthentication(serverName, username, password, this.props.navigation)
+    AuthService.tryCredentialsAuthentication(serverName, username, password)
       .then(this.handleSuccessLogin)
       .catch((error) => {
         this.setState({
@@ -135,11 +142,20 @@ export default class LoginForm extends Component {
   initializeData = async () => {
     const username = await Storage.getTextItem(Globals.Authorization.USERNAME);
     const servers = await Storage.getListItem(Globals.SERVERS);
-    let serverName = await Storage.getTextItem(Globals.Authorization.SERVER_NAME);
-    if (servers.length > 0 && (serverName.length === 0 || (serverName.length > 0 && !servers.some((s) => s.serverName === serverName)))) {
+    let serverName = await Storage.getTextItem(
+      Globals.Authorization.SERVER_NAME
+    );
+    if (
+      servers.length > 0 &&
+      (serverName.length === 0 ||
+        (serverName.length > 0 &&
+          !servers.some((s) => s.serverName === serverName)))
+    ) {
       serverName = servers[0].serverName;
     }
-    const allowsBiometricAuth = (await Storage.getBooleanItem(Globals.FINGERPRINT_ACTIVE)) && (await Keychain.getSupportedBiometryType()) !== null;
+    const allowsBiometricAuth =
+      (await Storage.getBooleanItem(Globals.FINGERPRINT_ACTIVE)) &&
+      (await Keychain.getSupportedBiometryType()) !== null;
     this.setState({
       data: {
         username: username,
@@ -152,7 +168,10 @@ export default class LoginForm extends Component {
   };
 
   componentDidMount() {
-    this._onFocusUnsubscribe = this.props.navigation.addListener('focus', this.initializeData);
+    this._onFocusUnsubscribe = this.props.navigation.addListener(
+      'focus',
+      this.initializeData
+    );
     this.initializeData();
   }
 
@@ -162,7 +181,7 @@ export default class LoginForm extends Component {
 
   render() {
     const {
-      data: {username, password, serverName},
+      data: { username, password, serverName },
       errorText,
       loading,
       servers,
@@ -178,7 +197,9 @@ export default class LoginForm extends Component {
               colorScheme={GlobalStyles.colorScheme.VIOLET}
               placeholder="Username"
               value={username}
-              onChangeText={(value) => this.handleCredentialsChange('username', value)}
+              onChangeText={(value) =>
+                this.handleCredentialsChange('username', value)
+              }
             />
             <DefaultTextInput
               style={styles.credentialsInput}
@@ -186,20 +207,42 @@ export default class LoginForm extends Component {
               placeholder="Password"
               value={password}
               secureTextEntry={true}
-              onChangeText={(value) => this.handleCredentialsChange('password', value)}
+              onChangeText={(value) =>
+                this.handleCredentialsChange('password', value)
+              }
             />
             <View style={styles.serverConfigContainer}>
               <Picker
                 selectedValue={serverName}
                 style={styles.serverPicker}
                 mode={Picker.MODE_DROPDOWN}
-                onValueChange={(itemValue, itemIndex) => this.handleCredentialsChange('serverName', itemValue, itemIndex)}>
+                onValueChange={(itemValue, itemIndex) =>
+                  this.handleCredentialsChange(
+                    'serverName',
+                    itemValue,
+                    itemIndex
+                  )
+                }
+              >
                 {Object.keys(servers).map((key) => {
-                  return <Picker.Item label={servers[key].serverName} value={servers[key].serverName} key={key} />;
+                  return (
+                    <Picker.Item
+                      label={servers[key].serverName}
+                      value={servers[key].serverName}
+                      key={key}
+                    />
+                  );
                 })}
               </Picker>
-              <TouchableOpacity style={styles.touchableIconContainer} onPress={this.handleServerEdit}>
-                <FontAwesome name="edit" color={GlobalStyles.violetIconColor} size={iconSize} />
+              <TouchableOpacity
+                style={styles.touchableIconContainer}
+                onPress={this.handleServerEdit}
+              >
+                <FontAwesome
+                  name="edit"
+                  color={GlobalStyles.violetIconColor}
+                  size={iconSize}
+                />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.touchableIconContainer}
@@ -207,20 +250,36 @@ export default class LoginForm extends Component {
                   this.props.navigation.navigate('ServerConfig', {
                     action: 'add',
                   })
-                }>
-                <Entypo name="add-to-list" color={GlobalStyles.violetIconColor} size={iconSize} />
+                }
+              >
+                <Entypo
+                  name="add-to-list"
+                  color={GlobalStyles.violetIconColor}
+                  size={iconSize}
+                />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{height: rowHeight}}>
+          <View style={{ height: rowHeight }}>
             {loading ? (
               <LoadingActivityIndicator />
             ) : (
               <View style={styles.submitContainer}>
-                <AnimatedButton containerStyle={styles.submitButton} onItemPress={this.handleCredentialsSubmit} text="SUBMIT" />
+                <AnimatedButton
+                  containerStyle={styles.submitButton}
+                  onItemPress={this.handleCredentialsSubmit}
+                  text="SUBMIT"
+                />
                 {biometricSupport ? (
-                  <TouchableOpacity style={styles.touchableIconContainer} onPress={this.handleBiometrySubmit}>
-                    <Icon name="finger-print-outline" color={GlobalStyles.violetIconColor} size={iconSize} />
+                  <TouchableOpacity
+                    style={styles.touchableIconContainer}
+                    onPress={this.handleBiometrySubmit}
+                  >
+                    <Icon
+                      name="finger-print-outline"
+                      color={GlobalStyles.violetIconColor}
+                      size={iconSize}
+                    />
                   </TouchableOpacity>
                 ) : null}
               </View>

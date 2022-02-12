@@ -1,27 +1,38 @@
 // noinspection JSSuspiciousNameCombination
 
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import React from 'react';
-import {GlobalStyles} from '../../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../../globals/GlobalStyles';
 
 function MediaFolder(props) {
   const {
-    item: {countImages, countVideos, folderName, selected},
+    item: { countImages, countVideos, folderName, selected },
     width,
   } = props;
   return (
-    <View style={{height: width, width: width}}>
-      <FastImage source={require('./Images/folder_icon.png')} style={styles.folder} />
+    <View style={{ height: width, width: width }}>
+      <FastImage
+        source={require('./Images/folder_icon.png')}
+        style={styles.folder}
+      />
       <View style={styles.leftIconContainer}>
-        <FastImage source={require('./Images/folder_image.png')} style={styles.icon} />
+        <FastImage
+          source={require('./Images/folder_image.png')}
+          style={styles.icon}
+        />
         <Text style={styles.iconText}>{countImages}</Text>
       </View>
       <View style={styles.rightIconContainer}>
-        <FastImage source={require('./Images/folder_video.png')} style={styles.icon} />
+        <FastImage
+          source={require('./Images/folder_video.png')}
+          style={styles.icon}
+        />
         <Text style={styles.iconText}>{countVideos}</Text>
       </View>
-      <Text style={[styles.folderName, selected ? styles.textSelected : null]}>{folderName}</Text>
+      <Text style={[styles.folderName, selected ? styles.textSelected : null]}>
+        {folderName}
+      </Text>
     </View>
   );
 }

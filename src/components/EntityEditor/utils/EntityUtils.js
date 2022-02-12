@@ -38,14 +38,15 @@ export default class EntityUtils {
             return origItem === item;
           }
           return origItem.id === item.id;
-        }),
+        })
     );
   };
 
   static createDefaultItem(fields) {
     const item = {};
     fields.forEach((field) => {
-      const {fieldDataType, fieldName, fieldEnumValues, primarySearchField} = field;
+      const { fieldDataType, fieldName, fieldEnumValues, primarySearchField } =
+        field;
       switch (fieldDataType) {
         case FieldDataType.TEXT:
         case FieldDataType.PASSWORD:
@@ -72,7 +73,9 @@ export default class EntityUtils {
           item[fieldName] = [];
           break;
         default:
-          throw new Error(`Not supported field data type: ${FieldDataType[fieldDataType]} ${fieldDataType}`);
+          throw new Error(
+            `Not supported field data type: ${FieldDataType[fieldDataType]} ${fieldDataType}`
+          );
       }
     });
     console.log(item);

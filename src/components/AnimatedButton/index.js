@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Animated, Pressable, StyleSheet, Text} from 'react-native';
-import {ScaleAnimation} from '../../animations';
-import {GlobalStyles} from '../../globals/GlobalStyles';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import React, { Component } from 'react';
+import { Animated, Pressable, StyleSheet, Text } from 'react-native';
+import { ScaleAnimation } from '../../animations';
+import { GlobalStyles } from '../../globals/GlobalStyles';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default class AnimatedButton extends Component {
   scaleAnimation = new ScaleAnimation();
@@ -18,8 +18,11 @@ export default class AnimatedButton extends Component {
           this.scaleAnimation.startScaleOutAnimation();
         }}
         onLongPress={this.props.onItemLongPress}
-        style={this.props.containerStyle}>
-        <Animated.View style={[this.scaleAnimation.getStyle(), styles.animatedContainer]}>
+        style={this.props.containerStyle}
+      >
+        <Animated.View
+          style={[this.scaleAnimation.getStyle(), styles.animatedContainer]}
+        >
           <Text style={styles.buttonText}>{this.props.text}</Text>
         </Animated.View>
       </Pressable>

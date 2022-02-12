@@ -1,5 +1,5 @@
 import React from 'react';
-import {EntityEditorList} from '../../../../../components/EntityEditor';
+import { EntityEditorList } from '../../../../../components/EntityEditor';
 import Globals from '../../../../../globals/Globals';
 import VideoCamera from './VideoCamera';
 

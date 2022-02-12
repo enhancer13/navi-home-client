@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Globals from '../../../../globals/Globals';
 import MediaFolder from './MediaFolder';
-import {isTablet} from 'react-native-device-info';
-import {EntityEditorList} from '../../../../components/EntityEditor';
+import { isTablet } from 'react-native-device-info';
+import { EntityEditorList } from '../../../../components/EntityEditor';
 
 const numColumns = isTablet() ? 5 : 3;
 const entityName = Globals.Entities.MEDIA_GALLERY_FOLDER;

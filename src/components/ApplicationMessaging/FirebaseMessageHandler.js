@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
+import { Component } from 'react';
 import messaging from '@react-native-firebase/messaging';
-import {showError, showInformation, showSuccess, showWarning} from './Popups';
-import FlashMessage from 'react-native-flash-message';
+import { showError, showInformation, showSuccess, showWarning } from './Popups';
 
 const MessageType = Object.freeze({
   INFORMATION: 'INFORMATION',
@@ -26,13 +25,15 @@ export default class FirebaseMessageHandler extends Component {
         }
       });
 
-    this.firebaseMessageListener = messaging().onMessage(async (remoteMessage) => {
-      if (remoteMessage.notification) {
-        this.showNotification(remoteMessage);
-      } else if (remoteMessage.data.messaging) {
-        this.showApplicationMessage(remoteMessage);
+    this.firebaseMessageListener = messaging().onMessage(
+      async (remoteMessage) => {
+        if (remoteMessage.notification) {
+          this.showNotification(remoteMessage);
+        } else if (remoteMessage.data.messaging) {
+          this.showApplicationMessage(remoteMessage);
+        }
       }
-    });
+    );
   };
 
   showApplicationMessage = (remoteMessage) => {
@@ -52,7 +53,9 @@ export default class FirebaseMessageHandler extends Component {
         showError(message);
         break;
       default:
-        throw new Error(`Not supported application message type: ${applicationMessage.type}.`);
+        throw new Error(
+          `Not supported application message type: ${applicationMessage.type}.`
+        );
     }
   };
 
@@ -70,6 +73,6 @@ export default class FirebaseMessageHandler extends Component {
   }
 
   render() {
-    return <FlashMessage position="bottom" />;
+    return null;
   }
 }

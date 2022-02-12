@@ -8,7 +8,12 @@ export default class Pagination {
   #currentPage = 1;
   #lastPage = 1;
 
-  constructor({baseUrl, sortFieldName, searchFieldName, extraSearchCondition = ''}) {
+  constructor({
+    baseUrl,
+    sortFieldName,
+    searchFieldName,
+    extraSearchCondition = '',
+  }) {
     this.#baseUrl = baseUrl;
     this.#sortFieldName = sortFieldName;
     this.#searchFieldName = searchFieldName;
@@ -16,7 +21,9 @@ export default class Pagination {
   }
 
   #urlBuilder = (searchValue, page, size) => {
-    return `${this.#baseUrl}?page=${page}&size=${size}&sort=${this.#sortFieldName},desc&${this.#searchFieldName}=${searchValue}${
+    return `${this.#baseUrl}?page=${page}&size=${size}&sort=${
+      this.#sortFieldName
+    },desc&${this.#searchFieldName}=${searchValue}${
       this.#extraSearchCondition
     }&equal=false`;
   };
@@ -30,7 +37,9 @@ export default class Pagination {
    * "total_elements":40
    * */
   fetchPage = async (callback, searchValue = '', page = 1, size = 30) => {
-    const response = await ajaxRequest.get(this.#urlBuilder(searchValue, page, size));
+    const response = await ajaxRequest.get(
+      this.#urlBuilder(searchValue, page, size)
+    );
     this.#currentPage = response.current_page;
     this.#lastPage = response.last_page;
     callback(response, this.#currentPage);
