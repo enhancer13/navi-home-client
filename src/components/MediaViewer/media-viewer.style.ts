@@ -7,7 +7,7 @@ import {
 export default (
   width: number,
   height: number,
-  backgroundColor: string
+  backgroundColor: string,
 ): {
   [x: string]: ViewStyle | TextStyle;
 } => {

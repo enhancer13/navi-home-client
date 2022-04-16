@@ -39,8 +39,7 @@ export class Props {
   public showThumbnails?: boolean = false;
 
   public onLongPress?: (image?: IMediaInfo) => void = () => {};
-  public onClick?: (close?: () => any, currentShowIndex?: number) => void =
-    () => {};
+  public onClick?: (close?: () => any, currentShowIndex?: number) => void = () => {};
   public onDoubleClick?: (close?: () => any) => void = () => {};
   public onSave?: (url: string) => void = () => {};
   public onMove?: (position?: IOnMove) => void = () => {};
@@ -49,34 +48,26 @@ export class Props {
   public onSwipeDown?: () => void = () => {};
   public onChange?: (index?: number) => void = () => {};
 
-  public renderHeader?: (currentIndex?: number) => React.ReactElement<any> =
-    () => {
-      return null as any;
-    };
+  public renderHeader?: (currentIndex?: number) => React.ReactElement<any> = () => {
+    return null as any;
+  };
 
-  public renderFooter?: (currentIndex: number) => React.ReactElement<any> =
-    () => {
-      return null as any;
-    };
+  public renderFooter?: (currentIndex: number) => React.ReactElement<any> = () => {
+    return null as any;
+  };
 
-  public renderIndicator?: (
+  public renderIndicator?: (currentIndex?: number, allSize?: number) => React.ReactElement<any> = (
     currentIndex?: number,
-    allSize?: number
-  ) => React.ReactElement<any> = (currentIndex?: number, allSize?: number) => {
+    allSize?: number,
+  ) => {
     return React.createElement(
       View,
       { style: simpleStyle.count },
-      React.createElement(
-        Text,
-        { style: simpleStyle.countText },
-        currentIndex + '/' + allSize
-      )
+      React.createElement(Text, { style: simpleStyle.countText }, currentIndex + '/' + allSize),
     );
   };
 
-  public renderImage?: (props: any) => React.ReactElement<any> = (
-    props: any
-  ) => {
+  public renderImage?: (props: any) => React.ReactElement<any> = (props: any) => {
     return React.createElement(Image, props);
   };
 

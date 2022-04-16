@@ -98,21 +98,19 @@ export default class MediaViewer extends React.Component<Props, State> {
           duration: 200,
           useNativeDriver: !!nextProps.useNativeDriver,
         }).start();
-      }
+      },
     );
   }
 
   public jumpToCurrentMedia() {
     this.positionXNumber =
-      this.width *
-      (this.state.currentShowIndex || 0) *
-      (I18nManager.isRTL ? 1 : -1);
+      this.width * (this.state.currentShowIndex || 0) * (I18nManager.isRTL ? 1 : -1);
     this.standardPositionX = this.positionXNumber;
     this.positionX.setValue(this.positionXNumber);
   }
 
   public loadMedia(index: number) {
-    if (!this!.state!.mediaStatuses![index]) {
+    if (!this.state.mediaStatuses![index]) {
       return;
     }
     if (this.loadedIndex.has(index)) {
@@ -121,7 +119,7 @@ export default class MediaViewer extends React.Component<Props, State> {
     this.loadedIndex.set(index, true);
 
     const mediaInfo = this.props.mediaUrls[index];
-    const mediaStatus = { ...this!.state!.mediaStatuses![index] };
+    const mediaStatus = { ...this.state.mediaStatuses![index] };
     if (mediaInfo.mediaType === 'VIDEO') {
       //video loading is controlled by video player
       mediaStatus.status = 'success';
@@ -130,25 +128,22 @@ export default class MediaViewer extends React.Component<Props, State> {
 
     const saveMediaStatus = () => {
       if (
-        this!.state!.mediaStatuses![index] &&
-        this!.state!.mediaStatuses![index].status !== 'loading'
+        this.state.mediaStatuses![index] &&
+        this.state.mediaStatuses![index].status !== 'loading'
       ) {
         return;
       }
 
-      const mediaStatuses = this!.state!.mediaStatuses!.slice();
+      const mediaStatuses = this.state.mediaStatuses!.slice();
       mediaStatuses[index] = mediaStatus;
       this.setState({ mediaStatuses: mediaStatuses });
     };
 
-    if (this!.state!.mediaStatuses![index].status === 'success') {
+    if (this.state.mediaStatuses![index].status === 'success') {
       return;
     }
 
-    if (
-      this!.state!.mediaStatuses![index].width > 0 &&
-      this!.state!.mediaStatuses![index].height > 0
-    ) {
+    if (this.state.mediaStatuses![index].width > 0 && this.state.mediaStatuses![index].height > 0) {
       mediaStatus.status = 'success';
       saveMediaStatus();
       return;
@@ -181,9 +176,7 @@ export default class MediaViewer extends React.Component<Props, State> {
       },
       () => {
         try {
-          const data = (Image as any).resolveAssetSource(
-            mediaInfo.props.source
-          );
+          const data = (Image as any).resolveAssetSource(mediaInfo.props.source);
           mediaStatus.width = data.width;
           mediaStatus.height = data.height;
           mediaStatus.status = 'success';
@@ -193,7 +186,7 @@ export default class MediaViewer extends React.Component<Props, State> {
           mediaStatus.status = 'fail';
           saveMediaStatus();
         }
-      }
+      },
     );
   }
 
@@ -203,38 +196,31 @@ export default class MediaViewer extends React.Component<Props, State> {
     }
   };
 
-  public handleHorizontalOuterRangeOffset = (offsetX: number = 0) => {
+  public handleHorizontalOuterRangeOffset = (offsetX = 0) => {
     this.positionXNumber = this.standardPositionX + offsetX;
     this.positionX.setValue(this.positionXNumber);
 
     const offsetXRTL = !I18nManager.isRTL ? offsetX : -offsetX;
 
     if (offsetXRTL < 0) {
-      if (
-        this!.state!.currentShowIndex ||
-        this.props.mediaUrls.length - 1 > 0
-      ) {
-        this.loadMedia((this!.state!.currentShowIndex || 0) + 1);
+      if (this.state.currentShowIndex || this.props.mediaUrls.length - 1 > 0) {
+        this.loadMedia((this.state.currentShowIndex || 0) + 1);
       }
     } else if (offsetXRTL > 0) {
-      if (this!.state!.currentShowIndex || 0 > 0) {
-        this.loadMedia((this!.state!.currentShowIndex || 0) - 1);
+      if (this.state.currentShowIndex || 0 > 0) {
+        this.loadMedia((this.state.currentShowIndex || 0) - 1);
       }
     }
   };
 
-  public handleResponderRelease = (vx: number = 0) => {
+  public handleResponderRelease = (vx = 0) => {
     const vxRTL = I18nManager.isRTL ? -vx : vx;
     const isLeftMove = I18nManager.isRTL
-      ? this.positionXNumber - this.standardPositionX <
-        -(this.props.flipThreshold || 0)
-      : this.positionXNumber - this.standardPositionX >
-        (this.props.flipThreshold || 0);
+      ? this.positionXNumber - this.standardPositionX < -(this.props.flipThreshold || 0)
+      : this.positionXNumber - this.standardPositionX > (this.props.flipThreshold || 0);
     const isRightMove = I18nManager.isRTL
-      ? this.positionXNumber - this.standardPositionX >
-        (this.props.flipThreshold || 0)
-      : this.positionXNumber - this.standardPositionX <
-        -(this.props.flipThreshold || 0);
+      ? this.positionXNumber - this.standardPositionX > (this.props.flipThreshold || 0)
+      : this.positionXNumber - this.standardPositionX < -(this.props.flipThreshold || 0);
 
     if (vxRTL > 0.7) {
       this.goBack.call(this);
@@ -299,7 +285,7 @@ export default class MediaViewer extends React.Component<Props, State> {
         if (this.props.onChange) {
           this.props.onChange(this.state.currentShowIndex);
         }
-      }
+      },
     );
   };
 
@@ -363,11 +349,7 @@ export default class MediaViewer extends React.Component<Props, State> {
 
       this.width = event.nativeEvent.layout.width;
       this.height = event.nativeEvent.layout.height;
-      this.styles = styles(
-        this.width,
-        this.height,
-        this.props.backgroundColor || 'transparent'
-      );
+      this.styles = styles(this.width, this.height, this.props.backgroundColor || 'transparent');
 
       this.forceUpdate();
       this.jumpToCurrentMedia();
@@ -387,10 +369,7 @@ export default class MediaViewer extends React.Component<Props, State> {
       <Pressable onPress={() => this.handleThumbnailClick(index)}>
         <FastImage
           resizeMode={FastImage.resizeMode.contain}
-          style={[
-            this.styles.thumbnailImage,
-            selected && this.styles.thumbnailImageSelected,
-          ]}
+          style={[this.styles.thumbnailImage, selected && this.styles.thumbnailImageSelected]}
           source={{
             uri: thumbnail.url,
             priority: FastImage.priority.normal,
@@ -440,37 +419,20 @@ export default class MediaViewer extends React.Component<Props, State> {
         (this.state.currentShowIndex || 0) > index + 1 ||
         (this.state.currentShowIndex || 0) < index - 1
       ) {
-        return (
-          <View
-            key={index}
-            style={{ width: screenWidth, height: screenHeight }}
-          />
-        );
+        return <View key={index} style={{ width: screenWidth, height: screenHeight }} />;
       }
 
       if (!this.handleLongPressWithIndex.has(index)) {
-        this.handleLongPressWithIndex.set(
-          index,
-          this.handleLongPress.bind(this, mediaInfo)
-        );
+        this.handleLongPressWithIndex.set(index, this.handleLongPress.bind(this, mediaInfo));
       }
 
       if (mediaInfo.mediaType === 'IMAGE') {
-        let width =
-          this!.state!.mediaStatuses![index] &&
-          this!.state!.mediaStatuses![index].width;
-        let height =
-          this.state.mediaStatuses![index] &&
-          this.state.mediaStatuses![index].height;
+        let width = this.state.mediaStatuses![index] && this.state.mediaStatuses![index].width;
+        let height = this.state.mediaStatuses![index] && this.state.mediaStatuses![index].height;
         const mediaStatus = this.state.mediaStatuses![index];
 
         if (!mediaStatus || !mediaStatus.status) {
-          return (
-            <View
-              key={index}
-              style={{ width: screenWidth, height: screenHeight }}
-            />
-          );
+          return <View key={index} style={{ width: screenWidth, height: screenHeight }} />;
         }
 
         if (width > screenWidth) {
@@ -520,9 +482,7 @@ export default class MediaViewer extends React.Component<Props, State> {
                 imageWidth={screenWidth}
                 imageHeight={screenHeight}
               >
-                <View style={this.styles.loadingContainer}>
-                  {this!.props!.loadingRender!()}
-                </View>
+                <View style={this.styles.loadingContainer}>{this.props.loadingRender!()}</View>
               </Wrapper>
             );
           case 'success':
@@ -561,9 +521,7 @@ export default class MediaViewer extends React.Component<Props, State> {
                 cropWidth={this.width}
                 cropHeight={this.height}
                 maxOverflow={this.props.maxOverflow}
-                horizontalOuterRangeOffset={
-                  this.handleHorizontalOuterRangeOffset
-                }
+                horizontalOuterRangeOffset={this.handleHorizontalOuterRangeOffset}
                 responderRelease={this.handleResponderRelease}
                 onMove={this.props.onMove}
                 onLongPress={this.handleLongPressWithIndex.get(index)}
@@ -575,17 +533,13 @@ export default class MediaViewer extends React.Component<Props, State> {
                 swipeDownThreshold={this.props.swipeDownThreshold}
                 onSwipeDown={this.handleSwipeDown}
                 panToMove={!this.state.isShowMenu}
-                pinchToZoom={
-                  this.props.enableImageZoom && !this.state.isShowMenu
-                }
-                enableDoubleClickZoom={
-                  this.props.enableImageZoom && !this.state.isShowMenu
-                }
+                pinchToZoom={this.props.enableImageZoom && !this.state.isShowMenu}
+                enableDoubleClickZoom={this.props.enableImageZoom && !this.state.isShowMenu}
                 doubleClickInterval={this.props.doubleClickInterval}
                 minScale={this.props.minScale}
                 maxScale={this.props.maxScale}
               >
-                {this!.props!.renderImage!(mediaInfo.props)}
+                {this.props.renderImage!(mediaInfo.props)}
               </MediaZoom>
             );
           case 'fail':
@@ -594,18 +548,14 @@ export default class MediaViewer extends React.Component<Props, State> {
                 key={index}
                 style={this.styles.modalContainer}
                 imageWidth={
-                  this.props.failImageSource
-                    ? this.props.failImageSource.width
-                    : screenWidth
+                  this.props.failImageSource ? this.props.failImageSource.width : screenWidth
                 }
                 imageHeight={
-                  this.props.failImageSource
-                    ? this.props.failImageSource.height
-                    : screenHeight
+                  this.props.failImageSource ? this.props.failImageSource.height : screenHeight
                 }
               >
                 {this.props.failImageSource &&
-                  this!.props!.renderImage!({
+                  this.props.renderImage!({
                     source: {
                       uri: this.props.failImageSource.url,
                     },
@@ -666,26 +616,24 @@ export default class MediaViewer extends React.Component<Props, State> {
     });
     return (
       <Animated.View style={{ zIndex: 9 }}>
-        <Animated.View
-          style={{ ...this.styles.container, opacity: this.fadeAnim }}
-        >
+        <Animated.View style={{ ...this.styles.container, opacity: this.fadeAnim }}>
           <View style={[this.styles.headerContainer]}>
-            {this!.props!.renderHeader!(this.state.currentShowIndex)}
+            {this.props.renderHeader!(this.state.currentShowIndex)}
           </View>
-          {this!.props!.renderIndicator!(
+          {this.props.renderIndicator!(
             (this.state.currentShowIndex || 0) + 1,
-            this.props.mediaUrls.length
+            this.props.mediaUrls.length,
           )}
 
           <View style={this.styles.arrowLeftContainer}>
             <TouchableWithoutFeedback onPress={this.goBack}>
-              <View>{this!.props!.renderArrowLeft!()}</View>
+              <View>{this.props.renderArrowLeft!()}</View>
             </TouchableWithoutFeedback>
           </View>
 
           <View style={this.styles.arrowRightContainer}>
             <TouchableWithoutFeedback onPress={this.goNext}>
-              <View>{this!.props!.renderArrowRight!()}</View>
+              <View>{this.props.renderArrowRight!()}</View>
             </TouchableWithoutFeedback>
           </View>
 
@@ -699,22 +647,12 @@ export default class MediaViewer extends React.Component<Props, State> {
             {MediaElements}
           </Animated.View>
 
-          <View
-            style={[
-              this.styles.thumbnailsContainer,
-              this.props.thumbnailContainerStyle,
-            ]}
-          >
+          <View style={[this.styles.thumbnailsContainer, this.props.thumbnailContainerStyle]}>
             {this.getThumbnails()}
           </View>
 
-          <View
-            style={[
-              this.styles.footerContainer,
-              this.props.footerContainerStyle,
-            ]}
-          >
-            {this!.props!.renderFooter!(this.state.currentShowIndex || 0)}
+          <View style={[this.styles.footerContainer, this.props.footerContainerStyle]}>
+            {this.props.renderFooter!(this.state.currentShowIndex || 0)}
           </View>
         </Animated.View>
       </Animated.View>

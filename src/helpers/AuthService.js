@@ -29,6 +29,15 @@ class AuthService {
     this.#accessToken = null;
   };
 
+  logout = async () => {
+    try {
+      this.removeAccessToken();
+      await auth().signOut();
+    } catch (ex) {
+      console.error(`Unable to perform logout action: ${ex.message}`);
+    }
+  };
+
   getAuthorizationHeader = () => {
     return {
       Authorization: this.#tokenPrefix + this.#accessToken,
@@ -71,15 +80,6 @@ class AuthService {
     ]);
   };
 
-  logout = async () => {
-    try {
-      this.#accessToken = null;
-      await auth().signOut();
-    } catch (e) {
-      console.error('Unable to sign out from firebase account.');
-    }
-  };
-
   hasCredentials = async (serverName, username) => {
     const account = this.#getInternetAccount(serverName, username);
     return await Keychain.hasInternetCredentials(account + '_accessToken');
@@ -105,7 +105,7 @@ class AuthService {
     this.#serverAddress = (await Storage.getListItem(Globals.SERVERS)).find(
       (s) => s.serverName === serverName
     ).serverAddress;
-    const url = this.buildFetchUrl(Globals.Endpoints.JWT_AUTHORIZATION);
+    const url = this.buildFetchUrl(Globals.Endpoints.JWT_LOGIN);
     const data = await this.fetchMethod(
       url,
       {

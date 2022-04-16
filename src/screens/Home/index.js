@@ -30,21 +30,11 @@ export default class Home extends Component {
           initialRouteName="Live"
           screenOptions={{
             swipeEnabled: false,
-          }}
-          tabBarPosition="bottom"
-          scrollEnabled={true}
-          tabBarOptions={{
-            activeTintColor: GlobalStyles.violetColor,
-            inactiveTintColor: GlobalStyles.lightGreyColor,
-            pressColor: GlobalStyles.lightVioletColor,
-            showIcon: true,
-            label: {
-              fontSize: GlobalStyles.defaultFontSize,
-              textTransform: 'none',
-              padding: 0,
-              margin: 0,
-            },
-            iconStyle: {
+            tabBarActiveTintColor: GlobalStyles.violetColor,
+            tabBarInactiveTintColor: GlobalStyles.lightGreyColor,
+            tabBarPressColor: GlobalStyles.lightVioletColor,
+            tabBarShowIcon: true,
+            tabBarIconStyle: {
               height: hp(6),
               width: hp(6),
               alignItems: 'center',
@@ -52,7 +42,7 @@ export default class Home extends Component {
               padding: 0,
               margin: 0,
             },
-            tabStyle: {
+            tabBarItemStyle: {
               height: hp(12),
               width: wp(20),
               alignItems: 'center',
@@ -61,8 +51,16 @@ export default class Home extends Component {
               padding: 0,
               margin: 0,
             },
-            style: styles.barStyle,
+            label: {
+              fontSize: GlobalStyles.defaultFontSize,
+              textTransform: 'none',
+              padding: 0,
+              margin: 0,
+            },
+            tabBarStyle: styles.barStyle,
           }}
+          tabBarPosition="bottom"
+          scrollEnabled={true}
         >
           <Tab.Screen
             name="Live Streaming"
