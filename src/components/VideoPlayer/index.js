@@ -345,6 +345,7 @@ export default class VideoPlayer extends Component {
   pause() {
     this.setState({
       paused: true,
+      loading: false,
     });
   }
 
@@ -566,6 +567,7 @@ export default class VideoPlayer extends Component {
     state.paused = !state.paused;
 
     if (state.paused) {
+      state.loading = false;
       typeof this.events.onPlaybackStalled === 'function' &&
         this.events.onPlaybackStalled();
     } else {

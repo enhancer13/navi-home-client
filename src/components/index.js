@@ -6,12 +6,7 @@ import { GlobalStyles } from '../globals/GlobalStyles';
 
 const LoadingActivityIndicator = (props) => {
   const { color } = props;
-  return (
-    <ActivityIndicator
-      size="large"
-      color={color ? color : GlobalStyles.lightVioletColor}
-    />
-  );
+  return <ActivityIndicator size="large" color={color ? color : GlobalStyles.lightVioletColor} />;
 };
 
 export { DefaultNavigationBar, LoadingActivityIndicator, LabeledBoolean };
