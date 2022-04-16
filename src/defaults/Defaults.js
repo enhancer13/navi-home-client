@@ -14,7 +14,7 @@ export default {
     },
     {
       serverName: 'OrionDev',
-      serverAddress: 'https://192.168.0.104:9000',
+      serverAddress: 'https://10.0.2.2:9000',
     },
   ],
 };
