@@ -9,7 +9,7 @@ import {
   Easing,
   Image,
   View,
-  Text,
+  Text, Platform,
 } from 'react-native';
 import padStart from 'lodash/padStart';
 import PropTypes from 'prop-types';
@@ -84,6 +84,8 @@ export default class VideoPlayer extends Component {
         this._onFullscreenPlayerDidPresent.bind(this),
       onFullscreenPlayerDidDismiss:
         this._onFullscreenPlayerDidDismiss.bind(this),
+      onPlaybackRateChange:
+        this._onPlaybackRateChange.bind(this),
     };
 
     /**
@@ -244,6 +246,18 @@ export default class VideoPlayer extends Component {
     }
   }
 
+  _onPlaybackRateChange({playbackRate}) {
+    if (Platform.OS !== 'ios') {
+      return;
+    }
+    const paused = playbackRate === 0;
+    const { loading, error } = this.state;
+    this.setState({
+      paused,
+      loading: loading && !paused,
+    });
+  }
+
   /**
    * For onprogress we fire listeners that
    * update our seekbar and timer.
@@ -345,6 +359,7 @@ export default class VideoPlayer extends Component {
   pause() {
     this.setState({
       paused: true,
+      loading: false,
     });
   }
 
@@ -566,6 +581,7 @@ export default class VideoPlayer extends Component {
     state.paused = !state.paused;
 
     if (state.paused) {
+      state.loading = false;
       typeof this.events.onPlaybackStalled === 'function' &&
         this.events.onPlaybackStalled();
     } else {
@@ -1315,8 +1331,8 @@ export default class VideoPlayer extends Component {
 
   renderPoster() {
     const { thumbUri, headers } = this.props;
-    const { paused, error } = this.state;
-    if (!paused || error) {
+    const { paused, error, fullscreen } = this.state;
+    if (!paused || error || fullscreen) {
       return null;
     }
     return (
@@ -1346,8 +1362,9 @@ export default class VideoPlayer extends Component {
       onPlaybackResume,
       onFullscreenPlayerDidPresent,
       onFullscreenPlayerDidDismiss,
+      onPlaybackRateChange,
     } = this.events;
-    if (error || (paused && disposeOnPause)) {
+    if (error || (paused && disposeOnPause && !fullscreen)) {
       return null;
     }
     return (
@@ -1373,6 +1390,7 @@ export default class VideoPlayer extends Component {
         style={[styles.player.video, this.styles.videoStyle]}
         onFullscreenPlayerDidPresent={onFullscreenPlayerDidPresent}
         onFullscreenPlayerDidDismiss={onFullscreenPlayerDidDismiss}
+        onPlaybackRateChange={onPlaybackRateChange}
         source={{
           uri,
           headers,

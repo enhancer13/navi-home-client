@@ -39,29 +39,34 @@ export default class MediaFileViewer extends Component {
     const { singleViewerActive, singleViewerInitialFile, folder, files } =
       this.state;
     return (
-      <View style={styles.container}>
-        <EntityEditorList
-          navigation={this.props.navigation}
-          entityName={entityName}
-          ItemComponent={MediaFile}
-          numColumns={numColumns}
-          title={'File Viewer'}
-          backButton={true}
-          onEntityPress={this.onMediaFilePress}
-          parentEntityName={parentEntityName}
-          parentEntity={folder}
-        />
-        <MediaFileSingleViewer
-          visible={singleViewerActive}
-          files={files}
-          initialFile={singleViewerInitialFile}
-          onRequestClose={() => {
-            this.setState({
-              singleViewerActive: false,
-            });
-          }}
-        />
-      </View>
+      <>
+        {singleViewerActive ? (
+          <MediaFileSingleViewer
+            visible={singleViewerActive}
+            files={files}
+            initialFile={singleViewerInitialFile}
+            onRequestClose={() => {
+              this.setState({
+                singleViewerActive: false,
+              });
+            }}
+          />
+        ) :
+          (
+            <EntityEditorList
+              navigation={this.props.navigation}
+              entityName={entityName}
+              ItemComponent={MediaFile}
+              numColumns={numColumns}
+              title={'File Viewer'}
+              backButton={true}
+              onEntityPress={this.onMediaFilePress}
+              parentEntityName={parentEntityName}
+              parentEntity={folder}
+            />
+          )
+        }
+      </>
     );
   }
 }

@@ -12,7 +12,7 @@ export default class MyAccount extends Component {
         name: 'finger-print',
         type: 'ionicon',
       },
-      stateProperty: Globals.FINGERPRINT_ACTIVE,
+      stateProperty: Globals.BIOMETRY_ACTIVE,
       checkbox: true,
     },
     {

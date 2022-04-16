@@ -1,6 +1,7 @@
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import React from 'react';
-import { StyleSheet, Text, View, ViewPropTypes } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 import PropTypes from 'prop-types';
 import { GlobalStyles } from '../../../globals/GlobalStyles';
 
@@ -16,9 +17,7 @@ function StatusLabel(props) {
     <View
       style={[
         styles.container,
-        status === Status.NEW
-          ? styles.newStatusContainer
-          : styles.modifiedStatusContainer,
+        status === Status.NEW ? styles.newStatusContainer : styles.modifiedStatusContainer,
         style,
       ]}
     >

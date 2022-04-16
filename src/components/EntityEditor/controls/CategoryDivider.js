@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import DefaultText from '../../DefaultText';
+import TextInput from '../../DefaultText';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { GlobalStyles } from '../../../globals/GlobalStyles';
@@ -9,7 +9,7 @@ function CategoryDivider(props) {
   return (
     <View style={styles.rowContainer}>
       <View style={styles.line} />
-      <DefaultText style={styles.text}>{props.categoryName}</DefaultText>
+      <TextInput style={styles.text}>{props.categoryName}</TextInput>
       <View style={styles.line} />
     </View>
   );

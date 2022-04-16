@@ -5,7 +5,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Header from './Header';
 import SelectableItem from './SelectableItem';
 import PropTypes from 'prop-types';
-import Entity from './Entity';
+import FlexContainer from '../View/FlexContainer';
 
 export default class SelectableArea extends Component {
   constructor(props) {
@@ -77,9 +77,7 @@ export default class SelectableArea extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const entities = [...nextProps.entities];
     entities.forEach((entity) => {
-      const previousItem = prevState.entities.find(
-        (el) => el.getItem().id === entity.getItem().id
-      );
+      const previousItem = prevState.entities.find((el) => el.getItem().id === entity.getItem().id);
       entity.setSelected(previousItem ? previousItem.isSelected() : false);
     });
     return {
@@ -108,7 +106,7 @@ export default class SelectableArea extends Component {
     const { entities, selectionMode } = this.state;
     const selectedItems = entities.filter((entity) => entity.isSelected());
     return (
-      <View style={styles.container}>
+      <FlexContainer bottomTransparency>
         <Header
           onSave={() => onSave(selectedItems)}
           onCopy={() => onCopy(selectedItems)}
@@ -121,9 +119,9 @@ export default class SelectableArea extends Component {
           onSearchClear={onSearchClear}
           title={
             selectionMode
-              ? `Selected items: ${
-                  entities.filter((entity) => entity.isSelected()).length
-                } / ${entities.length}`
+              ? `Selected items: ${entities.filter((entity) => entity.isSelected()).length} / ${
+                  entities.length
+              }`
               : title
           }
           subTitle={subTitle}
@@ -142,17 +140,13 @@ export default class SelectableArea extends Component {
             data={entities}
             renderItem={this.renderItem}
             style={styles.flatList}
-            columnWrapperStyle={
-              numColumns > 1 ? styles.columnWrapperStyle : null
-            }
-            refreshControl={
-              <RefreshControl refreshing={loading} onRefresh={onRefresh} />
-            }
+            columnWrapperStyle={numColumns > 1 ? styles.columnWrapperStyle : null}
+            refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}
             onEndReachedThreshold={0}
             onEndReached={this.props.onEndReached}
           />
         )}
-      </View>
+      </FlexContainer>
     );
   }
 }

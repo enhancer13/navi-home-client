@@ -98,7 +98,7 @@ export default class Storage {
   static initializeStorage = async () => {
     if (!(await Storage.getBooleanItem(Globals.STORAGE_INITIALIZED))) {
       await Storage.setBooleanItem(Globals.DARK_STYLE_ACTIVE, false);
-      await Storage.setBooleanItem(Globals.FINGERPRINT_ACTIVE, false);
+      await Storage.setBooleanItem(Globals.BIOMETRY_ACTIVE, false);
       await Storage.addListItem(Globals.SERVERS, Defaults.SERVERS);
       await Storage.setBooleanItem(Globals.STORAGE_INITIALIZED, true);
     }

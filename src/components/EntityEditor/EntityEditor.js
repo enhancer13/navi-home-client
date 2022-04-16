@@ -1,28 +1,46 @@
 // noinspection JSUnresolvedVariable
-import React, { Component } from 'react';
+import React, {Component, useRef} from 'react';
 import PropTypes from 'prop-types';
 import Entity from './Entity';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { GlobalStyles } from '../../globals/GlobalStyles';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {Animated, Modal, Platform, StyleSheet, View} from 'react-native';
+import {GlobalStyles} from '../../globals/GlobalStyles';
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import ActionsBar from './ActionsBar';
 import LabeledSwitch from './controls/LabeledSwitch';
 import LabeledInput from './controls/LabeledInput';
 import LabeledDateTimePicker from './controls/LabeledDateTimePicker';
 import LabeledMultiSelectPicker from './controls/LabeledMultiSelectPicker';
 import FieldDataType from './FieldDataType';
-import { Status } from './controls/StatusLabel';
+import {Status} from './controls/StatusLabel';
+import FlexContainer from '../View/FlexContainer';
+import {Divider, Surface} from 'react-native-paper';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import TouchableScale from 'react-native-touchable-scale';
+import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
+
+//https://snack.expo.dev/@rborn/animated-flatlist-and-header
+//https://medium.com/appandflow/react-native-collapsible-navbar-e51a049b560a
+const DESCRIPTION_HEIGHT = hp(10);
+const HEADER_HEIGHT = hp(5);
+const BACK_ICON_SIZE = 30;
+const ACTIONS_BAR_HEIGHT = hp(5);
 
 // noinspection JSUnresolvedVariable
 export default class EntityEditor extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+
+    const scrollAnim = new Animated.Value(0);
+    const fontWeightAnimation = new Animated.Value(300);
+    this.state = {
+      scrollAnim,
+      fontWeightAnimation,
+    };
   }
 
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.entity) {
-      const { entity, entityData } = nextProps;
+      const {entity, entityData} = nextProps;
       return {
         entity,
         entityData,
@@ -46,7 +64,7 @@ export default class EntityEditor extends Component {
 
   revertChanges = () => {
     this.setState((prevState) => {
-      const { entity } = prevState;
+      const {entity} = prevState;
       entity.revertChanges();
       return {
         entity,
@@ -54,7 +72,22 @@ export default class EntityEditor extends Component {
     });
   };
 
-  renderField = ({ item }) => {
+  renderGroup = ({item}) => {
+    return (<Surface style={styles.group} key={item.key}>
+      {item.group.map(this.renderField).map(field => {
+        return (
+          <>
+            <View style={{minHeight: hp(8), justifyContent: 'center'}}>
+              {field}
+            </View>
+            <Divider/>
+          </>
+        );
+      })}
+    </Surface>);
+  };
+
+  renderField = (item) => {
     const {
       fieldDataType,
       fieldTitle,
@@ -63,7 +96,7 @@ export default class EntityEditor extends Component {
       fieldEnumValues,
       objectName,
     } = item;
-    const { entity, isActive } = this.state;
+    const {entity, isActive} = this.state;
     const inputEnabled = !item.inputDisabled && isActive;
     const fieldValue = entity.getFieldValue(fieldName);
     const fieldStatus =
@@ -133,65 +166,124 @@ export default class EntityEditor extends Component {
         );
       default:
         throw new Error(
-          `Not supported field data type: ${FieldDataType[fieldDataType]}`
+          `Not supported field data type: ${FieldDataType[fieldDataType]}`,
         );
     }
   };
 
-  buildFlatListData = ({ objectFields, auditable }) => {
+  buildFlatListData = ({objectFields, auditable}) => {
     const fields = [...objectFields];
     fields.sort((a, b) => {
       return a.rowGroup - b.rowGroup || a.fieldOrder - b.fieldOrder;
     });
-    // if (auditable) {
-    //   fields.push({
-    //     fieldDataType: FieldDataType.DIVIDER,
-    //     fieldTitle: 'Auditable Data',
-    //     fieldName: 'divider-' + sequence++,
-    //   });
-    //   Object.keys(auditable).forEach((fieldName) => {
-    //     const title = fieldName.split(/(?=[A-Z])/).join(' ');
-    //     fields.push({
-    //       fieldDataType: FieldDataType.TEXT,
-    //       fieldTitle: title[0].toUpperCase() + title.slice(1),
-    //       inputDisabled: true,
-    //       fieldName,
-    //     });
-    //   });
-    // }
-    return fields;
+
+
+    const groupBy = function (xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+      }, {});
+    };
+    const data = groupBy(fields, 'rowGroup');
+    return Object.keys(data).map(key => {
+      return {
+        key,
+        group: data[key],
+      };
+    });
   };
 
   render() {
-    const { title, onSave, onCopy, onDelete, onClose, entityData } = this.props;
-    const { entity, isActive } = this.state;
+    const {title, onSave, onCopy, onDelete, onClose, entityData} = this.props;
+    const {entity, isActive, scrollAnim} = this.state;
+
+    const navbarTranslate = scrollAnim.interpolate({
+      inputRange: [0, HEADER_HEIGHT],
+      outputRange: [0, -HEADER_HEIGHT],
+      extrapolate: 'clamp',
+    });
+
+    const navbarHeight = scrollAnim.interpolate({
+      inputRange: [HEADER_HEIGHT, DESCRIPTION_HEIGHT],
+      outputRange: [DESCRIPTION_HEIGHT, HEADER_HEIGHT],
+      extrapolate: 'clamp',
+    });
+
+    const headerTextColor = scrollAnim.interpolate({
+      inputRange: [HEADER_HEIGHT, DESCRIPTION_HEIGHT],
+      outputRange: [GlobalStyles.violetTextColor, GlobalStyles.whiteTextColor],
+      extrapolate: 'clamp',
+    });
+
+    const headerTextSize = scrollAnim.interpolate({
+      inputRange: [0, DESCRIPTION_HEIGHT],
+      outputRange: [30, 20],
+      extrapolate: 'clamp',
+    });
+
     return (
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text
-            style={[styles.titleText, { opacity: this.state.titleTextOpacity }]}
-          >
-            {title}
-          </Text>
-          <ActionsBar
-            onSave={() => onSave([entity])}
-            onCopy={() => onCopy([entity])}
-            onDelete={() => onDelete([entity])}
-            onClose={() => onClose(entity)}
-            onRevert={this.revertChanges}
-            style={styles.actionsBar}
-            allowedActions={isActive ? { ...entityData.databaseMethods } : {}}
-            selectionActions={false}
-          />
-        </View>
-        <View style={styles.flatList}>
-          <FlatList
-            keyExtractor={(field) => field.fieldName.toString()}
-            data={this.buildFlatListData(entityData)}
-            renderItem={this.renderField}
-          />
-        </View>
-      </View>
+      <Modal
+        visible={this.props.visible}
+        transparent={false}
+        animationType={'slide'}
+      >
+        <SafeAreaInsetsContext>
+          {(insets) => {
+            const top = Platform.OS === 'ios' ? insets.top : 0;
+            return (
+              <FlexContainer style={{
+                backgroundColor: GlobalStyles.lightBackgroundColor,
+                paddingTop: top,
+                paddingBottom: insets.bottom,
+              }}>
+                <View style={{...styles.topSafeArea, height: top}}/>
+                <View style={{...styles.bottomSafeArea, height: insets.bottom}}/>
+                <FlexContainer>
+                  <View style={styles.headerContainer}>
+                    <TouchableScale onPress={() => onClose(entity)}>
+                      <Ionicon name="arrow-back" color={'white'} size={BACK_ICON_SIZE}/>
+                    </TouchableScale>
+                  </View>
+
+                  <Animated.View
+                    style={[styles.navbar, {transform: [{translateY: navbarTranslate}], height: navbarHeight}]}>
+                    <Animated.Text style={{fontSize: headerTextSize, color: headerTextColor}}>
+                      {title}
+                    </Animated.Text>
+                  </Animated.View>
+                  <FlexContainer bottomTransparency topTransparency>
+                    <Animated.FlatList
+                      contentContainerStyle={{paddingTop: DESCRIPTION_HEIGHT}}
+                      scrollEventThrottle={16}
+                      bounces={false}
+                      onScroll={Animated.event(
+                        [{nativeEvent: {contentOffset: {y: this.state.scrollAnim}}}],
+                        {useNativeDriver: false},
+                      )}
+                      keyExtractor={(group) => group.key.toString()}
+                      data={this.buildFlatListData(entityData)}
+                      renderItem={this.renderGroup}
+                    />
+                  </FlexContainer>
+                  <View style={styles.actionsBar}>
+                    <ActionsBar
+                      onSave={() => onSave([entity])}
+                      onCopy={() => onCopy([entity])}
+                      onDelete={() => onDelete([entity])}
+                      onClose={() => onClose(entity)}
+                      onRevert={this.revertChanges}
+                      containerStyle={styles.actionsBarContainer}
+                      iconStyle={styles.actionsBarIcon}
+                      allowedActions={isActive ? {...entityData.databaseMethods} : {}}
+                      selectionActions={false}
+                    />
+                  </View>
+                </FlexContainer>
+              </FlexContainer>
+            );
+          }}
+        </SafeAreaInsetsContext>
+      </Modal>
     );
   }
 }
@@ -208,35 +300,55 @@ EntityEditor.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  actionsBar: {
-    alignSelf: 'flex-start',
-    borderTopColor: GlobalStyles.lightBackgroundColor,
-    borderTopWidth: 2,
-    height: hp(5),
-  },
-  container: {
-    flex: 1,
-  },
-  flatList: {
-    alignSelf: 'center',
-    backgroundColor: '#f4f3ff',
-    borderColor: GlobalStyles.violetColor,
-    borderRadius: 10,
-    borderWidth: 1,
-    flex: 1,
-    margin: 10,
-    padding: 10,
-    width: '95%',
-  },
-  headerContainer: {
-    alignItems: 'center',
+  topSafeArea: {
+    position: 'absolute',
+    width: '100%',
     backgroundColor: GlobalStyles.violetBackgroundColor,
-    elevation: 5,
-    flexDirection: 'column',
-    height: hp(10),
+  },
+  bottomSafeArea: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: GlobalStyles.violetBackgroundColor,
+  },
+  navbar: {
+    marginTop: HEADER_HEIGHT,
+    position: 'absolute',
+    alignSelf: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    width: wp(100) - BACK_ICON_SIZE * 2,
+  },
+  actionsBar: {
+    width: '100%',
+  },
+  actionsBarContainer: {
     paddingLeft: 10,
     paddingRight: 10,
+    alignSelf: 'flex-start',
+    borderTopColor: GlobalStyles.transparentBackgroundColor,
+    borderTopWidth: 0,
+    backgroundColor: GlobalStyles.violetBackgroundColor,
+    height: ACTIONS_BAR_HEIGHT,
+  },
+  actionsBarIcon: {
+    iconColor: GlobalStyles.lightIconColor,
+  },
+  group: {
+    borderRadius: 10,
+    margin: 10,
+    flex: 1,
+    padding: 10,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    elevation: 4,
+  },
+  headerContainer: {
+    height: HEADER_HEIGHT,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: GlobalStyles.violetBackgroundColor,
+    flexDirection: 'row',
   },
   titleText: {
     alignSelf: 'flex-start',

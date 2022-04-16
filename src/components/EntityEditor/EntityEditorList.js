@@ -14,7 +14,7 @@ import { ScaleAnimation, SlideAnimation } from '../../animations';
 import Entity from './Entity';
 import { showSuccess, showError } from '../ApplicationMessaging/Popups';
 import { ConfirmationDialog } from './Dialog';
-import messaging from '@react-native-firebase/messaging';
+import { EventRegister } from 'react-native-event-listeners';
 
 export default class EntityEditorList extends Component {
   constructor(props) {
@@ -306,17 +306,16 @@ export default class EntityEditorList extends Component {
     );
   };
 
-  initFirebaseListener() {
-    this.firebaseMessageListener = messaging().onMessage(
-      async (remoteMessage) => {
-        const { entityName } = this.props;
-        if (remoteMessage.data.entityEditor) {
-          const entityEditorEvent = JSON.parse(remoteMessage.data.entityEditor);
-          if (entityEditorEvent.entityName !== entityName.toLowerCase()) {
-            return;
-          }
-          await this.onRefresh();
+  initEventListener() {
+    this.firebaseMessageListener = EventRegister.addEventListener(
+      'entityEditor',
+      async (entityEditorEvent) => {
+        if (
+          entityEditorEvent.entityName !== this.props.entityName.toLowerCase()
+        ) {
+          return;
         }
+        await this.onRefresh();
       }
     );
   }
@@ -335,11 +334,12 @@ export default class EntityEditorList extends Component {
     this.entityData = this.entityEditorData.GetEntityData(entityName);
     this.pagination = new Pagination(this.paginationDetails);
     await this.pagination.fetchPage(this.processServerResponse);
-    this.initFirebaseListener();
+    this.initEventListener();
   }
 
   componentWillUnmount() {
-    this.firebaseMessageListener && this.firebaseMessageListener();
+    this.firebaseMessageListener &&
+      EventRegister.removeEventListener(this.firebaseMessageListener);
   }
 
   render() {
@@ -370,7 +370,7 @@ export default class EntityEditorList extends Component {
             ]}
           >
             <EntityEditor
-              title={title + ' Editor'}
+              title={title}
               entity={currentEntity}
               entityData={this.entityData}
               entityEditorData={this.entityEditorData}

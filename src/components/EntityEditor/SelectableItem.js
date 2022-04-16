@@ -1,11 +1,10 @@
-import { Animated, Pressable, StyleSheet } from 'react-native';
-import React, { Component } from 'react';
-import CheckBox from '@react-native-community/checkbox';
-import { GlobalStyles } from '../../globals/GlobalStyles';
-import { ScaleAnimation } from '../../animations';
+import {Animated, Pressable, StyleSheet, View} from 'react-native';
+import React, {Component} from 'react';
+import {GlobalStyles} from '../../globals/GlobalStyles';
+import {ScaleAnimation} from '../../animations';
 import PropTypes from 'prop-types';
 import Entity from './Entity';
-import { StatusLabel } from './controls/StatusLabel';
+import {StatusLabel} from './controls/StatusLabel';
 
 const itemMargin = 1;
 const itemPadding = 3;
@@ -14,7 +13,7 @@ export default class SelectableItem extends Component {
   scaleAnimation = new ScaleAnimation();
 
   onEntityLongPress = () => {
-    const { selectionMode, onEntityPress, onEntityLongPress } = this.props;
+    const {selectionMode, onEntityPress, onEntityLongPress} = this.props;
     if (selectionMode) {
       return;
     }
@@ -23,15 +22,8 @@ export default class SelectableItem extends Component {
   };
 
   render() {
-    const {
-      selectionMode,
-      ItemComponent,
-      width,
-      entity,
-      entityData,
-      onRefresh,
-      onEntityPress,
-    } = this.props;
+    const {selectionMode, ItemComponent, width, entity, entityData, onRefresh, onEntityPress} =
+      this.props;
     return (
       <Pressable
         onPress={onEntityPress}
@@ -43,27 +35,16 @@ export default class SelectableItem extends Component {
         }}
         onLongPress={this.onEntityLongPress}
         style={[
-          { width: width - 2 * itemMargin },
+          {width: width - 2 * itemMargin},
           styles.container,
           entity.selected ? styles.selected : null,
         ]}
       >
-        {selectionMode ? (
-          <CheckBox
-            style={styles.selectionCheckBox}
-            disabled={false}
-            value={entity.isSelected()}
-            onValueChange={onEntityPress}
-            tintColors={{
-              true: GlobalStyles.violetIconColor,
-              false: GlobalStyles.transparentIconColor,
-            }}
-          />
+        {selectionMode && entity.isSelected() ? (
+          <View style={styles.selectionIndicator}/>
         ) : null}
-        <StatusLabel style={styles.statusLabel} status={entity.getStatus()} />
-        <Animated.View
-          style={[styles.itemContainer, this.scaleAnimation.getStyle()]}
-        >
+        <StatusLabel style={styles.statusLabel} status={entity.getStatus()}/>
+        <Animated.View style={[styles.itemContainer, this.scaleAnimation.getStyle()]}>
           <ItemComponent
             item={entity.getItem()}
             width={width - 2 * (itemMargin + itemPadding)}
@@ -96,15 +77,17 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   selected: {
-    backgroundColor: GlobalStyles.violetColor,
+    backgroundColor: GlobalStyles.lightVioletColor,
+    opacity: '10%',
     zIndex: 0,
   },
-  selectionCheckBox: {
-    alignItems: 'center',
-    left: '5%',
+  selectionIndicator: {
     position: 'absolute',
-    top: '5%',
-    zIndex: 1,
+    zIndex: 2,
+    backgroundColor: GlobalStyles.lightVioletColor,
+    opacity: 0.4,
+    width: '100%',
+    height: '100%'
   },
   statusLabel: {
     position: 'absolute',

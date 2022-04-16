@@ -8,11 +8,14 @@ import Storage from './src/helpers/Storage';
 import { GlobalStyles } from './src/globals/GlobalStyles';
 import Login from './src/screens/Login';
 import ServerConfig from './src/screens/ServerConfig';
-import { SafeAreaProvider } from 'react-native-safe-area-context/src/SafeAreaContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Orientation from 'react-native-orientation-locker';
 import FlashMessage, { FlashMessageManager } from 'react-native-flash-message';
 import SessionController from './src/helpers/SessionController';
 import { navigationRef } from './src/helpers/RootNavigation';
+import FontsLoader from './FontsLoader';
+
+FontsLoader.load();
 
 const RootStackNavigator = createStackNavigator();
 const screenOptions = {

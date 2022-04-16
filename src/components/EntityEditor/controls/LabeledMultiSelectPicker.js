@@ -242,7 +242,6 @@ const styles = StyleSheet.create({
   label: {
     color: GlobalStyles.greyTextColor,
     fontSize: GlobalStyles.defaultFontSize,
-    fontWeight: 'bold',
   },
   multiSelectContainer: {
     flexGrow: 1,

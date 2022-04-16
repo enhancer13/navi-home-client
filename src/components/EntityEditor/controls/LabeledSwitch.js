@@ -40,14 +40,17 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'row',
-    height: hp(4),
+    height: hp(3),
     justifyContent: 'space-between',
     marginRight: 5,
   },
   label: {
-    color: GlobalStyles.greyTextColor,
+    color: GlobalStyles.blackTextColor,
     fontSize: GlobalStyles.defaultFontSize,
-    fontWeight: 'bold',
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   rowContainer: {
     alignItems: 'center',

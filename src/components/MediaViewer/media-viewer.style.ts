@@ -7,7 +7,7 @@ import {
 export default (
   width: number,
   height: number,
-  backgroundColor: string
+  backgroundColor: string,
 ): {
   [x: string]: ViewStyle | TextStyle;
 } => {
@@ -114,7 +114,7 @@ export const simpleStyle: {
     backgroundColor: 'transparent',
   },
   countText: {
-    color: 'white',
+    color: 'grey',
     fontSize: 16,
     backgroundColor: 'transparent',
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
