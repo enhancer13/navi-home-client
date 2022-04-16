@@ -5,14 +5,14 @@ import ajaxRequest from '../../helpers/AjaxRequest';
 import Globals from '../../globals/Globals';
 import { GlobalStyles } from '../../globals/GlobalStyles';
 import { DefaultNavigationBar } from '../../components';
-import DefaultSafeAreaView from '../../components/DefaultSafeAreaView';
-import DefaultText from '../../components/DefaultText';
+import TextInput from '../../components/DefaultText';
 import DefaultTextInput from '../../components/DefaultTextInput';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AnimatedPressableIcon from '../../components/AnimatedPressableIcon';
+import FlexSafeAreaView from '../../components/View/FlexSafeAreaView';
 import {
   showSuccess,
   showError,
@@ -132,16 +132,16 @@ export default class ServerConfig extends Component {
     const { serverName, serverAddress, loading } = this.state;
     const { action } = this.props.route.params;
     return (
-      <DefaultSafeAreaView>
+      <FlexSafeAreaView style={{ flex: 1 }}>
         <DefaultNavigationBar />
         <View style={styles.container}>
           <View style={styles.serverInputContainer}>
             {/* eslint-disable-next-line react-native/no-raw-text */}
-            <DefaultText>
+            <TextInput>
               {
                 'Please enter the valid Orion server address.\n\nExample:\nhttps://127.0.0.1:9000\n'
               }
-            </DefaultText>
+            </TextInput>
             <DefaultTextInput
               style={styles.textInput}
               placeholder="Server name"
@@ -190,7 +190,7 @@ export default class ServerConfig extends Component {
             />
           </TouchableOpacity>
         </View>
-      </DefaultSafeAreaView>
+      </FlexSafeAreaView>
     );
   }
 }

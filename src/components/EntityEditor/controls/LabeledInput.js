@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Icon } from 'react-native-elements';
 import { StatusLabel } from './StatusLabel';
-import DefaultText from '../../DefaultText';
+import TextInput from '../../DefaultText';
 import DefaultTextInput from '../../DefaultTextInput';
 
 function LabeledInput(props) {
@@ -22,33 +22,21 @@ function LabeledInput(props) {
   } = props;
   const icon = iconName && (
     <TouchableOpacity onPress={onIconPress} style={styles.iconContainer}>
-      <Icon
-        name={iconName}
-        type={iconType}
-        color={GlobalStyles.violetIconColor}
-        size={hp(4)}
-      />
+      <Icon name={iconName} type={iconType} color={GlobalStyles.violetIconColor} size={hp(3)} />
     </TouchableOpacity>
   );
   return (
     <View style={styles.columnContainer}>
       <View style={styles.rowContainer}>
-        <DefaultText style={styles.label}>{label}</DefaultText>
+        <TextInput style={styles.label}>{label}</TextInput>
         <StatusLabel style={styles.statusLabel} status={fieldStatus} />
       </View>
       <View style={styles.rowContainer}>
         {iconLeft && icon}
         <View style={styles.container}>
-          <DefaultTextInput
-            {...props}
-            colorScheme={GlobalStyles.colorScheme.BLACK}
-            style={styles.textInput}
-          />
+          <DefaultTextInput {...props} style={styles.textInput} />
           {showClear && (
-            <TouchableOpacity
-              onPress={onClear}
-              style={styles.clearIconContainer}
-            >
+            <TouchableOpacity onPress={onClear} style={styles.clearIconContainer}>
               <Icon
                 name={'remove'}
                 type={'font-awesome'}
@@ -103,8 +91,10 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   label: {
+    paddingLeft: 5,
+    paddingRight: 5,
     color: GlobalStyles.greyTextColor,
-    fontWeight: 'bold',
+    fontSize: GlobalStyles.defaultFontSize,
   },
   rowContainer: {
     alignItems: 'center',
@@ -116,9 +106,14 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: GlobalStyles.whiteBackgroundColor,
-    borderColor: GlobalStyles.lightGreyColor,
-    borderRadius: 5,
-    borderWidth: 1,
+    borderColor: GlobalStyles.transparentBackgroundColor,
     flexGrow: 1,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
+    height: hp(3),
+    color: GlobalStyles.blackTextColor,
+    fontSize: GlobalStyles.defaultFontSize,
   },
 });

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>446679392471-g4v9hg435v26o2sh185gs1iavvkgk906.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.446679392471-g4v9hg435v26o2sh185gs1iavvkgk906</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAhwmHP9aU-bVXr2jS6mUvmuibpvnr7vXc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>446679392471</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.OrionMobileClient</string>
+	<key>PROJECT_ID</key>
+	<string>orionmobileclient</string>
+	<key>STORAGE_BUCKET</key>
+	<string>orionmobileclient.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:446679392471:ios:e36dd56dc81e61f2529092</string>
+	<key>DATABASE_URL</key>
+	<string>https://orionmobileclient.firebaseio.com</string>
+</dict>
+</plist>

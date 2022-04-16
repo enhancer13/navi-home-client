@@ -92,7 +92,7 @@ export default class VideoStreamingPlayer extends Component {
         style={styles.player.controls}
       >
         <View style={styles.player.info}>
-          <Text style={styles.player.infoText}>
+          <Text style={styles.player.infoText} adjustsFontSizeToFit>
             {this.props.videoSource.name}
           </Text>
         </View>

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Image, Text, View, ViewStyle } from 'react-native';
+import { Text, View, ViewStyle } from 'react-native';
 import { simpleStyle } from './media-viewer.style';
+import FastImage from 'react-native-fast-image';
 
 interface IOnMove {
   type: string;
@@ -36,11 +37,11 @@ export class Props {
   public useNativeDriver?: boolean = false;
   public menus?: ({ cancel, saveToLocal }: any) => React.ReactElement<any>;
   public thumbnailContainerStyle?: ViewStyle = {};
+  public mediaZoomStyle?: ViewStyle = {};
   public showThumbnails?: boolean = false;
 
   public onLongPress?: (image?: IMediaInfo) => void = () => {};
-  public onClick?: (close?: () => any, currentShowIndex?: number) => void =
-    () => {};
+  public onClick?: (close?: () => any, currentShowIndex?: number) => void = () => {};
   public onDoubleClick?: (close?: () => any) => void = () => {};
   public onSave?: (url: string) => void = () => {};
   public onMove?: (position?: IOnMove) => void = () => {};
@@ -49,35 +50,27 @@ export class Props {
   public onSwipeDown?: () => void = () => {};
   public onChange?: (index?: number) => void = () => {};
 
-  public renderHeader?: (currentIndex?: number) => React.ReactElement<any> =
-    () => {
-      return null as any;
-    };
+  public renderHeader?: (currentIndex?: number) => React.ReactElement<any> = () => {
+    return null as any;
+  };
 
-  public renderFooter?: (currentIndex: number) => React.ReactElement<any> =
-    () => {
-      return null as any;
-    };
+  public renderFooter?: (currentIndex: number) => React.ReactElement<any> = () => {
+    return null as any;
+  };
 
-  public renderIndicator?: (
+  public renderIndicator?: (currentIndex?: number, allSize?: number) => React.ReactElement<any> = (
     currentIndex?: number,
-    allSize?: number
-  ) => React.ReactElement<any> = (currentIndex?: number, allSize?: number) => {
+    allSize?: number,
+  ) => {
     return React.createElement(
       View,
       { style: simpleStyle.count },
-      React.createElement(
-        Text,
-        { style: simpleStyle.countText },
-        currentIndex + '/' + allSize
-      )
+      React.createElement(Text, { style: simpleStyle.countText }, currentIndex + '/' + allSize),
     );
   };
 
-  public renderImage?: (props: any) => React.ReactElement<any> = (
-    props: any
-  ) => {
-    return React.createElement(Image, props);
+  public renderImage?: (props: any) => React.ReactElement<any> = (props: any) => {
+    return React.createElement(FastImage, props);
   };
 
   public renderArrowLeft?: () => React.ReactElement<any> = () => {

@@ -13,14 +13,8 @@ function MediaGalleryNavigator() {
         headerMode: false,
       }}
     >
-      <GalleryNavigator.Screen
-        name="MediaFolderViewer"
-        component={MediaFolderViewer}
-      />
-      <GalleryNavigator.Screen
-        name="MediaFileViewer"
-        component={MediaFileViewer}
-      />
+      <GalleryNavigator.Screen name="MediaFolderViewer" component={MediaFolderViewer} />
+      <GalleryNavigator.Screen name="MediaFileViewer" component={MediaFileViewer} />
     </GalleryNavigator.Navigator>
   );
 }

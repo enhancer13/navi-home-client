@@ -144,7 +144,7 @@ export default class Header extends Component {
                 onSelectAll={onSelectAll}
                 onDeselectAll={onDeselectAll}
                 onClose={onStopSelectionMode}
-                style={styles.actionsBar}
+                containerStyle={styles.actionsBar}
                 allowedActions={{ ...databaseMethods, select: true }}
               />
             ) : (

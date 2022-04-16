@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   listItemContainer: {
-    backgroundColor: GlobalStyles.lightBackgroundColor,
+    backgroundColor: GlobalStyles.whiteBackgroundColor,
     borderRadius: 10,
     ...Platform.select({
       ios: {

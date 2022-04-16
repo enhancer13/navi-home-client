@@ -2,7 +2,7 @@ import { Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { GlobalStyles } from '../../globals/GlobalStyles';
 
-const DefaultText = (props) => {
+const TextInput = (props) => {
   return (
     <Text {...props} style={{ ...styles.text, ...props.style }}>
       {props.children}
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DefaultText;
+export default TextInput;

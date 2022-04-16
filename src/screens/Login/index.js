@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import LoginForm from './LoginForm';
-import { Animated, StyleSheet } from 'react-native';
+import {Animated, StyleSheet, View} from 'react-native';
 import { DefaultNavigationBar } from '../../components';
-import DefaultSafeAreaView from '../../components/DefaultSafeAreaView';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import FlexContainer from '../../components/View/FlexContainer';
 
 const backgroundIcons = [
   {
@@ -167,7 +164,7 @@ export default class Login extends Component {
 
   render() {
     return (
-      <DefaultSafeAreaView>
+      <FlexContainer>
         <DefaultNavigationBar />
         {this.animatedImages}
         <Animated.View
@@ -186,7 +183,7 @@ export default class Login extends Component {
             {...this.props}
           />
         </Animated.View>
-      </DefaultSafeAreaView>
+      </FlexContainer>
     );
   }
 }

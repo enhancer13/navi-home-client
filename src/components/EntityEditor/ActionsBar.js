@@ -8,31 +8,23 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { GlobalStyles } from '../../globals/GlobalStyles';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-const iconColor = GlobalStyles.lightIconColor;
+import {ViewPropTypes} from 'deprecated-react-native-prop-types';
+import {SlideAnimation} from '../../animations';
 
 export default class ActionsBar extends Component {
   constructor(props) {
     super(props);
-    this.actionsBarAnimationValue = new Animated.Value(0);
+    this.slideAnimation = new SlideAnimation(new Animated.Value(props.containerStyle.height));
   }
 
-  loadingAnimation = () => {
-    this.actionsBarAnimationValue.setValue(0);
-    Animated.timing(this.actionsBarAnimationValue, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
-  };
+  loadingAnimation = () =>{
+    Animated.sequence([
+      Animated.delay(200),
+      this.slideAnimation.getAnimation(0, 200)
+    ]).start();
+  }
 
-  closingAnimation = () => {
-    Animated.timing(this.actionsBarAnimationValue, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(this.props.onClose);
-  };
+  closingAnimation = () => this.slideAnimation.getAnimation(this.props.containerStyle.height, 200).start(this.props.onClose)
 
   componentDidMount() {
     this.loadingAnimation();
@@ -47,18 +39,20 @@ export default class ActionsBar extends Component {
       onDeselectAll,
       onRevert,
       allowedActions,
-      style,
+      containerStyle,
+      iconStyle,
     } = this.props;
-    const iconSize = style.height * 0.8;
+    const iconSize = containerStyle.height * 0.8;
+    const iconColor = iconStyle?.iconColor ?? GlobalStyles.lightIconColor;
     return (
       <Animated.View
         style={[
           styles.actionsBar,
-          style,
+          containerStyle,
           {
-            opacity: this.actionsBarAnimationValue,
-            transform: [{ scale: this.actionsBarAnimationValue }],
+            //opacity: this.actionsBarAnimationValue,
           },
+          this.slideAnimation.getStyle(),
         ]}
       >
         <View style={styles.dynamicItemsContainer}>
@@ -131,12 +125,13 @@ ActionsBar.propTypes = {
   onDeselectAll: PropTypes.func,
   onRevert: PropTypes.func,
   allowedActions: PropTypes.object.isRequired,
+  containerStyle: ViewPropTypes.style,
+  iconStyle: ViewPropTypes.style,
 };
 
 const styles = StyleSheet.create({
   actionsBar: {
     alignSelf: 'center',
-    borderRadius: 5,
     flexDirection: 'row',
     flexGrow: 1,
   },

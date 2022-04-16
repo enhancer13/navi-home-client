@@ -13,7 +13,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GlobalStyles } from '../../../globals/GlobalStyles';
 import EntityViewContainer from '../../../components/EntityEditor/EntityViewContainer';
-import DefaultText from '../../../components/DefaultText';
+import TextInput from '../../../components/DefaultText';
 import { ScaleAnimation } from '../../../animations';
 import Dialog from 'react-native-dialog';
 import { showError } from '../../../components/ApplicationMessaging/Popups';
@@ -138,9 +138,9 @@ export default class AlarmProfile extends Component {
                 },
               ]}
             >
-              <DefaultText style={styles.alarmDayOfWeekText}>
+              <TextInput style={styles.alarmDayOfWeekText}>
                 {alarmDayOfWeek}
-              </DefaultText>
+              </TextInput>
             </View>
           );
         })}
@@ -228,13 +228,13 @@ export default class AlarmProfile extends Component {
       <View>
         <View style={styles.alarmActionsContainer}>
           <View style={styles.usersContainer}>
-            <DefaultText numberOfLines={1} style={styles.usersText}>
+            <TextInput numberOfLines={1} style={styles.usersText}>
               {users.map((user) => user.username).join(', ')}
-            </DefaultText>
+            </TextInput>
           </View>
           {this.renderAlarmActions(alarmActions)}
         </View>
-        <DefaultText>{alarmTimeRange}</DefaultText>
+        <TextInput>{alarmTimeRange}</TextInput>
         {this.renderAlarmDays(alarmDaysOfWeek)}
       </View>
     );
