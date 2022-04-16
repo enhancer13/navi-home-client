@@ -28,7 +28,8 @@ export default {
   Endpoints: {
     SERVICE_ACCOUNTS: '/api/jwt/users/service-accounts',
     ENTITY_EDITOR_DATA: '/api/jwt/entity-editor-data',
-    JWT_AUTHORIZATION: '/api/jwt/auth/login',
+    JWT_LOGIN: '/api/jwt/auth/login',
+    JWT_LOGOUT: '/api/jwt/auth/logout',
     JWT_TOKEN_REFRESH: '/api/jwt/users/token/refresh',
     APPLICATION_INFO: '/api/jwt/application/info',
     Services: {
