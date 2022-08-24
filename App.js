@@ -1,19 +1,20 @@
 import 'react-native-gesture-handler';
-import React, { Component } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, {Component} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import Home from './src/screens/Home';
-import { AppState } from 'react-native';
+import {AppState} from 'react-native';
 import Storage from './src/helpers/Storage';
-import { GlobalStyles } from './src/globals/GlobalStyles';
+import {GlobalStyles} from './src/config/GlobalStyles';
 import Login from './src/screens/Login';
 import ServerConfig from './src/screens/ServerConfig';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Orientation from 'react-native-orientation-locker';
-import FlashMessage, { FlashMessageManager } from 'react-native-flash-message';
+import FlashMessage, {FlashMessageManager} from 'react-native-flash-message';
 import SessionController from './src/helpers/SessionController';
-import { navigationRef } from './src/helpers/RootNavigation';
-import FontsLoader from './FontsLoader';
+import {navigationRef} from './src/helpers/RootNavigation';
+import FontsLoader from './src/helpers/FontsLoader';
+import {requestFirebasePermissions} from './src/helpers/PermisionRequester';
 
 FontsLoader.load();
 
@@ -23,7 +24,7 @@ const screenOptions = {
     backgroundColor: GlobalStyles.violetBackgroundColor,
   },
   headerTintColor: GlobalStyles.lightIconColor,
-  headerTitleStyle: { color: GlobalStyles.lightTextColor },
+  headerTitleStyle: {color: GlobalStyles.lightTextColor},
   headerTitleAlign: 'center',
 };
 
@@ -41,7 +42,7 @@ export default class App extends Component {
       console.log('App has come to the foreground!');
     }
     FlashMessageManager.setDisabled(nextAppState !== 'active');
-    this.setState({ appState: nextAppState });
+    this.setState({appState: nextAppState});
   };
 
   async componentDidMount() {
@@ -52,8 +53,9 @@ export default class App extends Component {
       console.error(e);
     }
     Storage.initializeStorage().then(() =>
-      this.setState({ initialized: true })
+      this.setState({initialized: true}),
     );
+    await requestFirebasePermissions();
   }
 
   componentWillUnmount() {
@@ -81,12 +83,12 @@ export default class App extends Component {
             <RootStackNavigator.Screen
               name="Home"
               component={Home}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
           </RootStackNavigator.Navigator>
         </NavigationContainer>
-        <SessionController />
-        <FlashMessage position="bottom" />
+        <SessionController/>
+        <FlashMessage position="bottom"/>
       </SafeAreaProvider>
     );
   }

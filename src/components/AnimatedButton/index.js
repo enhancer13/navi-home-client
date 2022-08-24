@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Animated, Pressable, StyleSheet, Text } from 'react-native';
 import { ScaleAnimation } from '../../animations';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default class AnimatedButton extends Component {

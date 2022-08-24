@@ -3,7 +3,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import React from 'react';
-import { GlobalStyles } from '../../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../../config/GlobalStyles';
 
 function MediaFolder(props) {
   const {

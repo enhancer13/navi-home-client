@@ -7,7 +7,7 @@ import LiveStreaming from './LiveStreaming';
 import Settings from './Settings';
 import AlarmProfileEntityEditor from './Alarm';
 import MyAccount from './MyAccount';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 import { DefaultNavigationBar } from '../../components';
 import MediaGalleryNavigator from './MediaGallery';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';

@@ -1,6 +1,6 @@
 import {Animated, Pressable, StyleSheet, View} from 'react-native';
 import React, {Component} from 'react';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import {GlobalStyles} from '../../config/GlobalStyles';
 import {ScaleAnimation} from '../../animations';
 import PropTypes from 'prop-types';
 import Entity from './Entity';

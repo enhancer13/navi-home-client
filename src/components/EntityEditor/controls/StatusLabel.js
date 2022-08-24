@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 import PropTypes from 'prop-types';
-import { GlobalStyles } from '../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../config/GlobalStyles';
 
 const Status = Object.freeze({
   NEW: 'New',

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import LabeledInput from './LabeledInput';
 import Moment from 'moment';
-import Globals from '../../../globals/Globals';
+import {applicationConstants} from '../../../config/ApplicationConstants';
 import DatePicker from 'react-native-date-picker';
 
 const pickerModes = Object.freeze({
@@ -29,7 +29,7 @@ export default class LabeledDateTimePicker extends Component {
       const momentValue = Moment(value);
       if (!momentValue.isSame(this.state.momentValue)) {
         const {mode, onChange} = this.props;
-        onChange(momentValue.format(Globals.Formats[mode]));
+        onChange(momentValue.format(applicationConstants.Formats[mode]));
       }
     }
   };
@@ -38,7 +38,7 @@ export default class LabeledDateTimePicker extends Component {
     if (nextProps.value !== null) {
       const momentValue = Moment(
         nextProps.value,
-        Globals.Formats[nextProps.mode],
+        applicationConstants.Formats[nextProps.mode],
       );
       if (momentValue !== prevState.momentValue) {
         return {
@@ -89,7 +89,7 @@ export default class LabeledDateTimePicker extends Component {
           label={label}
           value={
             momentValue
-              ? momentValue.format(Globals.Formats[pickerMode])
+              ? momentValue.format(applicationConstants.Formats[pickerMode])
               : ''
           }
           fieldStatus={fieldStatus}

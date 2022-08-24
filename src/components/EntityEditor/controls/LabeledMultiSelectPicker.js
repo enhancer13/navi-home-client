@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { GlobalStyles } from '../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../config/GlobalStyles';
 import PropTypes from 'prop-types';
 import MultiSelect from 'react-native-multiple-select';
 import Pagination from '../../../helpers/Pagination';

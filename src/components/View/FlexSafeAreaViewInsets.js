@@ -2,7 +2,7 @@ import {Platform, StyleSheet, View} from 'react-native';
 import {ViewPropTypes} from 'deprecated-react-native-prop-types'
 import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 
 function FlexSafeAreaViewInsets(props) {
   const insets = useSafeAreaInsets();

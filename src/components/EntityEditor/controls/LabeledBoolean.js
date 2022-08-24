@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { GlobalStyles } from '../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../config/GlobalStyles';
 import React from 'react';
 
 function LabeledBoolean(props) {

@@ -1,5 +1,5 @@
 import AjaxRequest from '../../helpers/AjaxRequest';
-import Globals from '../../globals/Globals';
+import {applicationConstants} from '../../config/ApplicationConstants';
 
 const controllerAuthorization = Object.freeze({
   GENERAL: 'GENERAL',
@@ -14,7 +14,7 @@ class EntityEditorData {
   async Initialize() {
     if (!this.#entitiesMap) {
       const response = await AjaxRequest.get(
-        Globals.Endpoints.ENTITY_EDITOR_DATA
+        applicationConstants.Endpoints.ENTITY_EDITOR_DATA
       );
       this.#entitiesMap = new Map(
         response.map((item) => [item.objectName, item])

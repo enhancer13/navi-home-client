@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import {Animated, Platform, StyleSheet, View} from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {ViewPropTypes} from 'deprecated-react-native-prop-types';
@@ -24,7 +24,10 @@ export default class ActionsBar extends Component {
     ]).start();
   }
 
-  closingAnimation = () => this.slideAnimation.getAnimation(this.props.containerStyle.height, 200).start(this.props.onClose)
+  closingAnimation = () => {
+    const bottomInsets = Platform.OS === 'ios' ? this.props.insets.bottom : 0;
+    this.slideAnimation.getAnimation(this.props.containerStyle.height + bottomInsets, 200).start(this.props.onClose)
+  }
 
   componentDidMount() {
     this.loadingAnimation();
@@ -126,6 +129,7 @@ ActionsBar.propTypes = {
   onRevert: PropTypes.func,
   allowedActions: PropTypes.object.isRequired,
   containerStyle: ViewPropTypes.style,
+  insets: PropTypes.object,
   iconStyle: ViewPropTypes.style,
 };
 

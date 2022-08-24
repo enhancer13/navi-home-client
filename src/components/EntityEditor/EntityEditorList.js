@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { isTablet } from 'react-native-device-info';
 import AjaxRequest from '../../helpers/AjaxRequest';
 import { FAB } from 'react-native-elements';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 import EntityEditor from './EntityEditor';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { ScaleAnimation, SlideAnimation } from '../../animations';

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Storage from '../../helpers/Storage';
 import ajaxRequest from '../../helpers/AjaxRequest';
-import Globals from '../../globals/Globals';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import {applicationConstants} from '../../config/ApplicationConstants';
+import { GlobalStyles } from '../../config/GlobalStyles';
 import { DefaultNavigationBar } from '../../components';
 import TextInput from '../../components/DefaultText';
 import DefaultTextInput from '../../components/DefaultTextInput';
@@ -17,6 +17,7 @@ import {
   showSuccess,
   showError,
 } from '../../components/ApplicationMessaging/Popups';
+import {backendEndpoints} from '../../config/BackendEndpoints';
 
 const iconSize = hp(5);
 
@@ -59,19 +60,19 @@ export default class ServerConfig extends Component {
     const { navigation } = this.props;
     switch (action) {
       case serverActionsEnum.ADD:
-        let servers = await Storage.getListItem(Globals.SERVERS);
+        let servers = await Storage.getListItem(applicationConstants.SERVERS);
         if (servers.some((s) => s.serverName === serverName)) {
           showError(
             `Unable to save server configuration, cause server name: ${serverName} already exists.`
           );
           return;
         }
-        await Storage.addListItem(Globals.SERVERS, server);
+        await Storage.addListItem(applicationConstants.SERVERS, server);
         navigation.navigate('Login', { loading: false });
         break;
       case serverActionsEnum.EDIT:
         await Storage.updateListItem(
-          Globals.SERVERS,
+          applicationConstants.SERVERS,
           server,
           'serverName',
           this.props.route.params.server.serverName
@@ -80,7 +81,7 @@ export default class ServerConfig extends Component {
         break;
       case serverActionsEnum.DELETE:
         await Storage.removeListItem(
-          Globals.SERVERS,
+          applicationConstants.SERVERS,
           this.props.route.params.server.serverName,
           'serverName'
         );
@@ -92,7 +93,7 @@ export default class ServerConfig extends Component {
             loading: true,
           });
           const { name, version, build } = await ajaxRequest.get(
-            serverAddress + Globals.Endpoints.APPLICATION_INFO,
+            serverAddress + backendEndpoints.APPLICATION_INFO,
             { skipAuthorization: true }
           );
           showSuccess(name + '\nversion: ' + version + '\nbuild: ' + build);
@@ -132,14 +133,13 @@ export default class ServerConfig extends Component {
     const { serverName, serverAddress, loading } = this.state;
     const { action } = this.props.route.params;
     return (
-      <FlexSafeAreaView style={{ flex: 1 }}>
+      <FlexSafeAreaView ignoreTopInsets={true}>
         <DefaultNavigationBar />
         <View style={styles.container}>
           <View style={styles.serverInputContainer}>
-            {/* eslint-disable-next-line react-native/no-raw-text */}
             <TextInput>
               {
-                'Please enter the valid Orion server address.\n\nExample:\nhttps://127.0.0.1:9000\n'
+                'Please enter the valid Navi Home server address.\n\nExample:\nhttps://127.0.0.1:9000\n'
               }
             </TextInput>
             <DefaultTextInput
@@ -214,7 +214,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '90%',
   },
-  // eslint-disable-next-line react-native/no-color-literals
   textInput: {
     borderBottomColor: '#c5c5c5',
     borderBottomWidth: 1,

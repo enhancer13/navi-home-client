@@ -2,8 +2,9 @@ import decodeJWT from 'jwt-decode';
 import * as Keychain from 'react-native-keychain';
 import auth from '@react-native-firebase/auth';
 import Storage from './Storage';
-import Globals from '../globals/Globals';
+import {applicationConstants} from '../config/ApplicationConstants';
 import messaging from '@react-native-firebase/messaging';
+import {backendEndpoints} from '../config/BackendEndpoints';
 
 class AuthService {
   #timeout = 20000;
@@ -91,9 +92,9 @@ class AuthService {
         `There is no biometry information for combination of username: ${username} and server: ${serverName}.`
       );
     }
-    await Storage.setTextItem(Globals.Authorization.SERVER_NAME, serverName);
-    await Storage.setTextItem(Globals.Authorization.USERNAME, username);
-    this.#serverAddress = (await Storage.getListItem(Globals.SERVERS)).find(
+    await Storage.setTextItem(applicationConstants.Authorization.SERVER_NAME, serverName);
+    await Storage.setTextItem(applicationConstants.Authorization.USERNAME, username);
+    this.#serverAddress = (await Storage.getListItem(applicationConstants.SERVERS)).find(
       (s) => s.serverName === serverName
     ).serverAddress;
     this.#accessToken = await this.#requestAccessToken();
@@ -101,15 +102,15 @@ class AuthService {
   };
 
   tryCredentialsAuthentication = async (serverName, username, password) => {
-    await Storage.setTextItem(Globals.Authorization.SERVER_NAME, serverName);
-    this.#serverAddress = (await Storage.getListItem(Globals.SERVERS)).find(
+    await Storage.setTextItem(applicationConstants.Authorization.SERVER_NAME, serverName);
+    this.#serverAddress = (await Storage.getListItem(applicationConstants.SERVERS)).find(
       (s) => s.serverName === serverName
     ).serverAddress;
-    const url = this.buildFetchUrl(Globals.Endpoints.JWT_LOGIN);
+    const url = this.buildFetchUrl(backendEndpoints.Authorization.JWT_LOGIN);
     const data = await this.fetchMethod(
       url,
       {
-        method: Globals.httpMethod.POST,
+        method: applicationConstants.httpMethod.POST,
         body: JSON.stringify({
           username,
           password,
@@ -117,7 +118,7 @@ class AuthService {
       },
       { skipAuthorization: true }
     );
-    await Storage.setTextItem(Globals.Authorization.USERNAME, username);
+    await Storage.setTextItem(applicationConstants.Authorization.USERNAME, username);
     const account = this.#getInternetAccount(serverName, username);
     await this.#saveTokenStorage(account, username, data);
     this.#accessToken = data.accessToken;
@@ -126,13 +127,13 @@ class AuthService {
 
   #updateFirebaseClientToken = async (clientToken) => {
     const firebaseAccount = JSON.parse(
-      await Storage.getTextItem(Globals.Authorization.FIREBASE_ACCOUNT)
+      await Storage.getTextItem(applicationConstants.Authorization.FIREBASE_ACCOUNT)
     );
-    const url = this.buildFetchUrl(Globals.Endpoints.SERVICE_ACCOUNTS);
+    const url = this.buildFetchUrl(backendEndpoints.SERVICE_ACCOUNTS);
     await this.fetchMethod(
       url,
       {
-        method: Globals.httpMethod.PUT,
+        method: applicationConstants.httpMethod.PUT,
         body: JSON.stringify({
           clientToken: clientToken,
           id: firebaseAccount.id,
@@ -143,9 +144,9 @@ class AuthService {
   };
 
   #tryAuthenticateFirebase = async () => {
-    const url = this.buildFetchUrl(Globals.Endpoints.SERVICE_ACCOUNTS);
+    const url = this.buildFetchUrl(backendEndpoints.SERVICE_ACCOUNTS);
     const data = await this.fetchMethod(url, {
-      method: Globals.httpMethod.GET,
+      method: applicationConstants.httpMethod.GET,
     });
     if (data.length === 0) {
       throw new Error('There are no accounts linked to current user.');
@@ -164,7 +165,7 @@ class AuthService {
     );
     delete firebaseAccount.password;
     await Storage.setTextItem(
-      Globals.Authorization.FIREBASE_ACCOUNT,
+      applicationConstants.Authorization.FIREBASE_ACCOUNT,
       JSON.stringify(firebaseAccount)
     );
 
@@ -254,9 +255,9 @@ class AuthService {
   };
 
   #requestAccessToken = async () => {
-    const username = await Storage.getTextItem(Globals.Authorization.USERNAME);
+    const username = await Storage.getTextItem(applicationConstants.Authorization.USERNAME);
     const serverName = await Storage.getTextItem(
-      Globals.Authorization.SERVER_NAME
+      applicationConstants.Authorization.SERVER_NAME
     );
     if (this.#accessToken && !this.#isTokenExpired(this.#accessToken)) {
       return this.#accessToken;
@@ -289,11 +290,11 @@ class AuthService {
         'Session has expired, please authenticate with your credentials.'
       );
     }
-    const url = this.buildFetchUrl(Globals.Endpoints.JWT_TOKEN_REFRESH);
+    const url = this.buildFetchUrl(backendEndpoints.Authorization.JWT_TOKEN_REFRESH);
     const data = await this.fetchMethod(
       url,
       {
-        method: Globals.httpMethod.PUT,
+        method: applicationConstants.httpMethod.PUT,
         body: JSON.stringify({
           accessToken: tokenStorage.accessToken,
           refreshToken: tokenStorage.refreshToken,
