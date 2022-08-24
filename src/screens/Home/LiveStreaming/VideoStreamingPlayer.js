@@ -5,12 +5,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AjaxRequest from '../../../helpers/AjaxRequest';
-import Globals from '../../../globals/Globals';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { GlobalStyles } from '../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../config/GlobalStyles';
 import VideoPlayer from '../../../components/VideoPlayer';
 import PropTypes from 'prop-types';
 import { LoadingActivityIndicator } from '../../../components';
+import {backendEndpoints} from '../../../config/BackendEndpoints';
 
 const videoAspectRatio = 16 / 9;
 const playerControlsHeight = (0.08 * wp(100)) / videoAspectRatio;
@@ -24,7 +24,7 @@ const appServicesEnum = Object.freeze({
 export default class VideoStreamingPlayer extends Component {
   toggleAppService = async (service, currentState) => {
     await AjaxRequest.put(
-      Globals.Endpoints.Services.APPLICATION_SERVICE_ACTION(
+      backendEndpoints.Services.APPLICATION_SERVICE_ACTION(
         service,
         this.props.videoSource.id,
         currentState

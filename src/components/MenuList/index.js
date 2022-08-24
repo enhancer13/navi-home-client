@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 import Storage from '../../helpers/Storage';
 
 export default class MenuList extends Component {

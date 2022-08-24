@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 import PropTypes from 'prop-types';
 
 export default class EntityViewContainer extends Component {

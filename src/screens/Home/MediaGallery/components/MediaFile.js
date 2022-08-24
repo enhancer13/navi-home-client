@@ -3,10 +3,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import AuthService from '../../../../helpers/AuthService';
-import Globals from '../../../../globals/Globals';
 import FastImage from 'react-native-fast-image';
 import MediaFileTypes from './MediaFileTypes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {backendEndpoints} from '../../../../config/BackendEndpoints';
 
 function MediaFile(props) {
   const { item, width } = props;
@@ -21,7 +21,7 @@ function MediaFile(props) {
       <FastImage
         source={{
           uri: AuthService.buildFetchUrl(
-            Globals.Endpoints.MediaGallery.MEDIA_THUMB(item)
+            backendEndpoints.MediaGallery.MEDIA_THUMB(item)
           ),
           headers: AuthService.getAuthorizationHeader(),
           priority: FastImage.priority.normal,

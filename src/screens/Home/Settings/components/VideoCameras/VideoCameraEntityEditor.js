@@ -1,13 +1,13 @@
 import React from 'react';
 import { EntityEditorList } from '../../../../../components/EntityEditor';
-import Globals from '../../../../../globals/Globals';
+import {applicationConstants} from '../../../../../config/ApplicationConstants';
 import VideoCamera from './VideoCamera';
 
 function VideoCameraEntityEditor(props) {
   return (
     <EntityEditorList
       navigation={props.navigation}
-      entityName={Globals.Entities.VIDEO_CAMERA}
+      entityName={applicationConstants.Entities.VIDEO_CAMERA}
       ItemComponent={VideoCamera}
       title={'Video Cameras'}
       backButton={true}

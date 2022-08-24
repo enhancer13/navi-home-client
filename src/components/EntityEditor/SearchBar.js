@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SearchBar } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 
 export default class DefaultSearchBar extends Component {
   constructor(props) {

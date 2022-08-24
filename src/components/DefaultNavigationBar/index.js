@@ -1,5 +1,5 @@
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 import { StatusBar } from 'react-native';
 import React from 'react';
 

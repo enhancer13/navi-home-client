@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import EntityViewContainer from '../../../../../components/EntityEditor/EntityViewContainer';
 import { StyleSheet, Text, View } from 'react-native';
-import { GlobalStyles } from '../../../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../../../config/GlobalStyles';
 import { LabeledBoolean } from '../../../../../components';
 
 const iconWidth = 20;

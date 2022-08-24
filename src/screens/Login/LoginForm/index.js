@@ -4,12 +4,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AuthService from '../../../helpers/AuthService';
 import * as Keychain from 'react-native-keychain';
 import Storage from '../../../helpers/Storage';
-import {Picker} from '@react-native-picker/picker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Globals from '../../../globals/Globals';
-import {GlobalStyles} from '../../../globals/GlobalStyles';
+import {applicationConstants} from '../../../config/ApplicationConstants';
+import {GlobalStyles} from '../../../config/GlobalStyles';
 import {LoadingActivityIndicator} from '../../../components';
 import AnimatedButton from '../../../components/AnimatedButton';
 import TextInput from '../../../components/DefaultText';
@@ -18,6 +17,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {ServerPicker} from './ServerPicker';
+
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -27,8 +28,8 @@ export default class LoginForm extends Component {
         username: '',
         password: '',
         serverName: '',
+        servers: [],
       },
-      servers: {},
       loading: false,
       biometryActive: false,
       biometryType: null,
@@ -39,8 +40,7 @@ export default class LoginForm extends Component {
 
   handleServerEdit = () => {
     const {
-      servers,
-      data: {serverName},
+      data: {serverName, servers},
     } = this.state;
     if (servers.length > 0) {
       this.props.navigation.navigate('ServerConfig', {
@@ -54,7 +54,7 @@ export default class LoginForm extends Component {
     }
   };
 
-  handleCredentialsChange = (key, value) => {
+  handleFormDataChange = (key, value) => {
     this.setState({
       data: {...this.state.data, [key]: value},
     });
@@ -124,7 +124,7 @@ export default class LoginForm extends Component {
     }
     if (serverName.length === 0) {
       this.setState({
-        errorText: 'Please configure the valid Orion server.',
+        errorText: 'Please configure the valid Navi Home server.',
       });
       return;
     }
@@ -142,10 +142,11 @@ export default class LoginForm extends Component {
   };
 
   initializeData = async () => {
-    const username = await Storage.getTextItem(Globals.Authorization.USERNAME);
-    const servers = await Storage.getListItem(Globals.SERVERS);
+    const username = await Storage.getTextItem(applicationConstants.Authorization.USERNAME);
+    const servers = await Storage.getListItem(applicationConstants.SERVERS);
+
     let serverName = await Storage.getTextItem(
-      Globals.Authorization.SERVER_NAME,
+      applicationConstants.Authorization.SERVER_NAME,
     );
     if (
       servers.length > 0 &&
@@ -157,17 +158,17 @@ export default class LoginForm extends Component {
     }
     const biometryType = await Keychain.getSupportedBiometryType();
     const biometryActive =
-      (await Storage.getBooleanItem(Globals.BIOMETRY_ACTIVE)) &&
+      (await Storage.getBooleanItem(applicationConstants.BIOMETRY_ACTIVE)) &&
       (biometryType) !== null;
     this.setState({
       data: {
         username,
         password: '',
         serverName,
+        servers,
       },
       biometryActive,
       biometryType,
-      servers,
     });
   };
 
@@ -185,10 +186,9 @@ export default class LoginForm extends Component {
 
   render() {
     const {
-      data: {username, password, serverName},
+      data: {username, password, serverName, servers},
       errorText,
       loading,
-      servers,
       biometryActive,
       biometryType,
     } = this.state;
@@ -206,7 +206,7 @@ export default class LoginForm extends Component {
       />);
     return (
       <View style={styles.container}>
-        <Text style={styles.logoText}>Orion</Text>
+        <Text style={styles.logoText}>Navi Home</Text>
         <View style={styles.formContainer}>
           <View style={styles.credentialsContainer}>
             <DefaultTextInput
@@ -215,7 +215,7 @@ export default class LoginForm extends Component {
               placeholder="Username"
               value={username}
               onChangeText={(value) =>
-                this.handleCredentialsChange('username', value)
+                this.handleFormDataChange('username', value)
               }
             />
             <DefaultTextInput
@@ -225,33 +225,17 @@ export default class LoginForm extends Component {
               value={password}
               secureTextEntry={true}
               onChangeText={(value) =>
-                this.handleCredentialsChange('password', value)
+                this.handleFormDataChange('password', value)
               }
             />
             <View style={styles.serverConfigContainer}>
-              <Picker
-                selectedValue={serverName}
-                style={styles.serverPicker}
-                itemStyle={styles.serverPickerItem}
-                mode={Picker.MODE_DROPDOWN}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.handleCredentialsChange(
-                    'serverName',
-                    itemValue,
-                    itemIndex,
-                  )
-                }
-              >
-                {Object.keys(servers).map((key) => {
-                  return (
-                    <Picker.Item
-                      label={servers[key].serverName}
-                      value={servers[key].serverName}
-                      key={key}
-                    />
-                  );
+              <ServerPicker
+                servers={servers.map(x => {
+                  return {label: x.serverName, value: x.serverName};
                 })}
-              </Picker>
+                selectedServer={serverName}
+                containerStyle={styles.serverPickerContainer}
+                onServerChanged={(serverName) => this.handleFormDataChange('serverName', serverName)}/>
               <TouchableOpacity
                 style={styles.touchableIconContainer}
                 onPress={this.handleServerEdit}
@@ -336,7 +320,6 @@ const styles = StyleSheet.create({
     paddingTop: '5%',
     width: '80%',
   },
-  // eslint-disable-next-line react-native/no-color-literals
   logoText: {
     color: 'rgba(105,89,225,0.5)',
     fontSize: containerWidth * 0.15,
@@ -346,7 +329,6 @@ const styles = StyleSheet.create({
     height: hp(15),
     width: '80%',
   },
-  // eslint-disable-next-line react-native/no-color-literals
   messageText: {
     color: '#FF9F33',
     marginTop: 5,
@@ -356,14 +338,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 5,
   },
-  serverPicker: {
-    color: GlobalStyles.violetTextColor,
-    flexGrow: 1,
-    height: rowHeight,
-  },
-  serverPickerItem: {
-    height: rowHeight,
+  serverPickerContainer: {
+    width: containerWidth * 0.5,
   },
   submitButton: {
     flexBasis: '80%',

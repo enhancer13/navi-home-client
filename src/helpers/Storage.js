@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Globals from '../globals/Globals';
-import Defaults from '../defaults/Defaults';
+import {applicationConstants} from '../config/ApplicationConstants';
+import {backends} from '../config/Backends';
 
 export default class Storage {
   static getTextItem = async (name) => {
@@ -38,7 +38,7 @@ export default class Storage {
       await AsyncStorage.setItem(name, value);
     } catch (e) {
       console.warn(
-        `Unable to save text item: ${name}, ${value} in AsyncStorage`
+        `Unable to save text item: ${name}, ${value} in AsyncStorage`,
       );
     }
   };
@@ -96,11 +96,11 @@ export default class Storage {
   };
 
   static initializeStorage = async () => {
-    if (!(await Storage.getBooleanItem(Globals.STORAGE_INITIALIZED))) {
-      await Storage.setBooleanItem(Globals.DARK_STYLE_ACTIVE, false);
-      await Storage.setBooleanItem(Globals.BIOMETRY_ACTIVE, false);
-      await Storage.addListItem(Globals.SERVERS, Defaults.SERVERS);
-      await Storage.setBooleanItem(Globals.STORAGE_INITIALIZED, true);
+    if (!(await Storage.getBooleanItem(applicationConstants.STORAGE_INITIALIZED))) {
+      await Storage.setBooleanItem(applicationConstants.DARK_STYLE_ACTIVE, false);
+      await Storage.setBooleanItem(applicationConstants.BIOMETRY_ACTIVE, false);
+      await Storage.addListItem(applicationConstants.SERVERS, backends.SERVERS);
+      await Storage.setBooleanItem(applicationConstants.STORAGE_INITIALIZED, true);
     }
   };
 }

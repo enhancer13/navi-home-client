@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import TextInput from '../../DefaultText';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { GlobalStyles } from '../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../config/GlobalStyles';
 
 function CategoryDivider(props) {
   return (

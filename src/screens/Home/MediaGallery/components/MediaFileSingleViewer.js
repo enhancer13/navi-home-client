@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Globals from '../../../../globals/Globals';
+import {backendEndpoints} from '../../../../config/BackendEndpoints';
 import AuthService from '../../../../helpers/AuthService';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -18,7 +18,7 @@ import {
 } from 'react-native-responsive-screen';
 import ajaxRequest from '../../../../helpers/AjaxRequest';
 import MediaViewer from '../../../../components/MediaViewer';
-import {GlobalStyles} from '../../../../globals/GlobalStyles';
+import {GlobalStyles} from '../../../../config/GlobalStyles';
 import AnimatedPressableIcon from '../../../../components/AnimatedPressableIcon';
 import FlexSafeAreaViewInsets from '../../../../components/View/FlexSafeAreaViewInsets';
 
@@ -37,7 +37,7 @@ export default class MediaFileSingleViewer extends Component {
 
   onShare = async (media) => {
     const limitedAccessLink = await ajaxRequest.get(
-      Globals.Endpoints.MediaGallery.LIMITED_ACCESS_LINK(media.item),
+      backendEndpoints.MediaGallery.LIMITED_ACCESS_LINK(media.item),
       {
         headers: {Accept: 'text/plain'},
       },
@@ -69,14 +69,14 @@ export default class MediaFileSingleViewer extends Component {
     const media = files.map((item) => {
       return {
         url: AuthService.buildFetchUrl(
-          Globals.Endpoints.MediaGallery.MEDIA(item),
+          backendEndpoints.MediaGallery.MEDIA(item),
         ),
         width: item.width,
         height: item.height,
         mediaType: item.fileType,
         thumbnail: {
           url: AuthService.buildFetchUrl(
-            Globals.Endpoints.MediaGallery.MEDIA_THUMB(item),
+            backendEndpoints.MediaGallery.MEDIA_THUMB(item),
           ),
         },
         props: {

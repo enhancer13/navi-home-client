@@ -3,10 +3,10 @@ import { FlatList, View, StyleSheet, RefreshControl } from 'react-native';
 import AuthService from '../../../helpers/AuthService';
 import AjaxRequest from '../../../helpers/AjaxRequest';
 import VideoStreamingPlayer from './VideoStreamingPlayer';
-import Globals from '../../../globals/Globals';
 import { LoadingActivityIndicator } from '../../../components';
 import { EventRegister } from 'react-native-event-listeners';
 import FlexContainer from '../../../components/View/FlexContainer';
+import {backendEndpoints} from '../../../config/BackendEndpoints';
 
 export default class LiveStreaming extends Component {
   constructor(props) {
@@ -27,10 +27,10 @@ export default class LiveStreaming extends Component {
         name: serviceStatusContainer.videoSource.cameraName,
         servicesStatus: serviceStatusContainer.servicesStatus,
         thumbUri: AuthService.buildFetchUrl(
-          Globals.Endpoints.Streaming.THUMBNAIL(videoSourceId)
+          backendEndpoints.Streaming.THUMBNAIL(videoSourceId)
         ),
         uri: AuthService.buildFetchUrl(
-          Globals.Endpoints.Streaming.HLS_PLAYLIST(videoSourceId)
+          backendEndpoints.Streaming.HLS_PLAYLIST(videoSourceId)
         ),
         headers: AuthService.getAuthorizationHeader(),
       });
@@ -50,7 +50,7 @@ export default class LiveStreaming extends Component {
   }
 
   fetchVideoPlayers = () => {
-    AjaxRequest.get(Globals.Endpoints.Services.APPLICATION_SERVICES_STATUS)
+    AjaxRequest.get(backendEndpoints.Services.APPLICATION_SERVICES_STATUS)
       .then((status) => status.serviceStatusContainers)
       .then(this.updateVideoPlayers)
       .then(() => {

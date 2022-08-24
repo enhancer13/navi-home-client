@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AuthService from '../../../helpers/AuthService';
-import Globals from '../../../globals/Globals';
+import {applicationConstants} from '../../../config/ApplicationConstants';
 import MenuList from '../../../components/MenuList';
 import { StackActions } from '@react-navigation/native';
 
@@ -12,7 +12,7 @@ export default class MyAccount extends Component {
         name: 'finger-print',
         type: 'ionicon',
       },
-      stateProperty: Globals.BIOMETRY_ACTIVE,
+      stateProperty: applicationConstants.BIOMETRY_ACTIVE,
       checkbox: true,
     },
     {

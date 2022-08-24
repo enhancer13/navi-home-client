@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { GlobalStyles } from '../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../config/GlobalStyles';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';

@@ -3,7 +3,7 @@ import messaging from '@react-native-firebase/messaging';
 import { showError, showInformation, showSuccess, showWarning } from './Popups';
 import { EventRegister } from 'react-native-event-listeners';
 import ajaxRequest from '../../helpers/AjaxRequest';
-import Globals from '../../globals/Globals';
+import {backendEndpoints} from '../../config/BackendEndpoints';
 
 const MessageType = Object.freeze({
   INFORMATION: 'INFORMATION',
@@ -15,7 +15,7 @@ const MessageType = Object.freeze({
 export default class FirebaseMessageHandler extends Component {
   initFirebaseMessaging = async () => {
     // Get current server external unique identifier
-    const response = await ajaxRequest.get(Globals.Endpoints.APPLICATION_INFO, {
+    const response = await ajaxRequest.get(backendEndpoints.APPLICATION_INFO, {
       skipAuthorization: true,
     });
     this.externalUniqueId = response.externalUniqueId;

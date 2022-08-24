@@ -2,7 +2,7 @@ import { ActivityIndicator } from 'react-native';
 import React from 'react';
 import DefaultNavigationBar from './DefaultNavigationBar';
 import LabeledBoolean from './EntityEditor/controls/LabeledBoolean';
-import { GlobalStyles } from '../globals/GlobalStyles';
+import { GlobalStyles } from '../config/GlobalStyles';
 
 const LoadingActivityIndicator = (props) => {
   const { color } = props;

@@ -1,9 +1,9 @@
 // noinspection JSUnresolvedVariable
-import React, {Component, useRef} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Entity from './Entity';
 import {Animated, Modal, Platform, StyleSheet, View} from 'react-native';
-import {GlobalStyles} from '../../globals/GlobalStyles';
+import {GlobalStyles} from '../../config/GlobalStyles';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import ActionsBar from './ActionsBar';
 import LabeledSwitch from './controls/LabeledSwitch';
@@ -273,6 +273,7 @@ export default class EntityEditor extends Component {
                       onClose={() => onClose(entity)}
                       onRevert={this.revertChanges}
                       containerStyle={styles.actionsBarContainer}
+                      insets={insets}
                       iconStyle={styles.actionsBarIcon}
                       allowedActions={isActive ? {...entityData.databaseMethods} : {}}
                       selectionActions={false}

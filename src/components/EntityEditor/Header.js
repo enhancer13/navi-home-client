@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 import DefaultSearchBar from './SearchBar';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ActionsBar from './ActionsBar';

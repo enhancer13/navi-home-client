@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput } from 'react-native';
 import React from 'react';
-import { GlobalStyles } from '../../globals/GlobalStyles';
+import { GlobalStyles } from '../../config/GlobalStyles';
 
 const DefaultTextInput = (props) => {
   const textInputStyle = {

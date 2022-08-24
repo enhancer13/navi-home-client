@@ -11,7 +11,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { GlobalStyles } from '../../../globals/GlobalStyles';
+import { GlobalStyles } from '../../../config/GlobalStyles';
 import EntityViewContainer from '../../../components/EntityEditor/EntityViewContainer';
 import TextInput from '../../../components/DefaultText';
 import { ScaleAnimation } from '../../../animations';

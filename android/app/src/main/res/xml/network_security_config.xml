@@ -5,9 +5,9 @@
         <domain includeSubdomains="true">77.121.5.210</domain>
         <domain includeSubdomains="true">176.104.16.214</domain>
         <trust-anchors>
-            <certificates src="@raw/orionprod_ip_2c41"/>
-            <certificates src="@raw/orionyudin"/>
-            <certificates src="@raw/orionyalinka"/>
+            <certificates src="@raw/navihomeprod_ip_2c41"/>
+            <certificates src="@raw/navihomeyudin"/>
+            <certificates src="@raw/navihomeyalinka"/>
             <certificates src="user"/>
             <certificates src="system"/>
         </trust-anchors>
@@ -18,7 +18,7 @@
         <domain includeSubdomains="true">10.0.2.2</domain>
         <domain includeSubdomains="true">10.0.3.2</domain>
         <trust-anchors>
-            <certificates src="@raw/oriondev"/>
+            <certificates src="@raw/navihomedev"/>
         </trust-anchors>
     </domain-config>
 </network-security-config>
