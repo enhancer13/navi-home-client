@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import LoginForm from './LoginForm';
-import {Animated, StyleSheet, View} from 'react-native';
+import {Animated, StyleSheet} from 'react-native';
 import { DefaultNavigationBar } from '../../components';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import FlexContainer from '../../components/View/FlexContainer';
+import FlexSafeAreaView from '../../components/View/FlexSafeAreaView';
 
 const backgroundIcons = [
   {
@@ -164,7 +164,7 @@ export default class Login extends Component {
 
   render() {
     return (
-      <FlexContainer>
+      <FlexSafeAreaView ignoreTopInsets={true}>
         <DefaultNavigationBar />
         {this.animatedImages}
         <Animated.View
@@ -183,7 +183,7 @@ export default class Login extends Component {
             {...this.props}
           />
         </Animated.View>
-      </FlexContainer>
+      </FlexSafeAreaView>
     );
   }
 }
