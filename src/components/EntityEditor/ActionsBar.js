@@ -8,7 +8,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { GlobalStyles } from '../../config/GlobalStyles';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {ViewPropTypes} from 'deprecated-react-native-prop-types';
 import {SlideAnimation} from '../../animations';
 
 export default class ActionsBar extends Component {
@@ -25,8 +24,7 @@ export default class ActionsBar extends Component {
   }
 
   closingAnimation = () => {
-    const bottomInsets = Platform.OS === 'ios' ? this.props.insets.bottom : 0;
-    this.slideAnimation.getAnimation(this.props.containerStyle.height + bottomInsets, 200).start(this.props.onClose)
+    this.slideAnimation.getAnimation(this.props.containerStyle.height, 200).start(this.props.onClose)
   }
 
   componentDidMount() {
@@ -128,9 +126,8 @@ ActionsBar.propTypes = {
   onDeselectAll: PropTypes.func,
   onRevert: PropTypes.func,
   allowedActions: PropTypes.object.isRequired,
-  containerStyle: ViewPropTypes.style,
-  insets: PropTypes.object,
-  iconStyle: ViewPropTypes.style,
+  containerStyle: PropTypes.object,
+  iconStyle: PropTypes.object,
 };
 
 const styles = StyleSheet.create({

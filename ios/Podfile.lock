@@ -682,7 +682,7 @@ PODS:
     - "gRPC-C++ (~> 1.44.0)"
     - leveldb-library (~> 1.22)
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - FirebaseInstallations (9.4.0):
+  - FirebaseInstallations (9.5.0):
     - FirebaseCore (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
@@ -1495,7 +1495,7 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: 2cf8c542b54ad3c2d4b746c22e8828b670dcd9b0
   FirebaseCoreInternal: 50a8e39cae8abf72d5145d07ea34c3244f70862b
   FirebaseFirestore: 945196dd78f4e92de6fc47b38569a1e7088af81f
-  FirebaseInstallations: 61db1054e688d2bdc4e2b3f744c1b086e913b742
+  FirebaseInstallations: 41f811b530c41dd90973d0174381cdb3fcb5e839
   FirebaseMessaging: 4e220eddd356181469ba2ec5f7d5fafbc2312841
   Flipper: 26fc4b7382499f1281eb8cb921e5c3ad6de91fe0
   Flipper-Boost-iOSX: fd1e2b8cbef7e662a122412d7ac5f5bea715403c
