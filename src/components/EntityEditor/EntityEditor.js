@@ -9,7 +9,8 @@ import ActionsBar from './ActionsBar';
 import LabeledSwitch from './controls/LabeledSwitch';
 import LabeledInput from './controls/LabeledInput';
 import LabeledDateTimePicker from './controls/LabeledDateTimePicker';
-import LabeledMultiSelectPicker from './controls/LabeledMultiSelectPicker';
+import LabeledAjaxDropDownListPicker from './controls/LabeledAjaxDropDownListPicker';
+import LabeledDropDownListSinglePicker from './controls/LabeledDropDownListSinglePicker';
 import FieldDataType from './FieldDataType';
 import {Status} from './controls/StatusLabel';
 import FlexContainer from '../View/FlexContainer';
@@ -17,6 +18,7 @@ import {Divider, Surface} from 'react-native-paper';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import TouchableScale from 'react-native-touchable-scale';
 import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
+import {StringUtils} from '../../helpers/StringUtils';
 
 //https://snack.expo.dev/@rborn/animated-flatlist-and-header
 //https://medium.com/appandflow/react-native-collapsible-navbar-e51a049b560a
@@ -34,7 +36,7 @@ export default class EntityEditor extends Component {
     const fontWeightAnimation = new Animated.Value(300);
     this.state = {
       scrollAnim,
-      fontWeightAnimation,
+      fontWeightAnimation
     };
   }
 
@@ -74,14 +76,14 @@ export default class EntityEditor extends Component {
 
   renderGroup = ({item}) => {
     return (<Surface style={styles.group} key={item.key}>
-      {item.group.map(this.renderField).map(field => {
+      {item.group.map(this.renderField).map((field, index) => {
         return (
-          <>
-            <View style={{minHeight: hp(8), justifyContent: 'center'}}>
+          <View key={item.key + index}>
+            <View style={{ minHeight: hp(8), justifyContent: 'center'}}>
               {field}
             </View>
             <Divider/>
-          </>
+          </View>
         );
       })}
     </Surface>);
@@ -145,25 +147,30 @@ export default class EntityEditor extends Component {
         );
       case FieldDataType.MULTIPLE_SELECT:
       case FieldDataType.SINGLE_SELECT:
-      case FieldDataType.SELECT:
-        const paginationData =
-          fieldDataType === FieldDataType.SELECT
-            ? null
-            : this.props.entityEditorData.GetPaginationData(objectName);
+        const paginationData = this.props.entityEditorData.GetPaginationData(objectName);
         return (
-          <LabeledMultiSelectPicker
+          <LabeledAjaxDropDownListPicker
             label={fieldTitle}
             fieldStatus={fieldStatus}
-            objectName={objectName}
             selectedData={fieldValue}
-            mode={fieldDataType}
-            editable={inputEnabled}
-            searchPolicy={searchPolicy}
-            staticValues={fieldEnumValues}
-            paginationData={paginationData}
             onChange={(val) => this.updateFieldValue(fieldName, val)}
+            editable={inputEnabled}
+            paginationData={paginationData}
+            multiple={fieldDataType === FieldDataType.MULTIPLE_SELECT}
+            itemLabelFormatter={searchPolicy === 'STATIC' ? StringUtils.snakeToPascal : undefined}
           />
         );
+      case FieldDataType.SELECT:
+        return (
+          <LabeledDropDownListSinglePicker
+            label={fieldTitle}
+            fieldStatus={fieldStatus}
+            selectedItem={fieldValue}
+            items={Object.keys(fieldEnumValues).map(key => fieldEnumValues[key])}
+            onChange={(val) => this.updateFieldValue(fieldName, val)}
+            editable={inputEnabled}
+            itemLabelFormatter={searchPolicy === 'STATIC' ? StringUtils.snakeToPascal : undefined}
+          />);
       default:
         throw new Error(
           `Not supported field data type: ${FieldDataType[fieldDataType]}`,
@@ -227,7 +234,7 @@ export default class EntityEditor extends Component {
         transparent={false}
         animationType={'slide'}
       >
-        <SafeAreaInsetsContext>
+        <SafeAreaInsetsContext.Consumer>
           {(insets) => {
             const top = Platform.OS === 'ios' ? insets.top : 0;
             return (
@@ -273,7 +280,6 @@ export default class EntityEditor extends Component {
                       onClose={() => onClose(entity)}
                       onRevert={this.revertChanges}
                       containerStyle={styles.actionsBarContainer}
-                      insets={insets}
                       iconStyle={styles.actionsBarIcon}
                       allowedActions={isActive ? {...entityData.databaseMethods} : {}}
                       selectionActions={false}
@@ -283,7 +289,7 @@ export default class EntityEditor extends Component {
               </FlexContainer>
             );
           }}
-        </SafeAreaInsetsContext>
+        </SafeAreaInsetsContext.Consumer>
       </Modal>
     );
   }
@@ -311,6 +317,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     backgroundColor: GlobalStyles.violetBackgroundColor,
+    zIndex: 1
   },
   navbar: {
     marginTop: HEADER_HEIGHT,
@@ -342,18 +349,18 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'stretch',
     justifyContent: 'center',
-    elevation: 4,
+    elevation: 4
   },
   headerContainer: {
     height: HEADER_HEIGHT,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: GlobalStyles.violetBackgroundColor,
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   titleText: {
     alignSelf: 'flex-start',
     color: GlobalStyles.whiteTextColor,
     fontSize: GlobalStyles.defaultTitleFontSize,
-  },
+  }
 });

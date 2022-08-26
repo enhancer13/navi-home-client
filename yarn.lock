@@ -6936,13 +6936,6 @@ react-native-linear-gradient@^2.5.6:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.6.2.tgz#56598a76832724b2afa7889747635b5c80948f38"
   integrity sha512-Z8Xxvupsex+9BBFoSYS87bilNPWcRfRsGC0cpJk72Nxb5p2nEkGSBv73xZbEHnW2mUFvP+huYxrVvjZkr/gRjQ==
 
-react-native-multiple-select@^0.5.11:
-  version "0.5.11"
-  resolved "https://registry.yarnpkg.com/react-native-multiple-select/-/react-native-multiple-select-0.5.11.tgz#a93ce17041730b9dba4ec498572e637a7b2600de"
-  integrity sha512-2PLIRgq+bVB7Fo3iWsww+ZrGnbKwub0N4o899dgeJ6fUzb4i5TcYEXL7qPI67WVRTD2I2+EE5GUFtWjfmCaZAQ==
-  dependencies:
-    prop-types "^15.7.2"
-
 react-native-navigation-bar-color@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-native-navigation-bar-color/-/react-native-navigation-bar-color-2.0.1.tgz#ee2be25cc37105f7da355717b0a9a32c9c059ae6"

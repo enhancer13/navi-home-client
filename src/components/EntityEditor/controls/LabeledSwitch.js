@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     height: hp(3),
     justifyContent: 'space-between',
     marginRight: 5,
+    zIndex: -1
   },
   label: {
     color: GlobalStyles.blackTextColor,

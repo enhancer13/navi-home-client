@@ -17,7 +17,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {ServerPicker} from './ServerPicker';
+import {DropDownListPicker} from '../../../components/DropDownListPicker';
 
 
 export default class LoginForm extends Component {
@@ -68,6 +68,7 @@ export default class LoginForm extends Component {
         username: '',
         password: '',
         serverName: '',
+        servers: []
       },
     });
     this.props.navigation.navigate('Home');
@@ -128,17 +129,14 @@ export default class LoginForm extends Component {
       });
       return;
     }
+    this.setState({loading: true})
     AuthService.tryCredentialsAuthentication(serverName, username, password)
       .then(this.handleSuccessLogin)
       .catch((error) => {
         this.setState({
-          loading: false,
-          errorText: error.message ? error.message : error,
+          errorText: error.message ? error.message : error
         });
-      });
-    this.setState({
-      loading: true,
-    });
+      }).finally(() => this.setState({loading: false}));
   };
 
   initializeData = async () => {
@@ -192,7 +190,6 @@ export default class LoginForm extends Component {
       biometryActive,
       biometryType,
     } = this.state;
-
     const biometryIcon = (biometryType === Keychain.BIOMETRY_TYPE.FACE || biometryType === Keychain.BIOMETRY_TYPE.FACE_ID)
       ? (<MaterialCommunityIcon
         name="face-recognition"
@@ -229,13 +226,13 @@ export default class LoginForm extends Component {
               }
             />
             <View style={styles.serverConfigContainer}>
-              <ServerPicker
-                servers={servers.map(x => {
+              <DropDownListPicker
+                items={servers.map(x => {
                   return {label: x.serverName, value: x.serverName};
                 })}
-                selectedServer={serverName}
+                selectedItem={serverName}
                 containerStyle={styles.serverPickerContainer}
-                onServerChanged={(serverName) => this.handleFormDataChange('serverName', serverName)}/>
+                onItemChanged={(serverName) => this.handleFormDataChange('serverName', serverName)}/>
               <TouchableOpacity
                 style={styles.touchableIconContainer}
                 onPress={this.handleServerEdit}

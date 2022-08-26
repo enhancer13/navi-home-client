@@ -1,5 +1,5 @@
-export default class FormatUtils {
-  static formatEnumValue = (value) => {
+export const StringUtils = {
+  snakeToPascal: (value) => {
     return value
       .split('_')
       .map((val) => {
@@ -7,5 +7,5 @@ export default class FormatUtils {
         return val[0].toUpperCase() + val.slice(1);
       })
       .join(' ');
-  };
+  }
 }
