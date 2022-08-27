@@ -86,8 +86,8 @@ export default class App extends Component {
               options={{headerShown: false}}
             />
           </RootStackNavigator.Navigator>
+          <SessionController/>
         </NavigationContainer>
-        <SessionController/>
         <FlashMessage position="bottom"/>
       </SafeAreaProvider>
     );
