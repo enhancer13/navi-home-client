@@ -20,11 +20,25 @@ class AuthService {
     },
   };
 
+  isAccessTokenExist = () => {
+    return this.#accessToken !== null;
+  }
+
+  getAccessTokenLeftToExpireSeconds = () => {
+    if (!this.#accessToken) {
+      return 0;
+    }
+    try {
+      const decoded = decodeJWT(this.#accessToken);
+      return Math.round(decoded.exp - Date.now() / 1000);
+    } catch (err) {
+      return 0;
+    }
+  }
+
   isAccessTokenExpired = () => {
-    return (
-      this.#accessToken !== null && this.#isTokenExpired(this.#accessToken)
-    );
-  };
+    return this.getAccessTokenLeftToExpireSeconds() <= 0;
+  }
 
   removeAccessToken = () => {
     this.#accessToken = null;
