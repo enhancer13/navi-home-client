@@ -17,15 +17,16 @@ import FlexContainer from '../View/FlexContainer';
 import {Divider, Surface} from 'react-native-paper';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import TouchableScale from 'react-native-touchable-scale';
-import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
 import {StringUtils} from '../../helpers/StringUtils';
+import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
+import {BottomTabBarHeightContext} from '@react-navigation/bottom-tabs';
 
 //https://snack.expo.dev/@rborn/animated-flatlist-and-header
 //https://medium.com/appandflow/react-native-collapsible-navbar-e51a049b560a
 const DESCRIPTION_HEIGHT = hp(10);
 const HEADER_HEIGHT = hp(5);
 const BACK_ICON_SIZE = 30;
-const ACTIONS_BAR_HEIGHT = hp(5);
+const ACTIONS_BAR_HEIGHT = hp(4);
 
 // noinspection JSUnresolvedVariable
 export default class EntityEditor extends Component {
@@ -36,7 +37,7 @@ export default class EntityEditor extends Component {
     const fontWeightAnimation = new Animated.Value(300);
     this.state = {
       scrollAnim,
-      fontWeightAnimation
+      fontWeightAnimation,
     };
   }
 
@@ -79,7 +80,7 @@ export default class EntityEditor extends Component {
       {item.group.map(this.renderField).map((field, index) => {
         return (
           <View key={item.key + index}>
-            <View style={{ minHeight: hp(8), justifyContent: 'center'}}>
+            <View style={{minHeight: hp(8), justifyContent: 'center'}}>
               {field}
             </View>
             <Divider/>
@@ -169,7 +170,7 @@ export default class EntityEditor extends Component {
             items={Object.keys(fieldEnumValues).map(key => fieldEnumValues[key])}
             onChange={(val) => this.updateFieldValue(fieldName, val)}
             editable={inputEnabled}
-            itemLabelFormatter={searchPolicy === 'STATIC' ? StringUtils.snakeToPascal : undefined}
+            itemLabelFormatter={StringUtils.snakeToPascal}
           />);
       default:
         throw new Error(
@@ -229,68 +230,56 @@ export default class EntityEditor extends Component {
     });
 
     return (
-      <Modal
-        visible={this.props.visible}
-        transparent={false}
-        animationType={'slide'}
-      >
-        <SafeAreaInsetsContext.Consumer>
-          {(insets) => {
-            const top = Platform.OS === 'ios' ? insets.top : 0;
-            return (
-              <FlexContainer style={{
-                backgroundColor: GlobalStyles.lightBackgroundColor,
-                paddingTop: top,
-                paddingBottom: insets.bottom,
-              }}>
-                <View style={{...styles.topSafeArea, height: top}}/>
-                <View style={{...styles.bottomSafeArea, height: insets.bottom}}/>
-                <FlexContainer>
-                  <View style={styles.headerContainer}>
-                    <TouchableScale onPress={() => onClose(entity)}>
-                      <Ionicon name="arrow-back" color={'white'} size={BACK_ICON_SIZE}/>
-                    </TouchableScale>
-                  </View>
+      <SafeAreaInsetsContext.Consumer>
+        {(insets) => (
+          <BottomTabBarHeightContext.Consumer>
+            {tabBarHeight => (
+              <FlexContainer style={{marginBottom: insets.bottom +  tabBarHeight + 10}}>
+                <View style={{...styles.actionsBar}}>
+                  <ActionsBar
+                    onSave={() => onSave([entity])}
+                    onCopy={() => onCopy([entity])}
+                    onDelete={() => onDelete([entity])}
+                    onClose={() => onClose(entity)}
+                    onRevert={this.revertChanges}
+                    containerStyle={styles.actionsBarContainer}
+                    iconStyle={styles.actionsBarIcon}
+                    allowedActions={isActive ? {...entityData.databaseMethods} : {}}
+                    selectionActions={false}
+                  />
+                </View>
+                <View style={styles.headerContainer}>
+                  <TouchableScale onPress={() => onClose(entity)}>
+                    <Ionicon name="arrow-back" color={'white'} size={BACK_ICON_SIZE}/>
+                  </TouchableScale>
+                </View>
 
-                  <Animated.View
-                    style={[styles.navbar, {transform: [{translateY: navbarTranslate}], height: navbarHeight}]}>
-                    <Animated.Text style={{fontSize: headerTextSize, color: headerTextColor}}>
-                      {title}
-                    </Animated.Text>
-                  </Animated.View>
-                  <FlexContainer bottomTransparency topTransparency>
-                    <Animated.FlatList
-                      contentContainerStyle={{paddingTop: DESCRIPTION_HEIGHT}}
-                      scrollEventThrottle={16}
-                      bounces={false}
-                      onScroll={Animated.event(
-                        [{nativeEvent: {contentOffset: {y: this.state.scrollAnim}}}],
-                        {useNativeDriver: false},
-                      )}
-                      keyExtractor={(group) => group.key.toString()}
-                      data={this.buildFlatListData(entityData)}
-                      renderItem={this.renderGroup}
-                    />
-                  </FlexContainer>
-                  <View style={styles.actionsBar}>
-                    <ActionsBar
-                      onSave={() => onSave([entity])}
-                      onCopy={() => onCopy([entity])}
-                      onDelete={() => onDelete([entity])}
-                      onClose={() => onClose(entity)}
-                      onRevert={this.revertChanges}
-                      containerStyle={styles.actionsBarContainer}
-                      iconStyle={styles.actionsBarIcon}
-                      allowedActions={isActive ? {...entityData.databaseMethods} : {}}
-                      selectionActions={false}
-                    />
-                  </View>
+                <Animated.View
+                  style={[styles.navbar, {transform: [{translateY: navbarTranslate}], height: navbarHeight}]}>
+                  <Animated.Text style={{fontSize: headerTextSize, color: headerTextColor}}>
+                    {title}
+                  </Animated.Text>
+                </Animated.View>
+                <FlexContainer bottomTransparency topTransparency>
+                  <Animated.FlatList
+                    contentContainerStyle={{paddingTop: DESCRIPTION_HEIGHT}}
+                    scrollEventThrottle={16}
+                    bounces={false}
+                    onScroll={Animated.event(
+                      [{nativeEvent: {contentOffset: {y: this.state.scrollAnim}}}],
+                      {useNativeDriver: false},
+                    )}
+                    keyExtractor={(group) => group.key.toString()}
+                    data={this.buildFlatListData(entityData)}
+                    renderItem={this.renderGroup}
+                  />
                 </FlexContainer>
+
               </FlexContainer>
-            );
-          }}
-        </SafeAreaInsetsContext.Consumer>
-      </Modal>
+            )}
+          </BottomTabBarHeightContext.Consumer>
+        )}
+      </SafeAreaInsetsContext.Consumer>
     );
   }
 }
@@ -308,6 +297,7 @@ EntityEditor.propTypes = {
 
 const styles = StyleSheet.create({
   topSafeArea: {
+    top: 0,
     position: 'absolute',
     width: '100%',
     backgroundColor: GlobalStyles.violetBackgroundColor,
@@ -317,10 +307,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     backgroundColor: GlobalStyles.violetBackgroundColor,
-    zIndex: 1
+    zIndex: 1,
   },
   navbar: {
-    marginTop: HEADER_HEIGHT,
+    marginTop: HEADER_HEIGHT + ACTIONS_BAR_HEIGHT,
     position: 'absolute',
     alignSelf: 'center',
     justifyContent: 'center',
@@ -329,6 +319,7 @@ const styles = StyleSheet.create({
   },
   actionsBar: {
     width: '100%',
+    backgroundColor: GlobalStyles.violetBackgroundColor
   },
   actionsBarContainer: {
     paddingLeft: 10,
@@ -349,18 +340,18 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'stretch',
     justifyContent: 'center',
-    elevation: 4
+    elevation: 4,
   },
   headerContainer: {
     height: HEADER_HEIGHT,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: GlobalStyles.violetBackgroundColor,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   titleText: {
     alignSelf: 'flex-start',
     color: GlobalStyles.whiteTextColor,
     fontSize: GlobalStyles.defaultTitleFontSize,
-  }
+  },
 });

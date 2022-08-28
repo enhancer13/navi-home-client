@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useState, useMemo, useCallback} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {StatusLabel} from './StatusLabel';
 import {GlobalStyles} from '../../../config/GlobalStyles';
@@ -35,8 +35,12 @@ const LabeledAjaxDropDownListPicker = (props) => {
     }
   }, []);
 
-  const onSelectedDataChanged = (values) => {
+  const onSelectedDataChanged = useCallback((values) => {
     if (data.length === 0) {
+      return;
+    }
+    if (values === null) {
+      onChange(null);
       return;
     }
     if (multiple) {
@@ -46,7 +50,7 @@ const LabeledAjaxDropDownListPicker = (props) => {
     }
     const selectedItem = data.find(x => values === x[uniqueKey]);
     onChange(selectedItem);
-  };
+  }, [data]);
 
   const items = useMemo(() => {
     return data.map(x => {
@@ -60,6 +64,12 @@ const LabeledAjaxDropDownListPicker = (props) => {
   }, [data])
 
   const selectedItems = useMemo(() => {
+    if (selectedData === null) {
+      return null;
+    }
+    if (typeof selectedData === undefined) {
+      return multiple ? [] : null;
+    }
     return multiple ? selectedData.map(x => x[uniqueKey]) : selectedData[uniqueKey];
   }, [selectedData])
 

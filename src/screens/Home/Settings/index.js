@@ -1,11 +1,11 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import VideoCameraEntityEditor from './components/VideoCameras/VideoCameraEntityEditor';
-import EntityEditorList from './components/EntityEditorList';
+import SettingsMenuList from './components/SettingsMenuList';
 
 const EntityEditorNavigator = createStackNavigator();
 
-function Settings() {
+const Settings = () => {
   return (
     <EntityEditorNavigator.Navigator
       initialRouteName="EntityEditorList"
@@ -15,7 +15,7 @@ function Settings() {
     >
       <EntityEditorNavigator.Screen
         name="EntityEditorList"
-        component={EntityEditorList}
+        component={SettingsMenuList}
       />
       <EntityEditorNavigator.Screen
         name="VideoCameraEntityEditor"
@@ -23,6 +23,6 @@ function Settings() {
       />
     </EntityEditorNavigator.Navigator>
   );
-}
+};
 
 export default Settings;

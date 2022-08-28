@@ -9,7 +9,7 @@ import AjaxRequest from '../../helpers/AjaxRequest';
 import { FAB } from 'react-native-elements';
 import { GlobalStyles } from '../../config/GlobalStyles';
 import EntityEditor from './EntityEditor';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ScaleAnimation, SlideAnimation } from '../../animations';
 import Entity from './Entity';
 import { showSuccess, showError } from '../ApplicationMessaging/Popups';
@@ -53,7 +53,7 @@ export default class EntityEditorList extends Component {
       currentEntity: entity,
     });
     Animated.parallel([
-      this.scaleAnimation.getAnimation(1, 400),
+      //this.scaleAnimation.getAnimation(1, 400),
       this.slideAnimation.getAnimation(0, 400),
     ]).start();
   };
@@ -453,10 +453,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   entityEditorContainer: {
-    height: '100%',
+    height: hp(100),
     position: 'absolute',
-    width: '100%',
-    zIndex: 1,
+    width: wp(100),
+    zIndex: 99999,
+    backgroundColor: GlobalStyles.lightBackgroundColor
   },
   selectableAreaContainer: {
     flex: 1,

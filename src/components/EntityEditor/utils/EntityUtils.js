@@ -78,7 +78,6 @@ export default class EntityUtils {
           );
       }
     });
-    console.log(item);
     return item;
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import MenuList from '../../../../components/MenuList';
 
-function EntityEditorList(props) {
+const SettingsMenuList = (props) => {
   const items = [
     {
       name: 'Video Cameras Configuration',
@@ -40,4 +40,4 @@ function EntityEditorList(props) {
   return <MenuList items={items} />;
 }
 
-export default EntityEditorList;
+export default SettingsMenuList;

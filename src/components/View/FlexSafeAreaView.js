@@ -6,18 +6,22 @@ import { GlobalStyles } from '../../config/GlobalStyles';
 import PropTypes from 'prop-types';
 
 function FlexSafeAreaView(props) {
-  const top = props.ignoreTopInsets ? 0 : useSafeAreaInsets().top;
+  const insets = useSafeAreaInsets();
+  const top = props.ignoreTopInsets ? 0 : insets.top;
+  const bottom = props.ignoreBottomInsets ? 0 : insets.bottom;
+
   return (
-    <SafeAreaView style={{...styles.container, ...props.style}}>
+    <View style={{...props.style, paddingTop: top, paddingBottom: bottom, flex: 1}}>
       {Platform.OS === 'ios' ? <View style={{...styles.topSafeArea, height: top}} /> : null}
       {props.children}
-    </SafeAreaView>
+    </View>
   );
 }
 
 FlexSafeAreaView.propTypes = {
   style: ViewPropTypes.style,
-  ignoreTopInsets: PropTypes.bool
+  ignoreTopInsets: PropTypes.bool,
+  ignoreBottomInsets: PropTypes.bool
 };
 
 const styles = StyleSheet.create({
@@ -25,9 +29,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     backgroundColor: GlobalStyles.violetBackgroundColor,
-  },
-  container: {
-    flex: 1,
   },
 });
 

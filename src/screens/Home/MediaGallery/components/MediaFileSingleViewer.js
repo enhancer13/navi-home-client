@@ -119,7 +119,7 @@ export default class MediaFileSingleViewer extends Component {
           />
         </TouchableOpacity>
         <AnimatedPressableIcon
-          onPress={() => this.onShare(image)} //TODO
+          onPress={() => this.onShare(image)}
           IconComponent={Entypo}
           iconName="share"
           iconColor={GlobalStyles.whiteIconColor}
