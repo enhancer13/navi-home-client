@@ -45,7 +45,6 @@ export default class ServerConfig extends Component {
   };
 
   handleServerActions = async (action) => {
-    console.log('handleServerActions' + action);
     const { serverName, serverAddress } = this.state;
     if (serverName.length === 0 || serverName.length === 0) {
       this.setState({

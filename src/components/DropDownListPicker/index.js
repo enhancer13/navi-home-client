@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import PropTypes from 'prop-types';
 import {StyleSheet} from 'react-native';
 import {GlobalStyles} from '../../config/GlobalStyles';
+import {ArrayUtils} from '../../helpers/ArrayUtils';
 
 export const DropDownListPicker = (props) => {
   const {onItemChanged, disabled, containerStyle, multiple, loading} = props;
@@ -12,31 +13,34 @@ export const DropDownListPicker = (props) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    if (props.items.length !== items.length || !items.every((item, index) => {
-      return item.value === props.items[index].value;
-    })) {
+    if (!ArrayUtils.arraysEqual(props.items, items, (a, b) => a.value === b.value)) {
       setItems(props.items);
     }
   }, [props.items]);
 
   useEffect(() => {
-    if (selectedItem !== props.selectedItem) {
+    if (multiple && !ArrayUtils.arraysEqual(selectedItem, props.selectedItem)) {
+      const newSelectedItem = props.selectedItem;
+      setSelectedItem(newSelectedItem);
+      setPrevSelectedItem(newSelectedItem);
+    }
+    if (!multiple && selectedItem !== props.selectedItem) {
       setSelectedItem(props.selectedItem);
       setPrevSelectedItem(props.selectedItem);
     }
   }, [props.selectedItem]);
 
-  const onChangeValue = (value) => {
-    if (multiple && (prevSelectedItem.length !== value.length || !prevSelectedItem.every((prevItem, index) => {
-      return prevItem === value[index];
-    }))) {
-      setPrevSelectedItem([...value]);
+  const onChangeValue = useCallback((value) => {
+    if (multiple && !ArrayUtils.arraysEqual(prevSelectedItem, value)) {
+      setPrevSelectedItem(value);
+      onItemChanged(value);
+      return;
+    }
+    if (!multiple && prevSelectedItem !== value) {
+      setPrevSelectedItem(value);
       onItemChanged(value);
     }
-    if (!multiple) {
-      onItemChanged(value);
-    }
-  };
+  }, [prevSelectedItem]);
 
   return (
     <DropDownPicker
@@ -45,7 +49,6 @@ export const DropDownListPicker = (props) => {
       value={selectedItem}
       setValue={setSelectedItem}
       items={items}
-      setItems={setItems}
       onChangeValue={onChangeValue}
       containerStyle={containerStyle}
       dropDownContainerStyle={styles.dropDownContainerStyle}

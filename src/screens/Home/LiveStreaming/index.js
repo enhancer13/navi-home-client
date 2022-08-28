@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import { FlatList, View, StyleSheet, RefreshControl } from 'react-native';
+import React, {Component} from 'react';
+import {FlatList, View, StyleSheet, RefreshControl} from 'react-native';
 import AuthService from '../../../helpers/AuthService';
 import AjaxRequest from '../../../helpers/AjaxRequest';
 import VideoStreamingPlayer from './VideoStreamingPlayer';
-import { LoadingActivityIndicator } from '../../../components';
-import { EventRegister } from 'react-native-event-listeners';
+import {LoadingActivityIndicator} from '../../../components';
+import {EventRegister} from 'react-native-event-listeners';
 import FlexContainer from '../../../components/View/FlexContainer';
 import {backendEndpoints} from '../../../config/BackendEndpoints';
+import FlexSafeAreaView from '../../../components/View/FlexSafeAreaView';
 
 export default class LiveStreaming extends Component {
   constructor(props) {
@@ -27,10 +28,10 @@ export default class LiveStreaming extends Component {
         name: serviceStatusContainer.videoSource.cameraName,
         servicesStatus: serviceStatusContainer.servicesStatus,
         thumbUri: AuthService.buildFetchUrl(
-          backendEndpoints.Streaming.THUMBNAIL(videoSourceId)
+          backendEndpoints.Streaming.THUMBNAIL(videoSourceId),
         ),
         uri: AuthService.buildFetchUrl(
-          backendEndpoints.Streaming.HLS_PLAYLIST(videoSourceId)
+          backendEndpoints.Streaming.HLS_PLAYLIST(videoSourceId),
         ),
         headers: AuthService.getAuthorizationHeader(),
       });
@@ -44,8 +45,8 @@ export default class LiveStreaming extends Component {
   initEventListener() {
     this.firebaseMessageListener = EventRegister.addEventListener(
       'applicationStatus',
-      ({ serviceStatusContainers }) =>
-        this.updateVideoPlayers(serviceStatusContainers)
+      ({serviceStatusContainers}) =>
+        this.updateVideoPlayers(serviceStatusContainers),
     );
   }
 
@@ -68,20 +69,20 @@ export default class LiveStreaming extends Component {
 
   componentWillUnmount() {
     this.firebaseMessageListener &&
-      EventRegister.removeEventListener(this.firebaseMessageListener);
+    EventRegister.removeEventListener(this.firebaseMessageListener);
   }
 
   render() {
-    const { loading, videoSources } = this.state;
+    const {loading, videoSources} = this.state;
     return (
       <FlexContainer style={styles.container} bottomTransparency>
         {loading ? (
-          <LoadingActivityIndicator />
+          <LoadingActivityIndicator/>
         ) : (
           <FlatList
             data={videoSources}
-            renderItem={({ item }) => (
-              <VideoStreamingPlayer videoSource={item} />
+            renderItem={({item}) => (
+              <VideoStreamingPlayer videoSource={item}/>
             )}
             keyExtractor={(item) => item.id.toString()}
             refreshControl={

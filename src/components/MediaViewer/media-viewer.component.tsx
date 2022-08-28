@@ -515,9 +515,6 @@ export default class MediaViewer extends React.Component<Props, State> {
             if (this.props.enablePreload) {
               this.preloadMedia(this.state.currentShowIndex || 0);
             }
-            console.log(width);
-            console.log(height);
-            console.log(mediaInfo);
             return (
               <MediaZoom
                 key={index}
@@ -584,6 +581,7 @@ export default class MediaViewer extends React.Component<Props, State> {
         const aspectRatio = 16 / 9;
         const playerWidth = this.width;
         const playerHeight = playerWidth / aspectRatio;
+        console.log(encodeURI(mediaInfo.url))
         return (
           <MediaZoom
             key={index}
@@ -615,8 +613,7 @@ export default class MediaViewer extends React.Component<Props, State> {
                 this.mediaPlayersRefs[index] = ref;
               }}
               startPlaying={false}
-              //uri={mediaInfo.url}
-              uri="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+              uri={encodeURI(mediaInfo.url)}
               headers={mediaInfo.props.source.headers}
               tapAnywhereToPause={false}
               doubleTapTime={300}

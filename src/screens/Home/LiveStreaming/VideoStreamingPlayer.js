@@ -42,7 +42,7 @@ export default class VideoStreamingPlayer extends Component {
         underlayColor="transparent"
         activeOpacity={0.3}
         onPress={() => {
-          callback();
+          callback && callback();
         }}
         style={[styles.player.control, style]}
       >

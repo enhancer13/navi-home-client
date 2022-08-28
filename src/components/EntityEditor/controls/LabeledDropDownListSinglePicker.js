@@ -7,8 +7,9 @@ import {DropDownListPicker} from '../../DropDownListPicker';
 
 const LabeledDropDownListSinglePicker = (props) => {
   const {label, fieldStatus, editable, selectedItem, onChange, itemLabelFormatter} = props;
+
   const items = useMemo(() => {
-    return props.items.map((x, index) => {
+    return props.items.map((x) => {
       const itemLabel = itemLabelFormatter ? itemLabelFormatter(x) : x;
       return {label: itemLabel, value: x};
     });

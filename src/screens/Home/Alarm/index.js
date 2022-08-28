@@ -1,7 +1,8 @@
 import React from 'react';
 import {applicationConstants} from '../../../config/ApplicationConstants';
 import AlarmProfile from './AlarmProfile';
-import { EntityEditorList } from '../../../components/EntityEditor';
+import {EntityEditorList} from '../../../components/EntityEditor';
+import FlexSafeAreaView from '../../../components/View/FlexSafeAreaView';
 
 function AlarmProfileEntityEditor(props) {
   return (

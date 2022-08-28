@@ -38,11 +38,12 @@ export default class LoginForm extends Component {
     };
   }
 
-  handleServerEdit = () => {
+  handleServerEdit = async () => {
     const {
       data: {serverName, servers},
     } = this.state;
     if (servers.length > 0) {
+      await Storage.setTextItem(applicationConstants.Authorization.SERVER_NAME, serverName);
       this.props.navigation.navigate('ServerConfig', {
         action: 'edit',
         server: servers.find((s) => s.serverName === serverName),

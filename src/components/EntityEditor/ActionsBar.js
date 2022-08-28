@@ -1,31 +1,30 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Animated, Platform, StyleSheet, View} from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { GlobalStyles } from '../../config/GlobalStyles';
+import {GlobalStyles} from '../../config/GlobalStyles';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {SlideAnimation} from '../../animations';
+import {ScaleAnimation} from '../../animations';
 
 export default class ActionsBar extends Component {
   constructor(props) {
     super(props);
-    this.slideAnimation = new SlideAnimation(new Animated.Value(props.containerStyle.height));
+    this.scaleAnimation = new ScaleAnimation(new Animated.Value(1));
   }
 
-  loadingAnimation = () =>{
+  loadingAnimation = () => {
     Animated.sequence([
-      Animated.delay(200),
-      this.slideAnimation.getAnimation(0, 200)
+      this.scaleAnimation.getAnimation(0, 300),
     ]).start();
-  }
+  };
 
   closingAnimation = () => {
-    this.slideAnimation.getAnimation(this.props.containerStyle.height, 200).start(this.props.onClose)
-  }
+    this.scaleAnimation.getAnimation(1, 300).start(this.props.onClose);
+  };
 
   componentDidMount() {
     this.loadingAnimation();
@@ -50,20 +49,17 @@ export default class ActionsBar extends Component {
         style={[
           styles.actionsBar,
           containerStyle,
-          {
-            //opacity: this.actionsBarAnimationValue,
-          },
-          this.slideAnimation.getStyle(),
+          this.scaleAnimation.getStyle(1, 0),
         ]}
       >
         <View style={styles.dynamicItemsContainer}>
           {(allowedActions.create || allowedActions.update) && (
             <View style={styles.rowContainer}>
               <TouchableScale onPress={onSave} style={styles.iconContainer}>
-                <Entypo name="save" color={iconColor} size={iconSize} />
+                <Entypo name="save" color={iconColor} size={iconSize}/>
               </TouchableScale>
               <TouchableScale onPress={onCopy} style={styles.iconContainer}>
-                <FontAwesome name="copy" color={iconColor} size={iconSize} />
+                <FontAwesome name="copy" color={iconColor} size={iconSize}/>
               </TouchableScale>
             </View>
           )}
@@ -103,12 +99,10 @@ export default class ActionsBar extends Component {
           {allowedActions.update && (
             <View style={styles.rowContainer}>
               <TouchableScale onPress={onRevert} style={styles.iconContainer}>
-                <Entypo name="back-in-time" color={iconColor} size={iconSize} />
+                <Entypo name="back-in-time" color={iconColor} size={iconSize}/>
               </TouchableScale>
             </View>
           )}
-        </View>
-        <View style={{ ...styles.fixedItemsContainer, width: iconSize * 1.05 }}>
           <TouchableScale onPress={this.closingAnimation}>
             <AntDesign name="closesquareo" color={iconColor} size={iconSize} />
           </TouchableScale>
@@ -140,7 +134,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flexGrow: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     marginRight: 5,
   },
   fixedItemsContainer: {
