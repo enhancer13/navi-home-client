@@ -5,7 +5,7 @@
         <domain includeSubdomains="true">77.121.5.210</domain>
         <domain includeSubdomains="true">176.104.16.214</domain>
         <trust-anchors>
-            <certificates src="@raw/navihomeprod_ip_2c41"/>
+            <certificates src="@raw/navihomeprodip2c41"/>
             <certificates src="@raw/navihomeyudin"/>
             <certificates src="@raw/navihomeyalinka"/>
             <certificates src="user"/>
