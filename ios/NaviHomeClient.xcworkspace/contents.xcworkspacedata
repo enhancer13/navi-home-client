@@ -5,6 +5,9 @@
       location = "group:NaviHomeClient.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:/Users/enhancer/Projects/NaviHomeClient/ios/Pods/Pods">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
