@@ -1,0 +1,59 @@
+{
+  "buildFiles": [
+    "/Users/enhancer/Projects/NaviHomeClient/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/enhancer/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/enhancer/Projects/NaviHomeClient/android/app/.cxx/Debug/403p2b6t/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/enhancer/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/enhancer/Projects/NaviHomeClient/android/app/.cxx/Debug/403p2b6t/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "appmodules::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "appmodules",
+      "output": "/Users/enhancer/Projects/NaviHomeClient/android/app/build/intermediates/cxx/Debug/403p2b6t/obj/x86/libappmodules.so",
+      "runtimeFiles": [
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/fabricjni/libs/android.x86/libfabricjni.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/5fe3d73a36de60854d011e25367b8826/transformed/jetified-fbjni-0.3.0/prefab/modules/fbjni/libs/android.x86/libfbjni.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/folly_runtime/libs/android.x86/libfolly_runtime.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/glog/libs/android.x86/libglog.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/jsi/libs/android.x86/libjsi.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_codegen_rncore/libs/android.x86/libreact_codegen_rncore.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_debug/libs/android.x86/libreact_debug.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_nativemodule_core/libs/android.x86/libreact_nativemodule_core.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_newarchdefaults/libs/android.x86/libreact_newarchdefaults.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_render_componentregistry/libs/android.x86/libreact_render_componentregistry.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_render_core/libs/android.x86/libreact_render_core.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_render_debug/libs/android.x86/libreact_render_debug.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_render_graphics/libs/android.x86/libreact_render_graphics.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_render_imagemanager/libs/android.x86/libreact_render_imagemanager.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/react_render_mapbuffer/libs/android.x86/libreact_render_mapbuffer.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/rrc_image/libs/android.x86/librrc_image.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/rrc_view/libs/android.x86/librrc_view.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/runtimeexecutor/libs/android.x86/libruntimeexecutor.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/turbomodulejsijni/libs/android.x86/libturbomodulejsijni.so",
+        "/Users/enhancer/.gradle/caches/transforms-3/61232ca2dd4169d9ce0ce138c19543f4/transformed/jetified-react-android-0.71.5-debug/prefab/modules/yoga/libs/android.x86/libyoga.so"
+      ]
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/Users/enhancer/Library/Android/sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/Users/enhancer/Library/Android/sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

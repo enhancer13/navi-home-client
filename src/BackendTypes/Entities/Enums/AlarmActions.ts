@@ -1,0 +1,7 @@
+export enum AlarmActions {
+    SAVE_LOG = 'SAVE_LOG',
+    SAVE_IMAGE = 'SAVE_IMAGE',
+    SEND_EMAIL = 'SEND_EMAIL',
+    RECORD_VIDEO = 'RECORD_VIDEO',
+    NOTIFICATION = 'NOTIFICATION'
+}

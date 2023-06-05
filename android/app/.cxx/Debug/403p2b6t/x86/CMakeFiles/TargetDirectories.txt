@@ -1,0 +1,3 @@
+/Users/enhancer/Projects/NaviHomeClient/android/app/.cxx/Debug/403p2b6t/x86/CMakeFiles/appmodules.dir
+/Users/enhancer/Projects/NaviHomeClient/android/app/.cxx/Debug/403p2b6t/x86/CMakeFiles/edit_cache.dir
+/Users/enhancer/Projects/NaviHomeClient/android/app/.cxx/Debug/403p2b6t/x86/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,22 @@
+                        -H/Users/enhancer/Projects/NaviHomeClient/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_SYSTEM_VERSION=21
+-DANDROID_PLATFORM=android-21
+-DANDROID_ABI=x86
+-DCMAKE_ANDROID_ARCH_ABI=x86
+-DANDROID_NDK=/Users/enhancer/Library/Android/sdk/ndk/23.1.7779620
+-DCMAKE_ANDROID_NDK=/Users/enhancer/Library/Android/sdk/ndk/23.1.7779620
+-DCMAKE_TOOLCHAIN_FILE=/Users/enhancer/Library/Android/sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=/Users/enhancer/Library/Android/sdk/cmake/3.22.1/bin/ninja
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/enhancer/Projects/NaviHomeClient/android/app/build/intermediates/cxx/Debug/403p2b6t/obj/x86
+-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/Users/enhancer/Projects/NaviHomeClient/android/app/build/intermediates/cxx/Debug/403p2b6t/obj/x86
+-DCMAKE_BUILD_TYPE=Debug
+-DCMAKE_FIND_ROOT_PATH=/Users/enhancer/Projects/NaviHomeClient/android/app/.cxx/Debug/403p2b6t/prefab/x86/prefab
+-B/Users/enhancer/Projects/NaviHomeClient/android/app/.cxx/Debug/403p2b6t/x86
+-GNinja
+-DPROJECT_BUILD_DIR=/Users/enhancer/Projects/NaviHomeClient/android/app/build
+-DREACT_ANDROID_DIR=/Users/enhancer/Projects/NaviHomeClient/node_modules/react-native/ReactAndroid
+-DANDROID_STL=c++_shared
+                        Build command args: []
+                        Version: 2
