@@ -11,7 +11,7 @@ type AuthErrorBoundaryProps = {
     children: Exclude<NonNullable<ReactNode>, string | number | boolean>;
 };
 
-export const AuthErrorBoundary: React.FC<AuthErrorBoundaryProps> = ({ children }) => {
+export const AppErrorBoundary: React.FC<AuthErrorBoundaryProps> = ({ children }) => {
     const { logout } = useAuth();
     const navigation = useNavigation<RootNavigationProp>();
 

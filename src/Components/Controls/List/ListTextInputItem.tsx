@@ -1,11 +1,12 @@
 import React, {useEffect} from "react";
 import {TextInput} from "react-native-paper";
-import {View} from "react-native";
+import {StyleSheet, View} from "react-native";
+import {useToggle} from "../../Hooks/useToggle";
 
 declare type Props = {
     title: string;
-    value: string | undefined;
-    onValueChanged: (value: string | undefined) => void;
+    value: string;
+    onValueChanged: (value: string) => void;
     readonly?: boolean;
     secureTextEntry?: boolean;
 }
@@ -15,9 +16,10 @@ export const ListTextInputItem: React.FC<Props> = ({
                                                        value,
                                                        onValueChanged,
                                                        readonly,
-                                                       secureTextEntry
+                                                       secureTextEntry = false
                                                    }) => {
     const [inputValue, setInputValue] = React.useState(value);
+    const [hidePassword, toggleHidePassword] = useToggle(secureTextEntry);
 
     const onInputChanged = (text: string) => {
         setInputValue(text);
@@ -36,16 +38,28 @@ export const ListTextInputItem: React.FC<Props> = ({
     }, [inputValue])
 
     return (
-        <View style={{width: '100%', marginBottom: 10}}>
+        <View style={styles.container}>
             <TextInput
                 mode="flat"
                 label={title}
                 value={inputValue}
                 onChangeText={onInputChanged}
                 disabled={readonly}
-                secureTextEntry={secureTextEntry}
-                right={secureTextEntry && <TextInput.Icon icon="eye" />}
+                secureTextEntry={hidePassword}
+                right={secureTextEntry && (
+                    <TextInput.Icon
+                        icon={secureTextEntry ? "eye" : "eye-off"}
+                        onPress={toggleHidePassword}
+                    />
+                )}
             />
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        marginBottom: 10
+    }
+})

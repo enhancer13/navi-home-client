@@ -11,6 +11,7 @@ export interface IVideoSource extends IEntity {
   url: string;
   frameHeight: number;
   frameWidth: number;
+  framesFrequency: number;
   recordingSource: FramesSources;
   streamingSource: FramesSources;
   cameraAutoStart: boolean;

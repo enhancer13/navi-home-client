@@ -34,7 +34,7 @@ class EditorControlFactory {
                         <ListTextInputItem
                             title={fieldTitle}
                             readonly={readonly}
-                            value={value?.toString()}
+                            value={value?.toString() ?? ''}
                             onValueChanged={(x) => updateFieldValue(fieldName, x)}
                             secureTextEntry={fieldDefinition.fieldDataType === EntityFieldInputTypes.PASSWORD}
                         />
@@ -78,6 +78,7 @@ class EditorControlFactory {
                             items={Object.values(fieldDefinition.fieldEnumValues)}
                             readonly={readonly}
                             onChange={(value) => updateFieldValue(fieldName, value)}
+                            titleFormatter={snakeToPascal}
                         />
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
                     </View>
