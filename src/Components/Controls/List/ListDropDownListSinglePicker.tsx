@@ -1,5 +1,6 @@
 import React, {useMemo} from 'react';
-import {List} from 'react-native-paper';
+import {StyleSheet} from 'react-native';
+import {Divider, List} from 'react-native-paper';
 import {DropDownListPicker} from "../DropDownListPicker";
 import {ItemType, ValueType} from "react-native-dropdown-picker";
 
@@ -40,6 +41,13 @@ export const ListDropDownListSinglePicker: React.FC<Props<string>> = ({
                 onItemChanged={onChange}
                 disabled={readonly}
             />
+            <Divider style={styles.divider}/>
         </>
     );
 }
+
+const styles = StyleSheet.create({
+    divider: {
+        marginVertical: 10,
+    }
+});

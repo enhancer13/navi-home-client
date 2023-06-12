@@ -14,7 +14,7 @@ import {ModalLoadingActivityIndicator} from "../../../Components/Controls";
 
 const columnCount = (isTablet() || getDeviceTypeSync() === 'Desktop') ? 2 : 1;
 
-export const LiveStreaming = () => {
+export const LiveStreamingScreen = () => {
     const {authentication} = useAuth();
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [streamingSources, setStreamingSources] = useState<IStreamingSource[]>([]);

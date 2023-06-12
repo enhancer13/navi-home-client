@@ -21,7 +21,9 @@ type EntityEditorProps = {
     onClose: () => void;
 }
 
-const TITLE_HEIGHT = hp(10);
+const HEADER_HEIGHT = hp(5);
+const LIST_TITLE_HEIGHT = HEADER_HEIGHT * 1.5;
+const SCROLL_THRESHOLD = LIST_TITLE_HEIGHT / 2;
 
 export const EntityEditor: React.FC<EntityEditorProps> = ({
                                                               visible,
@@ -77,20 +79,23 @@ export const EntityEditor: React.FC<EntityEditorProps> = ({
 
     const sectionListTitle = splitPascalCase(entityDefinition.objectName);
     return (
-        <Modal visible={visible} hardwareAccelerated >
+        <Modal visible={visible} hardwareAccelerated animationType={'slide'}>
             <SafeAreaProvider>
                 <SafeAreaView style={styles.container} ignoreTopInsets={true} ignoreBottomInsets={false}>
                     <EntityEditorHeader
                         title={sectionListTitle}
+                        height={HEADER_HEIGHT}
                         onCancel={onClose}
                         onDone={onDone}
                         scrollY={scrollY}
-                        scrollThreshold={TITLE_HEIGHT}/>
+                        scrollThreshold={SCROLL_THRESHOLD}/>
                     <AnimatedSectionList
-                        titleHeight={TITLE_HEIGHT}
+                        titleHeight={LIST_TITLE_HEIGHT}
                         title={sectionListTitle}
                         sections={getSections}
-                        />
+                        onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) => {
+                            scrollY.setValue(event.nativeEvent.contentOffset.y);
+                        }}/>
                 </SafeAreaView>
             </SafeAreaProvider>
         </Modal>

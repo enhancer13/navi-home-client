@@ -1,5 +1,5 @@
 export * from './ModalLoadingActivityIndicator'
 export * from './LoadingActivityIndicator'
-export * from './AnimatedPressable'
-export * from './AnimatedPressableIcon'
 export * from './DropDownListPicker'
+export * from './IconCheckboxItem'
+export * from './IconTextItem'

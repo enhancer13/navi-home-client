@@ -31,6 +31,10 @@ export const useAuthenticationData = () => {
     };
 
     useEffect(() => {
+        console.debug('useAuthenticationData: serverName changed', serverName);
+    }, [serverName]);
+
+    useEffect(() => {
         async function initializeData() {
             if (__DEV__) {
                 setUsername('test');
