@@ -15,6 +15,7 @@ export class EntityFactory implements IEntityFactory {
             switch (fieldDataType) {
                 case EntityFieldInputTypes.TEXT:
                 case EntityFieldInputTypes.PASSWORD:
+                case EntityFieldInputTypes.EMAIL:
                     entity[fieldName] = primarySearchField ? `new entity ${entity.id}` : '';
                     break;
                 case EntityFieldInputTypes.NUMBER:
@@ -29,7 +30,7 @@ export class EntityFactory implements IEntityFactory {
                     entity[fieldName] = null;
                     break;
                 case EntityFieldInputTypes.SELECT:
-                    entity[fieldName] = fieldEnumValues.values().next().value;
+                    entity[fieldName] = Object.entries(fieldEnumValues)[0];
                     break;
                 case EntityFieldInputTypes.SINGLE_SELECT:
                     entity[fieldName] = null;

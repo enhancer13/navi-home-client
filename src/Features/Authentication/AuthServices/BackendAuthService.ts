@@ -43,11 +43,6 @@ export class BackendAuthService implements IBackendAuthService {
             throw new Error('Biometry authentication is not supported or not configured on this device, please authenticate with your credentials');
         }
 
-        // check if user has already authenticated with credentials
-        // console.debug('1')
-        // if (!(await this._tokenStorage.hasAccessToken(serverName, username))) {
-        //     throw new Error('There is no authentication information stored on this device.');
-        // }
         const tokenPair = await this._tokenStorage.getTokenPair(serverName, username);
 
         // return authentication if access token is not expired yet

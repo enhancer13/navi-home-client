@@ -15,7 +15,7 @@ import {elevationShadowStyle} from "../../Helpers/StyleUtils";
 
 const iconSize = hp(5);
 
-export const ServerConfig: React.FC = () => {
+export const ServerConfigScreen: React.FC = () => {
     const [serverInfo, setServerInfo] = useState<ServerInfo>(new ServerInfo('', 'https://'));
     const {busy, doAdd, doEdit, doDelete, doConnectionTest} = useServerActions(serverInfo);
     const theme = useTheme();
@@ -43,7 +43,7 @@ export const ServerConfig: React.FC = () => {
         <>
             <AppHeader title={'Server Configuration'} enableBackButton={true} />
             <SafeAreaView ignoreTopInsets={true} ignoreBottomInsets={false} style={styles.container}>
-                <View style={styles.serverConfigContainer}>
+                <View style={styles.passwordChangeContainer}>
                     <View style={styles.surface}>
                         <Text>{'Please enter the valid Navi Home server address.\n\nExample:\nhttps://127.0.0.1:9000\n'}</Text>
                         <TextInput
@@ -77,10 +77,11 @@ export const ServerConfig: React.FC = () => {
                         iconColor={iconColor}
                         onPress={doDelete}
                     />
-                    {busy ? <LoadingActivityIndicator color={theme.colors.onPrimary}/> :
-                        <IconButton icon={'access-point-check'} size={iconSize * 1.2} mode={'contained'}
+                    {busy ? <LoadingActivityIndicator color={theme.colors.primary}/> :
+                        <IconButton icon={'access-point-check'} size={iconSize * 1.2} mode={'contained-tonal'}
+                                    iconColor={theme.colors.onPrimary}
                                     style={styles.connectionTestButton}
-                                    iconColor={theme.colors.onPrimary} onPress={doConnectionTest}/>}
+                                    onPress={doConnectionTest}/>}
                     <IconButton
                         icon="content-save"
                         size={iconSize}
@@ -98,13 +99,13 @@ export const ServerConfig: React.FC = () => {
 const createStyles = (theme: Theme) => {
     return StyleSheet.create({
         connectionTestButton: {
-            backgroundColor: color(theme.colors.primary).lighten(0.2).hex(),
+            backgroundColor: theme.colors.primary,
         },
         container: {
             justifyContent: 'space-between',
             flexGrow: 1,
         },
-        serverConfigContainer: {
+        passwordChangeContainer: {
             width: '100%',
             flexGrow: 1,
             justifyContent: 'center',
