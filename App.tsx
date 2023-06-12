@@ -3,10 +3,10 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {NavigationContainer, NavigationProp, RouteProp, DefaultTheme} from '@react-navigation/native';
 import Orientation from 'react-native-orientation-locker';
 import {requestFirebasePermissions} from './src/Helpers/PermisionRequester';
-import {Login} from './src/Screens/Login';
-import {ServerConfig} from './src/Screens/ServerConfig';
+import {LoginScreen} from './src/Screens/Login';
+import {ServerConfigScreen} from './src/Screens/ServerConfig';
 import {dataStorageInitializer} from './src/Features/LocalStorage';
-import {Home} from './src/Screens/Home';
+import {HomeScreen} from './src/Screens/Home';
 import {AppProviders} from "./AppProviders";
 import FontsLoader from "./src/Helpers/FontsLoader";
 import {AppStatusBar} from "./src/Components/Layout/AppStatusBar";
@@ -49,7 +49,8 @@ const App = () => {
             colors: {
                 ...DefaultTheme.colors,
                 primary: theme.colors.primary,
-                card: theme.colors.surface,
+                card: theme.colors.elevation.level3,
+                border: theme.colors.surface,
                 background: theme.colors.background,
                 text: theme.colors.onSurface,
             },
@@ -66,16 +67,16 @@ const App = () => {
                 <RootStackNavigator.Navigator initialRouteName="Login">
                     <RootStackNavigator.Screen
                         name={'Login'}
-                        component={Login}
+                        component={LoginScreen}
                         options={screenOptions}/>
                     <RootStackNavigator.Screen
                         name={'Server Config'}
-                        component={ServerConfig}
+                        component={ServerConfigScreen}
                         options={screenOptions}
                     />
                     <RootStackNavigator.Screen
                         name="Home"
-                        component={Home}
+                        component={HomeScreen}
                         options={screenOptions}
                     />
                 </RootStackNavigator.Navigator>

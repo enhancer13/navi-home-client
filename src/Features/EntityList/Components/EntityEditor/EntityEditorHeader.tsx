@@ -5,6 +5,7 @@ import {AppHeader} from "../../../../Components/Layout";
 
 type EntityEditorHeaderProps = {
     title: string;
+    height: number;
     onCancel: () => void;
     onDone: () => void;
     scrollY: Animated.Value;
@@ -12,12 +13,13 @@ type EntityEditorHeaderProps = {
 }
 
 export const EntityEditorHeader: React.FC<EntityEditorHeaderProps> = ({
-                                                        title,
-                                                        onCancel,
-                                                        onDone,
-                                                        scrollY,
-                                                        scrollThreshold
-                                                    }) => {
+                                                                          title,
+                                                                          height,
+                                                                          onCancel,
+                                                                          onDone,
+                                                                          scrollY,
+                                                                          scrollThreshold
+                                                                      }) => {
     const cancelIconButton = useMemo(() => {
         return <Button icon="cancel" mode="text" onPress={onCancel}>Cancel</Button>
     }, [onCancel]);
@@ -29,6 +31,7 @@ export const EntityEditorHeader: React.FC<EntityEditorHeaderProps> = ({
     return (
         <AppHeader
             title={title}
+            height={height}
             leftControl={cancelIconButton}
             rightControl={doneIconButton}
             enableTitleAnimation={true}

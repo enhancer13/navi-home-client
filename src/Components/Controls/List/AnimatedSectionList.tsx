@@ -28,31 +28,30 @@ export const AnimatedSectionList: React.FC<SectionListProps> = ({
                                                                     sections,
                                                                     onScroll
                                                                 }) => {
-    const titleTargetHeight = titleHeight * 0.3;
     const [scrollY] = useState(new Animated.Value(0));
     const theme = useTheme();
 
     const titleTranslate = scrollY.interpolate({
-        inputRange: [0, titleTargetHeight],
-        outputRange: [0, -titleTargetHeight],
+        inputRange: [0, titleHeight],
+        outputRange: [0, -titleHeight],
         extrapolate: 'clamp',
     });
 
     const titleHeightAnimatedValue = scrollY.interpolate({
-        inputRange: [titleTargetHeight, titleHeight],
-        outputRange: [titleHeight, titleTargetHeight],
+        inputRange: [0, titleHeight],
+        outputRange: [titleHeight, 0],
         extrapolate: 'clamp',
     });
 
     const titleTextColor = scrollY.interpolate({
-        inputRange: [titleTargetHeight, titleHeight],
+        inputRange: [0, titleHeight],
         outputRange: [theme.colors.primary, 'transparent'],
         extrapolate: 'clamp',
     });
 
     const titleTextSize = scrollY.interpolate({
         inputRange: [0, titleHeight],
-        outputRange: [titleHeight * 0.3, titleTargetHeight * 0.7],
+        outputRange: [titleHeight * 0.5, 0],
         extrapolate: 'clamp',
     });
 
@@ -90,7 +89,7 @@ export const AnimatedSectionList: React.FC<SectionListProps> = ({
                     <AnimatedText style={{fontSize: titleTextSize, color: titleTextColor}}>{title}</AnimatedText>
                 </Animated.View>
                 <Animated.FlatList
-                    contentContainerStyle={{paddingTop: titleHeight, paddingBottom: titleHeight}}
+                    contentContainerStyle={{paddingTop: titleHeight, paddingBottom: titleHeight * 2}}
                     scrollEventThrottle={16}
                     onScroll={handleScroll}
                     data={sectionsWithKeys}

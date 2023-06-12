@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet} from 'react-native';
 import {Searchbar as PaperSearchBar} from 'react-native-paper';
-import {ResizeAnimation, SlideAnimation} from "../../../Animations";
+import {FadeAnimation, ResizeAnimation, SlideAnimation} from "../../Animations";
 
 declare type SearchBarProps = {
     searchActive: boolean;
@@ -10,6 +10,8 @@ declare type SearchBarProps = {
     loading?: boolean;
 }
 
+const HEIGHT = 72;
+
 export const SearchBar: React.FC<SearchBarProps> = ({
                                                         searchActive,
                                                         onSearchQueryChange,
@@ -17,15 +19,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                                                         loading
                                                     }) => {
     const [searchQuery, setSearchQuery] = useState('');
-    const searchBarSlideAnimationRef = useRef(new SlideAnimation('y', new Animated.Value(0)));
-    const searchBarHeightAnimationRef = useRef(new ResizeAnimation('height', new Animated.Value(0)));
+    const searchBarSlideAnimation = useRef(new SlideAnimation('y', new Animated.Value(0))).current;
+    const searchBarHeightAnimation = useRef(new ResizeAnimation('height', new Animated.Value(0))).current;
+    const searchBarFadeAnimation = useRef(new FadeAnimation(new Animated.Value(1))).current;
     const searchTimeoutRef = useRef<number | null>(null);
-    const height = 72;
 
     useEffect(() => {
         Animated.parallel([
-            searchBarSlideAnimationRef.current.getAnimation(searchActive ? 0 : -height, 250),
-            searchBarHeightAnimationRef.current.getAnimation(searchActive ? height : 0, 250)
+            searchBarFadeAnimation.getAnimation(searchActive ? 1 : 0, searchActive ? 250 : 100),
+            searchBarSlideAnimation.getAnimation(searchActive ? 0 : -HEIGHT, 250),
+            searchBarHeightAnimation.getAnimation(searchActive ? HEIGHT : 0, 250)
         ]).start();
 
         return () => {
@@ -51,8 +54,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         <Animated.View
             style={[
                 styles.container,
-                searchBarSlideAnimationRef.current.getStyle(),
-                searchBarHeightAnimationRef.current.getStyle()
+                searchBarSlideAnimation.getStyle(),
+                searchBarHeightAnimation.getStyle(),
+                searchBarFadeAnimation.getStyle()
             ]}
         >
             <PaperSearchBar

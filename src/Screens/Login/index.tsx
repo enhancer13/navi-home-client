@@ -17,7 +17,7 @@ const containerWidth = Math.min(wp('95%'), 500);
 const iconSize = containerWidth * 0.07;
 const rowHeight = containerWidth * 0.11;
 
-export const Login: React.FC = () => {
+export const LoginScreen: React.FC = () => {
     const {showError} = usePopupMessage();
     const navigation = useNavigation<RootNavigationProp>();
     const {
@@ -68,15 +68,19 @@ export const Login: React.FC = () => {
 
     const handleServerAdd = useCallback(() => navigation.navigate('ServerConfig' as never), [navigation]);
 
-    const handleBiometryAuthenticate = useCallback(() => {
-        authenticateWithBiometry(serverName, username);
+    const handleServerChange = useCallback((value: string) => {
+        setServerName(value);
+    }, []);
+
+    const handleBiometryAuthenticate = useCallback(async () => {
+        await authenticateWithBiometry(serverName, username);
         !__DEV__ && setPassword('');
     }, [authenticateWithBiometry, serverName, username]);
 
-    const handleCredentialsAuthenticate = useCallback(() => {
-        authenticateWithCredentials(serverName, username, password);
+    const handleCredentialsAuthenticate = useCallback(async () => {
+        await authenticateWithCredentials(serverName, username, password);
         !__DEV__ && setPassword('');
-    }, [authenticateWithBiometry, serverName, username, password]);
+    }, [authenticateWithCredentials, serverName, username, password]);
 
     const biometryIcon = useMemo(() => {
         if (!biometryActive || !biometryType) {
@@ -89,8 +93,10 @@ export const Login: React.FC = () => {
         return <IconButton icon={icon}
                            onPress={handleBiometryAuthenticate}
                            iconColor={iconColor}
+                           animated={false}
+                           selected={false}
                            size={iconSize}/>;
-    }, [biometryType, biometryActive]);
+    }, [handleBiometryAuthenticate, biometryType, biometryActive]);
 
     return (
         <SafeAreaView ignoreTopInsets={true} style={styles.container}>
@@ -119,12 +125,12 @@ export const Login: React.FC = () => {
                             secureTextEntry={true}
                             onChangeText={value => setPassword(value)}
                         />
-                        <View style={styles.serverConfigContainer}>
+                        <View style={styles.passwordChangeContainer}>
                             <DropDownListPicker
                                 items={servers.map(x => ({label: x.serverName, value: x.serverName}))}
                                 selectedItem={serverName}
                                 containerStyle={styles.serverPickerContainer}
-                                onItemChanged={(value: string) => setServerName(value)}
+                                onItemChanged={handleServerChange}
                             />
                             <IconButton onPress={handleServerEdit} icon={'notebook-edit-outline'}
                                         iconColor={theme.colors.onSurface} size={iconSize}/>
@@ -182,7 +188,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         marginBottom: 50,
         color: theme.colors.primary
     },
-    serverConfigContainer: {
+    passwordChangeContainer: {
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
