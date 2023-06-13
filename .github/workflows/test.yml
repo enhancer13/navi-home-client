@@ -1,0 +1,29 @@
+name: Tests (jest)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    name: Tests (jest)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name : 📦 Checkout project repo
+        uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: 📦 Install Project Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: 🏃‍♂️ Run Tests
+        run: yarn test:ci

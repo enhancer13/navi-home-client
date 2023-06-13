@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback} from 'react';
 import {StyleSheet, Animated, View} from 'react-native';
 import {useToggle} from "../Hooks/useToggle";
 import {useNavigation} from "@react-navigation/native";
@@ -6,7 +6,6 @@ import {SearchBar} from "./SearchBar";
 import {animatedElevationShadowStyle} from "../../Helpers/StyleUtils";
 import {IconButton, MD3Theme as Theme, useTheme, Text} from "react-native-paper";
 import SafeAreaView from "./SafeAreaView";
-import {LayoutChangeEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 
 interface AppHeaderProps {

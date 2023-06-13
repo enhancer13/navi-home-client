@@ -1,4 +1,4 @@
-import Authentication from '../Authentication';
+import {Authentication} from '../Authentication';
 
 export interface IFirebaseAuthService {
   signIn(authentication: Authentication): Promise<void>;
