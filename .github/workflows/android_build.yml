@@ -38,6 +38,14 @@ jobs:
       - name: Install dependencies # install project deps with --frozen-lockfile to make sure we will have the same packages version ( very recommended  on running yarn install on ci)
         run: yarn install --frozen-lockfile
 
+      - name: Decode Keystore
+        env:
+          ANDROID_RELEASE_KEYSTORE_FILE: ${{ secrets.ANDROID_SIGNING_KEY }}
+          ANDROID_RELEASE_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_ALIAS }}
+          ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: echo $ANDROID_RELEASE_KEYSTORE_FILE | base64 --decode > ${{ github.workspace }}/android/app/release.keystore
+
       ## configure cash for gradle : will help to reduce build time
       - name: Cache Gradle Wrapper
         uses: actions/cache@v2
@@ -58,17 +66,6 @@ jobs:
       - name: Generate App APK
         run: |
           cd android && ./gradlew assembleGithubRelease --no-daemon
-
-      ## sign generated apk
-      - name: Sign APK
-        id: sign_app
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: android/app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
-          alias: ${{ secrets.ANDROID_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
       ## upload artifact to GitHub
       - uses: actions/upload-artifact@v2
