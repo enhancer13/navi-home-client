@@ -70,6 +70,12 @@ jobs:
           keyStorePassword: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
+      ## upload artifact to GitHub
+      - uses: actions/upload-artifact@v2
+        with:
+          name: NaviHomeClient
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+
       ## Distribute app to Firebase App Distribution for testing
       - name: Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
