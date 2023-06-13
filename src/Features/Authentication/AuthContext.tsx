@@ -20,7 +20,6 @@ const AuthProvider: React.FC<Props> = ({children}) => {
     const [authentication, setAuthentication] = useState<Authentication | null>(null);
 
     const login = async (serverName: string, username: string, password?: string) => {
-        console.debug('login', serverName, username, password);
         const server = await serverInfoStorage.getBy(x => x.serverName === serverName);
         if (!server) {
             throw new Error(`Unable to find server with name: ${serverName}`);

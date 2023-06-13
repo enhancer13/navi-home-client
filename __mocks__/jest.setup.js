@@ -1,7 +1,3 @@
-jest.mock('react-native-device-info', () => ({
-  isTablet: jest.fn(() => false)
-}));
-
 jest.mock('@react-native-firebase/messaging', () => ({
   __esModule: true,
   default: jest.fn(() => ({
@@ -10,16 +6,31 @@ jest.mock('@react-native-firebase/messaging', () => ({
   })),
 }));
 
+jest.mock('react-native-device-info', () => {
+  return {
+    isTablet: jest.fn(() => false),
+    getDeviceTypeSync: jest.fn(),
+  }
+});
+
+
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: jest.fn(() => ({
-    dispatch: jest.fn(),
-  })),
-  StackActions: {
-    popToTop: jest.fn(),
-  },
-}));
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual("@react-navigation/native");
+  return {
+    ...actualNav,
+    useNavigation: jest.fn(() => ({
+      dispatch: jest.fn(),
+      setOptions: jest.fn()
+    })),
+    useRoute: jest.fn(),
+    createNavigatorFactory: jest.fn(),
+    StackActions: {
+      popToTop: jest.fn(),
+    },
+  }
+});
 
 jest.mock('@react-native-async-storage/async-storage', () => {
   const mockStorage = {};
@@ -56,6 +67,5 @@ jest.mock('react-native-keychain', () => {
     getSupportedBiometryType: jest.fn(),
   };
 });
-
 
 

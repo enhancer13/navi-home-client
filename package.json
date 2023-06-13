@@ -122,7 +122,8 @@
       "node"
     ],
     "setupFiles": [
-      "<rootDir>/__mocks__/jest.setup.js"
+      "<rootDir>/__mocks__/jest.setup.js",
+      "<rootDir>/__mocks__/react-native-gesture-handler.js"
     ],
     "transform": {
       "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
