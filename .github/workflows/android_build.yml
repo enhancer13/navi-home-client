@@ -65,7 +65,7 @@ jobs:
 
       - name: Generate App APK
         run: |
-          cd android && ./gradlew assembleGithubRelease --no-daemon
+          cd android && ./gradlew assembleRelease --no-daemon
 
       ## upload artifact to GitHub
       - uses: actions/upload-artifact@v2
