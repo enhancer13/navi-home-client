@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react-native';
-import React from 'react';
+import React from 'react'
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {usePopupMessage} from "../../../src/Features/Messaging";
 import {useAuth} from "../../../src/Features/Authentication";
-import SessionController from "../../../src/Features/SessionController";
+import {SessionController} from "../../../src/Features/SessionController";
 import moment from "moment/moment";
 
 jest.mock('../../../src/Features/Messaging', () => ({

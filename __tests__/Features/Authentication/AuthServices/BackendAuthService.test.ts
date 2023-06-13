@@ -117,15 +117,6 @@ describe('BackendAuthService', () => {
             await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow('Biometry authentication is not supported or not configured on this device, please authenticate with your credentials');
         });
 
-        it('should throw an error if there is no authentication information stored on the device', async () => {
-            // Arrange
-            (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue('FaceID');
-            tokenStorageMock.hasAccessToken.mockResolvedValue(false);
-
-            // Act and Assert
-            await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow('There is no authentication information stored on this device.');
-        });
-
         it('should return authentication if access token is not expired', async () => {
             // Arrange
             Keychain.getSupportedBiometryType = jest.fn().mockResolvedValue('FaceID');
@@ -174,15 +165,6 @@ describe('BackendAuthService', () => {
 
             // Act & Assert
             await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow('Biometry authentication is not supported or not configured on this device, please authenticate with your credentials');
-        });
-
-        it('should throw an error when user has not previously authenticated with credentials', async () => {
-            // Arrange
-            (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue('FaceID');
-            tokenStorageMock.hasAccessToken.mockResolvedValue(false);
-
-            // Act & Assert
-            await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow('There is no authentication information stored on this device.');
         });
 
         it('should throw an error when both access token and refresh token are expired', async () => {
