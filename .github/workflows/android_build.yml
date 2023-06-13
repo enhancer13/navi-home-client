@@ -70,7 +70,7 @@ jobs:
       ## upload artifact to GitHub
       - uses: actions/upload-artifact@v2
         with:
-          name: NaviHomeClient
+          name: artifacts
           path: android/app/build/outputs/apk/release/*.apk
 
       ## Distribute app to Firebase App Distribution for testing
@@ -80,4 +80,4 @@ jobs:
           appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: android/app/build/outputs/apk/release/*.apk
+          file: android/app/build/outputs/apk/release/app-release.apk
