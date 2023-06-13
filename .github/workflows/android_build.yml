@@ -40,11 +40,13 @@ jobs:
 
       - name: Decode Keystore
         env:
-          ANDROID_RELEASE_KEYSTORE_FILE: ${{ secrets.ANDROID_SIGNING_KEY }}
-          ANDROID_RELEASE_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_ALIAS }}
-          ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: echo $ANDROID_RELEASE_KEYSTORE_FILE | base64 --decode > ${{ github.workspace }}/android/app/release.keystore
+          ANDROID_SIGNING_KEY: ${{ secrets.ANDROID_SIGNING_KEY }}
+        run: |
+          echo $ANDROID_SIGNING_KEY | base64 --decode > ${{ github.workspace }}/android/app/release.keystore
+          echo "ANDROID_RELEASE_KEYSTORE_FILE=${{ github.workspace }}/android/app/release.keystore" >> $GITHUB_ENV
+          echo "ANDROID_RELEASE_KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "ANDROID_RELEASE_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "ANDROID_RELEASE_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> $GITHUB_ENV
 
       ## configure cash for gradle : will help to reduce build time
       - name: Cache Gradle Wrapper
