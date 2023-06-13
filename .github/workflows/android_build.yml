@@ -57,7 +57,7 @@ jobs:
 
       - name: Generate App APK
         run: |
-          cd android && ./gradlew assembleRelease --no-daemon
+          cd android && ./gradlew assembleGithubRelease --no-daemon
 
       ## sign generated apk
       - name: Sign APK
