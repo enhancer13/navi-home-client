@@ -30,7 +30,7 @@ export class EntityFactory implements IEntityFactory {
                     entity[fieldName] = null;
                     break;
                 case EntityFieldInputTypes.SELECT:
-                    entity[fieldName] = Object.entries(fieldEnumValues)[0];
+                    entity[fieldName] = Object.values(fieldEnumValues)[0];
                     break;
                 case EntityFieldInputTypes.SINGLE_SELECT:
                     entity[fieldName] = null;

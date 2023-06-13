@@ -40,7 +40,7 @@ describe('EntityFactory', () => {
         const genderFieldDefinitionMock = mock<IEntityFieldDefinition>();
         when(genderFieldDefinitionMock.fieldDataType).thenReturn(EntityFieldInputTypes.SELECT);
         when(genderFieldDefinitionMock.fieldName).thenReturn('gender');
-        when(genderFieldDefinitionMock.fieldEnumValues).thenReturn(new Map([['male', 'male'], ['female', 'female']]));
+        when(genderFieldDefinitionMock.fieldEnumValues).thenReturn({male: 'male', female: 'female'});
 
         const categoryFieldDefinitionMock = mock<IEntityFieldDefinition>();
         when(categoryFieldDefinitionMock.fieldDataType).thenReturn(EntityFieldInputTypes.SINGLE_SELECT);

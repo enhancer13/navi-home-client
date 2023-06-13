@@ -7,6 +7,7 @@ import {usePrimaryAction} from "../../../../src/Features/EntityList";
 import React from "react";
 import SelectableList from "../../../../src/Features/EntityList/Components/SelectableList/SelectableList";
 import {instance, mock, when} from "ts-mockito";
+import {MD3LightTheme} from "react-native-paper";
 
 jest.mock('../../../../src/Features/EntityList/Components/SelectableList/SelectableList'); // adjust the path to your SelectableList component
 
@@ -44,6 +45,7 @@ describe('usePrimaryAction', () => {
                 renderItem: jest.fn(),
                 keyExtractor: jest.fn(),
                 onScroll: jest.fn(),
+                theme: MD3LightTheme
             }),
         };
 
