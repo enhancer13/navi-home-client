@@ -71,7 +71,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: NaviHomeClient
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+          path: android/app/build/outputs/apk/release/*.apk
 
       ## Distribute app to Firebase App Distribution for testing
       - name: Firebase App Distribution
@@ -80,4 +80,4 @@ jobs:
           appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: ${{steps.sign_app.outputs.signedReleaseFile}}
+          file: android/app/build/outputs/apk/release/*.apk
