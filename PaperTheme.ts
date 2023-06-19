@@ -31,7 +31,7 @@ export const lightTheme: NaviTheme = {
         "onError": "rgb(255, 255, 255)",
         "errorContainer": "rgb(255, 218, 214)",
         "onErrorContainer": "rgb(65, 0, 2)",
-        "background": "rgb(250, 250, 250)",
+        "background": "rgb(248, 248, 248)",
         "onBackground": "rgb(29, 27, 30)",
         "surface": "rgb(255, 251, 255)",
         "onSurface": "rgb(29, 27, 30)",
