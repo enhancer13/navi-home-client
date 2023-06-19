@@ -6,6 +6,7 @@ import {applicationSettingsStorage} from "../../../Features/LocalStorage";
 import {useAuth} from "../../../Features/Authentication";
 import {DataStorageEventTypes} from "../../../Framework/Data/DataStorage";
 import {useApplicationSettings} from "../../../Components/Hooks/DataStorage/useApplicationSettings";
+import {useDataStorage} from "../../../Components/Hooks/DataStorage/useDataStorage";
 
 export const useAuthenticationActions = () => {
     const {showError} = usePopupMessage();
@@ -15,13 +16,17 @@ export const useAuthenticationActions = () => {
     const [biometryActive, setBiometryActive] = useState<boolean>(false);
     const [biometryType, setBiometryType] = useState<Keychain.BIOMETRY_TYPE | null>(null);
     const applicationSettings = useApplicationSettings();
+    const {subscribe, unsubscribe} = useDataStorage(() => applicationSettingsStorage);
 
     const initializeBiometryData = async () => {
+        console.debug('point 1');
         if (!applicationSettings) {
             return;
         }
 
         const biometryType = await Keychain.getSupportedBiometryType();
+        console.debug('point 2');
+
         setBiometryType(biometryType);
         setBiometryActive(applicationSettings.biometryAuthenticationActive);
     };
@@ -29,14 +34,13 @@ export const useAuthenticationActions = () => {
     useEffect(() => {
         initializeBiometryData();
 
-        applicationSettingsStorage.on(DataStorageEventTypes.DataCreated, initializeBiometryData);
-        applicationSettingsStorage.on(DataStorageEventTypes.DataChanged, initializeBiometryData);
-
+        subscribe(DataStorageEventTypes.DataCreated, initializeBiometryData);
+        subscribe(DataStorageEventTypes.DataChanged, initializeBiometryData);
         return () => {
-            applicationSettingsStorage.off(DataStorageEventTypes.DataCreated, initializeBiometryData);
-            applicationSettingsStorage.off(DataStorageEventTypes.DataChanged, initializeBiometryData);
+            unsubscribe(DataStorageEventTypes.DataCreated, initializeBiometryData);
+            unsubscribe(DataStorageEventTypes.DataChanged, initializeBiometryData);
         }
-    }, []);
+    }, [applicationSettings]);
 
     const authenticate = async (serverName: string, username: string, password?: string) => {
         if (username.length === 0) {

@@ -97,4 +97,43 @@ describe('useDataStorage', () => {
             verify(storageMock.off(DataStorageEventTypes.DataChanged, listener)).once();
         });
     });
+
+    test('should remove listener from storage instance and eventHandlersRef on unsubscribe', () => {
+        // Arrange
+        const storageFactory = () => instance(storageMock);
+        const { result } = renderHook(() => useDataStorage(storageFactory));
+
+        // Act
+        act(() => {
+            result.current.subscribe(DataStorageEventTypes.DataChanged, listenerMock);
+            result.current.unsubscribe(DataStorageEventTypes.DataChanged, listenerMock);
+        });
+
+        // Assert
+        verify(storageMock.on(DataStorageEventTypes.DataChanged, listenerMock)).once();
+        verify(storageMock.off(DataStorageEventTypes.DataChanged, listenerMock)).once();
+    });
+
+    test('should remove only the specified listener when multiple listeners are subscribed and one is unsubscribed', () => {
+        // Arrange
+        const storageFactory = () => instance(storageMock);
+        const { result } = renderHook(() => useDataStorage(storageFactory));
+        const listenerToUnsubscribe = listenersMock[0];
+
+        // Act
+        act(() => {
+            listenersMock.forEach(listener => {
+                result.current.subscribe(DataStorageEventTypes.DataChanged, listener);
+            });
+            result.current.unsubscribe(DataStorageEventTypes.DataChanged, listenerToUnsubscribe);
+        });
+
+        // Assert
+        verify(storageMock.on(DataStorageEventTypes.DataChanged, listenerToUnsubscribe)).once();
+        verify(storageMock.off(DataStorageEventTypes.DataChanged, listenerToUnsubscribe)).once();
+        listenersMock.slice(1).forEach(listener => {
+            verify(storageMock.on(DataStorageEventTypes.DataChanged, listener)).once();
+            verify(storageMock.off(DataStorageEventTypes.DataChanged, listener)).never();
+        });
+    });
 });

@@ -12,8 +12,21 @@ export function useDataStorage<TStorage extends IDataStorage<IStorageItem>>(stor
         }
 
         eventHandlers.get(event)?.push(listener);
-
         storage.on(event, listener);
+    };
+
+    const unsubscribe = (event: DataStorageEventTypes, listener: (args?: any) => void) => {
+        if (!eventHandlers.has(event)) {
+            return;
+        }
+
+        const handlers = eventHandlers.get(event);
+        const index = handlers?.indexOf(listener);
+
+        if (index !== undefined && index !== -1) {
+            handlers?.splice(index, 1);
+            storage.off(event, listener);
+        }
     };
 
     useEffect(() => {
@@ -26,5 +39,5 @@ export function useDataStorage<TStorage extends IDataStorage<IStorageItem>>(stor
         };
     }, []);
 
-    return { storage, subscribe };
+    return { storage, subscribe, unsubscribe };
 }
