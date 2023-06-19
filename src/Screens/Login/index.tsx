@@ -7,15 +7,18 @@ import LoadingAnimation from './Animations/LoadingAnimation';
 import {useNavigation} from '@react-navigation/native';
 import {usePopupMessage} from '../../Features/Messaging';
 import SafeAreaView from "../../Components/Layout/SafeAreaView";
-import {TextInput, Text, useTheme, Surface, IconButton, Button} from "react-native-paper";
+import {useTheme, Surface, IconButton, Button, Text} from "react-native-paper";
 import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
 import {useAuthenticationData} from "./Hooks/useAuthenticationData";
 import {useAuthenticationActions} from "./Hooks/useAuthenticationActions";
-import {RootNavigationProp} from "../../../App";
+import FastImage from "react-native-fast-image";
+import {ListTextInputItem} from "../../Components/Controls/List";
+import {RootNavigationProp} from "../../../RootStackNavigator";
 
-const containerWidth = Math.min(wp('95%'), 500);
-const iconSize = containerWidth * 0.07;
-const rowHeight = containerWidth * 0.11;
+const loginContainerWidth = Math.min(wp('95%'), 500);
+const developerLogoSize = loginContainerWidth * 0.3;
+const iconSize = loginContainerWidth * 0.07;
+const rowHeight = loginContainerWidth * 0.11;
 
 export const LoginScreen: React.FC = () => {
     const {showError} = usePopupMessage();
@@ -98,6 +101,19 @@ export const LoginScreen: React.FC = () => {
                            size={iconSize}/>;
     }, [handleBiometryAuthenticate, biometryType, biometryActive]);
 
+    const developerIcon = useMemo(() => {
+        return  theme.dark ? require('./Resources/enhancer13_logo_inverted.png') :
+            require('./Resources/enhancer13_logo.png');
+    }, [theme]);
+
+    const handleUsernameChanged = useCallback((value: string) => {
+        setUsername(value);
+    }, []);
+
+    const handlePasswordChanged = useCallback((value: string) => {
+        setPassword(value);
+    }, []);
+
     return (
         <SafeAreaView ignoreTopInsets={true} style={styles.container}>
             <LoadingAnimation/>
@@ -109,21 +125,22 @@ export const LoginScreen: React.FC = () => {
                         transform: [{scale: loginFormAnimationValueRef.current}],
                     },
                 ]}>
+                <FastImage source={developerIcon} style={styles.developerIcon}/>
                 <Text variant="displayLarge" style={styles.logoText}>Navi Home</Text>
                 <Surface style={styles.formContainer} elevation={3}>
                     <View style={styles.credentialsContainer}>
-                        <TextInput
+                        <ListTextInputItem
                             style={styles.textInput}
                             placeholder="Username"
                             value={username}
-                            onChangeText={value => setUsername(value)}
+                            onValueChanged={handleUsernameChanged}
                         />
-                        <TextInput
+                        <ListTextInputItem
                             style={styles.textInput}
                             placeholder="Password"
                             value={password}
                             secureTextEntry={true}
-                            onChangeText={value => setPassword(value)}
+                            onValueChanged={handlePasswordChanged}
                         />
                         <View style={styles.passwordChangeContainer}>
                             <DropDownListPicker
@@ -138,7 +155,7 @@ export const LoginScreen: React.FC = () => {
                                         iconColor={theme.colors.onSurface} size={iconSize}/>
                         </View>
                     </View>
-                    {busy ? <LoadingActivityIndicator style={styles.loadingIndicator} /> : (
+                    {busy ? <LoadingActivityIndicator style={styles.loadingIndicator}/> : (
                         <View style={styles.submitContainer}>
                             <Button compact={true} mode="contained"
                                     style={styles.submitButton}
@@ -163,7 +180,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        width: containerWidth,
+        width: loginContainerWidth,
         bottom: '10%',
     },
     credentialsContainer: {
@@ -174,7 +191,6 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     textInput: {
         height: rowHeight,
         width: '90%',
-        marginBottom: 5,
     },
     formContainer: {
         alignItems: 'center',
@@ -196,7 +212,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         width: '90%',
     },
     serverPickerContainer: {
-        width: containerWidth * 0.45
+        width: loginContainerWidth * 0.45
     },
     loadingIndicator: {
         height: rowHeight,
@@ -222,5 +238,11 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     iconInactive: {
         color: theme.colors.onSurfaceDisabled,
-    }
+    },
+    developerIcon: {
+        width: developerLogoSize,
+        height: developerLogoSize,
+        opacity: 0.5,
+        marginBottom: -developerLogoSize * 0.1
+    },
 });

@@ -1,4 +1,4 @@
-import {StorageItem} from '../../../Framework/Data/LocalStorage';
+import {StorageItem} from '../../../Framework/Data/DataStorage';
 
 export class ApplicationSettings extends StorageItem {
   public biometryAuthenticationActive!: boolean;

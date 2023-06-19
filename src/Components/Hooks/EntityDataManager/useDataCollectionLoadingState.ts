@@ -2,7 +2,7 @@ import {VolatileDataCollection, VolatileDataCollectionEventTypes} from "../../..
 import {IEntity} from "../../../BackendTypes";
 import {useEffect, useState} from "react";
 
-export const useLoadingState = (volatileDataCollection: VolatileDataCollection<IEntity> | null) => {
+export const useDataCollectionLoadingState = (volatileDataCollection: VolatileDataCollection<IEntity> | null) => {
     const [loading, setLoading] = useState(false);
     const [internalLoading, setInternalLoading] = useState(false);
 

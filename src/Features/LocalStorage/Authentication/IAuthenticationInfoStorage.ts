@@ -1,7 +1,7 @@
 import {AuthenticationInfo} from './AuthenticationInfo';
-import ILocalStorage from '../../../Framework/Data/LocalStorage/ILocalStorage';
+import IDataStorage from '../../../Framework/Data/DataStorage/IDataStorage';
 
-export interface IAuthenticationInfoStorage extends ILocalStorage<AuthenticationInfo> {
+export interface IAuthenticationInfoStorage extends IDataStorage<AuthenticationInfo> {
   getLast(): Promise<AuthenticationInfo | null>;
 
   setLast(data: AuthenticationInfo): Promise<void>;

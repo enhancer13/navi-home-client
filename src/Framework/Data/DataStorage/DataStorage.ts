@@ -1,4 +1,4 @@
-import ILocalStorage from './ILocalStorage';
+import IDataStorage from './IDataStorage';
 import {IStorageItem} from './IStorageItem';
 import {IDataContext} from './DataContext/IDataContext';
 import {DataContext} from './DataContext/DataContext';
@@ -6,12 +6,12 @@ import {IMapper} from "./DataContext/IMapper";
 import {DefaultMapper} from "./DataContext/DefaultMapper";
 import {EventEmitter} from "events";
 
-export enum LocalStorageEventTypes {
+export enum DataStorageEventTypes {
     DataChanged = 'dataChanged',
     DataCreated = 'dataCreated'
 }
 
-export default class LocalStorage<TStorageItem extends IStorageItem> implements ILocalStorage<TStorageItem> {
+export default class DataStorage<TStorageItem extends IStorageItem> implements IDataStorage<TStorageItem> {
     protected readonly dataContext: IDataContext<TStorageItem>;
     private _eventEmitter: EventEmitter;
 
@@ -25,12 +25,12 @@ export default class LocalStorage<TStorageItem extends IStorageItem> implements 
 
     public async save(entity: TStorageItem): Promise<void> {
         await this.dataContext.save(entity);
-        this._eventEmitter.emit(LocalStorageEventTypes.DataCreated, entity);
+        this._eventEmitter.emit(DataStorageEventTypes.DataCreated, entity);
     }
 
     public async saveMultiple(entities: Array<TStorageItem>): Promise<void> {
         await this.dataContext.saveMultiple(entities);
-        this._eventEmitter.emit(LocalStorageEventTypes.DataCreated, entities);
+        this._eventEmitter.emit(DataStorageEventTypes.DataCreated, entities);
     }
 
     public async getBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => boolean): Promise<TStorageItem | undefined> {
@@ -43,7 +43,7 @@ export default class LocalStorage<TStorageItem extends IStorageItem> implements 
 
     public async update(entity: TStorageItem): Promise<void> {
         await this.dataContext.update(entity);
-        this._eventEmitter.emit(LocalStorageEventTypes.DataChanged, entity);
+        this._eventEmitter.emit(DataStorageEventTypes.DataChanged, entity);
     }
 
     public async deleteBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => boolean): Promise<void> {
@@ -62,11 +62,11 @@ export default class LocalStorage<TStorageItem extends IStorageItem> implements 
         return this.dataContext.count();
     }
 
-    public on(event: LocalStorageEventTypes, listener: (args?: any) => void): void {
+    public on(event: DataStorageEventTypes, listener: (args?: any) => void): void {
         this._eventEmitter.on(event, listener);
     }
 
-    public off(event: LocalStorageEventTypes, listener: (args?: any) => void): void {
+    public off(event: DataStorageEventTypes, listener: (args?: any) => void): void {
         this._eventEmitter.off(event, listener);
     }
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useMemo, useRef} from 'react';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {useAuth} from "../../../Features/Authentication";
 import {Avatar, Divider, List} from "react-native-paper";
@@ -8,39 +8,27 @@ import {
     ListSwitchItem,
     ListActionItem, ListNavigationItem,
 } from "../../../Components/Controls/List";
-import {ApplicationSettings, applicationSettingsStorage} from "../../../Features/LocalStorage";
-import {LocalStorageEventTypes} from "../../../Framework/Data/LocalStorage";
+import {applicationSettingsStorage} from "../../../Features/LocalStorage";
 import {AppHeader} from "../../../Components/Layout";
 import {Animated} from "react-native";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import {AccountStackParamList} from "./index";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import {useApplicationSettings} from "../../../Components/Hooks/DataStorage/useApplicationSettings";
+import {useDataStorage} from "../../../Components/Hooks/DataStorage/useDataStorage";
 
 const PAGE_TITLE = 'My Account';
 const HEADER_HEIGHT = hp(5);
 const LIST_TITLE_HEIGHT = HEADER_HEIGHT * 1.5;
 const SCROLL_THRESHOLD = LIST_TITLE_HEIGHT / 2;
 
-export const MyAccountScreen: React.FC = () => {
+export const AccountDetailsScreen: React.FC = () => {
     const {logout, authentication} = useAuth();
     const navigation = useNavigation();
-    const [applicationSettings, setApplicationSettings] = useState<ApplicationSettings>();
+    const applicationSettings = useApplicationSettings();
+    const {storage} = useDataStorage(() => applicationSettingsStorage)
     const scrollY = useRef(new Animated.Value(0)).current;
-
-    const readApplicationSettings = async () => {
-        const applicationSettings = await applicationSettingsStorage.getApplicationSettings();
-        setApplicationSettings(applicationSettings);
-    }
-
-    useEffect(() => {
-        readApplicationSettings();
-        applicationSettingsStorage.on(LocalStorageEventTypes.DataChanged, readApplicationSettings);
-
-        return () => {
-            applicationSettingsStorage.off(LocalStorageEventTypes.DataChanged, readApplicationSettings);
-        }
-    }, []);
 
     const menuGroups = useMemo(() => {
         if (!authentication || !applicationSettings) {
@@ -77,12 +65,12 @@ export const MyAccountScreen: React.FC = () => {
                     <ListSwitchItem title={'Biometric authentication'} icon={"fingerprint"}
                                     value={applicationSettings.biometryAuthenticationActive} action={async (value) => {
                         applicationSettings.biometryAuthenticationActive = value;
-                        await applicationSettingsStorage.update(applicationSettings);
+                        await storage.update(applicationSettings);
                     }}/>,
                     <ListSwitchItem title={'Dark theme'} icon={"theme-light-dark"}
                                     value={applicationSettings.darkThemeActive} action={async (value) => {
                         applicationSettings.darkThemeActive = value;
-                        await applicationSettingsStorage.update(applicationSettings);
+                        await storage.update(applicationSettings);
                     }}/>
                 ]
             }

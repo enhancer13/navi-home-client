@@ -4,7 +4,8 @@ import Keychain from "react-native-keychain";
 import {useNavigation} from "@react-navigation/native";
 import {applicationSettingsStorage} from "../../../Features/LocalStorage";
 import {useAuth} from "../../../Features/Authentication";
-import {LocalStorageEventTypes} from "../../../Framework/Data/LocalStorage";
+import {DataStorageEventTypes} from "../../../Framework/Data/DataStorage";
+import {useApplicationSettings} from "../../../Components/Hooks/DataStorage/useApplicationSettings";
 
 export const useAuthenticationActions = () => {
     const {showError} = usePopupMessage();
@@ -13,24 +14,27 @@ export const useAuthenticationActions = () => {
     const navigation = useNavigation();
     const [biometryActive, setBiometryActive] = useState<boolean>(false);
     const [biometryType, setBiometryType] = useState<Keychain.BIOMETRY_TYPE | null>(null);
+    const applicationSettings = useApplicationSettings();
 
     const initializeBiometryData = async () => {
+        if (!applicationSettings) {
+            return;
+        }
+
         const biometryType = await Keychain.getSupportedBiometryType();
         setBiometryType(biometryType);
-
-        const applicationSettings = await applicationSettingsStorage.getApplicationSettings()
         setBiometryActive(applicationSettings.biometryAuthenticationActive);
     };
 
     useEffect(() => {
         initializeBiometryData();
 
-        applicationSettingsStorage.on(LocalStorageEventTypes.DataCreated, initializeBiometryData);
-        applicationSettingsStorage.on(LocalStorageEventTypes.DataChanged, initializeBiometryData);
+        applicationSettingsStorage.on(DataStorageEventTypes.DataCreated, initializeBiometryData);
+        applicationSettingsStorage.on(DataStorageEventTypes.DataChanged, initializeBiometryData);
 
         return () => {
-            applicationSettingsStorage.off(LocalStorageEventTypes.DataCreated, initializeBiometryData);
-            applicationSettingsStorage.off(LocalStorageEventTypes.DataChanged, initializeBiometryData);
+            applicationSettingsStorage.off(DataStorageEventTypes.DataCreated, initializeBiometryData);
+            applicationSettingsStorage.off(DataStorageEventTypes.DataChanged, initializeBiometryData);
         }
     }, []);
 

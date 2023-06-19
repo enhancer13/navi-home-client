@@ -1,23 +1,25 @@
-import { ParamListBase, useNavigation } from '@react-navigation/native';
-import { List, Divider, useTheme } from "react-native-paper";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {ParamListBase, useNavigation} from '@react-navigation/native';
+import {List, Divider, useTheme} from "react-native-paper";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {useCallback} from "react";
 
 type ListNavigationItemProps<ParamList extends ParamListBase, RouteName extends keyof ParamList = string> = {
     title: string;
     description?: string;
     icon?: string;
+    iconColor?: string;
     route: RouteName;
     routeParams?: ParamList[RouteName];
 };
 
 export function ListNavigationItem<ParamList extends ParamListBase, RouteName extends keyof ParamList = string>({
-                                                                                            title,
-                                                                                            description,
-                                                                                            icon,
-                                                                                            route,
-                                                                                            routeParams,
-                                                                                        }: ListNavigationItemProps<ParamList, RouteName>) {
+                                                                                                                    title,
+                                                                                                                    description,
+                                                                                                                    icon,
+                                                                                                                    iconColor,
+                                                                                                                    route,
+                                                                                                                    routeParams,
+                                                                                                                }: ListNavigationItemProps<ParamList, RouteName>) {
     const navigation = useNavigation<NativeStackNavigationProp<ParamList, RouteName>>();
     const theme = useTheme();
 
@@ -36,7 +38,7 @@ export function ListNavigationItem<ParamList extends ParamListBase, RouteName ex
             <List.Item
                 title={title}
                 description={description}
-                left={props => icon && <List.Icon {...props} color={theme.colors.primary} icon={icon}/>}
+                left={props => icon && <List.Icon {...props} color={iconColor ?? theme.colors.primary} icon={icon}/>}
                 onPress={navigate}
                 rippleColor="rgba(135,105,255,0.2)"
             />

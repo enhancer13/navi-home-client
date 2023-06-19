@@ -1,5 +1,4 @@
-import React, {createContext, useContext, useEffect} from 'react';
-import {AppState, AppStateStatus} from 'react-native';
+import React, {createContext, useContext} from 'react';
 import FlashMessage, {showMessage} from "react-native-flash-message";
 
 interface IContextProps {
@@ -16,15 +15,6 @@ interface Props {
 const PopupMessageContext = createContext<IContextProps>({} as IContextProps);
 
 export const PopupMessageProvider: React.FC<Props> = ({children}) => {
-    const handleAppStateChange = (nextState: AppStateStatus) => {
-        //FlashMessageManager.setDisabled(nextState !== 'active');
-    };
-
-    useEffect(() => {
-        const appStateEventListener = AppState.addEventListener('change', handleAppStateChange);
-        return () => appStateEventListener.remove();
-    }, []);
-
     const showSuccess = (message: string) => {
         showMessage({
             message,

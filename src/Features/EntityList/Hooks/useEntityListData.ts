@@ -2,15 +2,14 @@ import {useEffect, useRef, useState} from 'react';
 import {ListItem} from '../ListItem';
 import {IEntity} from '../../../BackendTypes';
 import {entityFactory, VolatileDataCollectionEventTypes} from '../../../Framework/Data/DataManager';
-import {useLoadingState} from "./useLoadingState";
+import {useDataCollectionLoadingState} from "../../../Components/Hooks/EntityDataManager/useDataCollectionLoadingState";
 import {ParentEntityRestriction, useVolatileEntityCollection} from "./useVolatileEntityCollection";
 import {IEntityDataManager} from "../../../Framework/Data/DataManager/IEntityDataManager";
 import {useAsyncError} from "../../ErrorBoundary/Hooks/useAsyncError";
-import {AuthenticationFailed} from "../../../Errors/AuthenticationFailed";
 
 export const useEntityListData = (entityDataManager: IEntityDataManager<IEntity>, filterQuery = '', itemsPerPage?: number, parentEntityRestriction?: ParentEntityRestriction) => {
     const volatileDataCollection = useVolatileEntityCollection(entityDataManager, filterQuery, itemsPerPage, parentEntityRestriction);
-    const loading = useLoadingState(volatileDataCollection);
+    const loading = useDataCollectionLoadingState(volatileDataCollection);
     const withAsyncThrow = useAsyncError()
 
     const [totalCount, setTotalCount] = useState(0);

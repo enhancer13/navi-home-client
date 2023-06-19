@@ -1,13 +1,12 @@
 #https://www.obytes.com/blog/react-native-ci-cd-github-action
 #keytool -genkeypair -v -storetype PKCS12 -keystore navi-home-client.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 1000
 #openssl base64 < navi-home-client.keystore  | tr -d '\n' | tee key.keystore.base64.txt
-name: Android Build
+name: Android Deploy to Firebase
 
 on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+  workflow_dispatch: # To trigger manual build
+  release:
+    types: [published] # only run the workflow when a new release has been published
 
 jobs:
   android-build:
@@ -73,3 +72,12 @@ jobs:
         with:
           name: artifacts
           path: android/app/build/outputs/apk/release/*.apk
+
+      ## Distribute app to Firebase App Distribution for testing
+      - name: Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
+        with:
+          appId: ${{ secrets.ANDROID_FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: testers
+          file: android/app/build/outputs/apk/release/app-release.apk

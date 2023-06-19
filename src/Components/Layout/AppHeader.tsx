@@ -55,7 +55,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
     const containerElevation = scrollY.interpolate({
         inputRange: [scrollThreshold, scrollThreshold + height],
-        outputRange: [0, 10],
+        outputRange: [0, 5],
         extrapolate: 'clamp',
     });
 

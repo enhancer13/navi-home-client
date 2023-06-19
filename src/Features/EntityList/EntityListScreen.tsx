@@ -4,7 +4,7 @@ import {ListItem} from "./ListItem";
 import {Animated, StyleSheet, View} from "react-native";
 import EntityList from "./EntityList";
 import {getDeviceTypeSync, isTablet} from "react-native-device-info";
-import {useEntityDataManager} from "../DataManager/useEntityDataManager";
+import {useEntityDataManager} from "../../Components/Hooks/EntityDataManager/useEntityDataManager";
 import {EntityEditor} from "./Components/EntityEditor/EntityEditor";
 import {useEntityEditor} from "./Hooks/useEntityEditor";
 import {StatusBadge} from "./Components/StatusBadge";

@@ -4,10 +4,8 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {IconButton, Text, useTheme, Divider, HelperText} from "react-native-paper";
 import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
 import {useNavigation, useRoute} from "@react-navigation/native";
-import {EntityNames} from "../../../../BackendTypes";
 import {AccountRouteProps} from "../index";
 import {elevationShadowStyle} from "../../../../Helpers/StyleUtils";
-import {useEntityDataManager} from "../../../../Features/DataManager/useEntityDataManager";
 import {usePopupMessage} from "../../../../Features/Messaging";
 import {AppHeader} from "../../../../Components/Layout";
 import {LoadingActivityIndicator} from "../../../../Components/Controls";
@@ -147,7 +145,7 @@ const createStyles = (theme: Theme) => {
             paddingRight: hp(1),
         },
         surface: {
-            ...elevationShadowStyle(theme, 10),
+            ...elevationShadowStyle(theme),
             backgroundColor: theme.colors.surface,
             padding: 20,
             borderRadius: 10,

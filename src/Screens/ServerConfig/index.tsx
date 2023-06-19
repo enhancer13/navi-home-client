@@ -6,12 +6,12 @@ import {ServerInfo, serverInfoStorage} from "../../Features/LocalStorage";
 import {IconButton, TextInput, Text, useTheme} from "react-native-paper";
 import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
 import {useServerActions} from "./Hooks/useServerActions";
-import color from "color";
 import {LoadingActivityIndicator} from "../../Components/Controls";
 import {AppHeader} from "../../Components/Layout";
 import {useRoute} from "@react-navigation/native";
-import {RootRouteProps} from "../../../App";
 import {elevationShadowStyle} from "../../Helpers/StyleUtils";
+import {RootRouteProps} from "../../../RootStackNavigator";
+import {useDataStorage} from "../../Components/Hooks/DataStorage/useDataStorage";
 
 const iconSize = hp(5);
 
@@ -22,12 +22,13 @@ export const ServerConfigScreen: React.FC = () => {
     const styles = useMemo(() => createStyles(theme), [theme]);
     const iconColor = theme.colors.primary;
     const route = useRoute<RootRouteProps<'Server Config'>>();
+    const {storage: serverInfoDataStorage} = useDataStorage(() => serverInfoStorage);
 
     useEffect(() => {
         async function initializeData() {
             if (route.params && route.params.serverName) {
                 const {serverName} = route.params;
-                const foundServerInfo = await serverInfoStorage.getBy((x) => x.serverName === serverName);
+                const foundServerInfo = await serverInfoDataStorage.getBy((x) => x.serverName === serverName);
                 if (!foundServerInfo) {
                     throw new Error(`Unable to find server with name: ${serverName}`);
                 }
@@ -112,6 +113,7 @@ const createStyles = (theme: Theme) => {
             alignItems: 'center',
         },
         controlPanelContainer: {
+            ...elevationShadowStyle(theme),
             alignItems: 'center',
             backgroundColor: theme.colors.surface,
             flexDirection: 'row',
@@ -122,7 +124,7 @@ const createStyles = (theme: Theme) => {
             paddingRight: hp(1),
         },
         surface: {
-            ...elevationShadowStyle(theme, 10),
+            ...elevationShadowStyle(theme),
             backgroundColor: theme.colors.surface,
             padding: 20,
             borderRadius: 10,

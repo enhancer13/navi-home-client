@@ -1,8 +1,8 @@
 import {IAuthenticationInfoStorage} from './IAuthenticationInfoStorage';
 import {AuthenticationInfo} from './AuthenticationInfo';
-import LocalStorage from '../../../Framework/Data/LocalStorage/LocalStorage';
+import DataStorage from '../../../Framework/Data/DataStorage/DataStorage';
 
-class AuthenticationInfoStorage extends LocalStorage<AuthenticationInfo> implements IAuthenticationInfoStorage {
+class AuthenticationInfoStorage extends DataStorage<AuthenticationInfo> implements IAuthenticationInfoStorage {
     constructor() {
         super('authentication_info');
     }

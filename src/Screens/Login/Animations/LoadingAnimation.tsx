@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Animated, StyleSheet, View} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import backgroundIcons, {IBackgroundIcon} from './BackgroundIcons';

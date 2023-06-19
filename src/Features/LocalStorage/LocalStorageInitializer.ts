@@ -2,6 +2,7 @@ import {ApplicationSettings} from './Settings/ApplicationSettings';
 import {ServerInfo} from "./ServerInfo/ServerInfo";
 import {serverInfoStorage} from "./ServerInfo/ServerInfoStorage";
 import {applicationSettingsStorage} from "./Settings/ApplicationSettingsStorage";
+import {Appearance} from "react-native";
 
 class LocalStorageInitializer {
     async initialize(): Promise<void> {
@@ -11,7 +12,7 @@ class LocalStorageInitializer {
 
         //initialize default application settings
         const applicationSettings = new ApplicationSettings();
-        applicationSettings.darkThemeActive = false;
+        applicationSettings.darkThemeActive = Appearance.getColorScheme() === 'dark';
         applicationSettings.biometryAuthenticationActive = false;
         await applicationSettingsStorage.save(applicationSettings);
 

@@ -36,8 +36,8 @@ export class DataContext<TStorageItem extends IStorageItem> implements IDataCont
     }
     const keyValuePairs = await AsyncStorage.multiGet(keys);
     return this._mapper.mapArray(keyValuePairs
-      .filter(([key, value]) => value !== null)
-      .map(([key, value]) => value && JSON.parse(value)) as TStorageItem[]);
+      .filter(([, value]) => value !== null)
+      .map(([, value]) => value && JSON.parse(value)) as TStorageItem[]);
   }
 
   public async update(entity: TStorageItem): Promise<void> {

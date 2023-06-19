@@ -3,6 +3,7 @@ import {Authentication} from './Authentication';
 import {AuthenticationInfo, authenticationInfoStorage, serverInfoStorage} from "../LocalStorage";
 import {backendAuthService} from "./AuthServices/BackendAuthService";
 import {firebaseAuthService} from "./AuthServices/FirebaseAuthService";
+import {useDataStorage} from "../../Components/Hooks/DataStorage/useDataStorage";
 
 interface IAuthContext {
     authentication: Authentication | null;
@@ -18,9 +19,11 @@ interface Props {
 
 const AuthProvider: React.FC<Props> = ({children}) => {
     const [authentication, setAuthentication] = useState<Authentication | null>(null);
+    const {storage: authenticationInfoDataStorage} = useDataStorage(() => authenticationInfoStorage);
+    const {storage: serverInfoDataStorage} = useDataStorage(() => serverInfoStorage);
 
     const login = async (serverName: string, username: string, password?: string) => {
-        const server = await serverInfoStorage.getBy(x => x.serverName === serverName);
+        const server = await serverInfoDataStorage.getBy(x => x.serverName === serverName);
         if (!server) {
             throw new Error(`Unable to find server with name: ${serverName}`);
         }
@@ -35,7 +38,7 @@ const AuthProvider: React.FC<Props> = ({children}) => {
         await firebaseAuthService.signIn(newAuthentication);
 
         setAuthentication(newAuthentication);
-        await authenticationInfoStorage.setLast(new AuthenticationInfo(username, serverName));
+        await authenticationInfoDataStorage.setLast(new AuthenticationInfo(username, serverName));
     };
 
     const logout = async () => {

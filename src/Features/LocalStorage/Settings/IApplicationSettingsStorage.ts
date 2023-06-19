@@ -1,6 +1,6 @@
-import ILocalStorage from '../../../Framework/Data/LocalStorage/ILocalStorage';
+import IDataStorage from '../../../Framework/Data/DataStorage/IDataStorage';
 import {ApplicationSettings} from './ApplicationSettings';
 
-export interface IApplicationSettingsStorage extends ILocalStorage<ApplicationSettings> {
-    getApplicationSettings(): Promise<ApplicationSettings>;
+export interface IApplicationSettingsStorage extends IDataStorage<ApplicationSettings> {
+    getApplicationSettings(): Promise<ApplicationSettings | null>;
 }

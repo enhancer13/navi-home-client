@@ -67,7 +67,7 @@ export const AnimatedSectionList: React.FC<SectionListProps> = ({
     const renderSection: ListRenderItem<ISection> = useCallback((renderItemInfo) => {
         const section = renderItemInfo.item;
         return (
-            <Surface style={styles.section} elevation={2}>
+            <Surface style={styles.section} elevation={1}>
                 {section.title && <List.Subheader>{section.title}</List.Subheader>}
                 {section.items}
             </Surface>

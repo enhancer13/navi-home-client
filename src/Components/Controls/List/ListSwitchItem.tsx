@@ -7,10 +7,11 @@ declare type Props = {
     action: (value: boolean) => void;
     description?: string;
     icon?: string;
+    iconColor?: string;
     readonly?: boolean;
 }
 
-export const ListSwitchItem: React.FC<Props> = ({title, description, icon, value, action, readonly}) => {
+export const ListSwitchItem: React.FC<Props> = ({title, description, icon, iconColor, value, action, readonly}) => {
     const [isSwitchOn, setIsSwitchOn] = useState(value);
     const theme = useTheme();
 
@@ -35,7 +36,7 @@ export const ListSwitchItem: React.FC<Props> = ({title, description, icon, value
             <List.Item
                 title={title}
                 description={description}
-                left={props => icon && <List.Icon {...props} color={theme.colors.primary} icon={icon}/>}
+                left={props => icon && <List.Icon {...props} color={iconColor ?? theme.colors.primary} icon={icon}/>}
                 right={() => <Switch value={isSwitchOn} disabled={readonly} onValueChange={onSwitchChanged}/>}
                 onPress={onSwitchChanged}
                 rippleColor="rgba(135,105,255,0.2)"

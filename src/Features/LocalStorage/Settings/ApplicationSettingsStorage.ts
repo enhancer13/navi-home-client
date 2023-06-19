@@ -1,16 +1,17 @@
 import {ApplicationSettings} from './ApplicationSettings';
 import {IApplicationSettingsStorage} from './IApplicationSettingsStorage';
-import LocalStorage from '../../../Framework/Data/LocalStorage/LocalStorage';
+import DataStorage from '../../../Framework/Data/DataStorage/DataStorage';
 
-class ApplicationSettingsStorage extends LocalStorage<ApplicationSettings> implements IApplicationSettingsStorage {
+class ApplicationSettingsStorage extends DataStorage<ApplicationSettings> implements IApplicationSettingsStorage {
     constructor() {
         super('application_settings');
     }
 
-    async getApplicationSettings(): Promise<ApplicationSettings> {
+    public async getApplicationSettings(): Promise<ApplicationSettings | null> {
         const applicationSettings = await this.getAll();
         if (applicationSettings.length != 1) {
-            throw new Error("Application settings cannot be retrieved, cause data storage is not initialized or contains more then one application settings");
+            console.debug("Application settings cannot be retrieved, cause data storage is not initialized or contains more then one application settings");
+            return null;
         }
         return applicationSettings[0];
     }

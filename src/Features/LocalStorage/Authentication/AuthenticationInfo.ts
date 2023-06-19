@@ -1,4 +1,4 @@
-import {StorageItem} from '../../../Framework/Data/LocalStorage';
+import {StorageItem} from '../../../Framework/Data/DataStorage';
 
 export class AuthenticationInfo extends StorageItem {
   public readonly username: string;

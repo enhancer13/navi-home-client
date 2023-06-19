@@ -2,21 +2,27 @@ import React, {useEffect} from "react";
 import {TextInput} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
 import {useToggle} from "../../Hooks/useToggle";
+import {StyleProp} from "react-native/Libraries/StyleSheet/StyleSheet";
+import {TextStyle} from "react-native/Libraries/StyleSheet/StyleSheetTypes";
 
 declare type Props = {
-    title: string;
     value: string;
     onValueChanged: (value: string) => void;
+    title?: string;
     readonly?: boolean;
     secureTextEntry?: boolean;
+    style?: StyleProp<TextStyle> | undefined;
+    placeholder?: string | undefined;
 }
 
 export const ListTextInputItem: React.FC<Props> = ({
-                                                       title,
+                                                       title = '',
                                                        value,
+                                                       placeholder,
                                                        onValueChanged,
                                                        readonly,
-                                                       secureTextEntry = false
+                                                       secureTextEntry = false,
+                                                       style
                                                    }) => {
     const [inputValue, setInputValue] = React.useState(value);
     const [hidePassword, toggleHidePassword] = useToggle(secureTextEntry);
@@ -40,6 +46,8 @@ export const ListTextInputItem: React.FC<Props> = ({
     return (
         <View style={styles.container}>
             <TextInput
+                style={[styles.textInput, style]}
+                placeholder={placeholder}
                 mode="flat"
                 label={title}
                 value={inputValue}
@@ -60,6 +68,10 @@ export const ListTextInputItem: React.FC<Props> = ({
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        marginBottom: 10
+        marginBottom: 5,
+        alignItems: "center",
+    },
+    textInput: {
+        width: '100%'
     }
 })

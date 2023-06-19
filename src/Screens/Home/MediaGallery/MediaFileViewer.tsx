@@ -5,7 +5,7 @@ import {ModalMediaFileViewer} from './Components/ModalMediaFileViewer/ModalMedia
 import {EntityNames, IMediaGalleryFile, IMediaGalleryFolder} from "../../../BackendTypes";
 import {EntityListScreen} from "../../../Features/EntityList/EntityListScreen";
 import {ListItem} from "../../../Features/EntityList/ListItem";
-import {useEntityDataManager} from "../../../Features/DataManager/useEntityDataManager";
+import {useEntityDataManager} from "../../../Components/Hooks/EntityDataManager/useEntityDataManager";
 import {useModalMediaFileViewer} from "./Hooks/useModalMediaFileViewer";
 import {useRoute} from "@react-navigation/native";
 import {GalleryRouteProps} from "./index";

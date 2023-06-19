@@ -1,8 +1,7 @@
 import {IStorageItem} from './IStorageItem';
-import {VolatileDataCollectionEventTypes} from "../DataManager";
-import {LocalStorageEventTypes} from "./LocalStorage";
+import {DataStorageEventTypes} from "./DataStorage";
 
-export default interface ILocalStorage<TStorageItem extends IStorageItem> {
+export default interface IDataStorage<TStorageItem extends IStorageItem> {
   save(item: TStorageItem): Promise<void>;
 
   saveMultiple(items: Array<TStorageItem>): Promise<void>;
@@ -21,7 +20,7 @@ export default interface ILocalStorage<TStorageItem extends IStorageItem> {
 
   count(): Promise<number>;
 
-  on(event: LocalStorageEventTypes, listener: (args?: any) => void): void;
+  on(event: DataStorageEventTypes, listener: (args?: any) => void): void;
 
-  off(event: LocalStorageEventTypes, listener: (args?: any) => void): void;
+  off(event: DataStorageEventTypes, listener: (args?: any) => void): void;
 }

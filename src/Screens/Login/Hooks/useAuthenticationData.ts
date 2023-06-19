@@ -5,21 +5,24 @@ import {
     ServerInfo,
     serverInfoStorage
 } from "../../../Features/LocalStorage";
-import {LocalStorageEventTypes} from "../../../Framework/Data/LocalStorage";
+import {DataStorageEventTypes} from "../../../Framework/Data/DataStorage";
 import {Platform} from "react-native";
+import {useDataStorage} from "../../../Components/Hooks/DataStorage/useDataStorage";
 
 export const useAuthenticationData = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [serverName, setServerName] = useState<string>('');
     const [servers, setServers] = useState<ServerInfo[]>([]);
+    const {storage: authenticationInfoDataStorage} = useDataStorage(() => authenticationInfoStorage);
+    const {subscribe} = useDataStorage(() => applicationSettingsStorage);
 
     const initializeServerData = async () => {
         const servers = await serverInfoStorage.getAll();
         setServers(servers);
 
         // initialize user and server settings
-        const authenticationInfo = await authenticationInfoStorage.getLast();
+        const authenticationInfo = await authenticationInfoDataStorage.getLast();
         if (authenticationInfo) {
             setUsername(authenticationInfo.username);
 
@@ -29,10 +32,6 @@ export const useAuthenticationData = () => {
             }
         }
     };
-
-    useEffect(() => {
-        console.debug('useAuthenticationData: serverName changed', serverName);
-    }, [serverName]);
 
     useEffect(() => {
         async function initializeData() {
@@ -46,14 +45,7 @@ export const useAuthenticationData = () => {
         }
 
         initializeData();
-
-        applicationSettingsStorage.on(LocalStorageEventTypes.DataCreated, initializeData);
-        applicationSettingsStorage.on(LocalStorageEventTypes.DataChanged, initializeData);
-
-        return () => {
-            applicationSettingsStorage.off(LocalStorageEventTypes.DataCreated, initializeData);
-            applicationSettingsStorage.off(LocalStorageEventTypes.DataChanged, initializeData);
-        }
+        subscribe(DataStorageEventTypes.DataChanged, initializeData);
     }, []);
 
     return {servers, username, password, serverName, setUsername, setPassword, setServerName, initializeServerData};

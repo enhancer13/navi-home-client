@@ -1,7 +1,7 @@
-import LocalStorage from '../../../Framework/Data/LocalStorage/LocalStorage';
+import DataStorage from '../../../Framework/Data/DataStorage/DataStorage';
 import {ServerInfo} from "./ServerInfo";
 
-class ServerInfoStorage extends LocalStorage<ServerInfo> {
+class ServerInfoStorage extends DataStorage<ServerInfo> {
     constructor() {
         super('servers_info');
     }

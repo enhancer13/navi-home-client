@@ -1,4 +1,4 @@
-import {DefaultMapper, DataContext} from "../../../../../src/Framework/Data/LocalStorage";
+import {DefaultMapper, DataContext} from "../../../../../src/Framework/Data/DataStorage";
 import {ServerInfo} from "../../../../../src/Features/LocalStorage";
 
 const contextName = 'ServerInfo';

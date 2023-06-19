@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useMemo, useRef} from 'react';
 import {DropDownListPicker} from "../DropDownListPicker";
-import {useEntityDataManager} from "../../../Features/DataManager/useEntityDataManager";
+import {useEntityDataManager} from "../../Hooks/EntityDataManager/useEntityDataManager";
 import {IPageQuery} from "../../../Framework/Data/DataManager";
 import {IEntity} from "../../../BackendTypes";
 import {List} from "react-native-paper";
