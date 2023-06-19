@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import SafeAreaView from '../../Components/Layout/SafeAreaView';
-import {ServerInfo, serverInfoStorage} from "../../Features/LocalStorage";
+import {ServerInfo, serverInfoStorage} from "../../Features/DataStorage";
 import {IconButton, TextInput, Text, useTheme} from "react-native-paper";
 import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
 import {useServerActions} from "./Hooks/useServerActions";
@@ -11,7 +11,6 @@ import {AppHeader} from "../../Components/Layout";
 import {useRoute} from "@react-navigation/native";
 import {elevationShadowStyle} from "../../Helpers/StyleUtils";
 import {RootRouteProps} from "../../../RootStackNavigator";
-import {useDataStorage} from "../../Components/Hooks/DataStorage/useDataStorage";
 
 const iconSize = hp(5);
 
@@ -22,13 +21,12 @@ export const ServerConfigScreen: React.FC = () => {
     const styles = useMemo(() => createStyles(theme), [theme]);
     const iconColor = theme.colors.primary;
     const route = useRoute<RootRouteProps<'Server Config'>>();
-    const {storage: serverInfoDataStorage} = useDataStorage(() => serverInfoStorage);
 
     useEffect(() => {
         async function initializeData() {
             if (route.params && route.params.serverName) {
                 const {serverName} = route.params;
-                const foundServerInfo = await serverInfoDataStorage.getBy((x) => x.serverName === serverName);
+                const foundServerInfo = await serverInfoStorage.getBy((x) => x.serverName === serverName);
                 if (!foundServerInfo) {
                     throw new Error(`Unable to find server with name: ${serverName}`);
                 }

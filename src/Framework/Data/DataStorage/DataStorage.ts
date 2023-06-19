@@ -8,7 +8,8 @@ import {EventEmitter} from "events";
 
 export enum DataStorageEventTypes {
     DataChanged = 'dataChanged',
-    DataCreated = 'dataCreated'
+    DataCreated = 'dataCreated',
+    DataDeleted = 'dataDeleted'
 }
 
 export default class DataStorage<TStorageItem extends IStorageItem> implements IDataStorage<TStorageItem> {
@@ -48,14 +49,17 @@ export default class DataStorage<TStorageItem extends IStorageItem> implements I
 
     public async deleteBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => boolean): Promise<void> {
         await this.dataContext.deleteBy(predicate);
+        this._eventEmitter.emit(DataStorageEventTypes.DataDeleted);
     }
 
     public async delete(entity: TStorageItem): Promise<void> {
         await this.dataContext.delete(entity);
+        this._eventEmitter.emit(DataStorageEventTypes.DataDeleted, entity);
     }
 
     public async deleteAll(): Promise<void> {
         await this.dataContext.deleteAll();
+        this._eventEmitter.emit(DataStorageEventTypes.DataDeleted);
     }
 
     public async count(): Promise<number> {

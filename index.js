@@ -5,10 +5,10 @@ import {name as appName} from './app.json';
 import messaging from '@react-native-firebase/messaging';
 import {darkTheme, lightTheme} from './PaperTheme';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {useApplicationSettings} from './src/Components/Hooks/DataStorage/useApplicationSettings';
+import {useApplicationSettings} from './src/Features/DataStorage/Hooks/useApplicationSettings';
 import Orientation from 'react-native-orientation-locker';
 import {requestFirebasePermissions} from './src/Helpers/PermisionRequester';
-import {dataStorageInitializer} from './src/Features/LocalStorage';
+import {dataStorageInitializer} from './src/Features/DataStorage';
 
 const NotificationHandler = async message => {
   console.warn('RNFirebaseBackgroundMessage: ', message);

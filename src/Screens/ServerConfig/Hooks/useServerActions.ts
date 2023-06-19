@@ -1,4 +1,4 @@
-import {ServerInfo, serverInfoStorage} from "../../../Features/LocalStorage";
+import {ServerInfo, serverInfoStorage} from "../../../Features/DataStorage";
 import {httpClient} from "../../../Framework/Net/HttpClient/HttpClient";
 import {IApplicationInfo} from "../../../BackendTypes";
 import {backendEndpoints} from "../../../Config/BackendEndpoints";

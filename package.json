@@ -62,7 +62,7 @@
     "react-native-event-listeners": "^1.0.7",
     "react-native-fast-image": "^8.6.3",
     "react-native-flash-message": "^0.4.1",
-    "react-native-gesture-handler": "^2.11.0",
+    "react-native-gesture-handler": "^2.12.0",
     "react-native-keychain": "8.1.1",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-orientation-locker": "^1.5.0",
@@ -109,7 +109,7 @@
     "react-test-renderer": "^18.2.0",
     "ts-jest": "^29.1.0",
     "ts-mockito": "^2.6.1",
-    "typescript": "^5.1.0"
+    "typescript": "^5.0.4"
   },
   "jest": {
     "preset": "react-native",

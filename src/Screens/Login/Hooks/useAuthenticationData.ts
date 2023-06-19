@@ -1,28 +1,23 @@
 import {useEffect, useState} from 'react';
-import {
-    applicationSettingsStorage,
-    authenticationInfoStorage,
-    ServerInfo,
-    serverInfoStorage
-} from "../../../Features/LocalStorage";
-import {DataStorageEventTypes} from "../../../Framework/Data/DataStorage";
+import {authenticationInfoStorage, ServerInfo, serverInfoStorage} from "../../../Features/DataStorage";
 import {Platform} from "react-native";
-import {useDataStorage} from "../../../Components/Hooks/DataStorage/useDataStorage";
+import {useDataStorageEvents} from "../../../Features/DataStorage/Hooks/useDataStorageEvents";
+import {DataStorageEventTypes} from "../../../Framework/Data/DataStorage";
 
 export const useAuthenticationData = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [serverName, setServerName] = useState<string>('');
     const [servers, setServers] = useState<ServerInfo[]>([]);
-    const {storage: authenticationInfoDataStorage} = useDataStorage(() => authenticationInfoStorage);
-    const {subscribe} = useDataStorage(() => applicationSettingsStorage);
+    const {subscribe} = useDataStorageEvents(authenticationInfoStorage);
 
     const initializeServerData = async () => {
         const servers = await serverInfoStorage.getAll();
         setServers(servers);
+        setServerName('');
 
         // initialize user and server settings
-        const authenticationInfo = await authenticationInfoDataStorage.getLast();
+        const authenticationInfo = await authenticationInfoStorage.getLast();
         if (authenticationInfo) {
             setUsername(authenticationInfo.username);
 
@@ -35,17 +30,17 @@ export const useAuthenticationData = () => {
 
     useEffect(() => {
         async function initializeData() {
+            await initializeServerData();
+
             if (__DEV__) {
                 setUsername('test');
                 setPassword('111111');
                 setServerName(Platform.OS === 'ios' ? 'ios-dev' : 'android-dev');
             }
-
-            await initializeServerData();
         }
 
         initializeData();
-        subscribe(DataStorageEventTypes.DataChanged, initializeData);
+        subscribe([DataStorageEventTypes.DataChanged, DataStorageEventTypes.DataCreated, DataStorageEventTypes.DataDeleted], initializeData);
     }, []);
 
     return {servers, username, password, serverName, setUsername, setPassword, setServerName, initializeServerData};
