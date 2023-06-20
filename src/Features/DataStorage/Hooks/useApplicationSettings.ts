@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 import { ApplicationSettings, applicationSettingsStorage } from "../index";
 import {DataStorageEventTypes} from "../../../Framework/Data/DataStorage";
 import {useDataStorageEvents} from "./useDataStorageEvents";
@@ -15,11 +15,11 @@ export function useApplicationSettings() {
 
         readApplicationSettings();
         subscribe([DataStorageEventTypes.DataChanged, DataStorageEventTypes.DataCreated], readApplicationSettings);
-    }, []);
+    }, [subscribe]);
 
-    const updateApplicationSettings = async (applicationSettings: ApplicationSettings) => {
+    const updateApplicationSettings = useCallback(async (applicationSettings: ApplicationSettings) => {
         await applicationSettingsStorage.update(applicationSettings);
-    };
+    }, []);
 
     return {applicationSettings, updateApplicationSettings};
 }

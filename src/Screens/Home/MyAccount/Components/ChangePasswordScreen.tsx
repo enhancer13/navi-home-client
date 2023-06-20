@@ -33,7 +33,6 @@ export const ChangePasswordScreen: React.FC = () => {
     const {authentication} = useAuth();
     const {user} = useRoute<AccountRouteProps<'Change Password'>>().params || {};
 
-
     useEffect(() => {
         if (previousPassword.length === 0) {
             setValidationError('Please enter the previous password.');
@@ -79,7 +78,7 @@ export const ChangePasswordScreen: React.FC = () => {
         } finally {
             setBusy(false);
         }
-    }, [authentication, user, newPassword, newPasswordRepeat, previousPassword]);
+    }, [authentication, user, newPassword, newPasswordRepeat, previousPassword, showSuccess, showError, navigation]);
 
     const handleCancel = useCallback(() => {
         navigation.goBack();

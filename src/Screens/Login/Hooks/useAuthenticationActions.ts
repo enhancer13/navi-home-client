@@ -14,17 +14,17 @@ export const useAuthenticationActions = () => {
     const [biometryType, setBiometryType] = useState<Keychain.BIOMETRY_TYPE | null>(null);
     const {applicationSettings} = useApplicationSettings();
 
-    const initializeBiometryData = async () => {
-        if (!applicationSettings) {
-            return;
+    useEffect(() => {
+        async function initializeBiometryData() {
+            if (!applicationSettings) {
+                return;
+            }
+
+            const biometryType = await Keychain.getSupportedBiometryType();
+            setBiometryType(biometryType);
+            setBiometryActive(applicationSettings.biometryAuthenticationActive);
         }
 
-        const biometryType = await Keychain.getSupportedBiometryType();
-        setBiometryType(biometryType);
-        setBiometryActive(applicationSettings.biometryAuthenticationActive);
-    };
-
-    useEffect(() => {
         initializeBiometryData();
     }, [applicationSettings]);
 
@@ -67,7 +67,6 @@ export const useAuthenticationActions = () => {
         busy,
         authenticate,
         authenticateWithBiometry,
-        authenticateWithCredentials,
-        initializeBiometryData
+        authenticateWithCredentials
     };
 };

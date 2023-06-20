@@ -78,17 +78,17 @@ export const EntityListScreen: React.FC<EntityListScreenProps> = ({
                 <StatusBadge style={styles.statusBadge} status={status}/>
             </>
         );
-    }, [styles.statusBadge]);
+    }, [EntityViewComponent]);
 
-    const onItemsCountChanged = useCallback((count: number) => {
+    const handleItemsCountChanged = useCallback((count: number) => {
         setState(prevState => ({...prevState, itemsCount: count}));
     }, []);
 
-    const onSelectionStatusChanged = useCallback((active: boolean) => {
+    const handleSelectionStatusChanged = useCallback((active: boolean) => {
         setState(prevState => ({...prevState, selectionActive: active}));
     }, []);
 
-    const onSelectedItemsCountChanged = useCallback((count: number) => {
+    const handleSelectedItemsCountChanged = useCallback((count: number) => {
         setState(prevState => ({...prevState, selectedItemsCount: count}));
     }, []);
 
@@ -120,9 +120,9 @@ export const EntityListScreen: React.FC<EntityListScreenProps> = ({
                 columnCount={columnCount}
                 queryFilter={queryFilter}
                 onItemPress={onListItemPress}
-                onSelectionStatusChanged={onSelectionStatusChanged}
-                onItemsCountChanged={onItemsCountChanged}
-                onSelectedItemsCountChanged={onSelectedItemsCountChanged}
+                onSelectionStatusChanged={handleSelectionStatusChanged}
+                onItemsCountChanged={handleItemsCountChanged}
+                onSelectedItemsCountChanged={handleSelectedItemsCountChanged}
                 extraData={dataChanged}
                 onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) => {
                     scrollY.setValue(event.nativeEvent.contentOffset.y);

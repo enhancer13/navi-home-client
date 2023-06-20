@@ -110,7 +110,7 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
             return;
         }
         setInitialIndex(index);
-    }, [mediaSources]);
+    }, [mediaSources, initialMediaFile.id]);
 
     const handleCurrentIndexChanged = useCallback((index: number) => {
         if (mediaSources.length === 0) {
@@ -128,9 +128,7 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
                             size={iconSize} onPress={onShare}/>
             </View>
         );
-    }, [currentMediaFile, onDelete, onShare]);
-
-    console.debug("loading", loading)
+    }, [theme, styles, currentMediaFile, onDelete, onShare]);
 
     return (
         <Modal visible={visible}

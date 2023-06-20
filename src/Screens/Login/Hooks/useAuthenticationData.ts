@@ -41,7 +41,7 @@ export const useAuthenticationData = () => {
 
         initializeData();
         subscribe([DataStorageEventTypes.DataChanged, DataStorageEventTypes.DataCreated, DataStorageEventTypes.DataDeleted], initializeData);
-    }, []);
+    }, [subscribe]);
 
     return {servers, username, password, serverName, setUsername, setPassword, setServerName, initializeServerData};
 };

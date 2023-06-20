@@ -15,20 +15,21 @@ export const ListCheckboxItem: React.FC<Props> = ({title, description, icon, val
     const theme = useTheme();
 
     const handleCheckboxChanged = useCallback(() => {
-        setIsCheckedOn(prevState => !prevState);
-    }, []);
+        setIsCheckedOn(prevState => {
+            const newValue = !prevState;
+            if (newValue !== value) {
+                action && action(newValue);
+            }
+            return newValue;
+        });
+    }, [value, action]);
 
     useEffect(() => {
-        if (isCheckedOn != value) {
+        if (value !== isCheckedOn) {
             setIsCheckedOn(value);
         }
-    }, [value])
-
-    useEffect(() => {
-        if (isCheckedOn != value) {
-            action && action(isCheckedOn);
-        }
-    }, [isCheckedOn])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value]);
 
     return (
         <>

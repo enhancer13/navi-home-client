@@ -77,7 +77,7 @@ export const AnimatedSectionList: React.FC<SectionListProps> = ({
     const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
         scrollY.setValue(event.nativeEvent.contentOffset.y);
         onScroll && onScroll(event);
-    }, [onScroll]);
+    }, [onScroll, scrollY]);
 
     return (
         <View style={[containerStyle, {height: '100%', width: '100%'}]}>

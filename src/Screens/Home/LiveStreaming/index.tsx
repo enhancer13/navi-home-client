@@ -66,8 +66,7 @@ export const LiveStreamingScreen = () => {
         initializeStreamingPlayers();
         const firebaseMessageListener = EventRegister.addEventListener(
             'applicationStatus',
-            ({serviceStatusContainers}: IApplicationStatus) =>
-                createStreamingPlayers(serviceStatusContainers),
+            ({serviceStatusContainers}: IApplicationStatus) => createStreamingPlayers(serviceStatusContainers),
         );
 
         return () => {

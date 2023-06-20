@@ -36,7 +36,7 @@ export const ServerConfigScreen: React.FC = () => {
         }
 
         initializeData();
-    }, []);
+    }, [route.params]);
 
     return (
         <>

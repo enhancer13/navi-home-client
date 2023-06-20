@@ -22,7 +22,7 @@ export const MediaFileViewer: React.FC = () => {
     const onMediaFilePress = useCallback((listItem: ListItem) => {
         const mediaFile = listItem.getEntity() as IMediaGalleryFile;
         openViewer(mediaFile);
-    }, []);
+    }, [openViewer]);
 
     useEffect(() => {
         setMediaFolder(route.params.folder);

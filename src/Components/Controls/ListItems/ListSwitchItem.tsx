@@ -16,20 +16,18 @@ export const ListSwitchItem: React.FC<Props> = ({title, description, icon, iconC
     const theme = useTheme();
 
     const onSwitchChanged = () => {
-        setIsSwitchOn(prevState => !prevState);
+        setIsSwitchOn(prevValue => {
+            action(!prevValue);
+            return !prevValue;
+        });
     };
 
     useEffect(() => {
         if (isSwitchOn != value) {
             setIsSwitchOn(value);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value])
-
-    useEffect(() => {
-        if (isSwitchOn != value) {
-            action(isSwitchOn);
-        }
-    }, [isSwitchOn])
 
     return (
         <>

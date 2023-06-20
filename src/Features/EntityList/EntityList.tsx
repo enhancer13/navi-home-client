@@ -70,19 +70,19 @@ const EntityList: React.FC<Props> = ({
 
     useEffect(() => {
         onSelectionStatusChanged && onSelectionStatusChanged(selectionActive);
-    }, [selectionActive]);
+    }, [onSelectionStatusChanged, selectionActive]);
 
     useEffect(() => {
         onSelectedItemsCountChanged && onSelectedItemsCountChanged(selectedItems.length);
-    }, [selectedItems]);
+    }, [onSelectedItemsCountChanged, selectedItems]);
 
     useEffect(() => {
         onItemsCountChanged && onItemsCountChanged(totalCount);
-    }, [totalCount]);
+    }, [onItemsCountChanged, totalCount]);
 
     useEffect(() => {
         setItems(prevItems => [...prevItems]);
-    }, [extraData]);
+    }, [extraData, setItems]);
 
     const onSelectionListItemPress = (item: ListItem) => {
         onItemPress && onItemPress(item);

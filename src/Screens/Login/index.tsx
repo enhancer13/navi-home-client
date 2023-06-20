@@ -67,23 +67,23 @@ export const LoginScreen: React.FC = () => {
         }
 
         showError('Nothing to edit.');
-    }, [navigation, serverName, servers]);
+    }, [navigation, serverName, servers, showError]);
 
     const handleServerAdd = useCallback(() => navigation.navigate('ServerConfig' as never), [navigation]);
 
     const handleServerChange = useCallback((value: string) => {
         setServerName(value);
-    }, []);
+    }, [setServerName]);
 
     const handleBiometryAuthenticate = useCallback(async () => {
         await authenticateWithBiometry(serverName, username);
         !__DEV__ && setPassword('');
-    }, [authenticateWithBiometry, serverName, username]);
+    }, [authenticateWithBiometry, serverName, username, setPassword]);
 
     const handleCredentialsAuthenticate = useCallback(async () => {
         await authenticateWithCredentials(serverName, username, password);
         !__DEV__ && setPassword('');
-    }, [authenticateWithCredentials, serverName, username, password]);
+    }, [authenticateWithCredentials, serverName, username, password, setPassword]);
 
     const biometryIcon = useMemo(() => {
         if (!biometryActive || !biometryType) {
@@ -99,7 +99,7 @@ export const LoginScreen: React.FC = () => {
                            animated={false}
                            selected={false}
                            size={iconSize}/>;
-    }, [handleBiometryAuthenticate, biometryType, biometryActive]);
+    }, [handleBiometryAuthenticate, biometryType, biometryActive, theme]);
 
     const developerIcon = useMemo(() => {
         return  theme.dark ? require('./Resources/enhancer13_logo_inverted.png') :
@@ -108,15 +108,15 @@ export const LoginScreen: React.FC = () => {
 
     const handleUsernameChanged = useCallback((value: string) => {
         setUsername(value);
-    }, []);
+    }, [setUsername]);
 
     const handlePasswordChanged = useCallback((value: string) => {
         setPassword(value);
-    }, []);
+    }, [setPassword]);
 
     return (
         <SafeAreaView ignoreTopInsets={true} style={styles.container}>
-            <LoadingAnimation/>
+            <LoadingAnimation />
             <Animated.View
                 style={[
                     styles.animatedContainer,

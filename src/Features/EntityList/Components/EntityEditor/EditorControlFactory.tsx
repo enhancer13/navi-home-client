@@ -1,5 +1,6 @@
 import {
-    EntityFieldInputTypes, EntityFieldSearchPolicies,
+    EntityFieldInputTypes,
+    EntityFieldSearchPolicies,
     IEntity,
     IEntityFieldDefinition,
 } from "../../../../BackendTypes";
@@ -7,6 +8,7 @@ import {
     ListDateTimePicker,
     ListSwitchItem,
     ListTextInputItem,
+    ListNumericInputItem,
 } from "../../../../Components/Controls/ListItems";
 import {ListDropDownListSinglePicker} from "../../../../Components/Controls/ListItems/ListDropDownListSinglePicker";
 import {ListEntityDropDownListPicker} from "../../../../Components/Controls/ListItems/ListEntityDropDownListPicker";
@@ -27,8 +29,6 @@ class EditorControlFactory {
         switch (fieldDefinition.fieldDataType) {
             case EntityFieldInputTypes.PASSWORD:
             case EntityFieldInputTypes.TEXT:
-            case EntityFieldInputTypes.NUMBER:
-            case EntityFieldInputTypes.EMAIL:
                 return (
                     <View style={styles.listItemContainer}>
                         <ListTextInputItem
@@ -37,6 +37,32 @@ class EditorControlFactory {
                             value={value?.toString() ?? ''}
                             onValueChanged={(x) => updateFieldValue(fieldName, x)}
                             secureTextEntry={fieldDefinition.fieldDataType === EntityFieldInputTypes.PASSWORD}
+                        />
+                        <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
+                    </View>
+                );
+            case EntityFieldInputTypes.EMAIL:
+                return (
+                    <View style={styles.listItemContainer}>
+                        <ListTextInputItem
+                            title={fieldTitle}
+                            readonly={readonly}
+                            value={value?.toString() ?? ''}
+                            onValueChanged={(x) => updateFieldValue(fieldName, x)}
+                            inputMode={"email"}
+                        />
+                        <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
+                    </View>
+                );
+            case EntityFieldInputTypes.NUMBER: //TODO add support for floating-point numbers
+                return (
+                    <View style={styles.listItemContainer}>
+                        <ListNumericInputItem
+                            title={fieldTitle}
+                            readonly={readonly}
+                            value={value as number}
+                            onValueChanged={(x) => updateFieldValue(fieldName, x)}
+                            inputMode={"numeric"}
                         />
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
                     </View>

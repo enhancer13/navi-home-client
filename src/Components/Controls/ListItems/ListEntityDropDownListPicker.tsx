@@ -99,7 +99,7 @@ export const ListEntityDropDownListPicker: React.FC<Props> = ({
                 value: entity.id,
             };
         });
-    }, [entities, titleFormatter]);
+    }, [entities, titleFormatter, entityDefinition]);
 
     const selectedListItems = useMemo(() => {
         if (!selectedData) {
@@ -115,7 +115,7 @@ export const ListEntityDropDownListPicker: React.FC<Props> = ({
         }
 
         throw new Error('Inconsistency between selectedData and provided mode');
-    }, [selectedData]);
+    }, [selectedData, multiple]);
 
     return (
         <>

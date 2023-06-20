@@ -6,4 +6,4 @@ export * from './ServerInfo/ServerInfoStorage';
 export * from './Settings/ApplicationSettings';
 export * from './Settings/ApplicationSettingsStorage';
 export * from './Settings/IApplicationSettingsStorage';
-export * from './LocalStorageInitializer';
+export * from './DataStorageInitializer';

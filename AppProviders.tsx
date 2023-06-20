@@ -11,7 +11,7 @@ type AppProvidersProps = {
     children: React.ReactNode;
 };
 
-export const AppProviders: React.FC<AppProvidersProps> = ({children}): JSX.Element => {
+export const AppProviders: React.FC<AppProvidersProps> = ({children}) => {
     const [theme, setTheme] = useState(lightTheme);
     const {applicationSettings} = useApplicationSettings();
 

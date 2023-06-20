@@ -44,11 +44,11 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
     const handleBackPress = useCallback(() => {
         enableBackButton && navigation.goBack();
-    }, [navigation]);
+    }, [navigation, enableBackButton]);
 
     const handleSearchPress = useCallback(() => {
         enableSearch && toggleSearchActive();
-    }, []);
+    }, [enableSearch, toggleSearchActive]);
 
     const theme = useTheme();
     const backgroundColor = theme.colors.background;

@@ -5,7 +5,6 @@ import {EntityViewComponentProps} from "../../../../Features/EntityList/EntityLi
 import {IMediaGalleryFolder} from "../../../../BackendTypes";
 import {useTheme, Text} from "react-native-paper";
 import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
-import PropTypes from "prop-types";
 
 const mediaFolderPropsAreEqual = (prevProps: EntityViewComponentProps, nextProps: EntityViewComponentProps): boolean => {
     const prevEntity = prevProps.entity as IMediaGalleryFolder;

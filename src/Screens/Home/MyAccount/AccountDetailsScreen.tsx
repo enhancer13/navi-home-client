@@ -75,7 +75,7 @@ export const AccountDetailsScreen: React.FC = () => {
                 ]
             }
         ] satisfies Array<ISection>;
-    }, [authentication, applicationSettings]);
+    }, [authentication, applicationSettings, updateApplicationSettings, logout, navigation]);
 
     return (
         <>
