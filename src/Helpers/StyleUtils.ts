@@ -1,7 +1,7 @@
 import {MD3Theme as Theme} from 'react-native-paper';
 import {Animated} from "react-native";
 
-export const elevationShadowStyle = (theme: Theme, elevation: number) => {
+export const elevationShadowStyle = (theme: Theme, elevation = 3) => {
     return {
         elevation, // Android
         shadowColor: theme.colors.shadow, // iOS

@@ -43,8 +43,10 @@ target 'NaviHomeClient' do
      __apply_Xcode_12_5_M1_post_install_workaround(installer)
 
     installer.pods_project.targets.each do |target|
-        if target.name == "React-Core.common-AccessibilityResources"
-            target.remove_from_project
+        installer.pods_project.targets.each do |target|
+            if target.name == "React-Core-AccessibilityResources"
+              target.remove_from_project
+            end
         end
         target.build_configurations.each do |config|
             config.build_settings["ONLY_ACTIVE_ARCH"] = 'YES'

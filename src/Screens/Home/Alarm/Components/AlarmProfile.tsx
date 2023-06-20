@@ -39,12 +39,12 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
     };
 
     useEffect(() => {
-        if (entity.active) {
+        if (alarmProfile.active) {
             scaleAnimationRef.current.startScaleInAnimation(500);
         } else {
             scaleAnimationRef.current.startScaleOutAnimation(500);
         }
-    }, [entity.active]);
+    }, [alarmProfile.active]);
 
     return (
         <EntityViewContainer

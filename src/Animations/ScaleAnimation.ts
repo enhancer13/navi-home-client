@@ -29,12 +29,10 @@ export class ScaleAnimation extends BaseAnimation {
   }
 
   public startScaleInAnimation(duration = 150) {
-    this._animatedValue.setValue(0);
     this.getAnimation(1, duration).start();
   }
 
   public startScaleOutAnimation(duration = 150) {
-    this._animatedValue.setValue(1);
     this.getAnimation(0, duration).start();
   }
 

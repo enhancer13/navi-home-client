@@ -20,6 +20,7 @@ const mediaFolderPropsAreEqual = (prevProps: EntityViewComponentProps, nextProps
     );
 };
 
+// eslint-disable-next-line react/prop-types
 export const MediaFolder: React.FC<EntityViewComponentProps> = React.memo(({entity, width}) => {
     const mediaFolder = entity as IMediaGalleryFolder;
     const theme = useTheme();
@@ -41,6 +42,8 @@ export const MediaFolder: React.FC<EntityViewComponentProps> = React.memo(({enti
         </View>
     );
 }, mediaFolderPropsAreEqual);
+
+MediaFolder.displayName = 'MediaFolder';
 
 const createStyles = (theme: Theme) => StyleSheet.create({
     folder: {

@@ -18,18 +18,15 @@ export const ServiceAccount: React.FC<EntityViewComponentProps> = ({entity, widt
     return (
         <EntityViewContainer
             content={
-                <View style={styles.rowContainer}>
+                <View style={styles.container}>
                     <View style={styles.primaryIconContainer}>
-                        <MaterialCommunityIcons name={'account-group'} color={theme.colors.primary}
-                                                size={primaryIconSize}/>
+                        <MaterialCommunityIcons name={'account-group'} color={theme.colors.primary} size={primaryIconSize}/>
                     </View>
-                    <View style={styles.rowContainer}>
-                        <View style={styles.serviceAccountContainer}>
-                            <Text variant={'titleMedium'}>{serviceAccount.accountName}</Text>
-                            <Divider style={styles.divider}/>
-                            <IconTextItem labelText={'Account type'} valueText={snakeToPascal(serviceAccount.serviceAccountType)}/>
-                            <IconTextItem labelText={'Linked user'} valueText={serviceAccount.user?.username}/>
-                        </View>
+                    <View style={styles.serviceAccountContainer}>
+                        <Text variant={'titleMedium'}>{serviceAccount.accountName}</Text>
+                        <Divider style={styles.divider}/>
+                        <IconTextItem labelText={'Account type'} valueText={snakeToPascal(serviceAccount.serviceAccountType)}/>
+                        <IconTextItem labelText={'Linked user'} valueText={serviceAccount.user?.username}/>
                     </View>
                 </View>
             }
@@ -38,9 +35,14 @@ export const ServiceAccount: React.FC<EntityViewComponentProps> = ({entity, widt
 };
 
 const createStyles = (theme: Theme) => StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     rowContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        width: '100%'
     },
     primaryIconContainer: {
         alignItems: 'center'

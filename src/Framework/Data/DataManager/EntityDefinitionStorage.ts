@@ -1,8 +1,8 @@
 import {EntityDefinition} from "./EntityDefinition";
-import LocalStorage from "../LocalStorage/LocalStorage";
+import DataStorage from "../DataStorage/DataStorage";
 import {EntityDefinitionMapper} from "./EntityDefinitionMapper";
 
-export class EntityDefinitionStorage extends LocalStorage<EntityDefinition> {
+export class EntityDefinitionStorage extends DataStorage<EntityDefinition> {
     constructor() {
         super("entity_definitions", new EntityDefinitionMapper());
     }

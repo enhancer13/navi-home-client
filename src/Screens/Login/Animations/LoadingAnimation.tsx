@@ -1,21 +1,15 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Animated, StyleSheet, View} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import backgroundIcons, {IBackgroundIcon} from './BackgroundIcons';
 
 const iconSize = Math.min(80, wp(11));
 
-interface LoadingAnimationProps {
-  onAnimationCompleted?: () => void;
-}
-
 interface IIconAnimation {
   [key: string]: Animated.Value;
 }
 
-const LoadingAnimation: React.FC<LoadingAnimationProps> = props => {
-  const {onAnimationCompleted} = props;
-
+const LoadingAnimation: React.FC = () => {
   const iconsAnimation = useMemo(() => {
     const animation: IIconAnimation = {};
     backgroundIcons.forEach((data: IBackgroundIcon) => {
@@ -41,7 +35,7 @@ const LoadingAnimation: React.FC<LoadingAnimationProps> = props => {
         />
       );
     });
-  }, []);
+  }, [iconsAnimation]);
 
   useEffect(() => {
     backgroundIcons.forEach(data => {
@@ -58,9 +52,9 @@ const LoadingAnimation: React.FC<LoadingAnimationProps> = props => {
           duration: 500,
           useNativeDriver: true,
         }),
-      ]).start(() => onAnimationCompleted && onAnimationCompleted());
+      ]).start();
     });
-  }, []);
+  }, [iconsAnimation]);
 
   return <View style={styles.container}>{animatedIcons}</View>;
 };

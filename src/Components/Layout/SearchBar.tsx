@@ -21,7 +21,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     const [searchQuery, setSearchQuery] = useState('');
     const searchBarSlideAnimation = useRef(new SlideAnimation('y', new Animated.Value(0))).current;
     const searchBarHeightAnimation = useRef(new ResizeAnimation('height', new Animated.Value(0))).current;
-    const searchBarFadeAnimation = useRef(new FadeAnimation(new Animated.Value(1))).current;
+    const searchBarFadeAnimation = useRef(new FadeAnimation(new Animated.Value(0))).current;
     const searchTimeoutRef = useRef<number | null>(null);
 
     useEffect(() => {

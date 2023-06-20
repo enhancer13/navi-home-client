@@ -154,11 +154,12 @@ export class VolatileDataCollection<TEntity extends IEntity> implements AsyncIte
         console.debug(`VolatileDataCollection: received entityEditor event for ${entityName} with eventType ${entityEditorEvent.eventType} and id's ${entityEditorEvent.entityIds}`)
         switch (entityEditorEvent.eventType) {
             case EntityEditorEventTypes.CREATED:
-            case EntityEditorEventTypes.DELETED:
+            case EntityEditorEventTypes.DELETED: {
                 // Reload all loaded pages
                 await this.refresh();
                 break;
-            case EntityEditorEventTypes.UPDATED:
+            }
+            case EntityEditorEventTypes.UPDATED: {
                 // define first affected page from the list of loaded pages
                 let firstAffectedPage = this._totalPages + 1;
                 const affectedIds = entityEditorEvent.entityIds;
@@ -176,6 +177,7 @@ export class VolatileDataCollection<TEntity extends IEntity> implements AsyncIte
                 pageNumbersToReload.forEach(pageNumber => this._loadedPageNumbers.delete(pageNumber));
                 await this.loadPages(...pageNumbersToReload);
                 break;
+            }
         }
         this._eventEmitter.emit(VolatileDataCollectionEventTypes.DataChanged);
     }

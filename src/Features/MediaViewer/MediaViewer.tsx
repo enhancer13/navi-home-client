@@ -19,7 +19,7 @@ export const MediaViewer: React.FC<IMediaViewerProps> = (props: IMediaViewerProp
 
     useEffect(() => {
         fadeAnimationRef.current.startAnimation(1, DEFAULT_FADE_ANIMATION_DURATION, props.useNativeDriver);
-    }, []);
+    }, [props.useNativeDriver]);
 
     const onLayout = useCallback((event: LayoutChangeEvent) => {
         if (event.nativeEvent.layout.width !== width) {
@@ -27,7 +27,7 @@ export const MediaViewer: React.FC<IMediaViewerProps> = (props: IMediaViewerProp
             setHeight(event.nativeEvent.layout.height);
             setLayout(true);
         }
-    }, []);
+    }, [width]);
 
     return (
         <View onLayout={onLayout} style={styles.container}>

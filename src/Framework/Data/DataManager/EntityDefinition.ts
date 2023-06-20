@@ -1,5 +1,5 @@
 import {IEntityFieldDefinition, ControllerAuthorizations, IEntityDatabaseMethods} from "../../../BackendTypes";
-import {StorageItem} from "../LocalStorage";
+import {StorageItem} from "../DataStorage";
 import {IEntityDefinition} from "./IEntityDefinition";
 
 export class EntityDefinition implements IEntityDefinition, StorageItem {

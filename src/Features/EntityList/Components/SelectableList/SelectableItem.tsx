@@ -1,4 +1,4 @@
-import {Animated, Pressable, StyleSheet, View} from 'react-native';
+import {Animated, Pressable, StyleSheet} from 'react-native';
 import React, {useMemo, useRef} from 'react';
 import {ScaleAnimation} from "../../../../Animations";
 import {MD3Theme as Theme, useTheme} from "react-native-paper";

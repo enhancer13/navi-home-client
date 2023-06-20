@@ -1,5 +1,4 @@
-import React, {createContext, useContext, useEffect} from 'react';
-import {AppState, AppStateStatus} from 'react-native';
+import React, {createContext, useCallback, useContext} from 'react';
 import FlashMessage, {showMessage} from "react-native-flash-message";
 
 interface IContextProps {
@@ -16,51 +15,41 @@ interface Props {
 const PopupMessageContext = createContext<IContextProps>({} as IContextProps);
 
 export const PopupMessageProvider: React.FC<Props> = ({children}) => {
-    const handleAppStateChange = (nextState: AppStateStatus) => {
-        //FlashMessageManager.setDisabled(nextState !== 'active');
-    };
-
-    useEffect(() => {
-        const appStateEventListener = AppState.addEventListener('change', handleAppStateChange);
-        return () => appStateEventListener.remove();
-    }, []);
-
-    const showSuccess = (message: string) => {
+    const showSuccess = useCallback((message: string) => {
         showMessage({
             message,
             type: 'success',
             duration: 2000
         });
-    };
+    }, []);
 
-    const showError = (message: string) => {
+    const showError = useCallback((message: string) => {
         showMessage({
             message,
             type: 'danger',
             duration: 10000,
             position: 'bottom',
         });
-    };
+    }, []);
 
-    const showWarning = (message: string) => {
+    const showWarning = useCallback((message: string) => {
         showMessage({
             message,
             type: 'warning',
             duration: 10000
         });
-    };
+    }, []);
 
-    const showInformation = (message: string) => {
+    const showInformation = useCallback((message: string) => {
         showMessage({
             message,
             type: 'info',
             duration: 5000
         });
-    };
+    }, []);
 
-    const value = {showError, showInformation, showSuccess, showWarning};
     return (
-        <PopupMessageContext.Provider value={value}>
+        <PopupMessageContext.Provider value={{showError, showInformation, showSuccess, showWarning}}>
             <FlashMessage position="bottom"/>
             {children}
         </PopupMessageContext.Provider>);

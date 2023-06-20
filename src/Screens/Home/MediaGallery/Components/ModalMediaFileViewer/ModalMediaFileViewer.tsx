@@ -17,6 +17,8 @@ import {IMediaSource} from "../../../../../Features/MediaViewer/IMediaSource";
 import {useMediaFileActions} from "./Hooks/useMediaFileActions";
 import {VolatileDataCollectionEventTypes} from "../../../../../Framework/Data/DataManager";
 import {elevationShadowStyle} from "../../../../../Helpers/StyleUtils";
+import {LoadingActivityIndicator} from "../../../../../Components/Controls";
+import {useLoadingState} from "../../../../../Components/Hooks/useLoadingState";
 
 const largeIconSize = hp(7);
 const barHeight = largeIconSize / 1.5;
@@ -38,6 +40,7 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
                                                           parentEntityRestriction,
                                                       }) => {
     const volatileDataCollection = useVolatileEntityCollection<IMediaGalleryFile>(mediaFileDataManager, undefined, undefined, parentEntityRestriction);
+    const [loading, setLoading] = useLoadingState(true);
     const {authentication} = useAuth();
     const [mediaSources, setMediaSources] = useState<IMediaSource[]>([]);
     const [initialIndex, setInitialIndex] = useState<number>(0);
@@ -54,13 +57,17 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
         }
 
         const mediaGalleryFiles: IMediaGalleryFile[] = [];
-        volatileDataCollection.totalPages
-        for (let pageNumber = 1; pageNumber <= volatileDataCollection.totalPages; pageNumber++) {
-            const page = await volatileDataCollection.getPage(pageNumber);
-            if (page.data.length === 0) {
-                break; // broken pagination in spring data
+        setLoading(true);
+        try {
+            for (let pageNumber = 1; pageNumber <= volatileDataCollection.totalPages; pageNumber++) {
+                const page = await volatileDataCollection.getPage(pageNumber);
+                if (page.data.length === 0) {
+                    break; // broken pagination in spring data
+                }
+                mediaGalleryFiles.push(...page.data);
             }
-            mediaGalleryFiles.push(...page.data);
+        } finally {
+            setLoading(false)
         }
 
         const mediaData = mediaGalleryFiles.map(mediaGalleryFile => {
@@ -103,7 +110,7 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
             return;
         }
         setInitialIndex(index);
-    }, [mediaSources]);
+    }, [mediaSources, initialMediaFile.id]);
 
     const handleCurrentIndexChanged = useCallback((index: number) => {
         if (mediaSources.length === 0) {
@@ -121,7 +128,7 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
                             size={iconSize} onPress={onShare}/>
             </View>
         );
-    }, [currentMediaFile, onDelete, onShare]);
+    }, [theme, styles, currentMediaFile, onDelete, onShare]);
 
     return (
         <Modal visible={visible}
@@ -129,6 +136,11 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
                transparent={true}
                onRequestClose={onRequestClose}>
             <SafeAreaView style={styles.container} ignoreBottomInsets={false}>
+                {loading && (
+                    <View style={styles.loadingContainer}>
+                        <LoadingActivityIndicator />
+                    </View>
+                )}
                 <MediaViewer
                     mediaSources={mediaSources}
                     initialIndex={initialIndex}
@@ -151,20 +163,30 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         flex: 1
     },
     footer: {
-        ...elevationShadowStyle(theme, 10),
+        ...elevationShadowStyle(theme),
+        backgroundColor: theme.colors.surface,
         position: 'absolute',
         bottom: 0,
         alignItems: 'center',
-        backgroundColor: theme.colors.surface,
         flexDirection: 'row',
         height: barHeight,
         justifyContent: 'space-between',
-        marginBottom: 0,
+        marginBottom: 10,
         paddingLeft: hp(1),
         paddingRight: hp(1),
         width: '100%',
     },
     thumbnailsContainer: {
-        bottom: barHeight + 10,
-    }
+        bottom: barHeight + 20,
+    },
+    loadingContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    },
 });

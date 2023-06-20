@@ -19,7 +19,7 @@ export const FirebaseMessageHandler = () => {
     }
 
     initFirebaseMessaging();
-  }, []);
+  }, [authentication]);
 
   useEffect(() => {
     if (!serverId) {

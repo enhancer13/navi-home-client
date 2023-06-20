@@ -2,16 +2,15 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import SafeAreaView from '../../Components/Layout/SafeAreaView';
-import {ServerInfo, serverInfoStorage} from "../../Features/LocalStorage";
+import {ServerInfo, serverInfoStorage} from "../../Features/DataStorage";
 import {IconButton, TextInput, Text, useTheme} from "react-native-paper";
 import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
 import {useServerActions} from "./Hooks/useServerActions";
-import color from "color";
 import {LoadingActivityIndicator} from "../../Components/Controls";
 import {AppHeader} from "../../Components/Layout";
 import {useRoute} from "@react-navigation/native";
-import {RootRouteProps} from "../../../App";
 import {elevationShadowStyle} from "../../Helpers/StyleUtils";
+import {RootRouteProps} from "../../../RootStackNavigator";
 
 const iconSize = hp(5);
 
@@ -37,7 +36,7 @@ export const ServerConfigScreen: React.FC = () => {
         }
 
         initializeData();
-    }, []);
+    }, [route.params]);
 
     return (
         <>
@@ -112,6 +111,7 @@ const createStyles = (theme: Theme) => {
             alignItems: 'center',
         },
         controlPanelContainer: {
+            ...elevationShadowStyle(theme),
             alignItems: 'center',
             backgroundColor: theme.colors.surface,
             flexDirection: 'row',
@@ -122,7 +122,7 @@ const createStyles = (theme: Theme) => {
             paddingRight: hp(1),
         },
         surface: {
-            ...elevationShadowStyle(theme, 10),
+            ...elevationShadowStyle(theme),
             backgroundColor: theme.colors.surface,
             padding: 20,
             borderRadius: 10,

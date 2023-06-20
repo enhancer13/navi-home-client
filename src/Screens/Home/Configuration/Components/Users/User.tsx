@@ -21,19 +21,17 @@ export const User: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     return (
         <EntityViewContainer
             content={
-                <View style={styles.rowContainer}>
+                <View style={styles.container}>
                     <View style={styles.primaryIconContainer}>
                         <FontAwesome name={'user-circle'} color={theme.colors.primary} size={primaryIconSize}/>
                         <Text style={styles.adminText}>{user.admin ? 'Admin' : 'Standard user'}</Text>
                     </View>
-                    <View style={styles.rowContainer}>
-                        <View style={styles.serviceAccountContainer}>
-                            <Text variant={'titleMedium'}>{user.username}</Text>
-                            <Text variant={'labelLarge'}>{user.email}</Text>
-                            <Divider style={styles.divider} />
-                            <View style={styles.userRolesContainer}>
-                                {renderUserRoles}
-                            </View>
+                    <View style={styles.serviceAccountContainer}>
+                        <Text variant={'titleMedium'}>{user.username}</Text>
+                        <Text variant={'labelLarge'}>{user.email}</Text>
+                        <Divider style={styles.divider}/>
+                        <View style={styles.userRolesContainer}>
+                            {renderUserRoles}
                         </View>
                     </View>
                 </View>
@@ -43,7 +41,7 @@ export const User: React.FC<EntityViewComponentProps> = ({entity, width}) => {
 };
 
 const createStyles = (theme: Theme) => StyleSheet.create({
-    rowContainer: {
+    container: {
         flexDirection: 'row',
         alignItems: 'center',
     },
