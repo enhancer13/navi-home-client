@@ -112,7 +112,7 @@
     "typescript": "^5.0.4"
   },
   "engines": {
-    "node": ">=20.3.0",
+    "node": ">=18.16.0",
     "yarn": ">=1.22.19"
   },
   "license": "MIT",
