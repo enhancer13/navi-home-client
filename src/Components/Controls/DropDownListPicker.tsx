@@ -92,7 +92,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         borderWidth: 0,
     },
     pickerText: {
-        color: theme.colors.onSurfaceVariant
+        color: theme.colors.onSurfaceVariant,
     },
     dropDownContainerStyle: {
         backgroundColor: theme.colors.surfaceVariant,

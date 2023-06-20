@@ -4,7 +4,7 @@ import {serverInfoStorage} from "./ServerInfo/ServerInfoStorage";
 import {applicationSettingsStorage} from "./Settings/ApplicationSettingsStorage";
 import {Appearance} from "react-native";
 
-class LocalStorageInitializer {
+class DataStorageInitializer {
     async initialize(): Promise<void> {
         if ((await applicationSettingsStorage.count()) > 0) {
             return Promise.resolve();
@@ -37,5 +37,5 @@ class LocalStorageInitializer {
     }
 }
 
-export const dataStorageInitializer = new LocalStorageInitializer();
+export const dataStorageInitializer = new DataStorageInitializer();
 

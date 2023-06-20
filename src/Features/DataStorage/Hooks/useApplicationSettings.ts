@@ -14,14 +14,12 @@ export function useApplicationSettings() {
         };
 
         readApplicationSettings();
-
-        subscribe(DataStorageEventTypes.DataChanged, readApplicationSettings);
-        subscribe(DataStorageEventTypes.DataCreated, readApplicationSettings);
+        subscribe([DataStorageEventTypes.DataChanged, DataStorageEventTypes.DataCreated], readApplicationSettings);
     }, []);
 
-    const updateApplicationSettings = async (applicationSetting: ApplicationSettings) => {
-        await applicationSettingsStorage.update(applicationSetting)
-    }
+    const updateApplicationSettings = async (applicationSettings: ApplicationSettings) => {
+        await applicationSettingsStorage.update(applicationSettings);
+    };
 
     return {applicationSettings, updateApplicationSettings};
 }

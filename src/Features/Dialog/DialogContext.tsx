@@ -38,7 +38,6 @@ export const DialogProvider: React.FC<DialogProviderProps> = ({children}) => {
             if (onConfirm) {
                 (onConfirm as any)(arg);
             }
-            console.debug('handleConfirm')
             closeDialog();
         };
         setDialog(React.createElement(component, {...props, onConfirm: handleConfirm, onCancel: onCancel || closeDialog}));
