@@ -1,7 +1,7 @@
 #https://www.obytes.com/blog/react-native-ci-cd-github-action
 #keytool -genkeypair -v -storetype PKCS12 -keystore navi-home-client.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 1000
 #openssl base64 < navi-home-client.keystore  | tr -d '\n' | tee key.keystore.base64.txt
-name: Android Build
+name: Android Production Build
 
 on:
   push:
