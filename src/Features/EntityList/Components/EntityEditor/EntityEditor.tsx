@@ -66,7 +66,8 @@ export const EntityEditor: React.FC<EntityEditorProps> = ({
                 editorControlFactory.create(fieldDefinition, listItem, !entityDefinition.databaseMethods.update, updateFieldValue));
             return {items};
         });
-    }, [entityDefinition, editorControlGroups, listItem, updateFieldValue]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [entityDefinition, editorControlGroups, listItem, updateFieldValue, itemChanged]);
 
     const onDone = useCallback(() => {
         if (!listItem || !initialListItem) {
