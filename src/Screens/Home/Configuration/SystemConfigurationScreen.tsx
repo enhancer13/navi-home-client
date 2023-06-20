@@ -2,7 +2,7 @@ import React, {useMemo, useRef} from 'react';
 import {Animated} from 'react-native';
 import {useRoute} from "@react-navigation/native";
 import {AppHeader} from "../../../Components/Layout";
-import {AnimatedSectionList, ISection, ListNavigationItem} from "../../../Components/Controls/List";
+import {AnimatedSectionList, ISection, ListNavigationItem} from "../../../Components/Controls/ListItems";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import {splitPascalCase} from "../../../Helpers/StringUtils";

@@ -33,13 +33,13 @@ export const AnimatedSectionList: React.FC<SectionListProps> = ({
 
     const titleTranslate = scrollY.interpolate({
         inputRange: [0, titleHeight],
-        outputRange: [0, -titleHeight],
+        outputRange: [0, -titleHeight / 2],
         extrapolate: 'clamp',
     });
 
     const titleHeightAnimatedValue = scrollY.interpolate({
         inputRange: [0, titleHeight],
-        outputRange: [titleHeight, 0],
+        outputRange: [titleHeight, titleHeight / 2],
         extrapolate: 'clamp',
     });
 
@@ -51,7 +51,7 @@ export const AnimatedSectionList: React.FC<SectionListProps> = ({
 
     const titleTextSize = scrollY.interpolate({
         inputRange: [0, titleHeight],
-        outputRange: [titleHeight * 0.5, 0],
+        outputRange: [titleHeight * 0.5, titleHeight * 0.2],
         extrapolate: 'clamp',
     });
 

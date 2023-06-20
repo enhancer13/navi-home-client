@@ -1,4 +1,4 @@
-export * from './AnimatedSectionList'
+export * from '../../Layout/Lists/AnimatedSectionList'
 export * from './ListDateTimePicker'
 export * from './ListActionItem'
 export * from './ListNavigationItem'

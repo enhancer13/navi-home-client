@@ -7,6 +7,10 @@ export abstract class BaseAnimation {
         this._animatedValue = animatedValue;
     }
 
+    public get animatedValue() {
+        return this._animatedValue;
+    }
+
     public getAnimation(toValue: number, duration: number, useNativeDriver = false): Animated.CompositeAnimation {
         return Animated.timing(this._animatedValue, {
             toValue: toValue,

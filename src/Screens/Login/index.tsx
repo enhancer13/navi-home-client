@@ -12,7 +12,7 @@ import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
 import {useAuthenticationData} from "./Hooks/useAuthenticationData";
 import {useAuthenticationActions} from "./Hooks/useAuthenticationActions";
 import FastImage from "react-native-fast-image";
-import {ListTextInputItem} from "../../Components/Controls/List";
+import {ListTextInputItem} from "../../Components/Controls/ListItems";
 import {RootNavigationProp} from "../../../RootStackNavigator";
 
 const loginContainerWidth = Math.min(wp('95%'), 500);

@@ -5,6 +5,7 @@ import {EntityViewComponentProps} from "../../../../Features/EntityList/EntityLi
 import {IMediaGalleryFolder} from "../../../../BackendTypes";
 import {useTheme, Text} from "react-native-paper";
 import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import PropTypes from "prop-types";
 
 const mediaFolderPropsAreEqual = (prevProps: EntityViewComponentProps, nextProps: EntityViewComponentProps): boolean => {
     const prevEntity = prevProps.entity as IMediaGalleryFolder;
@@ -20,6 +21,7 @@ const mediaFolderPropsAreEqual = (prevProps: EntityViewComponentProps, nextProps
     );
 };
 
+// eslint-disable-next-line react/prop-types
 export const MediaFolder: React.FC<EntityViewComponentProps> = React.memo(({entity, width}) => {
     const mediaFolder = entity as IMediaGalleryFolder;
     const theme = useTheme();
@@ -41,6 +43,8 @@ export const MediaFolder: React.FC<EntityViewComponentProps> = React.memo(({enti
         </View>
     );
 }, mediaFolderPropsAreEqual);
+
+MediaFolder.displayName = 'MediaFolder';
 
 const createStyles = (theme: Theme) => StyleSheet.create({
     folder: {

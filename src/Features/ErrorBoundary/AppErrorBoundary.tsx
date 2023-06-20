@@ -16,7 +16,8 @@ export const AppErrorBoundary: React.FC<AuthErrorBoundaryProps> = ({ children })
     const navigation = useNavigation<RootNavigationProp>();
 
     const CustomFallbackComponent = useMemo(() => {
-        return (props: FallbackComponentProps & { resetError: () => void }) => {
+        // eslint-disable-next-line react/display-name
+        return (props: FallbackComponentProps) => {
             const { error, resetError } = props;
 
             if (error instanceof AuthenticationFailed) {

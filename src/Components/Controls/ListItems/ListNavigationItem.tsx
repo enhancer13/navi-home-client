@@ -1,7 +1,7 @@
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {List, Divider, useTheme} from "react-native-paper";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {useCallback} from "react";
+import React, {useCallback} from "react";
 
 type ListNavigationItemProps<ParamList extends ParamListBase, RouteName extends keyof ParamList = string> = {
     title: string;

@@ -73,6 +73,7 @@ export const EntityListScreen: React.FC<EntityListScreenProps> = ({
         const status = listItem.isNew() ? 'new' : listItem.isModified() ? 'modified' : null;
         return (
             <>
+                {/* eslint-disable-next-line react/prop-types */}
                 <EntityViewComponent entity={entity} width={props.width}/>
                 <StatusBadge style={styles.statusBadge} status={status}/>
             </>

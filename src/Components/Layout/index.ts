@@ -1,4 +1,4 @@
-export * from './AnimatedFlatList'
+export * from './Lists/AnimatedFlatList'
 export * from './FlexContainer'
 export * from './SafeAreaView'
 export * from './FlexSafeAreaViewInsets'

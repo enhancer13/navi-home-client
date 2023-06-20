@@ -4,7 +4,7 @@ import {SafeAreaProvider} from "react-native-safe-area-context";
 import {groupBy} from "lodash";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import SafeAreaView from "../../../../Components/Layout/SafeAreaView";
-import {AnimatedSectionList, ISection} from "../../../../Components/Controls/List";
+import {AnimatedSectionList, ISection} from "../../../../Components/Controls/ListItems";
 import {ListItem} from '../../ListItem';
 import {splitPascalCase} from "../../../../Helpers/StringUtils";
 import {EntityEditorHeader} from "./EntityEditorHeader";

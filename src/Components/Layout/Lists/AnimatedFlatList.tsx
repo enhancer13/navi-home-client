@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from 'react';
-import FlexContainer from './FlexContainer';
+import FlexContainer from '../FlexContainer';
 import {Animated, ListRenderItemInfo, StyleSheet, View} from 'react-native';
 import {
   heightPercentageToDP as hp,

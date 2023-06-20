@@ -14,6 +14,7 @@ const mediaFilePropsAreEqual = (prevProps: EntityViewComponentProps, nextProps: 
     );
 };
 
+// eslint-disable-next-line react/prop-types
 export const MediaFile: React.FC<EntityViewComponentProps> = React.memo(({entity, width}) => {
     const mediaFile = entity as IMediaGalleryFile;
     const {authentication} = useAuth();
@@ -44,6 +45,8 @@ export const MediaFile: React.FC<EntityViewComponentProps> = React.memo(({entity
         </View>
     );
 }, mediaFilePropsAreEqual);
+
+MediaFile.displayName = 'MediaFile';
 
 const styles = StyleSheet.create({
     image: {

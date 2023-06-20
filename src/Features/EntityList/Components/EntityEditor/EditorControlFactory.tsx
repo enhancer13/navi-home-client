@@ -7,9 +7,9 @@ import {
     ListDateTimePicker,
     ListSwitchItem,
     ListTextInputItem,
-} from "../../../../Components/Controls/List";
-import {ListDropDownListSinglePicker} from "../../../../Components/Controls/List/ListDropDownListSinglePicker";
-import {ListEntityDropDownListPicker} from "../../../../Components/Controls/List/ListEntityDropDownListPicker";
+} from "../../../../Components/Controls/ListItems";
+import {ListDropDownListSinglePicker} from "../../../../Components/Controls/ListItems/ListDropDownListSinglePicker";
+import {ListEntityDropDownListPicker} from "../../../../Components/Controls/ListItems/ListEntityDropDownListPicker";
 import {StatusBadge} from "../StatusBadge";
 import {StyleSheet, View} from 'react-native';
 import {snakeToPascal} from "../../../../Helpers/StringUtils";
@@ -55,7 +55,7 @@ class EditorControlFactory {
                 );
             case EntityFieldInputTypes.DATE:
             case EntityFieldInputTypes.TIME:
-            case EntityFieldInputTypes.DATETIME:
+            case EntityFieldInputTypes.DATETIME: {
                 const mode = fieldDefinition.fieldDataType.toLowerCase() as 'date' | 'time' | 'datetime';
                 return (
                     <View style={styles.listItemContainer}>
@@ -69,6 +69,7 @@ class EditorControlFactory {
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeLeft]} status={fieldStatus}/>
                     </View>
                 );
+            }
             case EntityFieldInputTypes.SELECT:
                 return (
                     <View style={styles.listItemContainer}>

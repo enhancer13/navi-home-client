@@ -7,7 +7,7 @@ import {
     AnimatedSectionList,
     ListSwitchItem,
     ListActionItem, ListNavigationItem,
-} from "../../../Components/Controls/List";
+} from "../../../Components/Controls/ListItems";
 import {AppHeader} from "../../../Components/Layout";
 import {Animated} from "react-native";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
@@ -37,20 +37,23 @@ export const AccountDetailsScreen: React.FC = () => {
             {
                 title: 'Account information',
                 items: [
-                    <Avatar.Icon size={80} icon="account" style={{alignSelf: 'center'}}/>,
-                    <List.Item title={username} description={'Username'}/>,
-                    <Divider/>,
-                    <List.Item title={email} description="Email address"/>,
-                    <Divider/>,
-                    <List.Item title={userRoles.map(x => x.userRole).join(', ')} description="Roles"/>,
-                    <Divider/>
+                    <Avatar.Icon key={1} size={80} icon="account" style={{alignSelf: 'center'}}/>,
+                    <List.Item key={2} title={username} description={'Username'}/>,
+                    <Divider key={3}/>,
+                    <List.Item key={4} title={email} description="Email address"/>,
+                    <Divider key={5}/>,
+                    <List.Item key={6} title={userRoles.map(x => x.userRole).join(', ')} description="Roles"/>,
+                    <Divider key={7}/>
                 ]
             },
             {
                 title: 'Actions',
                 items: [
-                    <ListNavigationItem<AccountStackParamList, 'Change Password'> icon={'form-textbox-password'} title={'Change password'} route={'Change Password'} routeParams={{user: authentication.user}} />,
-                    <ListActionItem title={'Logout'} icon={"logout"} action={async () => {
+                    <ListNavigationItem<AccountStackParamList, 'Change Password'> key={1} icon={'form-textbox-password'}
+                                                                                  title={'Change password'}
+                                                                                  route={'Change Password'}
+                                                                                  routeParams={{user: authentication.user}}/>,
+                    <ListActionItem key={2} title={'Logout'} icon={"logout"} action={async () => {
                         await logout();
                         navigation.dispatch(StackActions.popToTop());
                     }}/>
@@ -59,12 +62,12 @@ export const AccountDetailsScreen: React.FC = () => {
             {
                 title: 'Configuration',
                 items: [
-                    <ListSwitchItem title={'Biometric authentication'} icon={"fingerprint"}
+                    <ListSwitchItem key={1} title={'Biometric authentication'} icon={"fingerprint"}
                                     value={applicationSettings.biometryAuthenticationActive} action={async (value) => {
                         applicationSettings.biometryAuthenticationActive = value;
                         await updateApplicationSettings(applicationSettings);
                     }}/>,
-                    <ListSwitchItem title={'Dark theme'} icon={"theme-light-dark"}
+                    <ListSwitchItem key={2} title={'Dark theme'} icon={"theme-light-dark"}
                                     value={applicationSettings.darkThemeActive} action={async (value) => {
                         applicationSettings.darkThemeActive = value;
                         await updateApplicationSettings(applicationSettings);

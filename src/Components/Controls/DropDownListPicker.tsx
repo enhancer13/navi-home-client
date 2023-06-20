@@ -74,12 +74,14 @@ export const DropDownListPicker: React.FC<DropDownListPickerProps<any>> = ({
             dropDownContainerStyle={styles.dropDownContainerStyle}
             style={styles.picker}
             textStyle={styles.pickerText}
+            badgeTextStyle={styles.badgeText}
             disableBorderRadius={true}
             disabled={disabled}
             dropDownDirection="TOP"
             multiple={multiple}
             loading={loading}
             mode="BADGE"
+            badgeColors={theme.colors.surface}
             badgeDotColors={['#e76f51', '#00b4d8', '#e9c46a', '#e76f51', '#8ac926', '#00b4d8', '#e9c46a']}
             listMode={'SCROLLVIEW'}
         />
@@ -93,6 +95,9 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     pickerText: {
         color: theme.colors.onSurfaceVariant,
+    },
+    badgeText: {
+        color: theme.colors.onSurface,
     },
     dropDownContainerStyle: {
         backgroundColor: theme.colors.surfaceVariant,
