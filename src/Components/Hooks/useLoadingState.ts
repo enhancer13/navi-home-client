@@ -1,21 +1,8 @@
-import { useEffect, useState } from "react";
+import {Dispatch, SetStateAction, useState} from "react";
+import {useLoadingDelay} from "./useLoadingDelay";
 
-export const useLoadingState = (externalLoading: boolean) => {
-    const [loading, setLoading] = useState(externalLoading);
-
-    useEffect(() => {
-        let timer: number;
-        if (externalLoading) {
-            timer = window.setTimeout(() => setLoading(true), 1000);
-        } else {
-            setLoading(false);
-        }
-        return () => {
-            if (timer) {
-                window.clearTimeout(timer);
-            }
-        };
-    }, [externalLoading]);
-
-    return loading;
-};
+export const useLoadingState = (initialLoading = false): [boolean, Dispatch<SetStateAction<boolean>>] => {
+    const [loading, setLoading] = useState(initialLoading);
+    const delayedLoading = useLoadingDelay(loading);
+    return [delayedLoading, setLoading];
+}

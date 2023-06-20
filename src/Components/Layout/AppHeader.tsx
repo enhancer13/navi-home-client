@@ -44,18 +44,18 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
     const handleBackPress = useCallback(() => {
         enableBackButton && navigation.goBack();
-    }, [navigation]);
+    }, [navigation, enableBackButton]);
 
     const handleSearchPress = useCallback(() => {
         enableSearch && toggleSearchActive();
-    }, []);
+    }, [enableSearch, toggleSearchActive]);
 
     const theme = useTheme();
     const backgroundColor = theme.colors.background;
 
     const containerElevation = scrollY.interpolate({
         inputRange: [scrollThreshold, scrollThreshold + height],
-        outputRange: [0, 10],
+        outputRange: [0, 5],
         extrapolate: 'clamp',
     });
 

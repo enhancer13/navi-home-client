@@ -17,6 +17,7 @@ export interface DialogContentProps {
     title: string;
     message?: string;
     onCancel?: () => void;
+    onConfirm?: (arg?: any) => void;
 }
 
 const DialogContext = createContext<DialogContextType>({
@@ -30,15 +31,15 @@ export const DialogProvider: React.FC<DialogProviderProps> = ({children}) => {
 
     const openDialog = <T extends React.ComponentType<any>>(
         component: T,
-        getProps: () => React.ComponentProps<T>,
+        getProps: () => React.ComponentProps<T> & DialogContentProps,
     ) => {
         const props = getProps();
+        // eslint-disable-next-line react/prop-types
         const {onConfirm, onCancel} = props;
         const handleConfirm = (arg?: any) => {
             if (onConfirm) {
                 (onConfirm as any)(arg);
             }
-            console.debug('handleConfirm')
             closeDialog();
         };
         setDialog(React.createElement(component, {...props, onConfirm: handleConfirm, onCancel: onCancel || closeDialog}));

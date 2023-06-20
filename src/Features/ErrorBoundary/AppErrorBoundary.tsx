@@ -4,8 +4,8 @@ import ErrorBoundary from "react-native-error-boundary";
 import { AuthenticationFailed } from "../../Errors/AuthenticationFailed";
 import { Props as FallbackComponentProps } from "react-native-error-boundary/src/ErrorBoundary/FallbackComponent";
 import { useNavigation } from "@react-navigation/native";
-import { RootNavigationProp } from "../../../App";
 import FallbackComponent from "react-native-error-boundary/lib/ErrorBoundary/FallbackComponent";
+import {RootNavigationProp} from "../../../RootStackNavigator";
 
 type AuthErrorBoundaryProps = {
     children: Exclude<NonNullable<ReactNode>, string | number | boolean>;
@@ -16,7 +16,8 @@ export const AppErrorBoundary: React.FC<AuthErrorBoundaryProps> = ({ children })
     const navigation = useNavigation<RootNavigationProp>();
 
     const CustomFallbackComponent = useMemo(() => {
-        return (props: FallbackComponentProps & { resetError: () => void }) => {
+        // eslint-disable-next-line react/display-name
+        return (props: FallbackComponentProps) => {
             const { error, resetError } = props;
 
             if (error instanceof AuthenticationFailed) {

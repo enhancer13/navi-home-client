@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {LiveStreamingScreen} from './LiveStreaming';
-import {AccountStackNavigator} from './MyAccount';
+import {MyAccountStackNavigator} from './MyAccount';
 import {MediaGalleryStackNavigator} from './MediaGallery';
 import {FirebaseMessageHandler} from '../../Features/Messaging';
 import {SessionController} from "../../Features/SessionController";
@@ -13,7 +13,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {AlarmProfilesScreen} from "./Alarm";
 import {useTheme} from "react-native-paper";
 import {elevationShadowStyle} from "../../Helpers/StyleUtils";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 
 export type AppNavigatorParamList = {
     "Live Streaming": React.FC;
@@ -31,7 +30,7 @@ const screenComponents = {
     "Media Gallery": {component: MediaGalleryStackNavigator, icon: "images", library: Ionicons},
     "Alarm Profiles": {component: AlarmProfilesScreen, icon: "bell", library: FontAwesome},
     "System Configuration": {component: SystemConfigurationNavigator, icon: "ios-settings", library: Ionicons},
-    "My Account": {component: AccountStackNavigator, icon: "user", library: FontAwesome},
+    "My Account": {component: MyAccountStackNavigator, icon: "user", library: FontAwesome},
 };
 
 export const HomeScreen = () => {
@@ -39,7 +38,7 @@ export const HomeScreen = () => {
     const screenOptions: BottomTabNavigationOptions = useMemo(() => ({
         headerShown: false,
         tabBarStyle: {
-            ...elevationShadowStyle(theme, 5),
+            ...elevationShadowStyle(theme),
         }
     }), [theme]);
 

@@ -4,7 +4,7 @@ import {ListItem} from "./ListItem";
 import {Animated, StyleSheet, View} from "react-native";
 import EntityList from "./EntityList";
 import {getDeviceTypeSync, isTablet} from "react-native-device-info";
-import {useEntityDataManager} from "../DataManager/useEntityDataManager";
+import {useEntityDataManager} from "../../Components/Hooks/EntityDataManager/useEntityDataManager";
 import {EntityEditor} from "./Components/EntityEditor/EntityEditor";
 import {useEntityEditor} from "./Hooks/useEntityEditor";
 import {StatusBadge} from "./Components/StatusBadge";
@@ -73,21 +73,22 @@ export const EntityListScreen: React.FC<EntityListScreenProps> = ({
         const status = listItem.isNew() ? 'new' : listItem.isModified() ? 'modified' : null;
         return (
             <>
+                {/* eslint-disable-next-line react/prop-types */}
                 <EntityViewComponent entity={entity} width={props.width}/>
                 <StatusBadge style={styles.statusBadge} status={status}/>
             </>
         );
-    }, [styles.statusBadge]);
+    }, [EntityViewComponent]);
 
-    const onItemsCountChanged = useCallback((count: number) => {
+    const handleItemsCountChanged = useCallback((count: number) => {
         setState(prevState => ({...prevState, itemsCount: count}));
     }, []);
 
-    const onSelectionStatusChanged = useCallback((active: boolean) => {
+    const handleSelectionStatusChanged = useCallback((active: boolean) => {
         setState(prevState => ({...prevState, selectionActive: active}));
     }, []);
 
-    const onSelectedItemsCountChanged = useCallback((count: number) => {
+    const handleSelectedItemsCountChanged = useCallback((count: number) => {
         setState(prevState => ({...prevState, selectedItemsCount: count}));
     }, []);
 
@@ -119,9 +120,9 @@ export const EntityListScreen: React.FC<EntityListScreenProps> = ({
                 columnCount={columnCount}
                 queryFilter={queryFilter}
                 onItemPress={onListItemPress}
-                onSelectionStatusChanged={onSelectionStatusChanged}
-                onItemsCountChanged={onItemsCountChanged}
-                onSelectedItemsCountChanged={onSelectedItemsCountChanged}
+                onSelectionStatusChanged={handleSelectionStatusChanged}
+                onItemsCountChanged={handleItemsCountChanged}
+                onSelectedItemsCountChanged={handleSelectedItemsCountChanged}
                 extraData={dataChanged}
                 onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) => {
                     scrollY.setValue(event.nativeEvent.contentOffset.y);

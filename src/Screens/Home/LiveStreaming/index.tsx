@@ -9,7 +9,7 @@ import {IServicesStatusContainer, IApplicationStatus} from '../../../BackendType
 import SafeAreaView from "../../../Components/Layout/SafeAreaView";
 import {widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {getDeviceTypeSync, isTablet} from "react-native-device-info";
-import {useLoadingState} from "../../../Components/Hooks/useLoadingState";
+import {useLoadingDelay} from "../../../Components/Hooks/useLoadingDelay";
 import {ModalLoadingActivityIndicator} from "../../../Components/Controls";
 
 const columnCount = (isTablet() || getDeviceTypeSync() === 'Desktop') ? 2 : 1;
@@ -18,7 +18,7 @@ export const LiveStreamingScreen = () => {
     const {authentication} = useAuth();
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [streamingSources, setStreamingSources] = useState<IStreamingSource[]>([]);
-    const loading = useLoadingState(refreshing);
+    const loading = useLoadingDelay(refreshing);
 
     const fetchStreamingSources = async (): Promise<IServicesStatusContainer[] | undefined> => {
         if (authentication === null) {
@@ -66,8 +66,7 @@ export const LiveStreamingScreen = () => {
         initializeStreamingPlayers();
         const firebaseMessageListener = EventRegister.addEventListener(
             'applicationStatus',
-            ({serviceStatusContainers}: IApplicationStatus) =>
-                createStreamingPlayers(serviceStatusContainers),
+            ({serviceStatusContainers}: IApplicationStatus) => createStreamingPlayers(serviceStatusContainers),
         );
 
         return () => {

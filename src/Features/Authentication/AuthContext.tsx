@@ -1,6 +1,6 @@
 import React, {createContext, useState, useContext} from 'react';
 import {Authentication} from './Authentication';
-import {AuthenticationInfo, authenticationInfoStorage, serverInfoStorage} from "../LocalStorage";
+import {AuthenticationInfo, authenticationInfoStorage, serverInfoStorage} from "../DataStorage";
 import {backendAuthService} from "./AuthServices/BackendAuthService";
 import {firebaseAuthService} from "./AuthServices/FirebaseAuthService";
 

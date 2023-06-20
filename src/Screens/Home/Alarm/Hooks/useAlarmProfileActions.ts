@@ -1,5 +1,5 @@
 import {IAlarmProfile} from "../../../../BackendTypes/Entities/IAlarmProfile";
-import {useEntityDataManager} from "../../../../Features/DataManager/useEntityDataManager";
+import {useEntityDataManager} from "../../../../Components/Hooks/EntityDataManager/useEntityDataManager";
 import {useCallback} from "react";
 
 export const useAlarmProfileActions = (alarmProfile: IAlarmProfile) => {

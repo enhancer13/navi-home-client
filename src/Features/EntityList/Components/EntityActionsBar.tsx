@@ -211,7 +211,7 @@ export const EntityActionsBar: React.FC<ActionBarProps> = ({
 const createStyles = (theme: Theme, height: number) =>
     StyleSheet.create({
         container: {
-            ...elevationShadowStyle(theme, 10),
+            ...elevationShadowStyle(theme),
             height,
             flexDirection: "row",
             alignItems: "center",

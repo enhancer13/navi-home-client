@@ -4,17 +4,17 @@ import {EntityDataManager} from "./EntityDataManager";
 import {EntityDefinitionStorage} from "./EntityDefinitionStorage";
 import {httpClient} from "../../Net/HttpClient/HttpClient";
 import {Authentication} from "../../../Features/Authentication";
-import ILocalStorage from "../LocalStorage/ILocalStorage";
+import IDataStorage from "../DataStorage/IDataStorage";
 import {EntityDefinition} from "./EntityDefinition";
 import IHttpClient from "../../Net/HttpClient/IHttpClient";
 import {backendEndpoints} from "../../../Config/BackendEndpoints";
 import {IEntityDefinition} from "./IEntityDefinition";
 
 class EntityDataManagerFactory {
-    private readonly _localStorage: ILocalStorage<EntityDefinition>;
+    private readonly _localStorage: IDataStorage<EntityDefinition>;
     private readonly _httpClient: IHttpClient
 
-    constructor(localStorage: ILocalStorage<EntityDefinition>, httpClient: IHttpClient) {
+    constructor(localStorage: IDataStorage<EntityDefinition>, httpClient: IHttpClient) {
         this._localStorage = localStorage;
         this._httpClient = httpClient;
     }

@@ -2,9 +2,8 @@ import {usePopupMessage} from "../../../Features/Messaging";
 import {useEffect, useState} from "react";
 import Keychain from "react-native-keychain";
 import {useNavigation} from "@react-navigation/native";
-import {applicationSettingsStorage} from "../../../Features/LocalStorage";
 import {useAuth} from "../../../Features/Authentication";
-import {LocalStorageEventTypes} from "../../../Framework/Data/LocalStorage";
+import {useApplicationSettings} from "../../../Features/DataStorage/Hooks/useApplicationSettings";
 
 export const useAuthenticationActions = () => {
     const {showError} = usePopupMessage();
@@ -13,26 +12,21 @@ export const useAuthenticationActions = () => {
     const navigation = useNavigation();
     const [biometryActive, setBiometryActive] = useState<boolean>(false);
     const [biometryType, setBiometryType] = useState<Keychain.BIOMETRY_TYPE | null>(null);
-
-    const initializeBiometryData = async () => {
-        const biometryType = await Keychain.getSupportedBiometryType();
-        setBiometryType(biometryType);
-
-        const applicationSettings = await applicationSettingsStorage.getApplicationSettings()
-        setBiometryActive(applicationSettings.biometryAuthenticationActive);
-    };
+    const {applicationSettings} = useApplicationSettings();
 
     useEffect(() => {
-        initializeBiometryData();
+        async function initializeBiometryData() {
+            if (!applicationSettings) {
+                return;
+            }
 
-        applicationSettingsStorage.on(LocalStorageEventTypes.DataCreated, initializeBiometryData);
-        applicationSettingsStorage.on(LocalStorageEventTypes.DataChanged, initializeBiometryData);
-
-        return () => {
-            applicationSettingsStorage.off(LocalStorageEventTypes.DataCreated, initializeBiometryData);
-            applicationSettingsStorage.off(LocalStorageEventTypes.DataChanged, initializeBiometryData);
+            const biometryType = await Keychain.getSupportedBiometryType();
+            setBiometryType(biometryType);
+            setBiometryActive(applicationSettings.biometryAuthenticationActive);
         }
-    }, []);
+
+        initializeBiometryData();
+    }, [applicationSettings]);
 
     const authenticate = async (serverName: string, username: string, password?: string) => {
         if (username.length === 0) {
@@ -73,7 +67,6 @@ export const useAuthenticationActions = () => {
         busy,
         authenticate,
         authenticateWithBiometry,
-        authenticateWithCredentials,
-        initializeBiometryData
+        authenticateWithCredentials
     };
 };

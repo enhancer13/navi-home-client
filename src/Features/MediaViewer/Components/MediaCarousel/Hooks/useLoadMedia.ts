@@ -32,7 +32,7 @@ export const useLoadMedia = (mediaSources: IMediaSource[]) => {
         });
     };
 
-    const loadMedia = (index: number) => {
+    const loadMedia =  (index: number) => {
         if (loadedIndexes.current.has(index) || index >= mediaSources.length) {
             return;
         }
