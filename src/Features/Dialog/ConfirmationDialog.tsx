@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, Text, Button, useTheme } from 'react-native-paper';
+import { Dialog, Text, Button } from 'react-native-paper';
 import { DialogContentProps } from './DialogContext';
 
 export interface ConfirmationDialogProps extends DialogContentProps {
