@@ -3,12 +3,13 @@ import {IEntity, IEntityActionRequest, IFieldsDeleteRequest} from "../../../../B
 export class UpdateEntityActionRequest implements IEntityActionRequest {
     [key: string]: unknown;
 
-    private readonly _fieldsDeleteRequestDto: IFieldsDeleteRequest | null = null;
+    public readonly fieldsDeleteRequest: IFieldsDeleteRequest | null = null;
 
     constructor(entity: IEntity, modifiedFieldNames: string[] = []) {
         const fieldNamesToDelete = modifiedFieldNames.filter(fieldName => entity[fieldName] === null);
         if (fieldNamesToDelete.length > 0) {
-            this._fieldsDeleteRequestDto = {
+            this.fieldsDeleteRequest = {
+                entityId: entity.id,
                 fieldNames: modifiedFieldNames.filter(fieldName => entity[fieldName] === null)
             };
         }
@@ -19,9 +20,5 @@ export class UpdateEntityActionRequest implements IEntityActionRequest {
         if (entity.id > 0) {
             this.id = entity.id;
         }
-    }
-
-    public get fieldsDeleteRequestDto(): IFieldsDeleteRequest | null {
-        return this._fieldsDeleteRequestDto;
     }
 }

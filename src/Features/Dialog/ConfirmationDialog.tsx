@@ -1,19 +1,22 @@
 import React from 'react';
-import Dialog from "react-native-dialog";
-import {DialogContentProps} from "./DialogContext";
+import { Dialog, Text, Button } from 'react-native-paper';
+import { DialogContentProps } from './DialogContext';
 
 export interface ConfirmationDialogProps extends DialogContentProps {
     onConfirm: () => void;
 }
 
 export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
-    const {title, message, onConfirm, onCancel} = props;
+    const { title, message, onConfirm, onCancel } = props;
+
     return (
-        <Dialog.Container visible={true}>
+        <Dialog visible={true}>
             <Dialog.Title>{title}</Dialog.Title>
-            <Dialog.Description>{message}</Dialog.Description>
-            <Dialog.Button label="Cancel" onPress={() => onCancel && onCancel()}/>
-            <Dialog.Button label="Confirm" onPress={onConfirm}/>
-        </Dialog.Container>
+            <Dialog.Content><Text>{message}</Text></Dialog.Content>
+            <Dialog.Actions>
+                <Button onPress={() => onCancel && onCancel()}>Cancel</Button>
+                <Button onPress={onConfirm}>Confirm</Button>
+            </Dialog.Actions>
+        </Dialog>
     );
 };

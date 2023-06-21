@@ -7,7 +7,7 @@ import {InputProps} from "./ListTextInputItem";
 interface NumericProps extends InputProps {
     inputMode: "decimal" | "numeric";
     value: number | null;
-    onValueChanged: (value: string | number | null) => void;
+    onValueChanged: (value: number | null) => void;
 }
 
 export const ListNumericInputItem: React.FC<NumericProps> = ({
@@ -20,26 +20,39 @@ export const ListNumericInputItem: React.FC<NumericProps> = ({
                                                                  style,
                                                                  inputMode,
                                                              }) => {
-    const [inputValue, setInputValue] = useState<number | null>(value as number);
-    const [hidePassword, toggleHidePassword] = useToggle(secureTextEntry);
+    const [inputValue, setInputValue] = useState<string>(value?.toString() ?? "");
+    const [hideInput, toggleHideInput] = useToggle(secureTextEntry);
 
     const handleInputChanged = (input: string) => {
-        let newValue: number | null = parseFloat(input);
-        if (isNaN(newValue)) {
-            newValue = null;
+        if (input === "") {
+            onValueChanged(null);
+            setInputValue(input);
+            return;
         }
 
-        setInputValue((prevValue) => {
-            if (prevValue !== newValue) {
-                onValueChanged(newValue);
-            }
-            return newValue;
-        });
+        // inputMode doesnt work on desktop devices
+        const isNumericInput = inputMode === "numeric";
+        const isDecimalInput = inputMode === "decimal";
+        const isValidInput =
+            isNumericInput && /^[0-9]*$/.test(input) // Numeric input allows integers only
+            || isDecimalInput && /^(\d+(\.\d*)?|\.(\d+))$/.test(input); // Decimal input allows integers and decimals in specific formats
+        if (!isValidInput) {
+            return;
+        }
+
+        const newValue: number | null = parseFloat(input);
+        if (isNaN(newValue)) {
+            throw new Error(`Cannot parse text input as number: ${input}`)
+        }
+
+        setInputValue(input);
+        onValueChanged(newValue);
     };
 
     useEffect(() => {
-        if (inputValue !== value) {
-            setInputValue(value);
+        const newValue = value?.toString() ?? "";
+        if (inputValue !== newValue) {
+            setInputValue(newValue);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
@@ -52,15 +65,15 @@ export const ListNumericInputItem: React.FC<NumericProps> = ({
                 placeholder={placeholder}
                 mode="flat"
                 label={title}
-                value={inputValue?.toString() ?? ""}
+                value={inputValue}
                 onChangeText={handleInputChanged}
                 disabled={readonly}
-                secureTextEntry={hidePassword}
+                secureTextEntry={hideInput}
                 right={
                     secureTextEntry && (
                         <TextInput.Icon
                             icon={secureTextEntry ? "eye" : "eye-off"}
-                            onPress={toggleHidePassword}
+                            onPress={toggleHideInput}
                         />
                     )
                 }

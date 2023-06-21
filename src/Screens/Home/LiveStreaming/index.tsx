@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, ListRenderItem, RefreshControl, View} from 'react-native';
+import {FlatList, ListRenderItem, RefreshControl, StyleSheet, View} from 'react-native';
 import VideoStreamingPlayer, {IStreamingSource} from './VideoStreamingPlayer';
 import {EventRegister} from 'react-native-event-listeners';
 import {backendEndpoints} from '../../../Config/BackendEndpoints';
@@ -87,7 +87,7 @@ export const LiveStreamingScreen = () => {
     };
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <ModalLoadingActivityIndicator visible={loading} />
             <FlatList
                 data={streamingSources}
@@ -102,3 +102,9 @@ export const LiveStreamingScreen = () => {
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    }
+})

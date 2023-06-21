@@ -69,7 +69,7 @@ export const LoginScreen: React.FC = () => {
         showError('Nothing to edit.');
     }, [navigation, serverName, servers, showError]);
 
-    const handleServerAdd = useCallback(() => navigation.navigate('ServerConfig' as never), [navigation]);
+    const handleServerAdd = useCallback(() => navigation.navigate('Server Config' as never), [navigation]);
 
     const handleServerChange = useCallback((value: string) => {
         setServerName(value);

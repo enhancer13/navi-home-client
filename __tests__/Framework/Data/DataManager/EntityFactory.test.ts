@@ -26,7 +26,7 @@ describe('EntityFactory', () => {
         when(nameFieldDefinitionMock.fieldName).thenReturn('name');
 
         const ageFieldDefinitionMock = mock<IEntityFieldDefinition>();
-        when(ageFieldDefinitionMock.fieldDataType).thenReturn(EntityFieldInputTypes.NUMBER);
+        when(ageFieldDefinitionMock.fieldDataType).thenReturn(EntityFieldInputTypes.INTEGER);
         when(ageFieldDefinitionMock.fieldName).thenReturn('age');
 
         const activeFieldDefinitionMock = mock<IEntityFieldDefinition>();

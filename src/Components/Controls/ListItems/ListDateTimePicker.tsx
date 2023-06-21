@@ -3,6 +3,7 @@ import Moment, { Moment as MomentTypes } from 'moment';
 import {Divider, IconButton, List, useTheme} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import {applicationConstants} from "../../../Config/ApplicationConstants";
+import {backendConstants} from "../../../Config/BackendConstants";
 
 declare type Props = {
     title: string;
@@ -19,7 +20,7 @@ export const ListDateTimePicker: React.FC<Props> = ({title, mode, value, readonl
 
     useEffect(() => {
         if (value) {
-            const momentVal = Moment(value, applicationConstants.Formats[mode]);
+            const momentVal = Moment(value, backendConstants.Formats[mode]);
             setMomentValue(momentVal);
         } else {
             setMomentValue(null);
@@ -29,9 +30,10 @@ export const ListDateTimePicker: React.FC<Props> = ({title, mode, value, readonl
     const onDateTimeChange = (value: Date) => {
         setShowPicker(false);
         if (value) {
-            const momentVal = Moment(value);
-            if (!momentVal.isSame(momentValue)) {
-                onChange(momentVal.format(applicationConstants.Formats[mode]));
+            const newMomentValue = Moment(value);
+            newMomentValue.seconds(0); // react-native-date-picker doesn't allow to edit seconds
+            if (!newMomentValue.isSame(momentValue)) {
+                onChange(newMomentValue.format(backendConstants.Formats[mode]));
             }
         }
     };
@@ -53,6 +55,7 @@ export const ListDateTimePicker: React.FC<Props> = ({title, mode, value, readonl
             />
             {!readonly &&
               <DatePicker
+                theme={theme.dark ? 'dark' : 'light'}
                 modal
                 mode={mode}
                 open={showPicker}
