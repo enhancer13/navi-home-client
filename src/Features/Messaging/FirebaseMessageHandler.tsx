@@ -13,11 +13,14 @@ export const FirebaseMessageHandler = () => {
   const [serverId, setServerId] = useState<string>();
 
   useEffect(() => {
+    if (!authentication) {
+      return;
+    }
+
     async function initFirebaseMessaging() {
       const {externalUniqueId} = await httpClient.get<IApplicationInfo>(backendEndpoints.APPLICATION_INFO, {authentication});
       setServerId(externalUniqueId);
     }
-
     initFirebaseMessaging();
   }, [authentication]);
 
