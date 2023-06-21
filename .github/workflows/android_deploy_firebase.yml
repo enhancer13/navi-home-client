@@ -11,11 +11,11 @@ on:
 jobs:
   android-build:
     name: Android Build
-    runs-on: ubuntu-latest # using ubuntu latest version
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Check out Git repository # clone the repo to local ci workspace
-        uses: actions/checkout@v2
+      - name: Check out Git repository
+        uses: actions/checkout@v3.5.3
 
       - name: Set up JDK 11
         uses: actions/setup-java@v2
@@ -25,9 +25,9 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Restore node_modules from cache
-        uses: actions/cache@v2
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -35,7 +35,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Install dependencies # install project deps with --frozen-lockfile to make sure we will have the same packages version ( very recommended  on running yarn install on ci)
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
 
       - name: Decode Keystore
@@ -46,20 +46,15 @@ jobs:
           echo "ANDROID_RELEASE_KEY_ALIAS=${{ secrets.ANDROID_ALIAS }}" >> $GITHUB_ENV
           echo "ANDROID_RELEASE_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> $GITHUB_ENV
 
-      ## configure cash for gradle : will help to reduce build time
-      - name: Cache Gradle Wrapper
-        uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-caches-
+            ${{ runner.os }}-gradle-
+
       - name: Make Gradlew Executable
         run: cd android && chmod +x ./gradlew
 
@@ -67,13 +62,12 @@ jobs:
         run: |
           cd android && ./gradlew assembleRelease --no-daemon
 
-      ## upload artifact to GitHub
-      - uses: actions/upload-artifact@v2
+      - name: Upload artifact to GitHub
+        uses: actions/upload-artifact@v2
         with:
           name: artifacts
           path: android/app/build/outputs/apk/release/*.apk
 
-      ## Distribute app to Firebase App Distribution for testing
       - name: Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
         with:

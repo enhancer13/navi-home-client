@@ -211,6 +211,19 @@ describe("ListItem", () => {
         expect(listItem.isModified()).toEqual(false);
     });
 
+    it("new list item should return false when calling isFieldModified and initial value was changed", () => {
+        // Arrange
+        const entityFactoryMock = mock<IEntityFactory>();
+        when(entityFactoryMock.create(anything())).thenReturn({id: -1, name: "value"});
+
+        // Act
+        const listItem = ListItem.create(instance(entityDefinitionMock), instance(entityFactoryMock));
+        listItem.setFieldValue("name", "updated value")
+
+        // Assert
+        expect(listItem.isFieldModified("name")).toEqual(false);
+    });
+
     it("should create a copy of the EntityListItem with updated id and searchFieldName", () => {
         // Arrange
         const searchFieldName = "name";

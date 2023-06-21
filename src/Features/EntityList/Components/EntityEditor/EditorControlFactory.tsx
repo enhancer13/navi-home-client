@@ -6,9 +6,9 @@ import {
 } from "../../../../BackendTypes";
 import {
     ListDateTimePicker,
+    ListNumericInputItem,
     ListSwitchItem,
     ListTextInputItem,
-    ListNumericInputItem,
 } from "../../../../Components/Controls/ListItems";
 import {ListDropDownListSinglePicker} from "../../../../Components/Controls/ListItems/ListDropDownListSinglePicker";
 import {ListEntityDropDownListPicker} from "../../../../Components/Controls/ListItems/ListEntityDropDownListPicker";
@@ -25,8 +25,8 @@ class EditorControlFactory {
         const fieldTitle = fieldDefinition.fieldTitle;
         const value = listItem.getFieldValue(fieldName);
         const fieldStatus = listItem.isFieldModified(fieldName) ? 'modified' : null;
-
-        switch (fieldDefinition.fieldDataType) {
+        const fieldDataType = fieldDefinition.fieldDataType;
+        switch (fieldDataType) {
             case EntityFieldInputTypes.PASSWORD:
             case EntityFieldInputTypes.TEXT:
                 return (
@@ -34,9 +34,9 @@ class EditorControlFactory {
                         <ListTextInputItem
                             title={fieldTitle}
                             readonly={readonly}
-                            value={value?.toString() ?? ''}
+                            value={value as string}
                             onValueChanged={(x) => updateFieldValue(fieldName, x)}
-                            secureTextEntry={fieldDefinition.fieldDataType === EntityFieldInputTypes.PASSWORD}
+                            secureTextEntry={fieldDataType === EntityFieldInputTypes.PASSWORD}
                         />
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
                     </View>
@@ -47,14 +47,16 @@ class EditorControlFactory {
                         <ListTextInputItem
                             title={fieldTitle}
                             readonly={readonly}
-                            value={value?.toString() ?? ''}
+                            value={value as string}
                             onValueChanged={(x) => updateFieldValue(fieldName, x)}
                             inputMode={"email"}
                         />
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
                     </View>
                 );
-            case EntityFieldInputTypes.NUMBER: //TODO add support for floating-point numbers
+            case EntityFieldInputTypes.NUMBER: //TODO for legacy compatibility, remove after upgrade
+            case EntityFieldInputTypes.INTEGER:
+            case EntityFieldInputTypes.DECIMAL:
                 return (
                     <View style={styles.listItemContainer}>
                         <ListNumericInputItem
@@ -62,7 +64,7 @@ class EditorControlFactory {
                             readonly={readonly}
                             value={value as number}
                             onValueChanged={(x) => updateFieldValue(fieldName, x)}
-                            inputMode={"numeric"}
+                            inputMode={fieldDataType === EntityFieldInputTypes.INTEGER ? "numeric" : "decimal"}
                         />
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
                     </View>
@@ -82,7 +84,7 @@ class EditorControlFactory {
             case EntityFieldInputTypes.DATE:
             case EntityFieldInputTypes.TIME:
             case EntityFieldInputTypes.DATETIME: {
-                const mode = fieldDefinition.fieldDataType.toLowerCase() as 'date' | 'time' | 'datetime';
+                const mode = fieldDataType.toLowerCase() as 'date' | 'time' | 'datetime';
                 return (
                     <View style={styles.listItemContainer}>
                         <ListDateTimePicker
@@ -120,14 +122,14 @@ class EditorControlFactory {
                             readonly={readonly}
                             selectedData={value as IEntity | IEntity[]}
                             onChange={(value: unknown) => updateFieldValue(fieldName, value)}
-                            multiple={fieldDefinition.fieldDataType === EntityFieldInputTypes.MULTIPLE_SELECT}
+                            multiple={fieldDataType === EntityFieldInputTypes.MULTIPLE_SELECT}
                             titleFormatter={fieldDefinition.searchPolicy === EntityFieldSearchPolicies.STATIC ? snakeToPascal : undefined}
                         />
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
                     </View>
                 );
             default:
-                throw new Error(`Not supported field data type: ${fieldDefinition.fieldDataType}`);
+                throw new Error(`Not supported field data type: ${fieldDataType}, ${fieldName}`);
         }
     }
 }

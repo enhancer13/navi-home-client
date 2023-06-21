@@ -11,6 +11,7 @@ export class EntityFactory implements IEntityFactory {
             if (field.fieldName === 'id') {
                 return;
             }
+
             const {fieldDataType, fieldName, fieldEnumValues, primarySearchField} = field;
             switch (fieldDataType) {
                 case EntityFieldInputTypes.TEXT:
@@ -18,7 +19,9 @@ export class EntityFactory implements IEntityFactory {
                 case EntityFieldInputTypes.EMAIL:
                     entity[fieldName] = primarySearchField ? `new entity ${entity.id}` : '';
                     break;
-                case EntityFieldInputTypes.NUMBER:
+                case EntityFieldInputTypes.NUMBER: //TODO for legacy compatibility, remove after upgrade
+                case EntityFieldInputTypes.INTEGER:
+                case EntityFieldInputTypes.DECIMAL:
                     entity[fieldName] = 0;
                     break;
                 case EntityFieldInputTypes.CHECKBOX:

@@ -1,5 +1,7 @@
 export enum EntityFieldInputTypes {
-    NUMBER = "NUMBER",
+    NUMBER = "NUMBER", //TODO for legacy compatibility, remove after upgrade
+    INTEGER = "INTEGER",
+    DECIMAL = "DECIMAL",
     PASSWORD = "PASSWORD",
     TEXT = "TEXT",
     TIME = "TIME",

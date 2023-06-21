@@ -78,7 +78,7 @@ export class ListItem {
     }
 
     public isFieldModified(fieldName: string): boolean {
-        return this._listItemField(fieldName).isValueModified();
+        return !this.isNew() && this._listItemField(fieldName).isValueModified();
     }
 
     public getModifiedFieldNames(): string[] {
