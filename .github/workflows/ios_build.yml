@@ -52,12 +52,13 @@ jobs:
         run: pod install --repo-update
         working-directory: ./ios
 
-      - name: Build IOS App
+      - name: Build IOS App (ad-hoc)
         uses: yukiarrr/ios-build-action@v1.11.0
         with:
           project-path: ios/NaviHomeClient.xcodeproj
           p12-base64: ${{ secrets.IOS_P12_BASE64 }}
           mobileprovision-base64: ${{ secrets.IOS_MOBILE_PROVISION_BASE64 }}
+          export-method: 'ad-hoc'
           code-signing-identity: 'iOS Distribution'
           team-id: ${{ secrets.IOS_TEAM_ID }}
           certificate-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
