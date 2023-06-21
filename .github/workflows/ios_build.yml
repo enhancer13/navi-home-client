@@ -1,3 +1,6 @@
+#https://www.obytes.com/blog/react-native-ci-cd-github-action
+#openssl base64 < NaviHomeClientAdHoc.mobileprovision | tr -d '\n' | tee NaviHomeClientAdHoc.base64.txt
+#openssl base64 < cert.p12 | tr -d '\n' | tee cert.base64.txt
 name: IOS Production Build
 
 on:
