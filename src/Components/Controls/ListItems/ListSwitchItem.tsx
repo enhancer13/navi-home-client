@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import React, {useEffect, useState} from "react";
-import {Divider, List, Switch, useTheme} from "react-native-paper";
+import {Divider, List, Switch} from "react-native-paper";
+import {ListIcon} from "./ListIcon";
 
 declare type Props = {
     title: string;
@@ -8,12 +10,20 @@ declare type Props = {
     description?: string;
     icon?: string;
     iconColor?: string;
+    iconBackgroundColor?: string;
     readonly?: boolean;
 }
 
-export const ListSwitchItem: React.FC<Props> = ({title, description, icon, iconColor, value, action, readonly}) => {
+export const ListSwitchItem: React.FC<Props> = ({
+                                                    title,
+                                                    description,
+                                                    icon,
+                                                    iconColor,
+                                                    iconBackgroundColor,
+                                                    value,
+                                                    action,
+                                                    readonly}) => {
     const [isSwitchOn, setIsSwitchOn] = useState(value);
-    const theme = useTheme();
 
     const onSwitchChanged = () => {
         setIsSwitchOn(prevValue => {
@@ -34,10 +44,9 @@ export const ListSwitchItem: React.FC<Props> = ({title, description, icon, iconC
             <List.Item
                 title={title}
                 description={description}
-                left={props => icon && <List.Icon {...props} color={iconColor ?? theme.colors.primary} icon={icon}/>}
-                right={() => <Switch value={isSwitchOn} disabled={readonly} onValueChange={onSwitchChanged}/>}
+                left={(props) => icon &&
+                  <ListIcon style={props.style} icon={icon} iconColor={iconColor} iconBackgroundColor={iconBackgroundColor}/>}                right={() => <Switch value={isSwitchOn} disabled={readonly} onValueChange={onSwitchChanged}/>}
                 onPress={onSwitchChanged}
-                rippleColor="rgba(135,105,255,0.2)"
             />
             <Divider/>
         </>

@@ -5,6 +5,10 @@ export default interface ISecuredTokenStorage {
 
   getTokenPair(serverName: string, username: string): Promise<ITokenPair>;
 
+  getAccessToken(serverName: string, username: string): Promise<string>;
+
+  getRefreshToken(serverName: string, username: string): Promise<string>;
+
   removeTokenPair(serverName: string, username: string): Promise<void>;
 
   hasAccessToken(serverName: string, username: string): Promise<boolean>;

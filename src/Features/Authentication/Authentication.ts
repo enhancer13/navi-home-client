@@ -2,6 +2,7 @@ import {IUser} from '../../BackendTypes';
 
 export class Authentication {
   private _user!: IUser;
+  private _firebaseAccountId!: number;
   private readonly _serverName: string;
   private readonly _serverAddress: string;
   private readonly _authorizationHeader: { [key: string]: string } | undefined;
@@ -20,6 +21,14 @@ export class Authentication {
 
   set user(value: IUser) {
     this._user = value;
+  }
+
+  get firebaseAccountId(): number {
+    return this._firebaseAccountId;
+  }
+
+  set firebaseAccountId(value: number) {
+    this._firebaseAccountId = value;
   }
 
   get authorizationHeader(): { [key: string]: string } | undefined {

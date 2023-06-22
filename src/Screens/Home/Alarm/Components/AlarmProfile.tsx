@@ -47,55 +47,52 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
     }, [alarmProfile.active]);
 
     return (
-        <EntityViewContainer
-            onLayout={onLayout}
-            content={
-                <View style={styles.rowContainer}>
-                    <View style={styles.columnContainer}>
-                        <IconButton icon={'power'} size={width * 0.12}
-                                    iconColor={alarmProfile.active ? activeColor : inactiveColor}
-                                    onPress={alarmProfileToggle} mode={'contained'}/>
-                        <Animated.View style={scaleAnimationRef.current.getStyle(0, 1)}>
-                            <IconButton icon={'timer'} size={width * 0.08}
-                                        iconColor={alarmProfile.suspendSecondsLeft > 0 ? activeColor : inactiveColor}
-                                        onPress={showSuspendDialog}/>
-                        </Animated.View>
-                    </View>
-                    <Divider style={styles.verticalDivider}/>
-                    <View style={styles.alarmProfileContainer}>
-                        <Text numberOfLines={1}>{alarmProfile.profileName}</Text>
-                        <View style={styles.alarmActionsContainer}>
-                            <View style={styles.usersContainer}>
-                                <Text numberOfLines={1} style={styles.usersText}>
-                                    {alarmProfile.users.map(user => user.username).join(', ')}
-                                </Text>
-                            </View>
-                            <View style={styles.itemsContainer}>
-                                {Object.keys(AlarmActions).map((alarmAction) => {
-                                    return <AlarmAction
-                                        key={alarmAction}
-                                        containerWidth={width * 0.05}
-                                        alarmAction={alarmAction as keyof typeof AlarmActions}
-                                        isActive={alarmProfile.alarmActions.some(x => x.alarmAction === alarmAction)}
-                                    />
-                                })}
-                            </View>
+        <EntityViewContainer onLayout={onLayout}>
+            <View style={styles.rowContainer}>
+                <View style={styles.columnContainer}>
+                    <IconButton icon={'power'} size={width * 0.12}
+                                iconColor={alarmProfile.active ? activeColor : inactiveColor}
+                                onPress={alarmProfileToggle} mode={'contained'}/>
+                    <Animated.View style={scaleAnimationRef.current.getStyle(0, 1)}>
+                        <IconButton icon={'timer'} size={width * 0.08}
+                                    iconColor={alarmProfile.suspendSecondsLeft > 0 ? activeColor : inactiveColor}
+                                    onPress={showSuspendDialog}/>
+                    </Animated.View>
+                </View>
+                <Divider style={styles.verticalDivider}/>
+                <View style={styles.alarmProfileContainer}>
+                    <Text numberOfLines={1}>{alarmProfile.profileName}</Text>
+                    <View style={styles.alarmActionsContainer}>
+                        <View style={styles.usersContainer}>
+                            <Text numberOfLines={1} style={styles.usersText}>
+                                {alarmProfile.users.map(user => user.username).join(', ')}
+                            </Text>
                         </View>
-                        <Text>{alarmProfile.startTime && alarmProfile.endTime ? `${alarmProfile.startTime} - ${alarmProfile.endTime}` : ''}</Text>
                         <View style={styles.itemsContainer}>
-                            {Object.keys(DayOfWeeks).map((dayOfWeek) => {
-                                return <AlarmDayOfWeek
-                                    key={dayOfWeek}
-                                    containerWidth={width * 0.07}
-                                    dayOfWeek={dayOfWeek}
-                                    isActive={alarmProfile.alarmDaysOfWeek.some(x => x.alarmDayOfWeek == dayOfWeek)}
+                            {Object.keys(AlarmActions).map((alarmAction) => {
+                                return <AlarmAction
+                                    key={alarmAction}
+                                    containerWidth={width * 0.05}
+                                    alarmAction={alarmAction as keyof typeof AlarmActions}
+                                    isActive={alarmProfile.alarmActions.some(x => x.alarmAction === alarmAction)}
                                 />
                             })}
                         </View>
                     </View>
+                    <Text>{alarmProfile.startTime && alarmProfile.endTime ? `${alarmProfile.startTime} - ${alarmProfile.endTime}` : ''}</Text>
+                    <View style={styles.itemsContainer}>
+                        {Object.keys(DayOfWeeks).map((dayOfWeek) => {
+                            return <AlarmDayOfWeek
+                                key={dayOfWeek}
+                                containerWidth={width * 0.07}
+                                dayOfWeek={dayOfWeek}
+                                isActive={alarmProfile.alarmDaysOfWeek.some(x => x.alarmDayOfWeek == dayOfWeek)}
+                            />
+                        })}
+                    </View>
                 </View>
-            }
-        />
+            </View>
+        </EntityViewContainer>
     );
 };
 

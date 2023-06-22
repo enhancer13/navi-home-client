@@ -33,7 +33,7 @@ export class BackendAuthService implements IBackendAuthService {
         await this._tokenStorage.saveTokenPair(serverName, username, tokenPair);
 
         //create authentication container
-        return this.createAuthentication(serverName, serverAddress, tokenPair);
+        return this.createAuthentication(serverName, serverAddress, tokenPair.accessToken);
     }
 
     public async authenticateByBiometric(username: string, serverName: string, serverAddress: string,): Promise<Authentication> {
@@ -43,19 +43,19 @@ export class BackendAuthService implements IBackendAuthService {
             throw new Error('Biometry authentication is not supported or not configured on this device, please authenticate with your credentials');
         }
 
-        const tokenPair = await this._tokenStorage.getTokenPair(serverName, username);
-
+        const accessToken = await this._tokenStorage.getAccessToken(serverName, username);
         // return authentication if access token is not expired yet
-        const {accessToken, refreshToken} = tokenPair;
         if (!this._jwtDecoder.isExpired(accessToken)) {
-            return this.createAuthentication(serverName, serverAddress, tokenPair);
+            return this.createAuthentication(serverName, serverAddress, accessToken);
         }
 
         // if access token is expired try to use refresh to token to retrieve new token pair
+        const refreshToken = await this._tokenStorage.getRefreshToken(serverName, username);
         if (this._jwtDecoder.isExpired(refreshToken)) {
             await this._tokenStorage.removeTokenPair(serverName, username);
             throw new Error('Session has expired, please authenticate with your credentials.');
         }
+
         const payload = JSON.stringify({accessToken, refreshToken});
         const url = serverAddress + backendEndpoints.Authentication.JWT_TOKEN_REFRESH;
         const newTokenPair: ITokenPair = await this._httpClient.put(url, {body: payload});
@@ -64,7 +64,7 @@ export class BackendAuthService implements IBackendAuthService {
         await this._tokenStorage.saveTokenPair(serverName, username, newTokenPair);
 
         //create authentication container
-        return this.createAuthentication(serverName, serverAddress, newTokenPair);
+        return this.createAuthentication(serverName, serverAddress, newTokenPair.accessToken);
     }
 
     private createAuthorizationHeader(accessToken: string): { [key: string]: string } {
@@ -73,8 +73,8 @@ export class BackendAuthService implements IBackendAuthService {
         };
     }
 
-    private async createAuthentication(serverName: string, serverAddress: string, tokenPair: ITokenPair): Promise<Authentication> {
-        const authentication = new Authentication(serverName, serverAddress, this.createAuthorizationHeader(tokenPair.accessToken), this._jwtDecoder.getExpirationDate(tokenPair.accessToken));
+    private async createAuthentication(serverName: string, serverAddress: string, accessToken: string): Promise<Authentication> {
+        const authentication = new Authentication(serverName, serverAddress, this.createAuthorizationHeader(accessToken), this._jwtDecoder.getExpirationDate(accessToken));
         authentication.user = await this._httpClient.get(backendEndpoints.Authentication.AUTH_USERINFO, {authentication});
         return authentication;
     }

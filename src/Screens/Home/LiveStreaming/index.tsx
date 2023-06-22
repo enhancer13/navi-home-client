@@ -11,6 +11,7 @@ import {widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {getDeviceTypeSync, isTablet} from "react-native-device-info";
 import {useLoadingDelay} from "../../../Components/Hooks/useLoadingDelay";
 import {ModalLoadingActivityIndicator} from "../../../Components/Controls";
+import {useTheme} from "react-native-paper";
 
 const columnCount = (isTablet() || getDeviceTypeSync() === 'Desktop') ? 2 : 1;
 
@@ -19,6 +20,7 @@ export const LiveStreamingScreen = () => {
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [streamingSources, setStreamingSources] = useState<IStreamingSource[]>([]);
     const loading = useLoadingDelay(refreshing);
+    const theme = useTheme();
 
     const fetchStreamingSources = async (): Promise<IServicesStatusContainer[] | undefined> => {
         if (authentication === null) {
@@ -96,7 +98,7 @@ export const LiveStreamingScreen = () => {
                 numColumns={columnCount}
                 refreshing={refreshing}
                 refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={initializeStreamingPlayers}/>
+                    <RefreshControl tintColor={theme.colors.primary} titleColor={theme.colors.primary} refreshing={refreshing} onRefresh={initializeStreamingPlayers}/>
                 }
             />
         </SafeAreaView>

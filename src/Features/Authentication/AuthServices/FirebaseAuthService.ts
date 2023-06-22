@@ -14,7 +14,7 @@ export class FirebaseAuthService implements IFirebaseAuthService {
     this._httpClient = httpClient;
   }
 
-  public async signIn(authentication: Authentication): Promise<void> {
+  public async signIn(authentication: Authentication): Promise<IServiceAccount> {
     const serviceAccounts = await this._httpClient.get<IServiceAccount[]>(backendEndpoints.SERVICE_ACCOUNTS, {authentication});
     if (serviceAccounts.length === 0) {
       throw new Error('There are no accounts linked to current user.');
@@ -32,12 +32,12 @@ export class FirebaseAuthService implements IFirebaseAuthService {
       }
 
       const clientToken = await messaging().getToken();
-      await this.updateClientToken(firebaseAccount, clientToken, authentication);
+      await this.updateClientToken(firebaseAccount.id, clientToken, authentication);
     } catch (ex) {
       console.error('Unable to authenticate to Firebase account.', ex);
     }
 
-    messaging().onTokenRefresh(clientToken => this.updateClientToken(firebaseAccount, clientToken, authentication));
+    return firebaseAccount;
   }
 
   public async signOut(): Promise<void> {
@@ -48,8 +48,8 @@ export class FirebaseAuthService implements IFirebaseAuthService {
     }
   }
 
-  private async updateClientToken(firebaseAccount: IServiceAccount, clientToken: string, authentication: Authentication) {
-    const payload = JSON.stringify({clientToken, id: firebaseAccount.id});
+  public async updateClientToken(firebaseAccountId: number, clientToken: string, authentication: Authentication) {
+    const payload = JSON.stringify({clientToken, id: firebaseAccountId});
     await this._httpClient.put(backendEndpoints.SERVICE_ACCOUNTS, {body: payload, authentication});
   }
 }

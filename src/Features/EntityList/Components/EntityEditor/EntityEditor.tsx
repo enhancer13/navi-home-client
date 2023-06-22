@@ -4,7 +4,6 @@ import {SafeAreaProvider} from "react-native-safe-area-context";
 import {groupBy} from "lodash";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import SafeAreaView from "../../../../Components/Layout/SafeAreaView";
-import {AnimatedSectionList, ISection} from "../../../../Components/Controls/ListItems";
 import {ListItem} from '../../ListItem';
 import {splitPascalCase} from "../../../../Helpers/StringUtils";
 import {EntityEditorHeader} from "./EntityEditorHeader";
@@ -13,6 +12,7 @@ import {IEntityDefinition} from "../../../../Framework/Data/DataManager";
 import {IEntityFieldDefinition} from "../../../../BackendTypes";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
+import {ISection, SectionList} from "../../../../Components/Layout";
 
 type EntityEditorProps = {
     visible: boolean;
@@ -90,7 +90,7 @@ export const EntityEditor: React.FC<EntityEditorProps> = ({
                         onDone={onDone}
                         scrollY={scrollY}
                         scrollThreshold={SCROLL_THRESHOLD}/>
-                    <AnimatedSectionList
+                    <SectionList
                         titleHeight={LIST_TITLE_HEIGHT}
                         title={sectionListTitle}
                         sections={getSections}

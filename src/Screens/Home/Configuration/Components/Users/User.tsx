@@ -19,24 +19,22 @@ export const User: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     const primaryIconSize = width / 10;
 
     return (
-        <EntityViewContainer
-            content={
-                <View style={styles.container}>
-                    <View style={styles.primaryIconContainer}>
-                        <FontAwesome name={'user-circle'} color={theme.colors.primary} size={primaryIconSize}/>
-                        <Text style={styles.adminText}>{user.admin ? 'Admin' : 'Standard user'}</Text>
-                    </View>
-                    <View style={styles.serviceAccountContainer}>
-                        <Text variant={'titleMedium'}>{user.username}</Text>
-                        <Text variant={'labelLarge'}>{user.email}</Text>
-                        <Divider style={styles.divider}/>
-                        <View style={styles.userRolesContainer}>
-                            {renderUserRoles}
-                        </View>
+        <EntityViewContainer>
+            <View style={styles.container}>
+                <View style={styles.primaryIconContainer}>
+                    <FontAwesome name={'user-circle'} color={theme.colors.primary} size={primaryIconSize}/>
+                    <Text style={styles.adminText}>{user.admin ? 'Admin' : 'Standard user'}</Text>
+                </View>
+                <View style={styles.serviceAccountContainer}>
+                    <Text variant={'titleMedium'}>{user.username}</Text>
+                    <Text variant={'labelLarge'}>{user.email}</Text>
+                    <Divider style={styles.divider}/>
+                    <View style={styles.userRolesContainer}>
+                        {renderUserRoles}
                     </View>
                 </View>
-            }
-        />
+            </View>
+        </EntityViewContainer>
     );
 };
 
