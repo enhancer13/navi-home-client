@@ -5,7 +5,7 @@ import {IMotionDetectionProfile} from "../../../../../BackendTypes";
 import {EntityViewContainer} from "../../../../../Features/EntityList/EntityViewContainer";
 import {Divider, Text, useTheme} from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {IconTextItem} from "../../../../../Components/Controls";
+import {LabelTextItem} from "../../../../../Components/Controls";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 export const MotionDetectionProfile: React.FC<EntityViewComponentProps> = ({entity, width}) => {
@@ -22,13 +22,13 @@ export const MotionDetectionProfile: React.FC<EntityViewComponentProps> = ({enti
                     <View style={styles.container}>
                         <Text variant={'titleMedium'} style={styles.text}>{motionDetectionProfile.motionDetectionProfileName}</Text>
                         <Divider style={styles.divider}/>
-                        <IconTextItem labelText={'Processing framerate'} valueText={motionDetectionProfile.processingFramerate}/>
+                        <LabelTextItem labelText={'Processing framerate'} valueText={motionDetectionProfile.processingFramerate}/>
                         <View style={styles.rowContainer}>
-                            <IconTextItem labelText={'Height'} valueText={motionDetectionProfile.frameHeight}/>
-                            <IconTextItem labelText={' Width'} valueText={motionDetectionProfile.frameWidth}/>
+                            <LabelTextItem labelText={'Height'} valueText={motionDetectionProfile.frameHeight}/>
+                            <LabelTextItem labelText={' Width'} valueText={motionDetectionProfile.frameWidth}/>
                         </View>
                         <Divider style={styles.divider}/>
-                        <IconTextItem IconComponent={AntDesign} iconName={'areachart'} labelText={'Threshold area'} valueText={motionDetectionProfile.motionThresholdArea} />
+                        <LabelTextItem IconComponent={AntDesign} iconName={'areachart'} labelText={'Threshold area'} valueText={motionDetectionProfile.motionThresholdArea} />
                     </View>
                 </View>
             }

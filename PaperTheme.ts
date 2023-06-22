@@ -29,7 +29,7 @@ export type NaviTheme = MD3Theme & {
 export const lightTheme: NaviTheme = {
     ...MD3LightTheme,
     colors: {
-        "primary": '#6959d5',
+        "primary": '#9487ec',
         "onPrimary": "rgb(255, 255, 255)",
         "primaryContainer": "rgb(234, 221, 255)",
         "onPrimaryContainer": "rgb(37, 0, 90)",

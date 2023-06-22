@@ -49,7 +49,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         justifyContent: 'center',
     },
     selected: {
-        backgroundColor: theme.dark ? theme.colors.primary : color(theme.colors.primary).lighten(0.45).hex(),
+        backgroundColor: theme.dark ? theme.colors.primary : color(theme.colors.primary).lighten(0.2).hex(),
         opacity: 0.9,
         zIndex: 0,
     },

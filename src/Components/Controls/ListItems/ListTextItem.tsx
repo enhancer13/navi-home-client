@@ -23,7 +23,6 @@ export const ListTextItem: React.FC<Props> = ({
                 title={value}
                 description={title}
                 left={(props) => icon && <ListIcon style={props.style} icon={icon} iconColor={iconColor} iconBackgroundColor={iconBackgroundColor} />}
-                rippleColor="rgba(135,105,255,0.2)"
             />
             <Divider/>
         </>)

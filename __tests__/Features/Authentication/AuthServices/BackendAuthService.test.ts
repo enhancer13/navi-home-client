@@ -9,6 +9,8 @@ import {Authentication} from "../../../../src/Features/Authentication";
 const tokenStorageMock: jest.Mocked<ISecuredTokenStorage> = {
     saveTokenPair: jest.fn(),
     getTokenPair: jest.fn(),
+    getAccessToken: jest.fn(),
+    getRefreshToken: jest.fn(),
     hasAccessToken: jest.fn(),
     removeTokenPair: jest.fn(),
 };
@@ -121,7 +123,8 @@ describe('BackendAuthService', () => {
             // Arrange
             Keychain.getSupportedBiometryType = jest.fn().mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getTokenPair.mockResolvedValue(tokenPair);
+            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
             jwtDecoderMock.isExpired.mockReturnValue(false);
 
             // Act
@@ -135,7 +138,8 @@ describe('BackendAuthService', () => {
             // Arrange
             (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getTokenPair.mockResolvedValue(tokenPair);
+            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
             jwtDecoderMock.isExpired.mockReturnValueOnce(true).mockReturnValueOnce(false);
             httpClientMock.put.mockResolvedValue(tokenPair);
 
@@ -151,7 +155,8 @@ describe('BackendAuthService', () => {
             // Arrange
             Keychain.getSupportedBiometryType = jest.fn().mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getTokenPair.mockResolvedValue(tokenPair);
+            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
             jwtDecoderMock.isExpired.mockReturnValue(true);
 
             // Act and Assert
@@ -171,7 +176,8 @@ describe('BackendAuthService', () => {
             // Arrange
             (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getTokenPair.mockResolvedValue(tokenPair);
+            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
             jwtDecoderMock.isExpired.mockImplementation(() => true);
 
             // Act & Assert
@@ -183,7 +189,8 @@ describe('BackendAuthService', () => {
             const serverErrorMessage = 'Unauthorized';
             (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getTokenPair.mockResolvedValue(tokenPair);
+            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
             jwtDecoderMock.isExpired.mockImplementation((token) => token === tokenPair.accessToken);
             httpClientMock.put.mockRejectedValue(new Error(serverErrorMessage));
 
@@ -195,7 +202,8 @@ describe('BackendAuthService', () => {
             // Arrange
             Keychain.getSupportedBiometryType = jest.fn().mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getTokenPair.mockResolvedValue(tokenPair);
+            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
             jwtDecoderMock.isExpired.mockImplementation((token) => {
                 if (token === tokenPair.accessToken) {
                     return true;

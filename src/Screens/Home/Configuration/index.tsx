@@ -4,11 +4,11 @@ import {UsersScreen} from "./Components/Users";
 import {SystemConfigurationScreen} from "./SystemConfigurationScreen";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {VideoSourcesScreen} from "./Components/VideoSources";
-import {FirebaseAccountsScreen} from "./Components/ServiceAccounts";
 import {VideoStreamingProfilesScreen} from "./Components/VideoStreamingProfiles";
 import {MotionDetectionProfilesScreen} from "./Components/MotionDetectionProfiles";
 import {VideoRecordingProfilesScreen} from "./Components/VideoRecordingProfiles";
 import {AlarmProfilesScreen} from "../Alarm";
+import {FirebaseAccountsScreen} from "./Components/ServiceAccounts";
 
 export type ConfigurationStackParamList = {
     "Configuration": React.FC;

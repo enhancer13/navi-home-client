@@ -44,10 +44,9 @@ export const ListSwitchItem: React.FC<Props> = ({
             <List.Item
                 title={title}
                 description={description}
-                left={(props) => icon && <ListIcon style={props.style} icon={icon} iconColor={iconColor}
-                                                   iconBackgroundColor={iconBackgroundColor}/>}                right={() => <Switch value={isSwitchOn} disabled={readonly} onValueChange={onSwitchChanged}/>}
+                left={(props) => icon &&
+                  <ListIcon style={props.style} icon={icon} iconColor={iconColor} iconBackgroundColor={iconBackgroundColor}/>}                right={() => <Switch value={isSwitchOn} disabled={readonly} onValueChange={onSwitchChanged}/>}
                 onPress={onSwitchChanged}
-                rippleColor="rgba(135,105,255,0.2)"
             />
             <Divider/>
         </>

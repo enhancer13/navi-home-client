@@ -12,8 +12,8 @@ type AlarmDayOfWeekProps = {
 export const AlarmDayOfWeek: React.FC<AlarmDayOfWeekProps> = ({dayOfWeek, isActive, containerWidth}) => {
     const theme = useTheme();
     const styles = createStyles(containerWidth);
-    const backgroundColor = useMemo(() => isActive ? theme.colors.primaryContainer : theme.colors.surface, [isActive, theme]);
-    const textColor = useMemo(() => isActive ? theme.colors.onPrimaryContainer : theme.colors.onSurface, [isActive, theme]);
+    const backgroundColor = useMemo(() => isActive ? theme.colors.primary : theme.colors.surface, [isActive, theme]);
+    const textColor = useMemo(() => isActive ? theme.colors.onPrimary : theme.colors.onSurface, [isActive, theme]);
     const dayOfWeekName = useMemo(() => _.startCase(dayOfWeek.substring(0, 3).toLowerCase()), [dayOfWeek]);
 
     return (

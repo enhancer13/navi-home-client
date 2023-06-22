@@ -13,10 +13,10 @@ import {Animated, StyleSheet} from "react-native";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import {AccountStackParamList} from "./index";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {useApplicationSettings} from "../../../Features/DataStorage/Hooks/useApplicationSettings";
 import {NaviTheme} from "../../../../PaperTheme";
-import {ListTextItem} from "../../../Components/Controls/ListItems/ListTextItem";
+import {ListTextItem} from "../../../Components/Controls";
 
 const PAGE_TITLE = 'My Account';
 const HEADER_HEIGHT = hp(5);
@@ -40,7 +40,7 @@ export const AccountDetailsScreen: React.FC = () => {
             {
                 title: 'Account information',
                 items: [
-                    <Avatar.Icon key={1} size={80} icon="account" style={styles.avatar}/>,
+                    <Avatar.Icon key={1} size={wp(20)} icon="account" color={theme.colors.onPrimary} style={styles.avatar}/>,
                     <ListTextItem key={2} value={username} title={'Username'} icon={'face-man'} iconBackgroundColor={theme.colors.icon.blue} />,
                     <ListTextItem key={2} value={email} title={'Email address'} icon={'email'} iconBackgroundColor={theme.colors.icon.indigo} />,
                     <ListTextItem key={2} value={userRoles.map(x => x.userRole).join(', ')} title={'Roles'} icon={'account'} iconBackgroundColor={theme.colors.icon.teal}/>,

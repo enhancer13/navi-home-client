@@ -20,7 +20,6 @@ export const ListActionItem: React.FC<Props> = ({title, description, icon, iconC
                 description={description}
                 left={(props) => icon && <ListIcon style={props.style} icon={icon} iconColor={iconColor} iconBackgroundColor={iconBackgroundColor} />}
                 onPress={action}
-                rippleColor="rgba(135,105,255,0.2)"
             />
             <Divider/>
         </>)

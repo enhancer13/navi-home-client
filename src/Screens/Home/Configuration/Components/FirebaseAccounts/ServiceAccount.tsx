@@ -6,7 +6,7 @@ import {MD3Theme as Theme, useTheme, Text, Divider} from "react-native-paper";
 import {EntityViewContainer} from "../../../../../Features/EntityList/EntityViewContainer";
 import {snakeToPascal} from "../../../../../Helpers/StringUtils";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {IconTextItem} from "../../../../../Components/Controls";
+import {LabelTextItem} from "../../../../../Components/Controls";
 
 export const ServiceAccount: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     const serviceAccount = entity as IServiceAccount;
@@ -25,8 +25,8 @@ export const ServiceAccount: React.FC<EntityViewComponentProps> = ({entity, widt
                     <View style={styles.serviceAccountContainer}>
                         <Text variant={'titleMedium'}>{serviceAccount.accountName}</Text>
                         <Divider style={styles.divider}/>
-                        <IconTextItem labelText={'Account type'} valueText={snakeToPascal(serviceAccount.serviceAccountType)}/>
-                        <IconTextItem labelText={'Linked user'} valueText={serviceAccount.user?.username}/>
+                        <LabelTextItem labelText={'Account type'} valueText={snakeToPascal(serviceAccount.serviceAccountType)}/>
+                        <LabelTextItem labelText={'Linked user'} valueText={serviceAccount.user?.username}/>
                     </View>
                 </View>
             }
