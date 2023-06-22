@@ -9,11 +9,11 @@ import {elevationShadowStyle} from "../../../../Helpers/StyleUtils";
 import {usePopupMessage} from "../../../../Features/Messaging";
 import {AppHeader} from "../../../../Components/Layout";
 import {LoadingActivityIndicator} from "../../../../Components/Controls";
-import {ListTextInputItem} from "../../../../Components/Controls/ListItems";
 import {httpClient} from "../../../../Framework/Net/HttpClient/HttpClient";
 import {backendEndpoints} from "../../../../Config/BackendEndpoints";
 import {IPasswordChangeRequest} from "../../../../BackendTypes/Requests/IPasswordChangeRequest";
 import {useAuth} from "../../../../Features/Authentication";
+import {ListTextInputItem} from "../../../../Components/Controls/ListItems";
 
 const iconSize = hp(5);
 

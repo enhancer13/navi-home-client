@@ -98,7 +98,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
             <LinearGradient colors={[
                 theme.colors.primary,
                 color(theme.colors.primary).lighten(0.1).hex(),
-                color(theme.colors.primary).lighten(0.3).hex()]} style={styles.player.controls}>
+                color(theme.colors.primary).lighten(0.2).hex()]} style={styles.player.controls}>
                 <View style={styles.player.info}>
                     <Text style={styles.player.infoText} adjustsFontSizeToFit>
                         {streamingSource.name}
@@ -150,6 +150,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                 showOnStart={true}
                 disableTimer={true}
                 disposeOnPause={true}
+                disableFullscreen={true} // react-native-video 6.0.1 alpha doesn't support fullscreen yet
                 alwaysShowBottomControls={true}
                 tapAnywhereToPause={false}
                 doubleTapTime={400}

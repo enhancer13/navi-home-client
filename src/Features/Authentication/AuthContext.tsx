@@ -31,8 +31,9 @@ const AuthProvider: React.FC<Props> = ({children}) => {
             ? await backendAuthService.authenticateByBiometric(username, serverName, serverAddress)
             : await backendAuthService.authenticateByCredentials(username, password, serverName, serverAddress);
 
-        // authenticate on 3rd party services
-        await firebaseAuthService.signIn(newAuthentication);
+        // authenticate firebase to receive FCM
+        const firebaseAccount = await firebaseAuthService.signIn(newAuthentication);
+        newAuthentication.firebaseAccountId = firebaseAccount.id;
 
         setAuthentication(newAuthentication);
         await authenticationInfoStorage.setLast(new AuthenticationInfo(username, serverName));

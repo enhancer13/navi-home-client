@@ -1,17 +1,17 @@
-import React, {ReactElement} from 'react';
+import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Surface} from 'react-native-paper';
 import {LayoutChangeEvent} from "react-native/Libraries/Types/CoreEventTypes";
 
-declare type Props = {
-    content: ReactElement;
+declare type EntityViewContainerProps = {
+    children: React.ReactNode;
     onLayout?: ((event: LayoutChangeEvent) => void) | undefined;
 }
 
-export const EntityViewContainer: React.FC<Props> = ({content, onLayout}) => {
+export const EntityViewContainer: React.FC<EntityViewContainerProps> = ({children, onLayout}) => {
     return (
         <Surface elevation={1} style={styles.container} onLayout={onLayout}>
-            {content}
+            {children}
         </Surface>
     );
 }

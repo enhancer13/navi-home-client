@@ -10,7 +10,7 @@ interface IconTextItemProps {
     IconComponent?: ComponentType<IconProps>;
 }
 
-export const IconTextItem: React.FC<IconTextItemProps> = ({ IconComponent, iconName, labelText, valueText }) => {
+export const LabelTextItem: React.FC<IconTextItemProps> = ({ IconComponent, iconName, labelText, valueText }) => {
     const theme = useTheme();
 
     return (

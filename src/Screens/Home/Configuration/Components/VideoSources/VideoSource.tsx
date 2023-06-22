@@ -7,7 +7,7 @@ import {Divider, Text, useTheme} from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import Entypo from "react-native-vector-icons/Entypo";
-import {IconCheckboxItem, IconTextItem} from "../../../../../Components/Controls";
+import {LabelCheckboxItem, LabelTextItem} from "../../../../../Components/Controls";
 
 export const VideoSource: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     const videoSource = entity as IVideoSource;
@@ -16,30 +16,28 @@ export const VideoSource: React.FC<EntityViewComponentProps> = ({entity, width})
     const primaryIconSize = width / 10;
 
     return (
-        <EntityViewContainer
-            content={
-                <View style={styles.rowContainer}>
-                    <Entypo name={'video-camera'} color={theme.colors.primary} style={styles.icon} size={primaryIconSize}/>
-                    <View style={styles.container}>
-                        <Text variant={'titleMedium'} style={styles.text}>{videoSource.cameraName}</Text>
-                        <Divider style={styles.divider}/>
-                        <View style={styles.rowContainer}>
-                            <IconTextItem labelText={'Height'} valueText={videoSource.frameHeight}/>
-                            <IconTextItem labelText={' Width'} valueText={videoSource.frameWidth}/>
-                        </View>
-                        <IconTextItem labelText={'Input Frames Frequency'} valueText={videoSource.framesFrequency}/>
-                        <Divider style={styles.divider}/>
-                        <View style={styles.rowContainer}>
-                            <IconCheckboxItem iconName={'video-wireless'} IconComponent={MaterialCommunityIcons}
-                                              label="Streaming"
-                                              status={videoSource.videoStreamingAllowed ? 'checked' : 'unchecked'}/>
-                            <IconCheckboxItem iconName={'recording'} IconComponent={Ionicon} label="Recording"
-                                              status={videoSource.videoRecordingAllowed ? 'checked' : 'unchecked'}/>
-                        </View>
+        <EntityViewContainer>
+            <View style={styles.rowContainer}>
+                <Entypo name={'video-camera'} color={theme.colors.primary} style={styles.icon} size={primaryIconSize}/>
+                <View style={styles.container}>
+                    <Text variant={'titleMedium'} style={styles.text}>{videoSource.cameraName}</Text>
+                    <Divider style={styles.divider}/>
+                    <View style={styles.rowContainer}>
+                        <LabelTextItem labelText={'Height'} valueText={videoSource.frameHeight}/>
+                        <LabelTextItem labelText={' Width'} valueText={videoSource.frameWidth}/>
+                    </View>
+                    <LabelTextItem labelText={'Input Frames Frequency'} valueText={videoSource.framesFrequency}/>
+                    <Divider style={styles.divider}/>
+                    <View style={styles.rowContainer}>
+                        <LabelCheckboxItem iconName={'video-wireless'} IconComponent={MaterialCommunityIcons}
+                                           label="Streaming"
+                                           checked={videoSource.videoStreamingAllowed}/>
+                        <LabelCheckboxItem iconName={'recording'} IconComponent={Ionicon} label="Recording"
+                                           checked={videoSource.videoRecordingAllowed}/>
                     </View>
                 </View>
-            }
-        />
+            </View>
+        </EntityViewContainer>
     );
 }
 

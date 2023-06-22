@@ -26,7 +26,25 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
   }
 
   public async getTokenPair(serverName: string, username: string): Promise<ITokenPair> {
-    // try to get refresh token
+    const refreshToken = await this.getRefreshToken(serverName, username);
+    const accessToken = await this.getAccessToken(serverName, username);
+    return {
+      accessToken,
+      refreshToken
+    };
+  }
+
+  public async getAccessToken(serverName: string, username: string): Promise<string> {
+    const accessTokenKey = this.getAccessTokenKey(serverName, username);
+    const accessTokenData = await this.getInternetCredentials(accessTokenKey);
+    if (typeof accessTokenData === 'boolean') {
+      throw new Error('Access token data is not found');
+    }
+
+    return accessTokenData.password;
+  }
+
+  public async getRefreshToken(serverName: string, username: string): Promise<string> {
     const refreshTokenKey = this.getRefreshTokenKey(serverName, username);
     const options = {
       authenticationPrompt: {
@@ -38,16 +56,7 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
       throw new Error('Refresh token data is not found');
     }
 
-    // try to get access token
-    const accessTokenKey = this.getAccessTokenKey(serverName, username);
-    const accessTokenData = await this.getInternetCredentials(accessTokenKey);
-    if (typeof accessTokenData === 'boolean') {
-      throw new Error('Access token data is not found');
-    }
-    return {
-      accessToken: accessTokenData.password,
-      refreshToken: refreshTokenData.password
-    };
+    return refreshTokenData.password;
   }
 
   public async hasAccessToken(serverName: string, username: string): Promise<boolean> {

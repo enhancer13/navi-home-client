@@ -8,6 +8,20 @@ export type NaviTheme = MD3Theme & {
             warning: string;
             error: string;
             onStatusBadge: string;
+        },
+        "icon": {
+            "red": string,
+            "orange": string,
+            "yellow": string,
+            "green": string,
+            "mint": string,
+            "teal": string,
+            "cyan": string,
+            "blue": string,
+            "indigo": string,
+            "purple": string,
+            "pink": string,
+            "brown": string
         }
     };
 };
@@ -15,7 +29,7 @@ export type NaviTheme = MD3Theme & {
 export const lightTheme: NaviTheme = {
     ...MD3LightTheme,
     colors: {
-        "primary": '#6959d5',
+        "primary": '#9487ec',
         "onPrimary": "rgb(255, 255, 255)",
         "primaryContainer": "rgb(234, 221, 255)",
         "onPrimaryContainer": "rgb(37, 0, 90)",
@@ -60,7 +74,21 @@ export const lightTheme: NaviTheme = {
         },
         "surfaceDisabled": "rgba(29, 27, 30, 0.12)",
         "onSurfaceDisabled": "rgba(29, 27, 30, 0.38)",
-        "backdrop": "rgba(50, 47, 55, 0.4)"
+        "backdrop": "rgba(50, 47, 55, 0.4)",
+        "icon": {
+            "red": "rgb(255, 59, 48)",
+            "orange": "rgb(255, 149, 0)",
+            "yellow": "rgb(255, 204, 0)",
+            "green": "rgb(52, 199, 89)",
+            "mint": "rgb(0, 199, 190)",
+            "teal": "rgb(48, 176, 199)",
+            "cyan": "rgb(50, 173, 230)",
+            "blue": "rgb(0, 122, 255)",
+            "indigo": "rgb(88, 86, 214)",
+            "purple": "rgb(175, 82, 222)",
+            "pink": "rgb(255, 45, 85)",
+            "brown": "rgb(165, 132, 94)"
+        }
     }
 };
 
@@ -83,9 +111,9 @@ export const darkTheme: NaviTheme = {
         "onError": "rgb(105, 0, 5)",
         "errorContainer": "rgb(147, 0, 10)",
         "onErrorContainer": "rgb(255, 180, 171)",
-        "background": "rgb(27, 27, 31)",
+        "background": "rgb(20, 20, 20)",
         "onBackground": "rgb(229, 225, 230)",
-        "surface": "rgb(35,35,40)",
+        "surface": "rgb(35, 35, 40)",
         "onSurface": "rgb(229, 225, 230)",
         "surfaceVariant": "rgb(70, 70, 79)",
         "onSurfaceVariant": "rgb(199, 197, 208)",
@@ -112,6 +140,20 @@ export const darkTheme: NaviTheme = {
         },
         "surfaceDisabled": "rgba(229, 225, 230, 0.12)",
         "onSurfaceDisabled": "rgba(229, 225, 230, 0.38)",
-        "backdrop": "rgba(48, 48, 56, 0.4)"
+        "backdrop": "rgba(48, 48, 56, 0.4)",
+        "icon": {
+            "red": "rgb(255, 69, 58)",
+            "orange": "rgb(255, 159, 10)",
+            "yellow": "rgb(255, 214, 10)",
+            "green": "rgb(48, 209, 88)",
+            "mint": "rgb(102, 212, 207)",
+            "teal": "rgb(64, 200, 224)",
+            "cyan": "rgb(100, 210, 255)",
+            "blue": "rgb(10, 132, 255)",
+            "indigo": "rgb(94, 92, 230)",
+            "purple": "rgb(191, 90, 242)",
+            "pink": "rgb(255, 55, 95)",
+            "brown": "rgb(172, 142, 104)"
+        }
     }
 };
