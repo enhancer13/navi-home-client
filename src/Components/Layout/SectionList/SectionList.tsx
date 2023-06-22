@@ -4,6 +4,7 @@ import {List, Surface, Text, useTheme} from "react-native-paper";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
+import {ISection} from "./ISection";
 
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
@@ -15,13 +16,7 @@ export declare type SectionListProps = {
     onScroll?: | ((event: NativeSyntheticEvent<NativeScrollEvent>) => void) | undefined;
 }
 
-export interface ISection {
-    key?: string;
-    title?: string;
-    items: Array<React.ReactElement>;
-}
-
-export const AnimatedSectionList: React.FC<SectionListProps> = ({
+export const SectionList: React.FC<SectionListProps> = ({
                                                                     title,
                                                                     containerStyle,
                                                                     titleHeight = hp(10),

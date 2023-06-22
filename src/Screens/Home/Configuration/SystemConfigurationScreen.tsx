@@ -1,8 +1,8 @@
 import React, {useMemo, useRef} from 'react';
 import {Animated} from 'react-native';
 import {useRoute} from "@react-navigation/native";
-import {AppHeader} from "../../../Components/Layout";
-import {AnimatedSectionList, ISection, ListNavigationItem} from "../../../Components/Controls/ListItems";
+import {AppHeader, ISection, SectionList} from "../../../Components/Layout";
+import {ListNavigationItem} from "../../../Components/Controls/ListItems";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import {splitPascalCase} from "../../../Helpers/StringUtils";
@@ -67,7 +67,7 @@ export const SystemConfigurationScreen: React.FC = () => {
                 enableTitleAnimation={true}
                 scrollThreshold={SCROLL_THRESHOLD}
                 scrollY={scrollY}/>
-            <AnimatedSectionList
+            <SectionList
                 title={pageTitle}
                 sections={menuGroups}
                 titleHeight={LIST_TITLE_HEIGHT}

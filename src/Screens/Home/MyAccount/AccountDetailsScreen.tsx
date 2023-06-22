@@ -3,12 +3,10 @@ import {StackActions, useNavigation} from '@react-navigation/native';
 import {useAuth} from "../../../Features/Authentication";
 import {Avatar, useTheme} from "react-native-paper";
 import {
-    ISection,
-    AnimatedSectionList,
     ListSwitchItem,
-    ListActionItem, ListNavigationItem,
+    ListActionItem, ListNavigationItem, ListTextItem,
 } from "../../../Components/Controls/ListItems";
-import {AppHeader} from "../../../Components/Layout";
+import {AppHeader, ISection, SectionList} from "../../../Components/Layout";
 import {Animated, StyleSheet} from "react-native";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
@@ -16,7 +14,6 @@ import {AccountStackParamList} from "./index";
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {useApplicationSettings} from "../../../Features/DataStorage/Hooks/useApplicationSettings";
 import {NaviTheme} from "../../../../PaperTheme";
-import {ListTextItem} from "../../../Components/Controls";
 
 const PAGE_TITLE = 'My Account';
 const HEADER_HEIGHT = hp(5);
@@ -90,7 +87,7 @@ export const AccountDetailsScreen: React.FC = () => {
                 height={HEADER_HEIGHT}
                 scrollThreshold={SCROLL_THRESHOLD}
                 scrollY={scrollY}/>
-            <AnimatedSectionList
+            <SectionList
                 title={PAGE_TITLE}
                 sections={menuGroups}
                 titleHeight={LIST_TITLE_HEIGHT}
