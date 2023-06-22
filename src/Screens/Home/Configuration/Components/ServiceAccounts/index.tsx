@@ -3,7 +3,7 @@ import {EntityListScreen} from "../../../../../Features/EntityList/EntityListScr
 import {EntityNames} from "../../../../../BackendTypes";
 import {ServiceAccount} from "./ServiceAccount";
 
-export const ServiceAccountsScreen: React.FC = () => {
+export const FirebaseAccountsScreen: React.FC = () => {
     return (
         <EntityListScreen
             entityName={EntityNames.ServiceAccount}

@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import React, {useCallback, useEffect, useState} from "react";
-import {Checkbox, Divider, List, useTheme} from "react-native-paper";
+import {Checkbox, Divider, List} from "react-native-paper";
+import {ListIcon} from "./ListIcon";
 
 declare type Props = {
     title: string;
@@ -7,12 +9,22 @@ declare type Props = {
     action?: (value: boolean) => void;
     description?: string;
     icon?: string;
+    iconColor?: string;
+    iconBackgroundColor?: string;
     readonly?: boolean;
 }
 
-export const ListCheckboxItem: React.FC<Props> = ({title, description, icon, value, action, readonly}) => {
+export const ListCheckboxItem: React.FC<Props> = ({
+                                                      title,
+                                                      description,
+                                                      icon,
+                                                      iconColor,
+                                                      iconBackgroundColor,
+                                                      value,
+                                                      action,
+                                                      readonly
+                                                  }) => {
     const [isCheckedOn, setIsCheckedOn] = useState(value);
-    const theme = useTheme();
 
     const handleCheckboxChanged = useCallback(() => {
         setIsCheckedOn(prevState => {
@@ -36,8 +48,10 @@ export const ListCheckboxItem: React.FC<Props> = ({title, description, icon, val
             <List.Item
                 title={title}
                 description={description}
-                left={props => icon && <List.Icon {...props} color={theme.colors.primary} icon={icon}/>}
-                right={() => <Checkbox status={isCheckedOn ? 'checked' : 'unchecked'} disabled={readonly} onPress={handleCheckboxChanged}/>}
+                left={(props) => icon && <ListIcon style={props.style} icon={icon} iconColor={iconColor}
+                                                   iconBackgroundColor={iconBackgroundColor}/>}
+                right={() => <Checkbox status={isCheckedOn ? 'checked' : 'unchecked'} disabled={readonly}
+                                       onPress={handleCheckboxChanged}/>}
                 onPress={handleCheckboxChanged}
                 rippleColor="rgba(135,105,255,0.2)"
             />

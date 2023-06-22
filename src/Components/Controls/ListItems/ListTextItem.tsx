@@ -4,22 +4,25 @@ import {Divider, List} from "react-native-paper";
 import {ListIcon} from "./ListIcon";
 
 declare type Props = {
-    title: string;
-    description?: string;
+    value: string;
+    title?: string;
     icon?: string;
     iconColor?: string;
     iconBackgroundColor?: string;
-    action: () => void;
 }
 
-export const ListActionItem: React.FC<Props> = ({title, description, icon, iconColor, iconBackgroundColor, action}) => {
+export const ListTextItem: React.FC<Props> = ({
+                                                  value,
+                                                  title,
+                                                  icon,
+                                                  iconColor,
+                                                  iconBackgroundColor}) => {
     return (
         <>
             <List.Item
-                title={title}
-                description={description}
+                title={value}
+                description={title}
                 left={(props) => icon && <ListIcon style={props.style} icon={icon} iconColor={iconColor} iconBackgroundColor={iconBackgroundColor} />}
-                onPress={action}
                 rippleColor="rgba(135,105,255,0.2)"
             />
             <Divider/>

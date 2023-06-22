@@ -4,6 +4,7 @@ import {StyleSheet, View} from "react-native";
 import {useToggle} from "../../Hooks/useToggle";
 import {StyleProp} from "react-native/Libraries/StyleSheet/StyleSheet";
 import {TextStyle} from "react-native/Libraries/StyleSheet/StyleSheetTypes";
+import {ListIcon} from "./ListIcon";
 
 export interface InputProps {
     title?: string;
@@ -11,12 +12,15 @@ export interface InputProps {
     secureTextEntry?: boolean;
     style?: StyleProp<TextStyle>;
     placeholder?: string;
+    icon?: string;
+    iconColor?: string;
+    iconBackgroundColor?: string;
 }
 
 interface TextInputProps extends InputProps {
     inputMode?: "text" | "email";
     value: string;
-    onValueChanged: (value: string) => void;
+    onValueChanged?: (value: string) => void;
 }
 
 export const ListTextInputItem: React.FC<TextInputProps> = ({
@@ -27,6 +31,9 @@ export const ListTextInputItem: React.FC<TextInputProps> = ({
                                                                 readonly,
                                                                 secureTextEntry = false,
                                                                 style,
+                                                                icon,
+                                                                iconColor,
+                                                                iconBackgroundColor
                                                             }) => {
     const [inputValue, setInputValue] = useState<string | null>(value as string);
     const [hidePassword, toggleHidePassword] = useToggle(secureTextEntry);
@@ -34,7 +41,7 @@ export const ListTextInputItem: React.FC<TextInputProps> = ({
     const handleInputChanged = (input: string) => {
         setInputValue((prevValue) => {
             if (prevValue !== input) {
-                onValueChanged(input);
+                onValueChanged && onValueChanged(input);
             }
             return input;
         });
@@ -58,6 +65,7 @@ export const ListTextInputItem: React.FC<TextInputProps> = ({
                 onChangeText={handleInputChanged}
                 disabled={readonly}
                 secureTextEntry={hidePassword}
+                left={icon && <ListIcon icon={icon} iconColor={iconColor} iconBackgroundColor={iconBackgroundColor} />}
                 right={
                     secureTextEntry && (
                         <TextInput.Icon

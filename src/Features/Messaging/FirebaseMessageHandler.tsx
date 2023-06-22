@@ -6,6 +6,7 @@ import {useAuth} from '../Authentication';
 import {IApplicationInfo, IApplicationMessage, IApplicationDataMessage, MessageType} from '../../BackendTypes';
 import {usePopupMessage} from './FlashMessageContext';
 import {httpClient} from "../../Framework/Net/HttpClient/HttpClient";
+import {firebaseAuthService} from "../Authentication/AuthServices/FirebaseAuthService";
 
 export const FirebaseMessageHandler = () => {
   const {authentication} = useAuth();
@@ -13,15 +14,25 @@ export const FirebaseMessageHandler = () => {
   const [serverId, setServerId] = useState<string>();
 
   useEffect(() => {
-    if (!authentication) {
-      return;
-    }
+    let unsubscribe: () => void;
 
     async function initFirebaseMessaging() {
+      if (!authentication) {
+        return;
+      }
+
+      // request messaging permission before messages can be received or sent
+      await messaging().requestPermission();
+
+      //keep FCM token up-to-dated when the token is refreshed
+      unsubscribe = messaging().onTokenRefresh(clientToken => firebaseAuthService.updateClientToken(authentication.firebaseAccountId, clientToken, authentication));
+
       const {externalUniqueId} = await httpClient.get<IApplicationInfo>(backendEndpoints.APPLICATION_INFO, {authentication});
       setServerId(externalUniqueId);
     }
     initFirebaseMessaging();
+
+    return () => unsubscribe && unsubscribe();
   }, [authentication]);
 
   useEffect(() => {
@@ -29,12 +40,12 @@ export const FirebaseMessageHandler = () => {
       return;
     }
 
-    // Check whether an application is opened by notification from quite state
+    // Check whether an application is opened by notification from a background state (minimized state etc.)
     messaging().onNotificationOpenedApp((remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
       showNotification(remoteMessage);
     });
 
-    // Check whether an initial notification is available
+    // Check whether an initial notification is available (locked screen etc.)
     messaging()
       .getInitialNotification()
       .then((remoteMessage: FirebaseMessagingTypes.RemoteMessage | null) => {
@@ -104,7 +115,7 @@ export const FirebaseMessageHandler = () => {
     if (!notification) {
       return;
     }
-    showWarning(`${notification.title}\n${notification.body}`);
+    showWarning(`${notification.title}\n${notification.body ?? ''}`);
   };
 
   return null;

@@ -63,7 +63,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     iconText: {
         alignSelf: 'center',
-        color: theme.colors.onPrimary,
+        color: 'white',
     },
     leftIconContainer: {
         height: '26%',

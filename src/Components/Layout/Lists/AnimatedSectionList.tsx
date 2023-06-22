@@ -45,7 +45,7 @@ export const AnimatedSectionList: React.FC<SectionListProps> = ({
 
     const titleTextColor = scrollY.interpolate({
         inputRange: [0, titleHeight],
-        outputRange: [theme.colors.primary, 'transparent'],
+        outputRange: [theme.colors.onBackground, 'transparent'],
         extrapolate: 'clamp',
     });
 

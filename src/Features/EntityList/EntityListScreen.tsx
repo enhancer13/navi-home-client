@@ -41,7 +41,7 @@ const defaultState: State = {
 }
 
 const tabletMode = (isTablet() || getDeviceTypeSync() === 'Desktop')
-const defaultItemsPerPage = tabletMode ? 50 : 20;
+const defaultItemsPerPage = tabletMode ? 100 : 50;
 const defaultColumnsCount = tabletMode ? 2 : 1;
 
 export const EntityListScreen: React.FC<EntityListScreenProps> = ({
