@@ -8,7 +8,7 @@ import {VideoStreamingProfilesScreen} from "./Components/VideoStreamingProfiles"
 import {MotionDetectionProfilesScreen} from "./Components/MotionDetectionProfiles";
 import {VideoRecordingProfilesScreen} from "./Components/VideoRecordingProfiles";
 import {AlarmProfilesScreen} from "../Alarm";
-import {FirebaseAccountsScreen} from "./Components/ServiceAccounts";
+import {FirebaseAccountsScreen} from "./Components/FirebaseAccounts";
 
 export type ConfigurationStackParamList = {
     "Configuration": React.FC;

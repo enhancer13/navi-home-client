@@ -1,7 +1,7 @@
 import React from 'react';
 import {EntityListScreen} from "../../../../../Features/EntityList/EntityListScreen";
 import {EntityNames} from "../../../../../BackendTypes";
-import {ServiceAccount} from "../FirebaseAccounts/ServiceAccount";
+import {ServiceAccount} from "./ServiceAccount";
 
 export const FirebaseAccountsScreen: React.FC = () => {
     return (

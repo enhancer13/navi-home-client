@@ -16,26 +16,24 @@ export const VideoRecordingProfile: React.FC<EntityViewComponentProps> = ({entit
     const primaryIconSize = width / 10;
 
     return (
-        <EntityViewContainer
-            content={
-                <View style={styles.rowContainer}>
-                    <Ionicon name={'recording'} color={theme.colors.primary} style={styles.icon} size={primaryIconSize}/>
-                    <View style={styles.container}>
-                        <Text variant={'titleMedium'} style={styles.text}>{videoRecorderProfile.videoRecorderProfileName}</Text>
-                        <Divider style={styles.divider}/>
-                        <LabelTextItem labelText={'Processing framerate'} valueText={videoRecorderProfile.processingFramerate}/>
-                        <View style={styles.rowContainer}>
-                            <LabelTextItem labelText={'Height'} valueText={videoRecorderProfile.videoFrameHeight}/>
-                            <LabelTextItem labelText={' Width'} valueText={videoRecorderProfile.videoFrameWidth}/>
-                        </View>
-                        <Divider style={styles.divider}/>
-                        <LabelTextItem IconComponent={FontAwesome} iconName={'calculator'} labelText={'Video codec'} valueText={videoRecorderProfile.videoCodec} />
-                        <LabelCheckboxItem iconName={'cpu'} IconComponent={Feather} label="Hardware acceleration"
-                                           checked={videoRecorderProfile.videoEncodingHardwareAcceleration}/>
+        <EntityViewContainer>
+            <View style={styles.rowContainer}>
+                <Ionicon name={'recording'} color={theme.colors.primary} style={styles.icon} size={primaryIconSize}/>
+                <View style={styles.container}>
+                    <Text variant={'titleMedium'} style={styles.text}>{videoRecorderProfile.videoRecorderProfileName}</Text>
+                    <Divider style={styles.divider}/>
+                    <LabelTextItem labelText={'Processing framerate'} valueText={videoRecorderProfile.processingFramerate}/>
+                    <View style={styles.rowContainer}>
+                        <LabelTextItem labelText={'Height'} valueText={videoRecorderProfile.videoFrameHeight}/>
+                        <LabelTextItem labelText={' Width'} valueText={videoRecorderProfile.videoFrameWidth}/>
                     </View>
+                    <Divider style={styles.divider}/>
+                    <LabelTextItem IconComponent={FontAwesome} iconName={'calculator'} labelText={'Video codec'} valueText={videoRecorderProfile.videoCodec} />
+                    <LabelCheckboxItem iconName={'cpu'} IconComponent={Feather} label="Hardware acceleration"
+                                       checked={videoRecorderProfile.videoEncodingHardwareAcceleration}/>
                 </View>
-            }
-        />
+            </View>
+        </EntityViewContainer>
     );
 }
 

@@ -150,6 +150,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                 showOnStart={true}
                 disableTimer={true}
                 disposeOnPause={true}
+                disableFullscreen={true} // react-native-video 6.0.1 alpha doesn't support fullscreen yet
                 alwaysShowBottomControls={true}
                 tapAnywhereToPause={false}
                 doubleTapTime={400}

@@ -15,24 +15,22 @@ export const MotionDetectionProfile: React.FC<EntityViewComponentProps> = ({enti
     const primaryIconSize = width / 10;
 
     return (
-        <EntityViewContainer
-            content={
-                <View style={styles.rowContainer}>
-                    <MaterialCommunityIcons name={'motion-sensor'} color={theme.colors.primary} style={styles.icon} size={primaryIconSize}/>
-                    <View style={styles.container}>
-                        <Text variant={'titleMedium'} style={styles.text}>{motionDetectionProfile.motionDetectionProfileName}</Text>
-                        <Divider style={styles.divider}/>
-                        <LabelTextItem labelText={'Processing framerate'} valueText={motionDetectionProfile.processingFramerate}/>
-                        <View style={styles.rowContainer}>
-                            <LabelTextItem labelText={'Height'} valueText={motionDetectionProfile.frameHeight}/>
-                            <LabelTextItem labelText={' Width'} valueText={motionDetectionProfile.frameWidth}/>
-                        </View>
-                        <Divider style={styles.divider}/>
-                        <LabelTextItem IconComponent={AntDesign} iconName={'areachart'} labelText={'Threshold area'} valueText={motionDetectionProfile.motionThresholdArea} />
+        <EntityViewContainer>
+            <View style={styles.rowContainer}>
+                <MaterialCommunityIcons name={'motion-sensor'} color={theme.colors.primary} style={styles.icon} size={primaryIconSize}/>
+                <View style={styles.container}>
+                    <Text variant={'titleMedium'} style={styles.text}>{motionDetectionProfile.motionDetectionProfileName}</Text>
+                    <Divider style={styles.divider}/>
+                    <LabelTextItem labelText={'Processing framerate'} valueText={motionDetectionProfile.processingFramerate}/>
+                    <View style={styles.rowContainer}>
+                        <LabelTextItem labelText={'Height'} valueText={motionDetectionProfile.frameHeight}/>
+                        <LabelTextItem labelText={' Width'} valueText={motionDetectionProfile.frameWidth}/>
                     </View>
+                    <Divider style={styles.divider}/>
+                    <LabelTextItem IconComponent={AntDesign} iconName={'areachart'} labelText={'Threshold area'} valueText={motionDetectionProfile.motionThresholdArea} />
                 </View>
-            }
-        />
+            </View>
+        </EntityViewContainer>
     );
 }
 

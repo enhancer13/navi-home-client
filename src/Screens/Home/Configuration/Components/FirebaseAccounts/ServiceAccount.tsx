@@ -16,21 +16,20 @@ export const ServiceAccount: React.FC<EntityViewComponentProps> = ({entity, widt
     const primaryIconSize = width / 10;
 
     return (
-        <EntityViewContainer
-            content={
-                <View style={styles.container}>
-                    <View style={styles.primaryIconContainer}>
-                        <MaterialCommunityIcons name={'account-group'} color={theme.colors.primary} size={primaryIconSize}/>
-                    </View>
-                    <View style={styles.serviceAccountContainer}>
-                        <Text variant={'titleMedium'}>{serviceAccount.accountName}</Text>
-                        <Divider style={styles.divider}/>
-                        <LabelTextItem labelText={'Account type'} valueText={snakeToPascal(serviceAccount.serviceAccountType)}/>
-                        <LabelTextItem labelText={'Linked user'} valueText={serviceAccount.user?.username}/>
-                    </View>
+        <EntityViewContainer>
+            <View style={styles.container}>
+                <View style={styles.primaryIconContainer}>
+                    <MaterialCommunityIcons name={'account-group'} color={theme.colors.primary} size={primaryIconSize}/>
                 </View>
-            }
-        />
+                <View style={styles.serviceAccountContainer}>
+                    <Text variant={'titleMedium'}>{serviceAccount.accountName}</Text>
+                    <Divider style={styles.divider}/>
+                    <LabelTextItem labelText={'Account type'}
+                                   valueText={snakeToPascal(serviceAccount.serviceAccountType)}/>
+                    <LabelTextItem labelText={'Linked user'} valueText={serviceAccount.user?.username}/>
+                </View>
+            </View>
+        </EntityViewContainer>
     );
 };
 

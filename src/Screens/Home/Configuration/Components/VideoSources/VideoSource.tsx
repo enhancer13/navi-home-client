@@ -16,30 +16,28 @@ export const VideoSource: React.FC<EntityViewComponentProps> = ({entity, width})
     const primaryIconSize = width / 10;
 
     return (
-        <EntityViewContainer
-            content={
-                <View style={styles.rowContainer}>
-                    <Entypo name={'video-camera'} color={theme.colors.primary} style={styles.icon} size={primaryIconSize}/>
-                    <View style={styles.container}>
-                        <Text variant={'titleMedium'} style={styles.text}>{videoSource.cameraName}</Text>
-                        <Divider style={styles.divider}/>
-                        <View style={styles.rowContainer}>
-                            <LabelTextItem labelText={'Height'} valueText={videoSource.frameHeight}/>
-                            <LabelTextItem labelText={' Width'} valueText={videoSource.frameWidth}/>
-                        </View>
-                        <LabelTextItem labelText={'Input Frames Frequency'} valueText={videoSource.framesFrequency}/>
-                        <Divider style={styles.divider}/>
-                        <View style={styles.rowContainer}>
-                            <LabelCheckboxItem iconName={'video-wireless'} IconComponent={MaterialCommunityIcons}
-                                               label="Streaming"
-                                               checked={videoSource.videoStreamingAllowed}/>
-                            <LabelCheckboxItem iconName={'recording'} IconComponent={Ionicon} label="Recording"
-                                               checked={videoSource.videoRecordingAllowed}/>
-                        </View>
+        <EntityViewContainer>
+            <View style={styles.rowContainer}>
+                <Entypo name={'video-camera'} color={theme.colors.primary} style={styles.icon} size={primaryIconSize}/>
+                <View style={styles.container}>
+                    <Text variant={'titleMedium'} style={styles.text}>{videoSource.cameraName}</Text>
+                    <Divider style={styles.divider}/>
+                    <View style={styles.rowContainer}>
+                        <LabelTextItem labelText={'Height'} valueText={videoSource.frameHeight}/>
+                        <LabelTextItem labelText={' Width'} valueText={videoSource.frameWidth}/>
+                    </View>
+                    <LabelTextItem labelText={'Input Frames Frequency'} valueText={videoSource.framesFrequency}/>
+                    <Divider style={styles.divider}/>
+                    <View style={styles.rowContainer}>
+                        <LabelCheckboxItem iconName={'video-wireless'} IconComponent={MaterialCommunityIcons}
+                                           label="Streaming"
+                                           checked={videoSource.videoStreamingAllowed}/>
+                        <LabelCheckboxItem iconName={'recording'} IconComponent={Ionicon} label="Recording"
+                                           checked={videoSource.videoRecordingAllowed}/>
                     </View>
                 </View>
-            }
-        />
+            </View>
+        </EntityViewContainer>
     );
 }
 
