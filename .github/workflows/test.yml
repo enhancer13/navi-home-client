@@ -14,9 +14,8 @@ jobs:
     steps:
       - name: 📦 Checkout project repo
         uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
+
+      - name: Setup node.js
       - uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -27,6 +26,11 @@ jobs:
 
       - name: 🏃‍♂️ Run Tests
         run: yarn test-ci
+
+      - name: Fetch remote branches
+        uses: actions/checkout@v3
+                - run: |
+                git fetch
 
       - name: Generating coverage badges
         uses: jpb06/jest-badges-action@latest
