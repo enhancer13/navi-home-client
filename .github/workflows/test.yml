@@ -32,3 +32,4 @@ jobs:
         uses: jpb06/jest-badges-action@latest
         with:
           branches: master
+          target-branch: coverage-report

@@ -6,6 +6,7 @@ import FlexContainer from '../../../../Components/Layout/FlexContainer';
 import {ActivityIndicator, MD3Theme} from 'react-native-paper';
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
+import {sortBy} from "lodash";
 
 interface Props<TItem> {
     refreshing: boolean;
@@ -159,8 +160,8 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
             }
         }
 
-        const sortedPreviousSelectedIds = prevState.selectedKeys.sort();
-        const sortedSelectedIds = this.state.selectedKeys.sort();
+        const sortedPreviousSelectedIds = sortBy(prevState.selectedKeys);
+        const sortedSelectedIds = sortBy(this.state.selectedKeys);
         if (sortedPreviousSelectedIds.length != sortedSelectedIds.length || !sortedPreviousSelectedIds.every((elem, i) => elem === sortedSelectedIds[i])) {
             this.props.onSelectionChanged(this.getSelectedItems());
         }
