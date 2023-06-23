@@ -11,9 +11,9 @@ declare type StatusBadgeProps = {
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, style }) => {
     const theme = useTheme<NaviTheme>();
-    const {information, warning, onStatusBadge} = theme.colors.statusBadge;
+    const {information, warning, white} = theme.colors.system;
 
     return (
-        status && <Badge style={[style, {color: onStatusBadge, backgroundColor: status === 'new' ? information : warning}]}>{status}</Badge>
+        status && <Badge style={[style, {color: white, backgroundColor: status === 'new' ? information : warning}]}>{status}</Badge>
     );
 }

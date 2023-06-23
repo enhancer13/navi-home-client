@@ -3,13 +3,12 @@ import {MD3Theme} from 'react-native-paper';
 
 export type NaviTheme = MD3Theme & {
     colors: {
-        statusBadge: {
-            information: string;
-            warning: string;
-            error: string;
-            onStatusBadge: string;
-        },
-        "icon": {
+        "system": {
+            "success": string;
+            "information": string;
+            "warning": string;
+            "error": string;
+            "white": string;
             "red": string,
             "orange": string,
             "yellow": string,
@@ -66,16 +65,15 @@ export const lightTheme: NaviTheme = {
             "level4": "rgb(254, 254, 254)",
             "level5": "rgb(255, 255, 255)"
         },
-        "statusBadge": {
-            "information": "rgb(28,183,248)",
-            "warning": "rgb(255,180,27)",
-            "error": "rgb(255,61,27)",
-            "onStatusBadge": "rgb(255, 255, 255)",
-        },
         "surfaceDisabled": "rgba(29, 27, 30, 0.12)",
         "onSurfaceDisabled": "rgba(29, 27, 30, 0.38)",
         "backdrop": "rgba(50, 47, 55, 0.4)",
-        "icon": {
+        "system": {
+            "success": "rgb(52, 199, 89)",
+            "information": "rgb(48, 176, 199)",
+            "warning": "rgb(255, 149, 0)",
+            "error": "rgb(255, 59, 48)",
+            "white": "rgb(255, 255, 255)",
             "red": "rgb(255, 59, 48)",
             "orange": "rgb(255, 149, 0)",
             "yellow": "rgb(255, 204, 0)",
@@ -132,16 +130,15 @@ export const darkTheme: NaviTheme = {
             "level4": "rgb(47, 47, 58)",
             "level5": "rgb(50, 50, 62)"
         },
-        "statusBadge": {
-            "information": "rgb(28,183,248)",
-            "warning": "rgb(255,180,27)",
-            "error": "rgb(255,61,27)",
-            "onStatusBadge": "rgb(255, 255, 255)",
-        },
         "surfaceDisabled": "rgba(229, 225, 230, 0.12)",
         "onSurfaceDisabled": "rgba(229, 225, 230, 0.38)",
         "backdrop": "rgba(48, 48, 56, 0.4)",
-        "icon": {
+        "system": {
+            "success": "rgb(48, 209, 88)",
+            "information": "rgb(64, 200, 224)",
+            "warning": "rgb(255, 159, 10)",
+            "error": "rgb(255, 69, 58)",
+            "white": "rgb(255, 255, 255)",
             "red": "rgb(255, 69, 58)",
             "orange": "rgb(255, 159, 10)",
             "yellow": "rgb(255, 214, 10)",

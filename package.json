@@ -22,9 +22,9 @@
     "type-check": "tsc  --noemit",
     "lint:translations": "eslint ./src/translations/ --fix --ext .json  ",
     "test": "jest",
-    "test:watch": "yarn run test --watch",
-    "test:ci": "yarn run test --coverage",
-    "test:badges": "yarn test:ci  && jest-coverage-badges --input coverage/coverage-summary.json --output __badges__"
+    "test-watch": "yarn run test --watch",
+    "test-ci": "yarn run test --coverage",
+    "test-badges": "yarn test:ci  && jest-coverage-badges --input coverage/coverage-summary.json --output __badges__"
   },
   "dependencies": {
     "@babel/runtime": "^7.22.5",
