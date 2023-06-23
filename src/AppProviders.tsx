@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {AuthProvider} from './src/Features/Authentication';
-import {PopupMessageProvider} from './src/Features/Messaging';
-import {DialogProvider} from "./src/Features/Dialog";
+import {AuthProvider} from './Features/Authentication';
+import {PopupMessageProvider} from './Features/Messaging';
+import {DialogProvider} from "./Features/Dialog";
 import {Provider as PaperProvider} from "react-native-paper";
 import {darkTheme, lightTheme} from "./PaperTheme";
-import {useApplicationSettings} from "./src/Features/DataStorage/Hooks/useApplicationSettings";
+import {useApplicationSettings} from "./Features/DataStorage/Hooks/useApplicationSettings";
 
 type AppProvidersProps = {
     children: React.ReactNode;

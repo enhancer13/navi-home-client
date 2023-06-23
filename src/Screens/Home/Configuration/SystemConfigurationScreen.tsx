@@ -9,7 +9,7 @@ import {splitPascalCase} from "../../../Helpers/StringUtils";
 import {useAuth} from "../../../Features/Authentication";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {useTheme} from "react-native-paper";
-import {NaviTheme} from "../../../../PaperTheme";
+import {NaviTheme} from "../../../PaperTheme";
 
 const HEADER_HEIGHT = hp(5);
 const LIST_TITLE_HEIGHT = HEADER_HEIGHT * 1.5;
