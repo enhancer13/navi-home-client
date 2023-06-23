@@ -1,7 +1,7 @@
 import React, {createContext, useCallback, useContext} from 'react';
 import FlashMessage, {showMessage} from "react-native-flash-message";
 import {useTheme} from "react-native-paper";
-import {NaviTheme} from "../../../PaperTheme";
+import {NaviTheme} from "../../PaperTheme";
 
 interface IContextProps {
     showSuccess: (message: string) => void;

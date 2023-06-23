@@ -10,7 +10,7 @@ import {LoadingActivityIndicator} from "../../Components/Controls";
 import {AppHeader} from "../../Components/Layout";
 import {useRoute} from "@react-navigation/native";
 import {elevationShadowStyle} from "../../Helpers/StyleUtils";
-import {RootRouteProps} from "../../../RootStackNavigator";
+import {RootRouteProps} from "../../RootStackNavigator";
 
 const iconSize = hp(5);
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Badge, useTheme} from 'react-native-paper';
 import {StyleProp} from "react-native/Libraries/StyleSheet/StyleSheet";
 import {TextStyle} from "react-native/Libraries/StyleSheet/StyleSheetTypes";
-import {NaviTheme} from "../../../../PaperTheme";
+import {NaviTheme} from "../../../PaperTheme";
 
 declare type StatusBadgeProps = {
     status: 'new' | 'modified' | null;

@@ -1,10 +1,10 @@
 import 'react-native-gesture-handler';
 import React, {useMemo} from 'react';
 import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
-import {LoginScreen} from './src/Screens/Login';
-import {ServerConfigScreen} from './src/Screens/ServerConfig';
-import {HomeScreen} from './src/Screens/Home';
-import {AppStatusBar} from "./src/Components/Layout/AppStatusBar";
+import {LoginScreen} from './Screens/Login';
+import {ServerConfigScreen} from './Screens/ServerConfig';
+import {HomeScreen} from './Screens/Home';
+import {AppStatusBar} from "./Components/Layout/AppStatusBar";
 import {NativeStackNavigationOptions} from "@react-navigation/native-stack";
 import {useTheme} from "react-native-paper";
 import {RootStackNavigator} from "./RootStackNavigator";

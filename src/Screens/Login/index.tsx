@@ -13,7 +13,7 @@ import {useAuthenticationData} from "./Hooks/useAuthenticationData";
 import {useAuthenticationActions} from "./Hooks/useAuthenticationActions";
 import FastImage from "react-native-fast-image";
 import {ListTextInputItem} from "../../Components/Controls/ListItems";
-import {RootNavigationProp} from "../../../RootStackNavigator";
+import {RootNavigationProp} from "../../RootStackNavigator";
 
 const loginContainerWidth = Math.min(wp('95%'), 500);
 const developerLogoSize = loginContainerWidth * 0.3;

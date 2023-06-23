@@ -1,10 +1,10 @@
 import {AppRegistry} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import App from './App';
+import App from './src/App';
 import {name as appName} from './app.json';
 import Orientation from 'react-native-orientation-locker';
 import {dataStorageInitializer} from './src/Features/DataStorage';
-import {AppProviders} from './AppProviders';
+import {AppProviders} from './src/AppProviders';
 import PropTypes from 'prop-types';
 
 const RenderApp = ({isHeadless}) => {

@@ -63,3 +63,4 @@ yarn-error.log
 .metro-health-check*
 /coverage/
 /dist/
+/android/app/google-services.json
