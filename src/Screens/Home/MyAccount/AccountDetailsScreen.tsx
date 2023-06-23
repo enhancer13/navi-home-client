@@ -38,21 +38,21 @@ export const AccountDetailsScreen: React.FC = () => {
                 title: 'Account information',
                 items: [
                     <Avatar.Icon key={1} size={wp(20)} icon="account" color={theme.colors.onPrimary} style={styles.avatar}/>,
-                    <ListTextItem key={2} value={username} title={'Username'} icon={'face-man'} iconBackgroundColor={theme.colors.icon.blue} />,
-                    <ListTextItem key={2} value={email} title={'Email address'} icon={'email'} iconBackgroundColor={theme.colors.icon.indigo} />,
-                    <ListTextItem key={2} value={userRoles.map(x => x.userRole).join(', ')} title={'Roles'} icon={'account'} iconBackgroundColor={theme.colors.icon.teal}/>,
+                    <ListTextItem key={2} value={username} title={'Username'} icon={'face-man'} iconBackgroundColor={theme.colors.system.blue} />,
+                    <ListTextItem key={2} value={email} title={'Email address'} icon={'email'} iconBackgroundColor={theme.colors.system.indigo} />,
+                    <ListTextItem key={2} value={userRoles.map(x => x.userRole).join(', ')} title={'Roles'} icon={'account'} iconBackgroundColor={theme.colors.system.teal}/>,
                 ]
             },
             {
                 title: 'Actions',
                 items: [
                     <ListNavigationItem<AccountStackParamList, 'Change Password'> key={1} icon={'form-textbox-password'}
-                                                                                  iconBackgroundColor={theme.colors.icon.green}
+                                                                                  iconBackgroundColor={theme.colors.system.green}
                                                                                   title={'Change password'}
                                                                                   route={'Change Password'}
                                                                                   routeParams={{user: authentication.user}}/>,
                     <ListActionItem key={2} title={'Logout'} icon={"logout"}
-                                    iconBackgroundColor={theme.colors.icon.orange}
+                                    iconBackgroundColor={theme.colors.system.orange}
                                     action={async () => {
                         await logout();
                         navigation.dispatch(StackActions.popToTop());
@@ -63,13 +63,13 @@ export const AccountDetailsScreen: React.FC = () => {
                 title: 'Configuration',
                 items: [
                     <ListSwitchItem key={1} title={'Biometric authentication'} icon={"fingerprint"}
-                                    iconBackgroundColor={theme.colors.icon.pink}
+                                    iconBackgroundColor={theme.colors.system.pink}
                                     value={applicationSettings.biometryAuthenticationActive} action={async (value) => {
                         applicationSettings.biometryAuthenticationActive = value;
                         await updateApplicationSettings(applicationSettings);
                     }}/>,
                     <ListSwitchItem key={2} title={'Dark theme'} icon={"theme-light-dark"}
-                                    iconBackgroundColor={theme.colors.icon.purple}
+                                    iconBackgroundColor={theme.colors.system.purple}
                                     value={applicationSettings.darkThemeActive} action={async (value) => {
                         applicationSettings.darkThemeActive = value;
                         await updateApplicationSettings(applicationSettings);
