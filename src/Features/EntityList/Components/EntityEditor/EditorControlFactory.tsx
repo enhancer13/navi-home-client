@@ -5,18 +5,26 @@ import {
     IEntityFieldDefinition,
 } from "../../../../BackendTypes";
 import {
-    ListDateTimePicker,
+    ListDropDownListSinglePicker, ListEntityDropDownListPicker, ListDateTimePicker,
     ListNumericInputItem,
     ListSwitchItem,
     ListTextInputItem,
 } from "../../../../Components/Controls/ListItems";
-import {ListDropDownListSinglePicker} from "../../../../Components/Controls/ListItems/ListDropDownListSinglePicker";
-import {ListEntityDropDownListPicker} from "../../../../Components/Controls/ListItems/ListEntityDropDownListPicker";
 import {StatusBadge} from "../StatusBadge";
 import {StyleSheet, View} from 'react-native';
 import {snakeToPascal} from "../../../../Helpers/StringUtils";
 import React from "react";
 import {ListItem} from "../../ListItem";
+
+function fieldDefinitionTitleFormatter(value: string, definition: {[key: string]: string}): string {
+    const allEqual = Object.entries(definition).every(([key, val]) => key === val);
+
+    if (allEqual) {
+        return snakeToPascal(value);
+    } else {
+        return definition[value] || value;
+    }
+}
 
 class EditorControlFactory {
     create(fieldDefinition: IEntityFieldDefinition, listItem: ListItem, readonly: boolean, updateFieldValue: (fieldName: string, value: unknown) => void): React.ReactElement {
@@ -98,20 +106,21 @@ class EditorControlFactory {
                     </View>
                 );
             }
-            case EntityFieldInputTypes.SELECT:
+            case EntityFieldInputTypes.SELECT: {
                 return (
                     <View style={styles.listItemContainer}>
                         <ListDropDownListSinglePicker
                             title={fieldTitle}
                             selectedItem={value as string}
-                            items={Object.values(fieldDefinition.fieldEnumValues)}
+                            items={Object.keys(fieldDefinition.fieldEnumValues)}
                             readonly={readonly}
                             onChange={(value) => updateFieldValue(fieldName, value)}
-                            titleFormatter={snakeToPascal}
+                            titleFormatter={(title: string) => fieldDefinitionTitleFormatter(title, fieldDefinition.fieldEnumValues)}
                         />
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
                     </View>
                 );
+            }
             case EntityFieldInputTypes.MULTIPLE_SELECT:
             case EntityFieldInputTypes.SINGLE_SELECT:
                 return (

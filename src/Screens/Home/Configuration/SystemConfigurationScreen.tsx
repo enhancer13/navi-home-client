@@ -9,7 +9,7 @@ import {splitPascalCase} from "../../../Helpers/StringUtils";
 import {useAuth} from "../../../Features/Authentication";
 import {heightPercentageToDP as hp} from "react-native-responsive-screen";
 import {useTheme} from "react-native-paper";
-import {NaviTheme} from "../../../PaperTheme";
+import {AppTheme} from "../../../AppTheme";
 
 const HEADER_HEIGHT = hp(5);
 const LIST_TITLE_HEIGHT = HEADER_HEIGHT * 1.5;
@@ -19,7 +19,7 @@ export const SystemConfigurationScreen: React.FC = () => {
     const route = useRoute();
     const scrollY = useRef(new Animated.Value(0)).current;
     const {authentication} = useAuth();
-    const theme = useTheme<NaviTheme>();
+    const theme = useTheme<AppTheme>();
 
     const menuGroups = useMemo(() => {
         if (!authentication) {
@@ -34,6 +34,7 @@ export const SystemConfigurationScreen: React.FC = () => {
                     <ListNavigationItem key={2} title={'Video streaming profiles'} icon={"video-wireless"} iconBackgroundColor={theme.colors.system.mint} route={'Video Streaming Profiles'}/>,
                     <ListNavigationItem key={3} title={'Video recording profiles'} icon={"file-video"} iconBackgroundColor={theme.colors.system.cyan} route={'Video Recording Profiles'}/>,
                     <ListNavigationItem key={4} title={'Motion detection profiles'} icon={"motion-sensor"} iconBackgroundColor={theme.colors.system.blue} route={'Motion Detection Profiles'}/>,
+                    <ListNavigationItem key={5} title={'Object detection profiles'} icon={"human-handsdown"} iconBackgroundColor={theme.colors.system.indigo} route={'Object Detection Profiles'}/>,
                 ]
             },
             {

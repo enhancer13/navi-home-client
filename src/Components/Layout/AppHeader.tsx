@@ -39,7 +39,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     const [searchActive, toggleSearchActive] = useToggle(false);
 
     const handleSearchQueryChange = useCallback((query: string) => {
-        onSearchQueryChange && onSearchQueryChange(query);
+        onSearchQueryChange?.(query);
     }, [onSearchQueryChange]);
 
     const handleBackPress = useCallback(() => {

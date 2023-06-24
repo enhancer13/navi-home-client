@@ -45,12 +45,12 @@ describe('EntityFactory', () => {
         const categoryFieldDefinitionMock = mock<IEntityFieldDefinition>();
         when(categoryFieldDefinitionMock.fieldDataType).thenReturn(EntityFieldInputTypes.SINGLE_SELECT);
         when(categoryFieldDefinitionMock.fieldName).thenReturn('category');
-        when(categoryFieldDefinitionMock.fieldEnumValues).thenReturn(new Map([['A', 'A'], ['B', 'B']]));
+        when(categoryFieldDefinitionMock.fieldEnumValues).thenReturn({'A': 'A', 'B': 'B'});
 
         const tagsFieldDefinitionMock = mock<IEntityFieldDefinition>();
         when(tagsFieldDefinitionMock.fieldDataType).thenReturn(EntityFieldInputTypes.MULTIPLE_SELECT);
         when(tagsFieldDefinitionMock.fieldName).thenReturn('tags');
-        when(tagsFieldDefinitionMock.fieldEnumValues).thenReturn(new Map([['tag1', 'tag1'], ['tag2', 'tag2']]));
+        when(tagsFieldDefinitionMock.fieldEnumValues).thenReturn({'tag1': 'tag1', 'tag2': 'tag2'});
 
         when(entityDefinitionMock.objectFields).thenReturn( [
             instance(idFieldDefinitionMock),

@@ -51,12 +51,12 @@ export const DropDownListPicker: React.FC<DropDownListPickerProps<any>> = ({
     const onChangeValue = useCallback((value: ValueType | ValueType[] | null) => {
             if (multiple && !isEqual(prevSelectedItem, value)) {
                 setPrevSelectedItem(value);
-                onItemChanged && onItemChanged(value);
+                onItemChanged?.(value);
                 return;
             }
             if (!multiple && prevSelectedItem !== value) {
                 setPrevSelectedItem(value);
-                onItemChanged && onItemChanged(value);
+                onItemChanged?.(value);
             }
         },
         [prevSelectedItem],

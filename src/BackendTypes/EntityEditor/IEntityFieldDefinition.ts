@@ -11,7 +11,7 @@ export interface IEntityFieldDefinition {
     fieldName: string;
     fieldTitle: string;
     fieldDataType: EntityFieldInputTypes;
-    fieldEnumValues: object; //only for enums, when fieldDataType == SELECT
+    fieldEnumValues: {[key: string]: string}; //only for enums, when fieldDataType == SELECT
     fieldValidator: IEntityFieldValidator;
     searchPolicy: EntityFieldSearchPolicies;
     rowGroup: number;

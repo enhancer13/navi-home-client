@@ -13,7 +13,7 @@ import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/Sc
 import {AccountStackParamList} from "./index";
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {useApplicationSettings} from "../../../Features/DataStorage/Hooks/useApplicationSettings";
-import {NaviTheme} from "../../../PaperTheme";
+import {AppTheme} from "../../../AppTheme";
 
 const PAGE_TITLE = 'My Account';
 const HEADER_HEIGHT = hp(5);
@@ -25,7 +25,7 @@ export const AccountDetailsScreen: React.FC = () => {
     const navigation = useNavigation();
     const {applicationSettings, updateApplicationSettings} = useApplicationSettings();
     const scrollY = useRef(new Animated.Value(0)).current;
-    const theme = useTheme<NaviTheme>();
+    const theme = useTheme<AppTheme>();
 
     const menuGroups = useMemo(() => {
         if (!authentication || !applicationSettings) {

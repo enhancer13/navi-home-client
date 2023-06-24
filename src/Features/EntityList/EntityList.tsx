@@ -69,15 +69,15 @@ const EntityList: React.FC<Props> = ({
     const theme = useTheme();
 
     useEffect(() => {
-        onSelectionStatusChanged && onSelectionStatusChanged(selectionActive);
+        onSelectionStatusChanged?.(selectionActive);
     }, [onSelectionStatusChanged, selectionActive]);
 
     useEffect(() => {
-        onSelectedItemsCountChanged && onSelectedItemsCountChanged(selectedItems.length);
+        onSelectedItemsCountChanged?.(selectedItems.length);
     }, [onSelectedItemsCountChanged, selectedItems]);
 
     useEffect(() => {
-        onItemsCountChanged && onItemsCountChanged(totalCount);
+        onItemsCountChanged?.(totalCount);
     }, [onItemsCountChanged, totalCount]);
 
     useEffect(() => {
@@ -85,12 +85,12 @@ const EntityList: React.FC<Props> = ({
     }, [extraData, setItems]);
 
     const onSelectionListItemPress = (item: ListItem) => {
-        onItemPress && onItemPress(item);
+        onItemPress?.(item);
     }
 
     const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
         scrollPositionRef.current = event.nativeEvent.contentOffset.y;
-        onScroll && onScroll(event);
+        onScroll?.(event);
     }, [onScroll]);
 
     const handleEndReached = () => {

@@ -4,7 +4,7 @@ import {AuthProvider} from './Features/Authentication';
 import {PopupMessageProvider} from './Features/Messaging';
 import {DialogProvider} from "./Features/Dialog";
 import {Provider as PaperProvider} from "react-native-paper";
-import {darkTheme, lightTheme} from "./PaperTheme";
+import {darkTheme, lightTheme} from "./AppTheme";
 import {useApplicationSettings} from "./Features/DataStorage/Hooks/useApplicationSettings";
 
 type AppProvidersProps = {

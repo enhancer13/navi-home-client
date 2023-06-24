@@ -30,6 +30,14 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=enhancer13_navi-home-client&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=enhancer13_navi-home-client)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=enhancer13_navi-home-client&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=enhancer13_navi-home-client)
 
+#### Test Coverage Metrics
+![Coverage Branches](https://raw.githubusercontent.com/enhancer13/navi-home-client/coverage-report/badges/coverage-branches.svg)
+![Coverage Functions](https://raw.githubusercontent.com/enhancer13/navi-home-client/coverage-report/badges/coverage-functions.svg)
+![Jest Coverage](https://raw.githubusercontent.com/enhancer13/navi-home-client/coverage-report/badges/coverage-jest%20coverage.svg)
+![Coverage Lines](https://raw.githubusercontent.com/enhancer13/navi-home-client/coverage-report/badges/coverage-lines.svg)
+![Coverage Statements](https://raw.githubusercontent.com/enhancer13/navi-home-client/coverage-report/badges/coverage-statements.svg)
+
+
 ## Project Description
 ***
 >Under development and will be available soon.

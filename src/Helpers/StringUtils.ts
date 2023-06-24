@@ -1,7 +1,15 @@
-import {camelCase, snakeCase, startCase} from "lodash";
+import {camelCase, startCase} from "lodash";
 
 export const snakeToPascal = (value: string): string => {
-    return startCase(camelCase(snakeCase(value)));
+    if (value.indexOf('_') > -1 || value === value.toUpperCase() || /^[A-Z]+\d+$/.test(value)) {
+        if(/^[A-Z]+\d+$/.test(value)) {
+            return value;
+        } else {
+            return startCase(camelCase(value));
+        }
+    } else {
+        return value;
+    }
 }
 
 export const splitPascalCase = (value: string): string => {

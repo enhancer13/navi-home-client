@@ -9,6 +9,7 @@ import {MotionDetectionProfilesScreen} from "./Components/MotionDetectionProfile
 import {VideoRecordingProfilesScreen} from "./Components/VideoRecordingProfiles";
 import {AlarmProfilesScreen} from "../Alarm";
 import {FirebaseAccountsScreen} from "./Components/FirebaseAccounts";
+import {ObjectDetectionProfilesScreen} from "./Components/ObjectDetectionProfiles";
 
 export type ConfigurationStackParamList = {
     "Configuration": React.FC;
@@ -16,6 +17,7 @@ export type ConfigurationStackParamList = {
     "Video Streaming Profiles": React.FC;
     "Video Recording Profiles": React.FC;
     "Motion Detection Profiles": React.FC;
+    "Object Detection Profiles": React.FC;
     Users: React.FC;
     "Firebase Accounts": React.FC;
     "Configure Alarm Profiles": React.FC;
@@ -35,6 +37,7 @@ export const SystemConfigurationNavigator = () => {
             <StackNavigator.Screen name="Video Recording Profiles" component={VideoRecordingProfilesScreen} />
             <StackNavigator.Screen name="Firebase Accounts" component={FirebaseAccountsScreen} />
             <StackNavigator.Screen name="Motion Detection Profiles" component={MotionDetectionProfilesScreen} />
+            <StackNavigator.Screen name="Object Detection Profiles" component={ObjectDetectionProfilesScreen} />
             <StackNavigator.Screen name="Configure Alarm Profiles">
                 {(props) => <AlarmProfilesScreen {...props} backButton={true} />}
             </StackNavigator.Screen>
