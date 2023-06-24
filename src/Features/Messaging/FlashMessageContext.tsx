@@ -1,7 +1,7 @@
 import React, {createContext, useCallback, useContext} from 'react';
 import FlashMessage, {showMessage} from "react-native-flash-message";
 import {useTheme} from "react-native-paper";
-import {NaviTheme} from "../../PaperTheme";
+import {AppTheme} from "../../AppTheme";
 
 interface IContextProps {
     showSuccess: (message: string) => void;
@@ -17,7 +17,7 @@ interface Props {
 const PopupMessageContext = createContext<IContextProps>({} as IContextProps);
 
 export const PopupMessageProvider: React.FC<Props> = ({children}) => {
-    const theme = useTheme<NaviTheme>();
+    const theme = useTheme<AppTheme>();
     const {success, information, warning, error, white} = theme.colors.system;
 
     const showSuccess = useCallback((message: string) => {

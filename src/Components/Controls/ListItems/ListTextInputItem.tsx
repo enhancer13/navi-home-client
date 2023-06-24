@@ -41,7 +41,7 @@ export const ListTextInputItem: React.FC<TextInputProps> = ({
     const handleInputChanged = (input: string) => {
         setInputValue((prevValue) => {
             if (prevValue !== input) {
-                onValueChanged && onValueChanged(input);
+                onValueChanged?.(input);
             }
             return input;
         });

@@ -1,7 +1,7 @@
 import {MD3LightTheme, MD3DarkTheme} from 'react-native-paper';
 import {MD3Theme} from 'react-native-paper';
 
-export type NaviTheme = MD3Theme & {
+export type AppTheme = MD3Theme & {
     colors: {
         "system": {
             "success": string;
@@ -25,7 +25,7 @@ export type NaviTheme = MD3Theme & {
     };
 };
 
-export const lightTheme: NaviTheme = {
+export const lightTheme: AppTheme = {
     ...MD3LightTheme,
     colors: {
         "primary": '#9487ec',
@@ -90,7 +90,7 @@ export const lightTheme: NaviTheme = {
     }
 };
 
-export const darkTheme: NaviTheme = {
+export const darkTheme: AppTheme = {
     ...MD3DarkTheme,
     colors: {
         "primary": "rgb(163,167,248)",

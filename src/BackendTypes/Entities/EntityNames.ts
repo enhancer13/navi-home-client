@@ -4,6 +4,7 @@ export const EntityNames = {
     VideoSource: 'VideoSource',
     VideoStreamingProfile: 'VideoStreamingProfile',
     MotionDetectionProfile: 'MotionDetectionProfile',
+    ObjectDetectionProfile: 'ObjectDetectionProfile',
     VideoRecordingProfile: 'VideoRecorderProfile',
     User: 'User',
     AlarmProfile: 'AlarmProfile',
