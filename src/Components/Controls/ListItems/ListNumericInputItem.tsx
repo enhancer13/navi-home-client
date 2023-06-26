@@ -35,12 +35,13 @@ export const ListNumericInputItem: React.FC<NumericProps> = ({
         const isDecimalInput = inputMode === "decimal";
         const isValidInput =
             isNumericInput && /^[0-9]*$/.test(input) // Numeric input allows integers only
-            || isDecimalInput && /^(\d+(\.\d*)?|\.(\d+))$/.test(input); // Decimal input allows integers and decimals in specific formats
+            || isDecimalInput && /^(\d+([.,]\d*)?|[.,](\d+))$/.test(input); // Decimal input allows integers and decimals in specific formats
         if (!isValidInput) {
             return;
         }
 
-        const newValue: number | null = parseFloat(input);
+        const inputNormalized = input.replace(',', '.');
+        const newValue: number | null = parseFloat(inputNormalized);
         if (isNaN(newValue)) {
             throw new Error(`Cannot parse text input as number: ${input}`)
         }
