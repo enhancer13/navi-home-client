@@ -7,7 +7,6 @@
 > <p align="left"><a href="https://reactnative.dev" target="_blank"><img height="50" src="https://d33wubrfki0l68.cloudfront.net/554c3b0e09cf167f0281fda839a5433f2040b349/ecfc9/img/header_logo.svg" /></a>&nbsp;<a href="https://www.typescriptlang.org/docs/" target="_blank"><img height="50" src="https://raw.githubusercontent.com/jpb06/jpb06/master/icons/TypeScript.svg" /></a>&nbsp</p>
 
 ## Project Status
-***
 #### Build Status:
 
 [![android build](https://github.com/enhancer13/navi-home-client/actions/workflows/android_build.yml/badge.svg?branch=master)](https://github.com/enhancer13/navi-home-client/actions/workflows/android_build.yml?branch=master)
