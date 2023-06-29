@@ -39,7 +39,6 @@
 
 
 ## Project Description
-***
 **Navi Home** takes home automation to the next level by integrating AI, IP-cameras, and IoT devices under a single umbrella. It's more than just a smart home; it's a self-aware ecosystem that can see, communicate, and make decisions based on the configured automation scenes.
 
 ***
