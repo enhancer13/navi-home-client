@@ -7,9 +7,9 @@ interface AlarmSuspendDialogProps extends DialogContentProps {
     onConfirm: (minutes: number) => void;
 }
 
-export const AlarmSuspendDialog: React.FC<AlarmSuspendDialogProps> = ({title, onConfirm}) => {
+export const AlarmSuspendDialog: React.FC<AlarmSuspendDialogProps> = ({title, onConfirm, onCancel}) => {
     return (
-        <Dialog visible={true}>
+        <Dialog visible={true} onDismiss={onCancel}>
             <Dialog.Title>
                 <Text variant={'titleLarge'}>{title}</Text>
             </Dialog.Title>

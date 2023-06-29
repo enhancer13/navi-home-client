@@ -36,6 +36,8 @@ export const VideoElement: React.FC<ICarouselElementProps> = ({
         }
     }, [index, currentMediaIndex]);
 
+    const thumbnailUri = mediaSource.thumbnail?.url ? encodeURI(mediaSource.thumbnail.url) : undefined;
+
     return (
         <MediaElement
             index={index}
@@ -54,6 +56,7 @@ export const VideoElement: React.FC<ICarouselElementProps> = ({
                 ref={videoPlayerRef}
                 paused={true}
                 uri={encodeURI(mediaSource.url)}
+                thumbUri={thumbnailUri}
                 headers={mediaSource.props.source.headers}
                 tapAnywhereToPause={false}
                 disableFullscreen={true} // react-native-video 6.0.1 alpha doesn't support fullscreen yet

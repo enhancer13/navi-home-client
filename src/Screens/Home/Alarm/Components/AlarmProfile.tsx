@@ -50,7 +50,7 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
         <EntityViewContainer onLayout={onLayout}>
             <View style={styles.rowContainer}>
                 <View style={styles.columnContainer}>
-                    <IconButton icon={'power'} size={width * 0.12}
+                    <IconButton icon={'power'} size={width * 0.12} style={styles.alarmToggle}
                                 iconColor={alarmProfile.active ? activeColor : inactiveColor}
                                 onPress={alarmProfileToggle} mode={'contained'}/>
                     <Animated.View style={scaleAnimationRef.current.getStyle(0, 1)}>
@@ -134,6 +134,9 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         width: 1,
         color: theme.colors.outlineVariant
     },
+    alarmToggle: {
+        zIndex: 1, //android layout issue
+    }
 });
 
 export default AlarmProfile;
