@@ -1,6 +1,5 @@
 ![Logo](docs/Images/enhancer13_logo_inverted.png)
-# **Navi Home Client** 
-***
+# **Navi Home Client**
 > The client application for the [Navi Home Server - Intelligent Smart Home](https://github.com/enhancer13/navi-home)
 > 
 > The application is written in **React Native** using **TypeScript**
