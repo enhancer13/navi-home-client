@@ -1,6 +1,6 @@
 {
   "name": "navihomeclient",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "np": "np --no-publish",
@@ -115,7 +115,9 @@
   },
   "license": "MIT",
   "jest": {
-    "coverageReporters": ["json-summary"],
+    "coverageReporters": [
+      "json-summary"
+    ],
     "preset": "react-native",
     "moduleFileExtensions": [
       "ts",

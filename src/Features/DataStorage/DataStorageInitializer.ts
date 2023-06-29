@@ -17,16 +17,10 @@ class DataStorageInitializer {
         await applicationSettingsStorage.save(applicationSettings);
 
         //initialize backend configuration
-        let serverInfos = [
-            new ServerInfo('Kyiv', 'https://ip-2c41.proline.net.ua:49173'),
-            new ServerInfo('Yalinka', 'https://176.104.16.214:34148'),
-            new ServerInfo('Yudin', 'https://77.121.5.210:51569'),
-        ];
+        const serverInfos: ServerInfo[] = [];
         if (__DEV__) {
-            serverInfos = serverInfos.concat([
-                new ServerInfo('ios-dev', 'http://localhost:9000'),
-                new ServerInfo('android-dev', 'http://10.0.2.2:9000'),
-            ]);
+            serverInfos.push(new ServerInfo('ios-dev', 'http://localhost:9000'));
+            serverInfos.push(new ServerInfo('android-dev', 'http://10.0.2.2:9000'));
         }
         await serverInfoStorage.saveMultiple(serverInfos);
     }

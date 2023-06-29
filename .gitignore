@@ -64,3 +64,5 @@ yarn-error.log
 /coverage/
 /dist/
 /android/app/google-services.json
+
+.localconfig
