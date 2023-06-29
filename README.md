@@ -154,9 +154,9 @@ By default, application matches your operating system's theme upon installation,
 </details>
 
 ## Installation
->The application operates in conjunction with a backend server, the [Navi Home Server - Intelligent Smart Home](https://github.com/enhancer13/navi-home), which is distributed independently.
-> 
->The server is currently under development and its release is on the horizon. Should you wish to participate in testing the beta version, don't hesitate to [reach out to me](mailto:garmashs@gmail).
+The application operates in conjunction with a backend server, the [Navi Home Server - Intelligent Smart Home](https://github.com/enhancer13/navi-home), which is distributed independently.
+
+The server is currently under development and its release is on the horizon. Should you wish to participate in testing the beta version, don't hesitate to [reach out to me](mailto:garmashs@gmail).
 
 >Under development and will be available soon.
 
