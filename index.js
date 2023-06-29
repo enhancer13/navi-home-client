@@ -6,6 +6,11 @@ import Orientation from 'react-native-orientation-locker';
 import {dataStorageInitializer} from './src/Features/DataStorage';
 import {AppProviders} from './src/AppProviders';
 import PropTypes from 'prop-types';
+import messaging from "@react-native-firebase/messaging";
+
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('firebase message handled in the background', remoteMessage);
+});
 
 const RenderApp = ({isHeadless}) => {
   const [appInitialized, setAppInitialized] = useState(false);

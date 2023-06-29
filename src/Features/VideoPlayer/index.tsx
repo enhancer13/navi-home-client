@@ -1452,9 +1452,10 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
     renderPoster() {
         const {thumbUri, headers} = this.props;
         const {paused, error, fullscreen} = this.state;
-        if (!paused || error || fullscreen) {
+        if (!paused || error || fullscreen || !thumbUri) {
             return null;
         }
+
         return (
             <Image
                 style={styles.poster.image}
