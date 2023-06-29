@@ -72,13 +72,14 @@ To learn more about the application's functionality, please expand the sections 
   <summary><span style="font-size: 1.4em; font-weight: bold;">Unified Interface</span></summary>
 <br>
 It is possible to seamlessly integrate any **IP camera** and a plethora of **IoT devices** (IoT devices support will be released in version 2.0.0). Monitor and manage all of these devices using a single application, thereby breaking the silos of separate device interfaces.
-<br>
+
+***
 
 ><h3>Unified Video Stream Manager</h3>
 >Manage all your configured video feeds in one place. This feature allows you to play videos, initiate recording, capture screenshots, and more, all from a single, convenient screen.
 >
 >![Logo](docs/Images/video_stream_viewer.gif)
-
+***
 ><h3>Simplified Setup Interface</h3>
 >Set up streaming from any publicly available video source in just a few simple steps through the intuitive configuration screen.
 >
@@ -89,13 +90,14 @@ It is possible to seamlessly integrate any **IP camera** and a plethora of **IoT
   <summary><span style="font-size: 1.4em; font-weight: bold;">Adaptive Alarm System</span></summary>
 <br>
 The alarm system in Navi Server can adapt to different profiles, each with its own set of actions such as push notifications, emails, mobile phone calls, image or video saving. It can utilize either a motion detector or the AI engine's person detection feature (AI engine's person detection support will be released in version 1.3.0).
-<br>
+
+***
 
 ><h3>Comprehensive Alarm Settings</h3>
 >Alarm system offers extensive configuration options for a tailored experience. Choose from a range of options including time frames, days of the week, notification targets (such as emails, push notifications, video recordings, etc.), user groups, and more. Plus, the ability to suspend notifications adds another layer of customization to meet your unique needs.
 >
 >![Logo](docs/Images/alarm_profile_overview.gif)
-
+***
 ><h3>Showcase of Alarm System Capabilities</h3>
 >This demonstration highlights the functionalities of the alarm system, encapsulating its ability to detect movement and alert the specified user through in-app notifications.
 >
@@ -106,13 +108,14 @@ The alarm system in Navi Server can adapt to different profiles, each with its o
   <summary><span style="font-size: 1.4em; font-weight: bold;">Media Gallery</span></summary>
 <br>
 Store and access images or videos recorded by Navi Server in the media gallery. These media items, created automatically by alarm profiles, automation scenarios or manually triggered, can be shared or used to further train the AI engine (will be released in version 1.3.0) for more precise detection.
-<br>
+
+***
 
 ><h3>Showcase of Media Gallery Features</h3>
 >The Media Gallery serves as a repository for images and videos generated through alarm profiles, automated scenarios, or user-triggered events.
 >
 >![Logo](docs/Images/media_gallery_demo.gif)
->
+***
 >The Media Gallery allows not ony to view the media items, but also to share them with others, delete them, or use them to train the AI engine (will be released in version 1.3.0).
 >
 >![Logo](docs/Images/media_gallery_demo2.gif)
@@ -138,7 +141,8 @@ Armed with an AI engine, Navi Server can detect any person in your house and ref
   <summary><span style="font-size: 1.4em; font-weight: bold;">Biometric Authentication</span></summary>
 <br>
 The application streamlines the login process by incorporating biometric authentication mechanisms. On Android devices, the application supports fingerprint scanning, while on iOS devices, it utilizes FaceID for secure and convenient access.
-<br>
+
+***
 
 ><h3>Demonstration of Biometric Authentication on Android</h3>
 >This demonstration presents the process of fingerprint-based authentication for Android devices.
@@ -150,7 +154,8 @@ The application streamlines the login process by incorporating biometric authent
   <summary><span style="font-size: 1.4em; font-weight: bold;">Theming Support</span></summary>
 <br>
 By default, application matches your operating system's theme upon installation, providing a familiar and intuitive visual experience. Later, if you prefer, you can manually switch between light and dark themes according to your preference.
-<br>
+
+***
 
 ><h3>Showcasing the Theme Switching Feature</h3>
 >
