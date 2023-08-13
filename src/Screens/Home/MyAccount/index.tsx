@@ -1,5 +1,5 @@
 import React from "react";
-import {IUser} from "../../../BackendTypes";
+import {IUserInfo} from "../../../BackendTypes";
 import {NavigationProp, RouteProp} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {AccountDetailsScreen} from "./AccountDetailsScreen";
@@ -7,7 +7,7 @@ import {ChangePasswordScreen} from "./Components/ChangePasswordScreen";
 
 export type AccountStackParamList = {
     "Account Details": React.FC;
-    "Change Password":  { user: IUser; };
+    "Change Password":  { user: IUserInfo; };
 };
 export type AccountRouteProps<RouteName extends keyof AccountStackParamList> = RouteProp<AccountStackParamList, RouteName>;
 export type AccountNavigationProp = NavigationProp<AccountStackParamList>;

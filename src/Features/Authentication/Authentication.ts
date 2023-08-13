@@ -1,7 +1,7 @@
-import {IUser} from '../../BackendTypes';
+import {IUserInfo} from '../../BackendTypes';
 
 export class Authentication {
-  private _user!: IUser;
+  private _user!: IUserInfo;
   private _firebaseAccountId!: number;
   private readonly _serverName: string;
   private readonly _serverAddress: string;
@@ -15,11 +15,11 @@ export class Authentication {
     this._expirationDateTime = expirationDateTime;
   }
 
-  get user(): IUser {
+  get user(): IUserInfo {
     return this._user;
   }
 
-  set user(value: IUser) {
+  set user(value: IUserInfo) {
     this._user = value;
   }
 

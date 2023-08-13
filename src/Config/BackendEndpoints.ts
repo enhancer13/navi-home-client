@@ -5,11 +5,9 @@ export const backendEndpoints = {
     ENTITY_EDITOR_DATA: '/api/jwt/entity-editor-data',
     SERVICE_ACCOUNTS: '/api/jwt/users/service-accounts',
     PasswordChange: '/api/jwt/users/password/change',
-    Authentication: {
-        JWT_LOGIN: '/api/jwt/auth/login',
-        JWT_LOGOUT: '/api/jwt/auth/logout',
-        JWT_TOKEN_REFRESH: '/api/jwt/users/token/refresh',
-        AUTH_USERINFO: '/api/jwt/authentication/info/user',
+    Identity: {
+        URL: '/identity/sts',
+        USER_INFO: '/identity/sts/connect/userinfo',
     },
     Services: {
         APPLICATION_SERVICES_STATUS: '/api/jwt/services/status',

@@ -13,7 +13,6 @@ jest.mock('react-native-device-info', () => {
   }
 });
 
-
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
 jest.mock('@react-navigation/native', () => {
@@ -67,5 +66,10 @@ jest.mock('react-native-keychain', () => {
     getSupportedBiometryType: jest.fn(),
   };
 });
+
+jest.mock("react-native-app-auth", () => ({
+  authorize: jest.fn(),
+  refresh: jest.fn(),
+}));
 
 

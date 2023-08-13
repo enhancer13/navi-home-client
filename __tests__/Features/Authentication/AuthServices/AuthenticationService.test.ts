@@ -1,10 +1,12 @@
 import ISecuredTokenStorage from "../../../../src/Features/Authentication/SecuredStorage/ISecuredTokenStorage";
 import IHttpClient from "../../../../src/Framework/Net/HttpClient/IHttpClient";
-import {ITokenPair, IUser} from "../../../../src/BackendTypes";
-import {BackendAuthService} from "../../../../src/Features/Authentication/AuthServices/BackendAuthService";
+import {ITokenPair, IUserInfo} from "../../../../src/BackendTypes";
+import {AuthenticationService} from "../../../../src/Features/Authentication/AuthServices/AuthenticationService";
 import {IJwtDecoder} from "../../../../src/Features/Authentication/Helpers/IJwtDecoder";
 import Keychain from "react-native-keychain";
 import {Authentication} from "../../../../src/Features/Authentication";
+import {authorize, refresh} from "react-native-app-auth";
+import {backendEndpoints} from "../../../../src/Config/BackendEndpoints";
 
 const tokenStorageMock: jest.Mocked<ISecuredTokenStorage> = {
     saveTokenPair: jest.fn(),
@@ -25,88 +27,81 @@ const httpClientMock: jest.Mocked<IHttpClient> = {
 
 const jwtDecoderMock: jest.Mocked<IJwtDecoder> = {
     getExpirationDate: jest.fn(),
-    isExpired: jest.fn(),
+    isExpired: jest.fn()
 }
 
-const tokenPair: ITokenPair = {
+const authenticateResult: ITokenPair = {
     accessToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgwMjk0NTk4LCJqdGkiOiJiZWNjNmE2ZC1jNzFmLTQwMTktYmI1Ny0zNjEyMmQ4MDY1NDMifQ.EBJ5QGn7eJ0f4C625eVotFBeixXxa3GmimHLR_gdKKY',
     refreshToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgwMjk0NjI4LCJqdGkiOiJmNjVhOTVjMC1jMWZhLTQzY2YtYTgwMy1lOWY0ZjU3YTQ4MDkifQ.as7DLXmJQxgv1b9w-l-qQmuh4jZ5XWZaqEIMrWBtIrI',
 };
 
 const serverName = 'testServer';
 const serverAddress = 'https://myserver.com';
-const username = 'testUser';
-const password = 'testPassword';
+const username = 'testUsername';
+const userInfo: IUserInfo = {
+    sub: "",
+    name: 'testUsername',
+    email: "",
+    role: [],
+    email_verified: false,
+    preferred_username: "",
+};
 
-describe('BackendAuthService', () => {
-    let authService: BackendAuthService;
+describe('AuthService', () => {
+    let authService: AuthenticationService;
 
     beforeEach(() => {
-        authService = new BackendAuthService(jwtDecoderMock, tokenStorageMock, httpClientMock);
+        authService = new AuthenticationService(jwtDecoderMock, tokenStorageMock, httpClientMock);
         jest.resetAllMocks();
         jest.resetModules()
+        httpClientMock.get.mockResolvedValue(userInfo);
+        (authorize as jest.Mock).mockResolvedValue(authenticateResult);
     });
 
     describe('authenticateByCredentials', () => {
-        it('should send user credentials to jwt authentication endpoint', async () => {
-            // Arrange
-            const expectedUser: IUser = {
-                id: 1,
-                username: 'testUsername',
-                admin: false,
-                email: "",
-                password: "testPassword",
-                userRoles: []
-            };
-            httpClientMock.put.mockResolvedValue(tokenPair);
-            httpClientMock.get.mockResolvedValue(expectedUser);
-
+        it('should pass identity server address and connect token path to authenticate request', async () => {
             // Act
-            await authService.authenticateByCredentials(username, password, serverName, serverAddress);
+            await authService.authenticateByCredentials(serverName, serverAddress);
 
             // Assert
-            expect(httpClientMock.put).toHaveBeenCalledWith( "https://myserver.com/api/jwt/auth/login", {"body": "{\"username\":\"testUser\",\"password\":\"testPassword\"}"});
+            const expectedAuthenticateConfig = {
+                issuer: serverAddress + backendEndpoints.Identity.URL,
+            }
+            expect((authorize as jest.Mock)).toHaveBeenCalledWith(
+                expect.objectContaining(expectedAuthenticateConfig)
+            );
+        });
+
+        it('should request the following scopes: "openid", "email", "profile", "roles", "offline_access"', async () => {
+            // Act
+            await authService.authenticateByCredentials(serverName, serverAddress);
+
+            // Assert
+            const expectedAuthenticateConfig = {
+                scopes: ['openid', 'email', 'profile', 'roles', 'offline_access'],
+            }
+            expect((authorize as jest.Mock)).toHaveBeenCalledWith(
+                expect.objectContaining(expectedAuthenticateConfig)
+            );
+        });
+
+        it('should save the access and refresh tokens to secured storage', async () => {
+            // Act
+            await authService.authenticateByCredentials(serverName, serverAddress);
+
+            // Assert
+            expect(tokenStorageMock.saveTokenPair).toHaveBeenCalledWith(serverName, userInfo.name, { accessToken: authenticateResult.accessToken, refreshToken: authenticateResult.refreshToken });
         });
 
         it('should request authenticated user and return an authentication object', async () => {
-            // Arrange
-            const expectedUser: IUser = {
-                id: 1,
-                username: 'testUsername',
-                admin: false,
-                email: "",
-                password: "testPassword",
-                userRoles: []
-            };
-            httpClientMock.put.mockResolvedValue(tokenPair);
-            httpClientMock.get.mockResolvedValue(expectedUser);
+            httpClientMock.get.mockResolvedValue(userInfo);
 
             // Act
-            const authentication = await authService.authenticateByCredentials(username, password, serverName, serverAddress);
+            const authentication = await authService.authenticateByCredentials(serverName, serverAddress);
 
             // Assert
-            expect(httpClientMock.get).toHaveBeenCalledWith("/api/jwt/authentication/info/user", {authentication});
-            expect(authentication.user).toEqual(expectedUser);
-        });
-
-        it('should save the token pair to secured storage after successfully authentication', async () => {
-            // Arrange
-            const expectedUser: IUser = {
-                id: 1,
-                username: 'testUsername',
-                admin: false,
-                email: "",
-                password: "testPassword",
-                userRoles: []
-            };
-            httpClientMock.put.mockResolvedValue(tokenPair);
-            httpClientMock.get.mockResolvedValue(expectedUser);
-
-            // Act
-            await authService.authenticateByCredentials(username, password, serverName, serverAddress);
-
-            // Assert
-            expect(tokenStorageMock.saveTokenPair).toHaveBeenCalledWith(serverName, username, tokenPair);
+            expect(httpClientMock.get).toHaveBeenCalledWith(backendEndpoints.Identity.USER_INFO, {authentication});
+            expect(authentication.user).toEqual(userInfo);
         });
     });
 
@@ -123,8 +118,8 @@ describe('BackendAuthService', () => {
             // Arrange
             Keychain.getSupportedBiometryType = jest.fn().mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
-            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
+            tokenStorageMock.getAccessToken.mockResolvedValue(authenticateResult.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(authenticateResult.refreshToken);
             jwtDecoderMock.isExpired.mockReturnValue(false);
 
             // Act
@@ -138,16 +133,23 @@ describe('BackendAuthService', () => {
             // Arrange
             (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
-            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
+            tokenStorageMock.getAccessToken.mockResolvedValue(authenticateResult.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(authenticateResult.refreshToken);
             jwtDecoderMock.isExpired.mockReturnValueOnce(true).mockReturnValueOnce(false);
-            httpClientMock.put.mockResolvedValue(tokenPair);
+            const authorizeResult = {
+                accessToken: 'accessToken',
+                refreshToken: 'refreshToken',
+            };
+            (refresh as jest.Mock).mockResolvedValue(authorizeResult);
 
             // Act
             const authentication = await authService.authenticateByBiometric(username, serverName, serverAddress);
 
             // Assert
-            expect(httpClientMock.put).toHaveBeenCalledWith("https://myserver.com/api/jwt/users/token/refresh", {"body": "{\"accessToken\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgwMjk0NTk4LCJqdGkiOiJiZWNjNmE2ZC1jNzFmLTQwMTktYmI1Ny0zNjEyMmQ4MDY1NDMifQ.EBJ5QGn7eJ0f4C625eVotFBeixXxa3GmimHLR_gdKKY\",\"refreshToken\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgwMjk0NjI4LCJqdGkiOiJmNjVhOTVjMC1jMWZhLTQzY2YtYTgwMy1lOWY0ZjU3YTQ4MDkifQ.as7DLXmJQxgv1b9w-l-qQmuh4jZ5XWZaqEIMrWBtIrI\"}"});
+            expect((refresh as jest.Mock)).toHaveBeenCalledWith(
+                expect.any(Object),
+                expect.objectContaining({refreshToken: authenticateResult.refreshToken})
+            )
             expect(authentication).toBeInstanceOf(Authentication);
         });
 
@@ -155,8 +157,8 @@ describe('BackendAuthService', () => {
             // Arrange
             Keychain.getSupportedBiometryType = jest.fn().mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
-            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
+            tokenStorageMock.getAccessToken.mockResolvedValue(authenticateResult.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(authenticateResult.refreshToken);
             jwtDecoderMock.isExpired.mockReturnValue(true);
 
             // Act and Assert
@@ -176,8 +178,8 @@ describe('BackendAuthService', () => {
             // Arrange
             (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
-            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
+            tokenStorageMock.getAccessToken.mockResolvedValue(authenticateResult.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(authenticateResult.refreshToken);
             jwtDecoderMock.isExpired.mockImplementation(() => true);
 
             // Act & Assert
@@ -189,10 +191,10 @@ describe('BackendAuthService', () => {
             const serverErrorMessage = 'Unauthorized';
             (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
-            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
-            jwtDecoderMock.isExpired.mockImplementation((token) => token === tokenPair.accessToken);
-            httpClientMock.put.mockRejectedValue(new Error(serverErrorMessage));
+            tokenStorageMock.getAccessToken.mockResolvedValue(authenticateResult.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(authenticateResult.refreshToken);
+            jwtDecoderMock.isExpired.mockImplementation((token) => token === authenticateResult.accessToken);
+            (refresh as jest.Mock).mockRejectedValue(new Error(serverErrorMessage));
 
             // Act & Assert
             await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow(serverErrorMessage);
@@ -202,47 +204,45 @@ describe('BackendAuthService', () => {
             // Arrange
             Keychain.getSupportedBiometryType = jest.fn().mockResolvedValue('FaceID');
             tokenStorageMock.hasAccessToken.mockResolvedValue(true);
-            tokenStorageMock.getAccessToken.mockResolvedValue(tokenPair.accessToken);
-            tokenStorageMock.getRefreshToken.mockResolvedValue(tokenPair.refreshToken);
+            tokenStorageMock.getAccessToken.mockResolvedValue(authenticateResult.accessToken);
+            tokenStorageMock.getRefreshToken.mockResolvedValue(authenticateResult.refreshToken);
             jwtDecoderMock.isExpired.mockImplementation((token) => {
-                if (token === tokenPair.accessToken) {
+                if (token === authenticateResult.accessToken) {
                     return true;
-                } else if (token === tokenPair.refreshToken) {
+                } else if (token === authenticateResult.refreshToken) {
                     return false;
                 }
                 return false;
             });
-            const newTokenPair = {
+            const authorizeResult = {
                 accessToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgxMDYzOTg5LCJqdGkiOiJkMTg1ODJlNi0wNWEzLTQxZGItYWJhYi1iZjI2ODNmMzMyMTYifQ.DumQKK8d9P6Hu9tSseR7gNNgtmA2nQbbQK7uW76B420",
                 refreshToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgxNjY2OTg5LCJqdGkiOiI5OGNkNTJkMC0yOWYzLTRkNjgtOTU1NC03ZGQxMWIxNmJjNjYifQ.FSP4QiMIoM82touSxTJ0K1X9UOLYdLQcz7NIpcx8QFE"
-            }
-            httpClientMock.put.mockResolvedValue(newTokenPair);
+            };
+            (refresh as jest.Mock).mockResolvedValue(authorizeResult);
 
             // Act
             await authService.authenticateByBiometric(username, serverName, serverAddress);
 
             // Assert
-            expect(tokenStorageMock.saveTokenPair).toHaveBeenCalledWith(serverName, username, newTokenPair);
+            expect(tokenStorageMock.saveTokenPair).toHaveBeenCalledWith(serverName, username, authorizeResult);
         });
     });
 
     it('should throw an error if fetching user information fails', async () => {
         // Arrange
         const errorMessage = 'Error fetching user information';
-        httpClientMock.put.mockResolvedValue(tokenPair);
         httpClientMock.get.mockRejectedValue(new Error(errorMessage));
 
         // Act & Assert
-        await expect(authService.authenticateByCredentials(username, password, serverName, serverAddress)).rejects.toThrow(errorMessage);
+        await expect(authService.authenticateByCredentials(serverName, serverAddress)).rejects.toThrow(errorMessage);
     });
 
     it('should throw an error if saving the token pair to secured storage fails', async () => {
         // Arrange
         const errorMessage = 'Error saving token pair to secured storage';
-        httpClientMock.put.mockResolvedValue(tokenPair);
         tokenStorageMock.saveTokenPair.mockRejectedValue(new Error(errorMessage));
 
         // Act & Assert
-        await expect(authService.authenticateByCredentials(username, password, serverName, serverAddress)).rejects.toThrow(errorMessage);
+        await expect(authService.authenticateByCredentials(serverName, serverAddress)).rejects.toThrow(errorMessage);
     });
 });

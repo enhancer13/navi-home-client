@@ -32,15 +32,15 @@ export const AccountDetailsScreen: React.FC = () => {
             return [];
         }
 
-        const {username, email, userRoles} = authentication.user;
+        const {name, email, role} = authentication.user;
         return [
             {
                 title: 'Account information',
                 items: [
                     <Avatar.Icon key={1} size={wp(20)} icon="account" color={theme.colors.onPrimary} style={styles.avatar}/>,
-                    <ListTextItem key={2} value={username} title={'Username'} icon={'face-man'} iconBackgroundColor={theme.colors.system.blue} />,
+                    <ListTextItem key={2} value={name} title={'Username'} icon={'face-man'} iconBackgroundColor={theme.colors.system.blue} />,
                     <ListTextItem key={2} value={email} title={'Email address'} icon={'email'} iconBackgroundColor={theme.colors.system.indigo} />,
-                    <ListTextItem key={2} value={userRoles.map(x => x.userRole).join(', ')} title={'Roles'} icon={'account'} iconBackgroundColor={theme.colors.system.teal}/>,
+                    <ListTextItem key={2} value={role.join(', ')} title={'Roles'} icon={'account'} iconBackgroundColor={theme.colors.system.teal}/>,
                 ]
             },
             {

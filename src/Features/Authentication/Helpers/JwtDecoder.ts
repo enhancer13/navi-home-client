@@ -1,6 +1,17 @@
-import decodeJWT, {JwtPayload} from 'jwt-decode';
+import decodeJWT from 'jwt-decode';
 import moment from "moment/moment";
 import {IJwtDecoder} from "./IJwtDecoder";
+
+interface JwtPayload {
+    iss?: string;
+    sub?: string;
+    aud?: string[] | string;
+    exp?: number;
+    nbf?: number;
+    iat?: number;
+    jti?: string;
+    [key: string]: any;
+}
 
 export class JwtDecoder implements IJwtDecoder {
     public getExpirationDate(jwtToken: string): Date {
@@ -16,14 +27,12 @@ export class JwtDecoder implements IJwtDecoder {
     }
 
     private getExpiration(jwtToken: string): number {
-        if (!jwtToken) {
-            throw new Error('JWT token is undefined');
-        }
-        const decoded = decodeJWT<JwtPayload>(jwtToken);
-        if (!decoded.exp) {
+        const jwtPayload = decodeJWT<JwtPayload>(jwtToken);
+        if (!jwtPayload.exp) {
             throw new Error('Decoded JWT token is invalid, expiration is not defined');
         }
-        return decoded.exp * 1000;
+
+        return jwtPayload.exp * 1000;
     }
 }
 

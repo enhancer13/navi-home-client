@@ -1,5 +1,5 @@
 import Keychain from 'react-native-keychain';
-import {IBackendAuthService} from './IBackendAuthService';
+import {IAuthenticationService} from './IAuthenticationService';
 import {Authentication} from '../Authentication';
 import {ITokenPair} from '../../../BackendTypes';
 import ISecuredTokenStorage from '../SecuredStorage/ISecuredTokenStorage';
@@ -9,10 +9,11 @@ import {IJwtDecoder} from "../Helpers/IJwtDecoder";
 import jwtDecoder from "../Helpers/JwtDecoder";
 import {httpClient} from "../../../Framework/Net/HttpClient/HttpClient";
 import {securedTokenStorage} from "../SecuredStorage/SecuredTokenStorage";
+import {AuthConfiguration, authorize, refresh} from "react-native-app-auth";
 
 const AUTHORIZATION_HEADER_KEY = 'Authorization';
 
-export class BackendAuthService implements IBackendAuthService {
+export class AuthenticationService implements IAuthenticationService {
     private readonly _jwtDecoder: IJwtDecoder;
     private readonly _tokenStorage: ISecuredTokenStorage;
     private readonly _httpClient: IHttpClient;
@@ -23,20 +24,23 @@ export class BackendAuthService implements IBackendAuthService {
         this._httpClient = httpClient;
     }
 
-    public async authenticateByCredentials(username: string, password: string, serverName: string, serverAddress: string): Promise<Authentication> {
-        //retrieve token pair
-        const payload = JSON.stringify({username, password});
-        const url = serverAddress + backendEndpoints.Authentication.JWT_LOGIN;
-        const tokenPair: ITokenPair = await this._httpClient.put(url, {body: payload});
-
-        //save token pair in the secured token storage
-        await this._tokenStorage.saveTokenPair(serverName, username, tokenPair);
+    public async authenticateByCredentials(serverName: string, serverAddress: string): Promise<Authentication> {
+        const authenticationConfig = this.getAuthenticationConfig(serverAddress);
+        const authorizeResult = await authorize(authenticationConfig);
 
         //create authentication container
-        return this.createAuthentication(serverName, serverAddress, tokenPair.accessToken);
+        const authentication = await this.createAuthentication(serverName, serverAddress, authorizeResult.accessToken);
+
+        //save token pair in the secured token storage
+        const tokenPair: ITokenPair = {
+            accessToken: authorizeResult.accessToken,
+            refreshToken: authorizeResult.refreshToken
+        };
+        await this._tokenStorage.saveTokenPair(serverName, authentication.user.name, tokenPair);
+        return authentication;
     }
 
-    public async authenticateByBiometric(username: string, serverName: string, serverAddress: string,): Promise<Authentication> {
+    public async authenticateByBiometric(username: string, serverName: string, serverAddress: string): Promise<Authentication> {
         // check biometry authentication support
         const biometricSupport = (await Keychain.getSupportedBiometryType()) !== null;
         if (!biometricSupport) {
@@ -56,15 +60,17 @@ export class BackendAuthService implements IBackendAuthService {
             throw new Error('Session has expired, please authenticate with your credentials.');
         }
 
-        const payload = JSON.stringify({accessToken, refreshToken});
-        const url = serverAddress + backendEndpoints.Authentication.JWT_TOKEN_REFRESH;
-        const newTokenPair: ITokenPair = await this._httpClient.put(url, {body: payload});
+        const authenticationConfig = this.getAuthenticationConfig(serverAddress);
+        const refreshResult = await refresh(authenticationConfig, {refreshToken: refreshToken});
+        if (refreshResult.refreshToken === null) {
+            throw new Error('Identity server configuration issue: Refreshing the access token yielded a null refresh token.');
+        }
 
         //save token pair in the secured token storage
-        await this._tokenStorage.saveTokenPair(serverName, username, newTokenPair);
+        await this._tokenStorage.saveTokenPair(serverName, username, {refreshToken: refreshResult.refreshToken, accessToken: refreshResult.accessToken});
 
         //create authentication container
-        return this.createAuthentication(serverName, serverAddress, newTokenPair.accessToken);
+        return this.createAuthentication(serverName, serverAddress, refreshResult.accessToken);
     }
 
     private createAuthorizationHeader(accessToken: string): { [key: string]: string } {
@@ -75,10 +81,21 @@ export class BackendAuthService implements IBackendAuthService {
 
     private async createAuthentication(serverName: string, serverAddress: string, accessToken: string): Promise<Authentication> {
         const authentication = new Authentication(serverName, serverAddress, this.createAuthorizationHeader(accessToken), this._jwtDecoder.getExpirationDate(accessToken));
-        authentication.user = await this._httpClient.get(backendEndpoints.Authentication.AUTH_USERINFO, {authentication});
+        authentication.user = await this._httpClient.get(backendEndpoints.Identity.USER_INFO, {authentication});
         return authentication;
+    }
+
+    private getAuthenticationConfig(serverAddress: string): AuthConfiguration {
+        return {
+            issuer: serverAddress + backendEndpoints.Identity.URL,
+            clientId: 'MobileApp',
+            redirectUrl: 'navihome:/oauthredirect',
+            scopes: ['openid', 'email', 'profile', 'roles', 'offline_access'],
+            additionalParameters: __DEV__ ? undefined : {'prompt': 'login' as const},
+            dangerouslyAllowInsecureHttpRequests: __DEV__
+        };
     }
 }
 
-const backendAuthService = new BackendAuthService(jwtDecoder, securedTokenStorage, httpClient);
+const backendAuthService = new AuthenticationService(jwtDecoder, securedTokenStorage, httpClient);
 export {backendAuthService};

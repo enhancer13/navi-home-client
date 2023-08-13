@@ -13,6 +13,7 @@ pod 'FirebaseMessaging', :modular_headers => true
 pod 'FirebaseCore', :modular_headers => true
 pod 'FirebaseCoreInternal', :modular_headers => true
 pod 'GoogleUtilities', :modular_headers => true
+pod 'AppAuth'
 
 production = ENV["PRODUCTION"] == "1"
 

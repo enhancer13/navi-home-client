@@ -1,7 +1,7 @@
 import React, {createContext, useState, useContext} from 'react';
 import {Authentication} from './Authentication';
 import {AuthenticationInfo, authenticationInfoStorage, serverInfoStorage} from "../DataStorage";
-import {backendAuthService} from "./AuthServices/BackendAuthService";
+import {backendAuthService} from "./AuthServices/AuthenticationService";
 import {firebaseAuthService} from "./AuthServices/FirebaseAuthService";
 
 interface IAuthContext {
@@ -29,11 +29,11 @@ const AuthProvider: React.FC<Props> = ({children}) => {
         // authenticate on backend service and save access/refresh token
         const newAuthentication: Authentication = !password
             ? await backendAuthService.authenticateByBiometric(username, serverName, serverAddress)
-            : await backendAuthService.authenticateByCredentials(username, password, serverName, serverAddress);
+            : await backendAuthService.authenticateByCredentials(serverName, serverAddress);
 
         // authenticate firebase to receive FCM
-        const firebaseAccount = await firebaseAuthService.signIn(newAuthentication);
-        newAuthentication.firebaseAccountId = firebaseAccount.id;
+        // const firebaseAccount = await firebaseAuthService.signIn(newAuthentication);
+        // newAuthentication.firebaseAccountId = firebaseAccount.id;
 
         setAuthentication(newAuthentication);
         await authenticationInfoStorage.setLast(new AuthenticationInfo(username, serverName));
