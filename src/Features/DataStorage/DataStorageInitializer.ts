@@ -19,8 +19,8 @@ class DataStorageInitializer {
         //initialize backend configuration
         const serverInfos: ServerInfo[] = [];
         if (__DEV__) {
-            serverInfos.push(new ServerInfo('ios-dev', 'http://localhost:9000'));
-            serverInfos.push(new ServerInfo('android-dev', 'http://10.0.2.2:9000'));
+            serverInfos.push(new ServerInfo('ios-dev', 'https://navihome.local'));
+            serverInfos.push(new ServerInfo('android-dev', 'http://10.0.2.2'));
         }
         await serverInfoStorage.saveMultiple(serverInfos);
     }

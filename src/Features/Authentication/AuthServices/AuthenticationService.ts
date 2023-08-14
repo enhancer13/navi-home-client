@@ -36,6 +36,7 @@ export class AuthenticationService implements IAuthenticationService {
             accessToken: authorizeResult.accessToken,
             refreshToken: authorizeResult.refreshToken
         };
+
         await this._tokenStorage.saveTokenPair(serverName, authentication.user.name, tokenPair);
         return authentication;
     }

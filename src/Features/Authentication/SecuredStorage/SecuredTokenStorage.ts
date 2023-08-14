@@ -17,7 +17,7 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
     //access token could be stored with AES	Encryption (without human interaction).
     const optionsAES = {
       accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
-      storage: Keychain.STORAGE_TYPE.RSA,
+      storage: Keychain.STORAGE_TYPE.AES,
       rules: Keychain.SECURITY_RULES.AUTOMATIC_UPGRADE,
     };
     const accessTokenKey = this.getAccessTokenKey(serverName, username);
