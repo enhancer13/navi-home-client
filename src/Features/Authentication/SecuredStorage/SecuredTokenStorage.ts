@@ -1,47 +1,17 @@
 import Keychain, {Options, SharedWebCredentials} from 'react-native-keychain';
 import ISecuredTokenStorage from './ISecuredTokenStorage';
-import {ITokenPair} from '../../../BackendTypes';
 
 class SecuredTokenStorage implements ISecuredTokenStorage {
-  public async saveTokenPair(serverName: string, username: string, tokenPair: ITokenPair): Promise<void> {
-    //refresh toke is the most sensitive part, use RSA Encryption (with biometrics).
-    const optionsRSA = {
-      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
-      storage: Keychain.STORAGE_TYPE.RSA,
-      rules: Keychain.SECURITY_RULES.AUTOMATIC_UPGRADE,
-    };
+  private static readonly _optionsRSA: Options = {
+    accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
+    storage: Keychain.STORAGE_TYPE.RSA, // use RSA Encryption (with biometrics).
+    rules: Keychain.SECURITY_RULES.AUTOMATIC_UPGRADE,
+  };
+
+  public async saveRefreshToken(serverName: string, username: string, refreshToken: string): Promise<void> {
     const refreshTokenKey = this.getRefreshTokenKey(serverName, username);
     await Keychain.resetInternetCredentials(refreshTokenKey);
-    await Keychain.setInternetCredentials(refreshTokenKey, username, tokenPair.refreshToken, optionsRSA);
-
-    //access token could be stored with AES	Encryption (without human interaction).
-    const optionsAES = {
-      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
-      storage: Keychain.STORAGE_TYPE.AES,
-      rules: Keychain.SECURITY_RULES.AUTOMATIC_UPGRADE,
-    };
-    const accessTokenKey = this.getAccessTokenKey(serverName, username);
-    await Keychain.resetInternetCredentials(accessTokenKey);
-    await Keychain.setInternetCredentials(accessTokenKey, username, tokenPair.accessToken, optionsAES);
-  }
-
-  public async getTokenPair(serverName: string, username: string): Promise<ITokenPair> {
-    const refreshToken = await this.getRefreshToken(serverName, username);
-    const accessToken = await this.getAccessToken(serverName, username);
-    return {
-      accessToken,
-      refreshToken
-    };
-  }
-
-  public async getAccessToken(serverName: string, username: string): Promise<string> {
-    const accessTokenKey = this.getAccessTokenKey(serverName, username);
-    const accessTokenData = await this.getInternetCredentials(accessTokenKey);
-    if (typeof accessTokenData === 'boolean') {
-      throw new Error('Access token data is not found');
-    }
-
-    return accessTokenData.password;
+    await Keychain.setInternetCredentials(refreshTokenKey, username, refreshToken, SecuredTokenStorage._optionsRSA);
   }
 
   public async getRefreshToken(serverName: string, username: string): Promise<string> {
@@ -51,22 +21,21 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
         title: 'Please verify your identity.'
       }
     };
-    const refreshTokenData = await this.getInternetCredentials(refreshTokenKey, options);
-    if (typeof refreshTokenData === 'boolean') {
+    const sharedWebCredentials = await this.getInternetCredentials(refreshTokenKey, options);
+    if (typeof sharedWebCredentials === 'boolean') {
       throw new Error('Refresh token data is not found');
     }
 
-    return refreshTokenData.password;
+    return sharedWebCredentials.password;
   }
 
-  public async hasAccessToken(serverName: string, username: string): Promise<boolean> {
-    const accessTokenKey = this.getAccessTokenKey(serverName, username);
-    return !!(await Keychain.hasInternetCredentials(accessTokenKey));
-  }
-
-  public async removeTokenPair(serverName: string, username: string): Promise<void> {
-    await Keychain.resetInternetCredentials(this.getAccessTokenKey(serverName, username));
+  public async removeRefreshToken(serverName: string, username: string): Promise<void> {
     await Keychain.resetInternetCredentials(this.getRefreshTokenKey(serverName, username));
+  }
+
+  public async hasRefreshToken(serverName: string, username: string): Promise<boolean> {
+    const refreshTokenKey = this.getRefreshTokenKey(serverName, username);
+    return !!(await Keychain.hasInternetCredentials(refreshTokenKey));
   }
 
   private async getInternetCredentials(tokenKey: string, options?: Options): Promise<false | SharedWebCredentials> {
@@ -82,12 +51,8 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
     }
   }
 
-  private getAccessTokenKey(serverName: string, username: string): string {
-    return serverName + '_' + username + '_accessToken';
-  }
-
   private getRefreshTokenKey(serverName: string, username: string): string {
-    return serverName + '_' + username + '_refreshToken';
+    return `${serverName}_${username}_refreshToken`;
   }
 }
 

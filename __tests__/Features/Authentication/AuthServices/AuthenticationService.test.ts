@@ -1,6 +1,6 @@
 import ISecuredTokenStorage from "../../../../src/Features/Authentication/SecuredStorage/ISecuredTokenStorage";
 import IHttpClient from "../../../../src/Framework/Net/HttpClient/IHttpClient";
-import {ITokenPair, IUserInfo} from "../../../../src/BackendTypes";
+import {IUserInfo} from "../../../../src/BackendTypes";
 import {AuthenticationService} from "../../../../src/Features/Authentication/AuthServices/AuthenticationService";
 import {IJwtDecoder} from "../../../../src/Features/Authentication/Helpers/IJwtDecoder";
 import Keychain from "react-native-keychain";
@@ -9,7 +9,7 @@ import {authorize, refresh} from "react-native-app-auth";
 import {backendEndpoints} from "../../../../src/Config/BackendEndpoints";
 
 const tokenStorageMock: jest.Mocked<ISecuredTokenStorage> = {
-    saveTokenPair: jest.fn(),
+    saveRefreshToken: jest.fn(),
     getTokenPair: jest.fn(),
     getAccessToken: jest.fn(),
     getRefreshToken: jest.fn(),
@@ -61,7 +61,7 @@ describe('AuthService', () => {
     describe('authenticateByCredentials', () => {
         it('should pass identity server address and connect token path to authenticate request', async () => {
             // Act
-            await authService.authenticateByCredentials(serverName, serverAddress);
+            await authService.initiateCredentialsAuthentication(serverName, serverAddress);
 
             // Assert
             const expectedAuthenticateConfig = {
@@ -74,7 +74,7 @@ describe('AuthService', () => {
 
         it('should request the following scopes: "openid", "email", "profile", "roles", "offline_access"', async () => {
             // Act
-            await authService.authenticateByCredentials(serverName, serverAddress);
+            await authService.initiateCredentialsAuthentication(serverName, serverAddress);
 
             // Assert
             const expectedAuthenticateConfig = {
@@ -87,17 +87,17 @@ describe('AuthService', () => {
 
         it('should save the access and refresh tokens to secured storage', async () => {
             // Act
-            await authService.authenticateByCredentials(serverName, serverAddress);
+            await authService.initiateCredentialsAuthentication(serverName, serverAddress);
 
             // Assert
-            expect(tokenStorageMock.saveTokenPair).toHaveBeenCalledWith(serverName, userInfo.name, { accessToken: authenticateResult.accessToken, refreshToken: authenticateResult.refreshToken });
+            expect(tokenStorageMock.saveRefreshToken).toHaveBeenCalledWith(serverName, userInfo.name, { accessToken: authenticateResult.accessToken, refreshToken: authenticateResult.refreshToken });
         });
 
         it('should request authenticated user and return an authentication object', async () => {
             httpClientMock.get.mockResolvedValue(userInfo);
 
             // Act
-            const authentication = await authService.authenticateByCredentials(serverName, serverAddress);
+            const authentication = await authService.initiateCredentialsAuthentication(serverName, serverAddress);
 
             // Assert
             expect(httpClientMock.get).toHaveBeenCalledWith(backendEndpoints.Identity.USER_INFO, {authentication});
@@ -111,7 +111,7 @@ describe('AuthService', () => {
             (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue(null);
 
             // Act and Assert
-            await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow('Biometry authentication is not supported or not configured on this device, please authenticate with your credentials');
+            await expect(authService.initiateBiometricAuthentication(username, serverName, serverAddress)).rejects.toThrow('Biometry authentication is not supported or not configured on this device, please authenticate with your credentials');
         });
 
         it('should return authentication if access token is not expired', async () => {
@@ -123,7 +123,7 @@ describe('AuthService', () => {
             jwtDecoderMock.isExpired.mockReturnValue(false);
 
             // Act
-            const authentication = await authService.authenticateByBiometric(username, serverName, serverAddress);
+            const authentication = await authService.initiateBiometricAuthentication(username, serverName, serverAddress);
 
             // Assert
             expect(authentication).toBeInstanceOf(Authentication);
@@ -143,7 +143,7 @@ describe('AuthService', () => {
             (refresh as jest.Mock).mockResolvedValue(authorizeResult);
 
             // Act
-            const authentication = await authService.authenticateByBiometric(username, serverName, serverAddress);
+            const authentication = await authService.initiateBiometricAuthentication(username, serverName, serverAddress);
 
             // Assert
             expect((refresh as jest.Mock)).toHaveBeenCalledWith(
@@ -162,7 +162,7 @@ describe('AuthService', () => {
             jwtDecoderMock.isExpired.mockReturnValue(true);
 
             // Act and Assert
-            await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow('Session has expired, please authenticate with your credentials.');
+            await expect(authService.initiateBiometricAuthentication(username, serverName, serverAddress)).rejects.toThrow('Session has expired, please authenticate with your credentials.');
             expect(tokenStorageMock.removeTokenPair).toHaveBeenCalledWith(serverName, username);
         });
 
@@ -171,7 +171,7 @@ describe('AuthService', () => {
             (Keychain.getSupportedBiometryType as jest.Mock).mockResolvedValue(null);
 
             // Act & Assert
-            await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow('Biometry authentication is not supported or not configured on this device, please authenticate with your credentials');
+            await expect(authService.initiateBiometricAuthentication(username, serverName, serverAddress)).rejects.toThrow('Biometry authentication is not supported or not configured on this device, please authenticate with your credentials');
         });
 
         it('should throw an error when both access token and refresh token are expired', async () => {
@@ -183,7 +183,7 @@ describe('AuthService', () => {
             jwtDecoderMock.isExpired.mockImplementation(() => true);
 
             // Act & Assert
-            await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow('Session has expired, please authenticate with your credentials.');
+            await expect(authService.initiateBiometricAuthentication(username, serverName, serverAddress)).rejects.toThrow('Session has expired, please authenticate with your credentials.');
         });
 
         it('should throw an error when server returns an error during token refresh process', async () => {
@@ -197,7 +197,7 @@ describe('AuthService', () => {
             (refresh as jest.Mock).mockRejectedValue(new Error(serverErrorMessage));
 
             // Act & Assert
-            await expect(authService.authenticateByBiometric(username, serverName, serverAddress)).rejects.toThrow(serverErrorMessage);
+            await expect(authService.initiateBiometricAuthentication(username, serverName, serverAddress)).rejects.toThrow(serverErrorMessage);
         });
 
         it('should update the token pair in secured storage after successfully refreshing tokens', async () => {
@@ -221,10 +221,10 @@ describe('AuthService', () => {
             (refresh as jest.Mock).mockResolvedValue(authorizeResult);
 
             // Act
-            await authService.authenticateByBiometric(username, serverName, serverAddress);
+            await authService.initiateBiometricAuthentication(username, serverName, serverAddress);
 
             // Assert
-            expect(tokenStorageMock.saveTokenPair).toHaveBeenCalledWith(serverName, username, authorizeResult);
+            expect(tokenStorageMock.saveRefreshToken).toHaveBeenCalledWith(serverName, username, authorizeResult);
         });
     });
 
@@ -234,15 +234,15 @@ describe('AuthService', () => {
         httpClientMock.get.mockRejectedValue(new Error(errorMessage));
 
         // Act & Assert
-        await expect(authService.authenticateByCredentials(serverName, serverAddress)).rejects.toThrow(errorMessage);
+        await expect(authService.initiateCredentialsAuthentication(serverName, serverAddress)).rejects.toThrow(errorMessage);
     });
 
     it('should throw an error if saving the token pair to secured storage fails', async () => {
         // Arrange
         const errorMessage = 'Error saving token pair to secured storage';
-        tokenStorageMock.saveTokenPair.mockRejectedValue(new Error(errorMessage));
+        tokenStorageMock.saveRefreshToken.mockRejectedValue(new Error(errorMessage));
 
         // Act & Assert
-        await expect(authService.authenticateByCredentials(serverName, serverAddress)).rejects.toThrow(errorMessage);
+        await expect(authService.initiateCredentialsAuthentication(serverName, serverAddress)).rejects.toThrow(errorMessage);
     });
 });

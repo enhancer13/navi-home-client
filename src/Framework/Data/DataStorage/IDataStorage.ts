@@ -8,6 +8,8 @@ export default interface IDataStorage<TStorageItem extends IStorageItem> {
 
   getBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => unknown): Promise<TStorageItem | undefined>;
 
+  getAllBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => unknown): Promise<TStorageItem[]>;
+
   getAll(): Promise<Array<TStorageItem>>;
 
   update(item: TStorageItem): Promise<void>;

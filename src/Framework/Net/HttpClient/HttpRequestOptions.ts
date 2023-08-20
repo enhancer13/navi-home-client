@@ -7,4 +7,5 @@ export declare type HttpRequestOptions = {
     headers?: HttpHeaders;
     body?: string | null;
     signal?: AbortSignal;
+    timeout?: number;
 };

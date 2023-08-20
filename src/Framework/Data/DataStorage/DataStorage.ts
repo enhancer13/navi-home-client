@@ -38,6 +38,10 @@ export default class DataStorage<TStorageItem extends IStorageItem> implements I
         return this.dataContext.getBy(predicate);
     }
 
+    public async getAllBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => boolean): Promise<TStorageItem[]> {
+        return this.dataContext.getAllBy(predicate);
+    }
+
     public async getAll(): Promise<Array<TStorageItem>> {
         return this.dataContext.getAll();
     }

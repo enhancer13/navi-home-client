@@ -11,7 +11,7 @@ const backgroundIcons: IBackgroundIcon[] = [
   {
     image: require('./Images/auto_watering.png'),
     style: {
-      top: '12%',
+      top: '2%',
       left: '10%',
     },
     delay: 100,
@@ -20,20 +20,11 @@ const backgroundIcons: IBackgroundIcon[] = [
   {
     image: require('./Images/plants_care.png'),
     style: {
-      top: '10%',
+      top: '0%',
       left: '75%',
     },
     delay: 900,
     property: 'plants_care',
-  },
-  {
-    image: require('./Images/smart_lamp.png'),
-    style: {
-      top: '20%',
-      left: '40%',
-    },
-    delay: 400,
-    property: 'smart_lamp',
   },
   {
     image: require('./Images/smart_sensors.png'),
@@ -44,23 +35,23 @@ const backgroundIcons: IBackgroundIcon[] = [
     delay: 800,
     property: 'smart_sensors',
   },
-  // {
-  //   image: require('./Images/remote_control.png'),
-  //   style: {
-  //     top: '45%',
-  //     left: '45%',
-  //   },
-  //   delay: 300,
-  //   property: 'remote_control',
-  // },
   {
-    image: require('./Images/smart_lock.png'),
+    image: require('./Images/smart_lamp.png'),
     style: {
       top: '60%',
       left: '80%',
     },
-    delay: 700,
-    property: 'smart_lock',
+    delay:700,
+    property: 'smart_lamp',
+  },
+  {
+    image: require('./Images/remote_control.png'),
+    style: {
+      top: '50%',
+      left: '45%',
+    },
+    delay: 300,
+    property: 'remote_control',
   },
   {
     image: require('./Images/smart_socket.png'),

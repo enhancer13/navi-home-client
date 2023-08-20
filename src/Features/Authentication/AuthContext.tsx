@@ -1,55 +1,45 @@
 import React, {createContext, useState, useContext} from 'react';
 import {Authentication} from './Authentication';
-import {AuthenticationInfo, authenticationInfoStorage, serverInfoStorage} from "../DataStorage";
-import {backendAuthService} from "./AuthServices/AuthenticationService";
-import {firebaseAuthService} from "./AuthServices/FirebaseAuthService";
-
-interface IAuthContext {
-    authentication: Authentication | null;
-    login: (serverName: string, username: string, password?: string) => Promise<void>;
-    logout: () => Promise<void>;
-}
-
-const AuthContext = createContext<IAuthContext>({} as IAuthContext);
+import {ServerInfo} from "../DataStorage";
+import {authenticationService} from "./AuthServices/AuthenticationService";
 
 interface Props {
     children: React.ReactNode;
 }
 
+interface IAuthContext {
+    authentication: Authentication | null;
+    initiateLoginWithCredentials: (serverInfo: ServerInfo) => Promise<void>;
+    initiateLoginWithBiometrics: (serverInfo: ServerInfo, username: string) => Promise<void>;
+    loginWithBiometricsAvailable: (serverInfo: ServerInfo, username: string) => Promise<boolean>;
+    logout: () => Promise<void>;
+}
+
+const AuthContext = createContext<IAuthContext>({} as IAuthContext);
+
 const AuthProvider: React.FC<Props> = ({children}) => {
     const [authentication, setAuthentication] = useState<Authentication | null>(null);
 
-    const login = async (serverName: string, username: string, password?: string) => {
-        const server = await serverInfoStorage.getBy(x => x.serverName === serverName);
-        if (!server) {
-            throw new Error(`Unable to find server with name: ${serverName}`);
-        }
-        const serverAddress = server.serverAddress;
-
-        // authenticate on backend service and save access/refresh token
-        const newAuthentication: Authentication = !password
-            ? await backendAuthService.authenticateByBiometric(username, serverName, serverAddress)
-            : await backendAuthService.authenticateByCredentials(serverName, serverAddress);
-
-        // authenticate firebase to receive FCM
-        // const firebaseAccount = await firebaseAuthService.signIn(newAuthentication);
-        // newAuthentication.firebaseAccountId = firebaseAccount.id;
-
+    const initiateLoginWithCredentials = async (serverInfo: ServerInfo) => {
+        const newAuthentication = await authenticationService.initiateCredentialsAuthentication(serverInfo);
         setAuthentication(newAuthentication);
-        await authenticationInfoStorage.setLast(new AuthenticationInfo(username, serverName));
     };
+
+    const initiateLoginWithBiometrics = async (serverInfo: ServerInfo, username: string) => {
+        const newAuthentication = await authenticationService.initiateBiometricAuthentication(username, serverInfo);
+        setAuthentication(newAuthentication);
+    };
+
+    const loginWithBiometricsAvailable = async (serverInfo: ServerInfo, username: string): Promise<boolean> => authenticationService.biometricAuthenticationAvailable(serverInfo, username);
 
     const logout = async () => {
         setAuthentication(null);
-        try {
-            await firebaseAuthService.signOut();
-        } catch (ex) {
-            console.error('Unable to logout', ex);
-        }
     };
 
     return (
-        <AuthContext.Provider value={{authentication, login, logout}}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{authentication, initiateLoginWithCredentials, initiateLoginWithBiometrics, loginWithBiometricsAvailable, logout}}>
+            {children}
+        </AuthContext.Provider>
     );
 };
 

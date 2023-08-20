@@ -1,13 +1,12 @@
 import auth from '@react-native-firebase/auth';
 import {backendEndpoints} from '../../../Config/BackendEndpoints';
 import messaging from '@react-native-firebase/messaging';
-import {IFirebaseAuthService} from './IFirebaseAuthService';
 import {Authentication} from '../Authentication';
 import IHttpClient from '../../../Framework/Net/HttpClient/IHttpClient';
 import {IServiceAccount, ServiceAccountTypes} from '../../../BackendTypes';
 import {httpClient} from "../../../Framework/Net/HttpClient/HttpClient";
 
-export class FirebaseAuthService implements IFirebaseAuthService {
+export class FirebaseAuthService {
   private readonly _httpClient: IHttpClient;
 
   constructor(httpClient: IHttpClient) {

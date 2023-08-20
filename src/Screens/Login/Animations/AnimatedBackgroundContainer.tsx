@@ -9,7 +9,11 @@ interface IIconAnimation {
   [key: string]: Animated.Value;
 }
 
-const LoadingAnimation: React.FC = () => {
+declare type LoadingAnimationProps = {
+  children?: React.ReactNode;
+};
+
+const AnimatedBackgroundContainer: React.FC<LoadingAnimationProps> = ({children}) => {
   const iconsAnimation = useMemo(() => {
     const animation: IIconAnimation = {};
     backgroundIcons.forEach((data: IBackgroundIcon) => {
@@ -43,12 +47,12 @@ const LoadingAnimation: React.FC = () => {
       Animated.sequence([
         Animated.delay(data.delay),
         Animated.timing(iconsAnimation[data.property], {
-          toValue: 1,
+          toValue: 0.5,
           duration: 300,
           useNativeDriver: true,
         }),
         Animated.timing(iconsAnimation[data.property], {
-          toValue: 0.45,
+          toValue: 0.2,
           duration: 500,
           useNativeDriver: true,
         }),
@@ -56,16 +60,22 @@ const LoadingAnimation: React.FC = () => {
     });
   }, [iconsAnimation]);
 
-  return <View style={styles.container}>{animatedIcons}</View>;
+  return (
+      <View style={styles.container}>
+        {animatedIcons}
+        {children}
+      </View>
+  );
 };
 
-export default LoadingAnimation;
+export default AnimatedBackgroundContainer;
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexGrow: 1,
     width: '100%',
-    position: 'absolute',
   },
   animatedImage: {
     height: iconSize,

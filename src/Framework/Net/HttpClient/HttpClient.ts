@@ -61,8 +61,9 @@ export default class HttpClient implements IHttpClient {
                 return response.text();
             });
 
+        const timeout = httpRequestOptions?.timeout || this._timeout;
         const timeoutPromise = new Promise((_, reject) => {
-                const timeoutId = setTimeout(() => reject(new Error("Connection timeout, service is unavailable.")), this._timeout);
+                const timeoutId = setTimeout(() => reject(new Error("Connection timeout, service is unavailable.")), timeout);
 
                 signal?.addEventListener("abort", () => {
                     clearTimeout(timeoutId);

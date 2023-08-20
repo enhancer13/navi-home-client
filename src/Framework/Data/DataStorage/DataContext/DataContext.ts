@@ -2,6 +2,7 @@ import {IStorageItem} from '../IStorageItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IDataContext} from './IDataContext';
 import {IMapper} from "./IMapper";
+import {keys, parseInt} from "lodash";
 
 export class DataContext<TStorageItem extends IStorageItem> implements IDataContext<TStorageItem> {
   protected readonly _contextName: string;
@@ -27,6 +28,11 @@ export class DataContext<TStorageItem extends IStorageItem> implements IDataCont
   public async getBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => boolean): Promise<TStorageItem | undefined> {
     const entities = await this.getAll();
     return this._mapper.map(entities.find(predicate));
+  }
+
+  public async getAllBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => boolean): Promise<TStorageItem[]> {
+    const entities = await this.getAll();
+    return this._mapper.mapArray(entities.filter(predicate));
   }
 
   public async getAll(): Promise<Array<TStorageItem>> {

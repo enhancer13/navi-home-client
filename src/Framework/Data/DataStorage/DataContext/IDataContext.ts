@@ -7,6 +7,8 @@ export interface IDataContext<TStorageItem extends IStorageItem> {
 
   getBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => boolean): Promise<TStorageItem | undefined>;
 
+  getAllBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => boolean): Promise<TStorageItem[]>;
+
   getAll(): Promise<Array<TStorageItem>>;
 
   update(entity: TStorageItem): Promise<void>;

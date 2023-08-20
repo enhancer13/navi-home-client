@@ -4,5 +4,7 @@ import IDataStorage from '../../../Framework/Data/DataStorage/IDataStorage';
 export interface IAuthenticationInfoStorage extends IDataStorage<AuthenticationInfo> {
   getLast(): Promise<AuthenticationInfo | null>;
 
-  setLast(data: AuthenticationInfo): Promise<void>;
+  getLastForServer(serverName: string): Promise<AuthenticationInfo | null>;
+
+  setLastForServer(serverName: string, data: AuthenticationInfo): Promise<void>;
 }

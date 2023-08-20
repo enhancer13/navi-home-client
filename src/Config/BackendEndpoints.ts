@@ -8,6 +8,8 @@ export const backendEndpoints = {
     Identity: {
         URL: '/identity/sts',
         USER_INFO: '/identity/sts/connect/userinfo',
+        DISCOVERY: '/identity/sts/.well-known/openid-configuration',
+        INTROSPECT: '/identity/sts//connect/introspect'
     },
     Services: {
         APPLICATION_SERVICES_STATUS: '/api/jwt/services/status',

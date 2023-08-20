@@ -4,15 +4,25 @@ import Keychain from "react-native-keychain";
 import {useNavigation} from "@react-navigation/native";
 import {useAuth} from "../../../Features/Authentication";
 import {useApplicationSettings} from "../../../Features/DataStorage/Hooks/useApplicationSettings";
+import {ServerInfo} from "../../../Features/DataStorage";
 
-export const useAuthenticationActions = () => {
+export const useAuthenticationActions = (server: ServerInfo | null, username: string | undefined) => {
     const {showError} = usePopupMessage();
-    const {login} = useAuth();
-    const [busy, setBusy] = useState<boolean>(false);
+    const {initiateLoginWithCredentials, initiateLoginWithBiometrics, loginWithBiometricsAvailable} = useAuth();
     const navigation = useNavigation();
-    const [biometryActive, setBiometryActive] = useState<boolean>(false);
+    const [biometryActive, setBiometryActive] = useState(false);
+    const [biometryAuthPossible, setBiometryAuthPossible] = useState(false);
     const [biometryType, setBiometryType] = useState<Keychain.BIOMETRY_TYPE | null>(null);
     const {applicationSettings} = useApplicationSettings();
+
+    useEffect(() => {
+        if (server && username) {
+            loginWithBiometricsAvailable(server, username).then(() => setBiometryAuthPossible(true));
+            return;
+        }
+
+        setBiometryAuthPossible(false);
+    }, [username, server, loginWithBiometricsAvailable]);
 
     useEffect(() => {
         async function initializeBiometryData() {
@@ -28,45 +38,34 @@ export const useAuthenticationActions = () => {
         initializeBiometryData();
     }, [applicationSettings]);
 
-    const authenticate = async (serverName: string, username: string, password?: string) => {
-        if (username.length === 0) {
-            showError('Invalid username');
-            return;
-        }
-
-        if (serverName.length === 0) {
+    const initiateLogin = async (serverInfo: ServerInfo | null, username?: string) => {
+        if (!serverInfo) {
             showError('Please configure the valid Navi Home server');
             return;
         }
 
-        setBusy(true);
         try {
-            await login(serverName, username, password);
+            username ?
+                await initiateLoginWithBiometrics(serverInfo, username) :
+                await initiateLoginWithCredentials(serverInfo);
             navigation.navigate('Home' as never);
         } catch (error: any) {
-            console.error(error);
             showError(error.message);
-        } finally {
-            setBusy(false);
         }
     };
 
-    const authenticateWithCredentials = async (serverName: string, username: string, password: string): Promise<void> => {
-        if (password.length === 0) {
-            showError('Invalid password');
-            return;
-        }
-        await authenticate(serverName, username, password);
+    const initiateCredentialsLogin = async (server: ServerInfo | null): Promise<void> => {
+        await initiateLogin(server);
     };
 
-    const authenticateWithBiometry = async (serverName: string, username: string) => await authenticate(serverName, username);
+    const initiateBiometryLogin = async (server: ServerInfo | null, username: string) => {
+        await initiateLogin(server, username);
+    };
 
     return {
         biometryActive,
         biometryType,
-        busy,
-        authenticate,
-        authenticateWithBiometry,
-        authenticateWithCredentials
+        initiateCredentialsLogin,
+        initiateBiometryLogin
     };
 };
