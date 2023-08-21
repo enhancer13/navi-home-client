@@ -4,7 +4,7 @@ import {useAuthenticationActions} from "../Hooks/useAuthenticationActions";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
 import FastImage from "react-native-fast-image";
 import Keychain from "react-native-keychain";
-import {useTheme, Text, IconButton, Button} from "react-native-paper";
+import {Text, IconButton} from "react-native-paper";
 import {widthPercentageToDP as wp} from "react-native-responsive-screen";
 
 interface UserAuthenticationProps {
@@ -13,7 +13,7 @@ interface UserAuthenticationProps {
 
 interface AuthenticationMessageContent {
     title: string;
-    subtitle: string | null;
+    subtitle?: string;
     body: string;
 }
 
@@ -23,8 +23,7 @@ const credentialsIconSize = biometryIconSize * 0.8;
 export const UserAuthentication: React.FC<UserAuthenticationProps> = ({server}) => {
     const [messageContent, setMessageContent] = useState<AuthenticationMessageContent | null>(null);
     const [username, setUsername] = useState<string | undefined>();
-    const {biometryActive, biometryType, initiateBiometryLogin, initiateCredentialsLogin} = useAuthenticationActions(server, username);
-    const theme = useTheme();
+    const {biometryAuthCheckResult, initiateBiometryLogin, initiateCredentialsLogin} = useAuthenticationActions(server, username);
 
     useEffect(() => {
         if (server) {
@@ -38,35 +37,36 @@ export const UserAuthentication: React.FC<UserAuthenticationProps> = ({server}) 
     }, [server]);
 
     useEffect(() => {
-        if (biometryActive && server && username) {
+        if (!biometryAuthCheckResult) {
+            return;
+        }
+
+        if (biometryAuthCheckResult.isAvailable && server && username) {
             setMessageContent({
-                title: "Glad to see you,",
-                subtitle: username,
+                title: `Glad to see you, ${username}`,
                 body: "please authenticate",
             });
-        } else if (!biometryActive && server && username) {
+        } else if (!biometryAuthCheckResult.isAvailable && server && username) {
             setMessageContent({
-                title: "Welcome back,",
-                subtitle: username,
+                title: `Welcome back, ${username}`,
+                subtitle: biometryAuthCheckResult.reason,
                 body: "Please authenticate with your credentials",
             });
         } else if (server && !username) {
             setMessageContent({
                 title: "Hello there!",
-                subtitle: null,
                 body: "Let's get started. Please authenticate with your credentials",
             });
         } else if (!server) {
             setMessageContent({
                 title: "Welcome to our app!",
-                subtitle: null,
                 body: "To get started, please configure a server and authenticate.",
             });
         }
-    }, [biometryActive, server, username]);
+    }, [biometryAuthCheckResult, server, username]);
 
     const handleBiometryAuthenticate = useCallback(async () => {
-        await initiateBiometryLogin(server, username);
+        await initiateBiometryLogin(server, username!);
     }, [initiateBiometryLogin, server, username]);
 
     const handleCredentialsAuthenticate = useCallback(async () => {
@@ -74,7 +74,9 @@ export const UserAuthentication: React.FC<UserAuthenticationProps> = ({server}) 
     }, [initiateCredentialsLogin, server]);
 
     const biometryIcon = useMemo(() => {
-        if (!biometryActive || !biometryType) {
+        const biometryType = biometryAuthCheckResult?.biometryType;
+        const isAvailable = biometryAuthCheckResult?.isAvailable;
+        if (!biometryType || !isAvailable) {
             return null;
         }
 
@@ -85,12 +87,12 @@ export const UserAuthentication: React.FC<UserAuthenticationProps> = ({server}) 
             <TouchableOpacity onPress={handleBiometryAuthenticate}>
                 <FastImage source={icon} style={styles.biometryIcon}/>
             </TouchableOpacity>);
-    }, [handleBiometryAuthenticate, biometryType, biometryActive, theme]);
+    }, [handleBiometryAuthenticate, biometryAuthCheckResult]);
 
     return (
         <View style={styles.authenticateContainer}>
             <Text variant={"headlineMedium"}>{messageContent?.title}</Text>
-            <Text variant={"headlineMedium"}>{messageContent?.subtitle}</Text>
+            <Text variant={"bodyMedium"}>{messageContent?.subtitle}</Text>
             <Text variant={"bodyMedium"}>{messageContent?.body}</Text>
             {biometryIcon}
             <IconButton icon="security" onPress={handleCredentialsAuthenticate}

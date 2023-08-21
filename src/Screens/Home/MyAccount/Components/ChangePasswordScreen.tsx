@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {IconButton, Text, useTheme, Divider, HelperText} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 import {useNavigation, useRoute} from "@react-navigation/native";
 import {AccountRouteProps} from "../index";
 import {elevationShadowStyle} from "../../../../Helpers/StyleUtils";

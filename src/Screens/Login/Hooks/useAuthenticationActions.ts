@@ -1,42 +1,23 @@
+// noinspection JSIgnoredPromiseFromCall
+
 import {usePopupMessage} from "../../../Features/Messaging";
 import {useEffect, useState} from "react";
-import Keychain from "react-native-keychain";
 import {useNavigation} from "@react-navigation/native";
 import {useAuth} from "../../../Features/Authentication";
-import {useApplicationSettings} from "../../../Features/DataStorage/Hooks/useApplicationSettings";
 import {ServerInfo} from "../../../Features/DataStorage";
+import {BiometricAuthCheckResult} from "../../../Features/Authentication/AuthServices/AuthenticationService";
 
 export const useAuthenticationActions = (server: ServerInfo | null, username: string | undefined) => {
     const {showError} = usePopupMessage();
-    const {initiateLoginWithCredentials, initiateLoginWithBiometrics, loginWithBiometricsAvailable} = useAuth();
+    const {initiateLoginWithCredentials, initiateLoginWithBiometrics, checkBiometricAuthenticationAvailability} = useAuth();
     const navigation = useNavigation();
-    const [biometryActive, setBiometryActive] = useState(false);
-    const [biometryAuthPossible, setBiometryAuthPossible] = useState(false);
-    const [biometryType, setBiometryType] = useState<Keychain.BIOMETRY_TYPE | null>(null);
-    const {applicationSettings} = useApplicationSettings();
+    const [biometryAuthCheckResult, setBiometryAuthCheckResult] = useState<BiometricAuthCheckResult | null>(null);
 
     useEffect(() => {
-        if (server && username) {
-            loginWithBiometricsAvailable(server, username).then(() => setBiometryAuthPossible(true));
-            return;
-        }
-
-        setBiometryAuthPossible(false);
-    }, [username, server, loginWithBiometricsAvailable]);
-
-    useEffect(() => {
-        async function initializeBiometryData() {
-            if (!applicationSettings) {
-                return;
-            }
-
-            const biometryType = await Keychain.getSupportedBiometryType();
-            setBiometryType(biometryType);
-            setBiometryActive(applicationSettings.biometryAuthenticationActive);
-        }
-
-        initializeBiometryData();
-    }, [applicationSettings]);
+        checkBiometricAuthenticationAvailability(server, username).then((biometryCheckResult: BiometricAuthCheckResult) => {
+            setBiometryAuthCheckResult(biometryCheckResult);
+        });
+    }, [checkBiometricAuthenticationAvailability, server, username]);
 
     const initiateLogin = async (serverInfo: ServerInfo | null, username?: string) => {
         if (!serverInfo) {
@@ -63,8 +44,7 @@ export const useAuthenticationActions = (server: ServerInfo | null, username: st
     };
 
     return {
-        biometryActive,
-        biometryType,
+        biometryAuthCheckResult,
         initiateCredentialsLogin,
         initiateBiometryLogin
     };

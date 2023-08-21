@@ -61,9 +61,7 @@ export class DataContext<TStorageItem extends IStorageItem> implements IDataCont
   public async deleteBy(predicate: (value: TStorageItem, index: number, array: TStorageItem[]) => boolean): Promise<void> {
     const entity = await this.getBy(predicate);
     if (!entity) {
-      throw new Error(
-        `Unable to delete ${this._contextName} cause entity doesn't exist ${predicate}`,
-      );
+      return;
     }
     await AsyncStorage.removeItem(entity.key);
   }

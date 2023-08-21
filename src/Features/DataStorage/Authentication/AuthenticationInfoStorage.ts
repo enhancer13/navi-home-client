@@ -1,7 +1,6 @@
 import {IAuthenticationInfoStorage} from './IAuthenticationInfoStorage';
 import {AuthenticationInfo} from './AuthenticationInfo';
 import DataStorage from '../../../Framework/Data/DataStorage/DataStorage';
-import {first} from "lodash";
 
 class AuthenticationInfoStorage extends DataStorage<AuthenticationInfo> implements IAuthenticationInfoStorage {
     constructor() {

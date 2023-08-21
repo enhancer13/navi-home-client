@@ -1,7 +1,7 @@
 import React, {createContext, useState, useContext} from 'react';
 import {Authentication} from './Authentication';
 import {ServerInfo} from "../DataStorage";
-import {authenticationService} from "./AuthServices/AuthenticationService";
+import {authenticationService, BiometricAuthCheckResult} from "./AuthServices/AuthenticationService";
 
 interface Props {
     children: React.ReactNode;
@@ -11,7 +11,7 @@ interface IAuthContext {
     authentication: Authentication | null;
     initiateLoginWithCredentials: (serverInfo: ServerInfo) => Promise<void>;
     initiateLoginWithBiometrics: (serverInfo: ServerInfo, username: string) => Promise<void>;
-    loginWithBiometricsAvailable: (serverInfo: ServerInfo, username: string) => Promise<boolean>;
+    checkBiometricAuthenticationAvailability: (serverInfo: ServerInfo | null, username: string | undefined) => Promise<BiometricAuthCheckResult>;
     logout: () => Promise<void>;
 }
 
@@ -30,14 +30,14 @@ const AuthProvider: React.FC<Props> = ({children}) => {
         setAuthentication(newAuthentication);
     };
 
-    const loginWithBiometricsAvailable = async (serverInfo: ServerInfo, username: string): Promise<boolean> => authenticationService.biometricAuthenticationAvailable(serverInfo, username);
+    const checkBiometricAuthenticationAvailability = async (serverInfo: ServerInfo | null, username: string | undefined): Promise<BiometricAuthCheckResult> => authenticationService.checkBiometricAuthenticationAvailability(serverInfo, username);
 
     const logout = async () => {
         setAuthentication(null);
     };
 
     return (
-        <AuthContext.Provider value={{authentication, initiateLoginWithCredentials, initiateLoginWithBiometrics, loginWithBiometricsAvailable, logout}}>
+        <AuthContext.Provider value={{authentication, initiateLoginWithCredentials, initiateLoginWithBiometrics, checkBiometricAuthenticationAvailability, logout}}>
             {children}
         </AuthContext.Provider>
     );

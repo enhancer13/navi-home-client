@@ -8,9 +8,15 @@ import {httpClient} from "../../../Framework/Net/HttpClient/HttpClient";
 import {securedTokenStorage} from "../SecuredStorage/SecuredTokenStorage";
 import {AuthConfiguration, authorize, refresh} from "react-native-app-auth";
 import {AuthenticationInfo, authenticationInfoStorage, IAuthenticationInfoStorage, ServerInfo} from "../../DataStorage";
-import Keychain from "react-native-keychain";
+import Keychain, {BIOMETRY_TYPE} from "react-native-keychain";
 
 const AUTHORIZATION_HEADER_KEY = 'Authorization';
+
+export type BiometricAuthCheckResult = {
+    isAvailable: boolean;
+    biometryType: null | BIOMETRY_TYPE;
+    reason?: string;
+};
 
 /**
  * The `AuthenticationService` is responsible for handling user authentication.
@@ -58,8 +64,7 @@ export class AuthenticationService {
      */
     public async initiateBiometricAuthentication(username: string, serverInfo: ServerInfo): Promise<Authentication> {
         // check biometry authentication support
-        const biometricSupport = (await Keychain.getSupportedBiometryType()) !== null;
-        if (!biometricSupport) {
+        if (!await this.getBiometricSupport()) {
             throw new Error('Biometry authentication is not supported or not configured on this device, please authenticate with your credentials');
         }
 
@@ -85,28 +90,47 @@ export class AuthenticationService {
     }
 
     /**
-     * Checks if biometric authentication is available for a given server and user.
+     * Checks the availability of biometric authentication for the given user and server.
      *
-     * Biometric authentication is deemed available if there's a saved refresh token
-     * for the provided server and user. The existence of a refresh token indicates
-     * that the user had previously completed a credentials-based authentication for
-     * this server and therefore can use biometrics in the future to refresh their
-     * access.
+     * The method determines the availability based on two primary conditions:
+     * 1. Presence of a refresh token which indicates the user previously completed
+     *    a credentials-based authentication.
+     * 2. Device support for biometric authentication (e.g., fingerprint, face ID).
      *
      * @param serverInfo - Information about the authentication server.
-     * @param username - The username to check availability for.
-     * @returns Promise resolving to a boolean indicating if biometric authentication is available.
+     * @param username - Username of the user for whom the check is being made.
+     *
+     * @returns Promise resolving to an object containing:
+     *   - isAvailable: A boolean indicating if biometric authentication is possible.
+     *   - reason (optional): A string providing the reason when biometric authentication isn't available.
      */
-    public async biometricAuthenticationAvailable(serverInfo: ServerInfo, username: string): Promise<boolean> {
-        return await this._tokenStorage.hasRefreshToken(serverInfo.serverName, username);
+    public async checkBiometricAuthenticationAvailability(serverInfo: ServerInfo | null, username: string | undefined): Promise<BiometricAuthCheckResult> {
+        const biometryType = await Keychain.getSupportedBiometryType();
+
+        if (biometryType === null) {
+            return { isAvailable: false, reason: 'Biometrics not supported.', biometryType };
+        }
+
+        if (!serverInfo || !username) {
+            return { isAvailable: false, biometryType, reason: 'Please authenticate with credentials first.' };
+        }
+
+        const hasToken = await this._tokenStorage.hasRefreshToken(serverInfo.serverName, username);
+        if (!hasToken) {
+            return { isAvailable: false, reason: 'Please authenticate with credentials first.', biometryType };
+        }
+
+        return { isAvailable: true, biometryType };
     }
 
     private async processAuthentication(serverName: string, serverAddress: string, accessToken: string, refreshToken: string): Promise<Authentication> {
         const authentication = new Authentication(serverName, serverAddress, this.createAuthorizationHeader(accessToken), this._jwtDecoder.getExpirationDate(accessToken));
         authentication.user = await this._httpClient.get(backendEndpoints.Identity.USER_INFO, {authentication});
 
-        // save refresh token in a secured token storage
-        await this._tokenStorage.saveRefreshToken(serverName, authentication.user.name, refreshToken);
+        // save refresh token in a secured token storage, available only in case of device security configuration
+        if (await this.getBiometricSupport()) {
+            await this._tokenStorage.saveRefreshToken(serverName, authentication.user.name, refreshToken);
+        }
 
         // save authentication info
         await this._authenticationInfoStorage.setLastForServer(serverName, new AuthenticationInfo(authentication.user.name, serverName, new Date()));
@@ -129,6 +153,10 @@ export class AuthenticationService {
             additionalParameters: __DEV__ ? undefined : {'prompt': 'login' as const},
             dangerouslyAllowInsecureHttpRequests: __DEV__
         };
+    }
+
+    private async getBiometricSupport() {
+        return (await Keychain.getSupportedBiometryType()) !== null;
     }
 }
 

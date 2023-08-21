@@ -2,7 +2,7 @@ import {Animated, Platform, StyleProp, StyleSheet, View, ViewStyle} from 'react-
 import React, {useMemo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useTheme} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 
 declare type FlexSafeAreaViewProps = {
     children?: React.ReactNode;

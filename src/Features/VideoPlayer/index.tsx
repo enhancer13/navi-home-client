@@ -141,8 +141,8 @@ interface VideoPlayerPlayer {
     controlTimeoutDelay: number;
     volumePanResponder: any;
     seekPanResponder: any;
-    controlTimeout: undefined | number;
-    tapActionTimeout: undefined | number;
+    controlTimeout: NodeJS.Timeout | undefined;
+    tapActionTimeout: NodeJS.Timeout | undefined;
     volumeWidth: number;
     iconOffset: number;
     seekerWidth: number;
@@ -549,12 +549,12 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
         } else {
             this.methods.toggleControls();
         }
-        this.player.tapActionTimeout = 0;
+        this.player.tapActionTimeout = undefined;
     };
 
     handleDoubleClick = () => {
         clearTimeout(this.player.tapActionTimeout);
-        this.player.tapActionTimeout = 0;
+        this.player.tapActionTimeout = undefined;
         this.methods.toggleFullscreen();
         const state = this.state;
         if (state.showControls) {

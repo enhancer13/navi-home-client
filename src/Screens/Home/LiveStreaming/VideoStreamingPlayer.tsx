@@ -11,7 +11,7 @@ import {LoadingActivityIndicator} from '../../../Components/Controls';
 import VideoPlayer from '../../../Features/VideoPlayer';
 import {useAuth} from '../../../Features/Authentication';
 import {useTheme, Text} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 import color from "color";
 
 const videoAspectRatio = 16 / 9;

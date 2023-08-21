@@ -45,7 +45,7 @@ export const SystemConfigurationScreen: React.FC = () => {
             },
         ] satisfies Array<ISection>;
 
-        if (authentication.user.admin) {
+        if (authentication.user.role.includes("Admin")) {
             data.push({
                 title: 'Administration',
                 items: [

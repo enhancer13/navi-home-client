@@ -22,7 +22,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     const searchBarSlideAnimation = useRef(new SlideAnimation('y', new Animated.Value(0))).current;
     const searchBarHeightAnimation = useRef(new ResizeAnimation('height', new Animated.Value(0))).current;
     const searchBarFadeAnimation = useRef(new FadeAnimation(new Animated.Value(0))).current;
-    const searchTimeoutRef = useRef<number | null>(null);
+    const searchTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
     useEffect(() => {
         Animated.parallel([

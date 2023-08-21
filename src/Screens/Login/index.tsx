@@ -30,7 +30,6 @@ export const LoginScreen: React.FC = () => {
     }, []);
 
     const handleServerChange = useCallback((value: ServerInfo | null) => {
-        console.log('handleServerChange', value)
         setServer(value);
     }, [setServer]);
 

@@ -21,6 +21,7 @@ class DataStorageInitializer {
         if (__DEV__) {
             serverInfos.push(new ServerInfo('ios-dev', 'https://navihome.local'));
             serverInfos.push(new ServerInfo('android-dev', 'http://10.0.2.2'));
+            serverInfos.push(new ServerInfo('Kyiv', 'https://ip-2c41.proline.net.ua:49173'));
         }
         await serverInfoStorage.saveMultiple(serverInfos);
     }

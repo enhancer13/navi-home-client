@@ -12,17 +12,22 @@ import {HttpRequestOptions} from "../../../Framework/Net/HttpClient/HttpRequestO
 declare type ServerProps = {
     serverInfo: ServerInfo;
     width: number;
+    visible: boolean;
 }
 
 const CONNECTION_TEST_TIMEOUT = 1000;
 const CONNECTION_TEST_INTERVAL = 10000;
 
 const serverIconSize = Math.min(wp('30%'), 500);
-export const Server: React.FC<ServerProps> = ({serverInfo, width}) => {
+export const Server: React.FC<ServerProps> = ({serverInfo, width, visible}) => {
     const [online, setOnline] = useState<boolean>(false);
     const abortController = useMemo(() => new AbortController(), []);
 
     useFocusEffect(useCallback(() => {
+        if (!visible) {
+            return;
+        }
+
         async function doConnectionTest() {
             const httpRequestOptions: HttpRequestOptions = {signal: abortController.signal, timeout: CONNECTION_TEST_TIMEOUT};
             let isOnline = true;
@@ -48,7 +53,7 @@ export const Server: React.FC<ServerProps> = ({serverInfo, width}) => {
             clearInterval(intervalId);
             abortController?.abort();
         };
-    }, [abortController, serverInfo.serverAddress]));
+    }, [abortController, serverInfo.serverAddress, visible]));
 
     const serverImage = useMemo(() => {
         return online ? require('../Resources/server_online.gif') : require('../Resources/server_offline.png');

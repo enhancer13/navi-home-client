@@ -12,7 +12,7 @@ import {useAlarmProfileActions} from "../Hooks/useAlarmProfileActions";
 import {IAlarmProfile} from "../../../../BackendTypes/Entities/IAlarmProfile";
 import {EntityViewComponentProps} from "../../../../Features/EntityList/EntityListScreen";
 import {LayoutChangeEvent} from "react-native/Libraries/Types/CoreEventTypes";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 
 const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
     const alarmProfile = entity as IAlarmProfile;

@@ -4,7 +4,7 @@ import React, {useMemo} from 'react';
 import {EntityViewComponentProps} from "../../../../Features/EntityList/EntityListScreen";
 import {IMediaGalleryFolder} from "../../../../BackendTypes";
 import {useTheme, Text} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 
 const mediaFolderPropsAreEqual = (prevProps: EntityViewComponentProps, nextProps: EntityViewComponentProps): boolean => {
     const prevEntity = prevProps.entity as IMediaGalleryFolder;

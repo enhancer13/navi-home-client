@@ -92,8 +92,8 @@ export const ServerPicker: React.FC<ServerPickerProps> = ({onChanged, style}) =>
                         onMomentumScrollEnd={handleSwipe}
                         style={{width: windowWidth}}
                     >
-                        {servers.map((serverInfo) => (
-                            <Server key={serverInfo.serverName} serverInfo={serverInfo} width={windowWidth}/>
+                        {servers.map((serverInfo, index) => (
+                            <Server key={serverInfo.serverName} serverInfo={serverInfo} width={windowWidth} visible={index === currentIndex} />
                         ))}
                     </ScrollView>
             }
