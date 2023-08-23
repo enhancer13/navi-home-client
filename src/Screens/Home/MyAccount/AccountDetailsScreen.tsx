@@ -62,10 +62,10 @@ export const AccountDetailsScreen: React.FC = () => {
             {
                 title: 'Configuration',
                 items: [
-                    <ListSwitchItem key={1} title={'Biometric authentication'} icon={"fingerprint"}
+                    <ListSwitchItem key={1} title={'Auto login'} icon={"fingerprint"}
                                     iconBackgroundColor={theme.colors.system.pink}
-                                    value={applicationSettings.biometryAuthenticationActive} action={async (value) => {
-                        applicationSettings.biometryAuthenticationActive = value;
+                                    value={applicationSettings.autoLoginActive} action={async (value) => {
+                        applicationSettings.autoLoginActive = value;
                         await updateApplicationSettings(applicationSettings);
                     }}/>,
                     <ListSwitchItem key={2} title={'Dark theme'} icon={"theme-light-dark"}

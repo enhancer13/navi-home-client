@@ -1,7 +1,7 @@
 import {StorageItem} from '../../../Framework/Data/DataStorage';
 
 export class ApplicationSettings extends StorageItem {
-  public biometryAuthenticationActive!: boolean;
+  public autoLoginActive!: boolean;
 
   public darkThemeActive!: boolean;
 }

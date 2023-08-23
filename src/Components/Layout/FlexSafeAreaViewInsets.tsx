@@ -11,7 +11,7 @@ interface IFlexSafeAreaViewInsetsProps {
   style?: StyleProp<ViewStyle> | undefined;
 }
 
-const FlexSafeAreaViewInsets: React.FC<IFlexSafeAreaViewInsetsProps> = ({children, style}) => {
+export const FlexSafeAreaViewInsets: React.FC<IFlexSafeAreaViewInsetsProps> = ({children, style}) => {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -36,5 +36,3 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     flex: 1,
   },
 });
-
-export default FlexSafeAreaViewInsets;

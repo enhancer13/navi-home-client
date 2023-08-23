@@ -6,7 +6,7 @@ import {authenticationInfoStorage, ServerInfo, serverInfoStorage} from "../../..
 import {IconButton, Text, useTheme} from "react-native-paper";
 import {useDataStorageEvents} from "../../../Features/DataStorage/Hooks/useDataStorageEvents";
 import {DataStorageEventTypes} from "../../../Framework/Data/DataStorage";
-import {Server} from "./Server";
+import {Server, ServerStatus} from "./Server";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
@@ -14,15 +14,20 @@ import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/Sc
 import {useNavigation} from "@react-navigation/native";
 import {RootNavigationProp} from "../../../RootStackNavigator";
 
-declare type ServerPickerProps = {
-    onChanged?: (serverInfo: ServerInfo | null) => void;
-    style?: StyleProp<ViewStyle> | undefined;
+declare type ServerManagerProps = {
+    onServerChanged: (serverInfo: ServerInfo | null) => void;
+    onServerStatusChanged: (serverStatus: ServerStatus | null) => void;
+    style: StyleProp<ViewStyle> | undefined;
 };
 
 const chevronIconSize = Math.min(wp('10%'), 500);
 const serverActionIconSize = Math.min(wp('10%'), 500);
 
-export const ServerPicker: React.FC<ServerPickerProps> = ({onChanged, style}) => {
+export const ServerManager: React.FC<ServerManagerProps> = ({
+                                                              onServerChanged,
+                                                              onServerStatusChanged,
+                                                              style
+                                                          }) => {
     const scrollViewRef = useRef<ScrollView>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentServer, setCurrentServer] = useState<ServerInfo | null>(null);
@@ -30,31 +35,38 @@ export const ServerPicker: React.FC<ServerPickerProps> = ({onChanged, style}) =>
     const {subscribe} = useDataStorageEvents(serverInfoStorage);
     const theme = useTheme();
     const navigation = useNavigation<RootNavigationProp>();
+    const windowWidth = Dimensions.get('window').width;
 
     useEffect(() => {
         async function initializeData() {
             const servers = await serverInfoStorage.getAll();
             setServers(servers);
 
+            if (servers.length === 0) {
+                setCurrentServer(null);
+                onServerStatusChanged(null);
+                return;
+            }
+
             // read the last authenticated server
             const authenticationInfo = await authenticationInfoStorage.getLast();
             if (authenticationInfo) {
-                const lastServer = servers.find(s => s.serverName === authenticationInfo.serverName);
-                if (lastServer) {
-                    setCurrentServer(lastServer);
+                const index = servers.findIndex(s => s.serverName === authenticationInfo.serverName);
+                if (index !== -1) {
+                    scrollToServerAtIndex(index);
                 }
             } else {
-                setCurrentServer(servers[0]);
+                scrollToServerAtIndex(0);
             }
         }
 
         initializeData();
         subscribe([DataStorageEventTypes.DataChanged, DataStorageEventTypes.DataCreated, DataStorageEventTypes.DataDeleted], initializeData);
-    }, [subscribe]);
+    }, []);
 
     useEffect(() => {
-        onChanged && onChanged(currentServer);
-    }, [currentServer, onChanged]);
+        onServerChanged && onServerChanged(currentServer);
+    }, [currentServer, onServerChanged]);
 
     const handleSwipe = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const viewSize = event.nativeEvent.layoutMeasurement.width;
@@ -76,26 +88,33 @@ export const ServerPicker: React.FC<ServerPickerProps> = ({onChanged, style}) =>
         navigation.navigate('Server Config', {serverName: currentServer!.serverName});
     }, [navigation, currentServer]);
 
-    const handleServerAdd = useCallback(() => navigation.navigate('Server Config' as never), [navigation]);
+    const handleStatusChanged = useCallback((serverStatus: ServerStatus, serverInfo: ServerInfo) => {
+        if (serverInfo.serverName !== currentServer?.serverName) {
+            return;
+        }
 
-    const windowWidth = Dimensions.get('window').width;
+        onServerStatusChanged(serverStatus);
+    }, [currentServer?.serverName, onServerStatusChanged]);
+
+    const handleServerAdd = useCallback(() => navigation.navigate('Server Config' as never), [navigation]);
 
     return (
         <View style={[styles.container, style]}>
             {servers.length === 0 ?
-                    <Text variant={"titleLarge"}>Please configure &apos;Navi Home&apos; server</Text> :
-                    <ScrollView
-                        horizontal
-                        pagingEnabled
-                        showsHorizontalScrollIndicator={false}
-                        ref={scrollViewRef}
-                        onMomentumScrollEnd={handleSwipe}
-                        style={{width: windowWidth}}
-                    >
-                        {servers.map((serverInfo, index) => (
-                            <Server key={serverInfo.serverName} serverInfo={serverInfo} width={windowWidth} visible={index === currentIndex} />
-                        ))}
-                    </ScrollView>
+                <Text variant={"titleLarge"}>Please configure &apos;Navi Home&apos; server</Text> :
+                <ScrollView
+                    horizontal
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                    ref={scrollViewRef}
+                    onMomentumScrollEnd={handleSwipe}
+                    style={{width: windowWidth}}
+                >
+                    {servers.map((serverInfo, index) => (
+                        <Server key={serverInfo.serverName} serverInfo={serverInfo} width={windowWidth}
+                                visible={index === currentIndex} onStatusChanged={handleStatusChanged}/>
+                    ))}
+                </ScrollView>
             }
             <View style={styles.rowContainer}>
                 <IconButton onPress={handleServerAdd} icon={'playlist-plus'}

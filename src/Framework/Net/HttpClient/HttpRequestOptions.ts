@@ -8,4 +8,5 @@ export declare type HttpRequestOptions = {
     body?: string | null;
     signal?: AbortSignal;
     timeout?: number;
+    returnRawResponse?: boolean;
 };

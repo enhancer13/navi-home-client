@@ -3,15 +3,19 @@ import {Animated, StyleSheet} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import AnimatedBackgroundContainer from './Animations/AnimatedBackgroundContainer';
 import SafeAreaView from "../../Components/Layout/SafeAreaView";
-import {ServerPicker} from "./Components/ServerPicker";
+import {ServerManager} from "./Components/ServerManager";
 import {ServerInfo} from "../../Features/DataStorage";
 import {UserAuthentication} from "./Components/UserAuthentication";
+import {ServerStatus} from "./Components/Server";
 
 const loginContainerWidth = Math.min(wp('95%'), 500);
 
 export const LoginScreen: React.FC = () => {
-    const [server, setServer] = useState<ServerInfo | null>(null);
+    const [serverInfo, setServerInfo] = useState<ServerInfo | null>(null);
+    const [serverStatus, setServerStatus] = useState<ServerStatus | null>(null);
     const loginFormAnimationValueRef = useRef(new Animated.Value(0));
+
+    console.debug('LoginScreen render')
 
     const loadingAnimation = () => {
         loginFormAnimationValueRef.current.setValue(0);
@@ -30,8 +34,12 @@ export const LoginScreen: React.FC = () => {
     }, []);
 
     const handleServerChange = useCallback((value: ServerInfo | null) => {
-        setServer(value);
-    }, [setServer]);
+        setServerInfo(value);
+    }, []);
+
+    const handleServerStatusChanged = useCallback((status: ServerStatus | null) => {
+        setServerStatus(status);
+    }, []);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -43,8 +51,8 @@ export const LoginScreen: React.FC = () => {
                             opacity: loginFormAnimationValueRef.current,
                         },
                     ]}>
-                    <UserAuthentication server={server} />
-                    <ServerPicker onChanged={handleServerChange} style={styles.serverPicker} />
+                    <UserAuthentication serverInfo={serverInfo} serverStatus={serverStatus} />
+                    <ServerManager onServerChanged={handleServerChange} style={styles.serverPicker} onServerStatusChanged={handleServerStatusChanged} />
                 </Animated.View>
             </AnimatedBackgroundContainer>
         </SafeAreaView>

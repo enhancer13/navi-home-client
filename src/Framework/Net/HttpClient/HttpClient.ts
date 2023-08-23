@@ -43,9 +43,9 @@ export default class HttpClient implements IHttpClient {
             },
             signal
         };
-        console.debug('headers: ', options.headers)
-        console.debug('body: ', body)
-        console.debug('url: ', path)
+        // console.debug('headers: ', options.headers)
+        // console.debug('body: ', body)
+        // console.debug('url: ', path)
 
         if (body) {
             options.body = body;

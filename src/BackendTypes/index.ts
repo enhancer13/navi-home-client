@@ -43,5 +43,6 @@ export * from './Status/IServicesStatusAggregate';
 export * from './Status/IServicesStatusContainer';
 export * from './IApplicationInfo';
 export * from './Authentication/IUserInfo';
+export * from './Authentication/IOpenIdConfiguration';
 export * from './ErrorResponse';
 export * from './Entities/EntityNames';

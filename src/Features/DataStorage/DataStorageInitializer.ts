@@ -13,7 +13,7 @@ class DataStorageInitializer {
         //initialize default application settings
         const applicationSettings = new ApplicationSettings();
         applicationSettings.darkThemeActive = Appearance.getColorScheme() === 'dark';
-        applicationSettings.biometryAuthenticationActive = false;
+        applicationSettings.autoLoginActive = false;
         await applicationSettingsStorage.save(applicationSettings);
 
         //initialize backend configuration
