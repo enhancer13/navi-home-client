@@ -159,37 +159,40 @@ The server is currently under development and its release is on the horizon. Sho
 
 > **Note**: Ensure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) guide up to the "Creating a new application" step before proceeding.
 
-### Step 1: Start the Metro Bundler
+### Step 1: Install JavaScript Dependencies
 
-Metro, the JavaScript bundler included with React Native, needs to be running before you launch the application. Navigate to the root of your React Native project and execute:
+Navigate to the project’s root directory and execute:
 ```bash
-# Using npm
-npm start
+yarn install
+```
+This command installs all JavaScript dependencies specified in your package.json file. ￼
 
-# OR using Yarn
+### Step 2: Install Ruby Gem Dependencies
+
+This project includes a Gemfile, it’s essential to install the specified Ruby gems. In the project’s root directory, run:
+```bash
+bundle install
+```
+This ensures that all necessary Ruby dependencies, such as CocoaPods, are installed. ￼
+
+### Step 3: Initialize the Metro Bundler
+
+Metro, the JavaScript bundler included with React Native, needs to be running before you launch the application. In the project’s root directory, run:
+```bash
 yarn start
 ```
 
-### Step 2: Launch the Application
+### Step 4: Launch the Application
 
 Leave the Metro Bundler running in its terminal. Open a new terminal in the project root to start your application on the desired platform.
-
 #### For Android:
 
 ```bash
-# Using npm
-npm run android
-
-# OR using Yarn
 yarn android
 ```
 
 #### For iOS:
 ```bash
-# Using npm
-npm run ios
-
-# OR using Yarn
 yarn ios
 ```
 

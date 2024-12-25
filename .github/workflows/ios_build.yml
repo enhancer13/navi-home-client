@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Setup Xcode
-        uses: maxim-lobanov/setup-xcode@v1
+        uses: maxim-lobanov/setup-xcode@v1.6.0
         with:
           xcode-version: latest-stable
 
@@ -39,7 +39,7 @@ jobs:
         run: yarn install --frozen-lockfile --network-timeout 300000
 
       - name: Setup Ruby (bundle)
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.205.0
         with:
           ruby-version: 3.3.6
           bundler-cache: true

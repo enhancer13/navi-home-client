@@ -10,12 +10,18 @@ jobs:
   type-check:
     name: Type Check (tsc)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
     steps:
       - name : 📦 Checkout project repo
         uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
         with:
           version: 8
+
       - uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -33,7 +39,7 @@ jobs:
         run: |
           yarn type-check | reviewdog -name="tsc" -efm="%f(%l,%c): error TS%n: %m" -reporter="github-pr-review" -filter-mode="nofilter" -fail-on-error -tee
         env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.API_TOKEN }}
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🏃‍♂️ Run TypeScript Commit
         # If it's not a Pull Request then we just need to run the type-check
