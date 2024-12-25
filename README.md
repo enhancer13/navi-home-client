@@ -152,12 +152,48 @@ By default, application matches your operating system's theme upon installation,
 >![Logo](docs/Images/app_theme.gif)
 </details>
 
-## Installation
-The application operates in conjunction with a backend server, the [Navi Home Server - Intelligent Smart Home](https://github.com/enhancer13/navi-home), which is distributed independently.
+## Getting Started
 
+The application operates in conjunction with a backend server, the [Navi Home Server - Intelligent Smart Home](https://github.com/enhancer13/navi-home), which is distributed independently.
 The server is currently under development and its release is on the horizon. Should you wish to participate in testing the beta version, don't hesitate to [reach out to me](mailto:garmashs@gmail).
 
->Under development and will be available soon.
+> **Note**: Ensure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) guide up to the "Creating a new application" step before proceeding.
+
+### Step 1: Start the Metro Bundler
+
+Metro, the JavaScript bundler included with React Native, needs to be running before you launch the application. Navigate to the root of your React Native project and execute:
+```bash
+# Using npm
+npm start
+
+# OR using Yarn
+yarn start
+```
+
+### Step 2: Launch the Application
+
+Leave the Metro Bundler running in its terminal. Open a new terminal in the project root to start your application on the desired platform.
+
+#### For Android:
+
+```bash
+# Using npm
+npm run android
+
+# OR using Yarn
+yarn android
+```
+
+#### For iOS:
+```bash
+# Using npm
+npm run ios
+
+# OR using Yarn
+yarn ios
+```
+
+If your development environment is correctly configured, the application will launch in the Android Emulator or iOS Simulator. Alternatively, you can run the app directly from Android Studio or Xcode.
 
 ## Roadmap & Vision
 ### 1.0.0:

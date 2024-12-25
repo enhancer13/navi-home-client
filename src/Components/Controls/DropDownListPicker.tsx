@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import DropDownPicker, {ItemType, ValueType} from 'react-native-dropdown-picker';
 import {StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import isEqual from 'lodash/isEqual';
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 import {useTheme} from "react-native-paper";
 
 interface DropDownListPickerProps<T extends ValueType> {

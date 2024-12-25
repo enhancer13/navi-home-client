@@ -29,7 +29,7 @@ const screenComponents = {
     "Live Streaming": {component: LiveStreamingScreen, icon: "video-camera", library: FontAwesome},
     "Media Gallery": {component: MediaGalleryStackNavigator, icon: "images", library: Ionicons},
     "Alarm Profiles": {component: AlarmProfilesScreen, icon: "bell", library: FontAwesome},
-    "System Configuration": {component: SystemConfigurationNavigator, icon: "ios-settings", library: Ionicons},
+    "System Configuration": {component: SystemConfigurationNavigator, icon: "settings", library: Ionicons},
     "My Account": {component: MyAccountStackNavigator, icon: "user", library: FontAwesome},
 };
 

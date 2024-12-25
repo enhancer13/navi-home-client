@@ -43,15 +43,12 @@ export default class HttpClient implements IHttpClient {
             },
             signal
         };
-        console.debug('headers: ', options.headers)
-        console.debug('body: ', body)
-        console.debug('url: ', path)
 
         if (body) {
             options.body = body;
         }
 
-        const fetchPromise = window.fetch(path, options)
+        const fetchPromise = fetch(path, options)
             .then(this.checkResponse)
             .then(response => {
                 const contentType = response.headers.get("content-type");

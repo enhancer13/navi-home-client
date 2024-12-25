@@ -16,6 +16,7 @@ import padStart from 'lodash/padStart';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import type {OnPlaybackStateChangedData} from "react-native-video/src/specs/VideoNativeComponent.ts";
 
 type VideoPlayerProps = {
     uri?: string;
@@ -53,8 +54,7 @@ type VideoPlayerProps = {
     onLoad?: (data?: any) => void;
     onProgress?: (data?: any) => void;
     onEnd?: () => void;
-    onPlaybackStalled?: () => void;
-    onPlaybackResume?: () => void;
+    onPlaybackStateChanged?: (e: OnPlaybackStateChangedData) => void;
     onFullscreenPlayerDidPresent?: () => void;
     onFullscreenPlayerDidDismiss?: () => void;
     onControlsVisibilityChanged?: (isVisible: boolean) => void;
@@ -123,8 +123,7 @@ interface VideoPlayerEvents {
     onProgress: () => void;
     onSeek: () => void;
     onLoad: () => void;
-    onPlaybackStalled: () => void;
-    onPlaybackResume: () => void;
+    onPlaybackStateChanged: (e: OnPlaybackStateChangedData) => void;
     onFullscreenPlayerDidPresent: () => void;
     onFullscreenPlayerDidDismiss: () => void;
     onPlaybackRateChange: ({playbackRate}: { playbackRate: any; }) => void;
@@ -141,8 +140,8 @@ interface VideoPlayerPlayer {
     controlTimeoutDelay: number;
     volumePanResponder: any;
     seekPanResponder: any;
-    controlTimeout: undefined | number;
-    tapActionTimeout: undefined | number;
+    controlTimeout: undefined | NodeJS.Timeout;
+    tapActionTimeout: undefined | NodeJS.Timeout;
     volumeWidth: number;
     iconOffset: number;
     seekerWidth: number;
@@ -273,8 +272,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
             onProgress: this._onProgress.bind(this),
             onSeek: this._onSeek.bind(this),
             onLoad: this._onLoad.bind(this),
-            onPlaybackStalled: this._onPlaybackStalled.bind(this),
-            onPlaybackResume: this._onPlaybackResume.bind(this),
+            onPlaybackStateChanged: this._onPlaybackStateChanged.bind(this),
             onFullscreenPlayerDidPresent: this._onFullscreenPlayerDidPresent.bind(this),
             onFullscreenPlayerDidDismiss: this._onFullscreenPlayerDidDismiss.bind(this),
             onPlaybackRateChange: this._onPlaybackRateChange.bind(this),
@@ -404,25 +402,14 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
         }
     }
 
-    _onPlaybackResume() {
-        console.debug('onPlaybackResume')
+    _onPlaybackStateChanged(e: OnPlaybackStateChangedData) {
+        console.debug('onPlaybackStateChanged')
         this.setState({
             paused: false,
         });
 
-        if (typeof this.props.onPlaybackResume === 'function') {
-            this.props.onPlaybackResume();
-        }
-    }
-
-    _onPlaybackStalled() {
-        console.debug('onPlaybackStalled')
-        this.setState({
-            paused: true,
-        });
-
-        if (typeof this.props.onPlaybackStalled === 'function') {
-            this.props.onPlaybackStalled();
+        if (typeof this.props.onPlaybackStateChanged === 'function') {
+            this.props.onPlaybackStateChanged(e);
         }
     }
 
@@ -549,12 +536,12 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
         } else {
             this.methods.toggleControls();
         }
-        this.player.tapActionTimeout = 0;
+        this.player.tapActionTimeout = undefined;
     };
 
     handleDoubleClick = () => {
         clearTimeout(this.player.tapActionTimeout);
-        this.player.tapActionTimeout = 0;
+        this.player.tapActionTimeout = undefined;
         this.methods.toggleFullscreen();
         const state = this.state;
         if (state.showControls) {
@@ -759,9 +746,6 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
         let loading = state.loading;
         if (state.paused) {
             loading = false;
-            typeof this.events.onPlaybackStalled === 'function' && this.events.onPlaybackStalled();
-        } else {
-            typeof this.events.onPlaybackResume === 'function' && this.events.onPlaybackResume();
         }
 
         this.setState(prevState => ({
@@ -1477,8 +1461,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
             onLoad,
             onEnd,
             onSeek,
-            onPlaybackStalled,
-            onPlaybackResume,
+            onPlaybackStateChanged,
             onFullscreenPlayerDidPresent,
             onFullscreenPlayerDidDismiss,
             onPlaybackRateChange,
@@ -1504,8 +1487,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
                 onLoad={onLoad}
                 onEnd={onEnd}
                 onSeek={onSeek}
-                onPlaybackResume={onPlaybackResume}
-                onPlaybackStalled={onPlaybackStalled}
+                onPlaybackStateChanged={onPlaybackStateChanged}
                 style={[styles.player.video, this.styles.videoStyle]}
                 onFullscreenPlayerDidPresent={onFullscreenPlayerDidPresent}
                 onFullscreenPlayerDidDismiss={onFullscreenPlayerDidDismiss}

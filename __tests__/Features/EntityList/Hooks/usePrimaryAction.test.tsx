@@ -1,6 +1,6 @@
 // noinspection DuplicatedCode
 
-import {renderHook, act} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {ListItem} from "../../../../src/Features/EntityList/ListItem";
 import {ActionsStatus} from "../../../../src/Features/EntityList/Components/EntityActionsBar";
 import {usePrimaryAction} from "../../../../src/Features/EntityList";

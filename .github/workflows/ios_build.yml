@@ -21,13 +21,13 @@ jobs:
           xcode-version: latest-stable
 
       - name: Check out Git repository
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v4
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -41,11 +41,11 @@ jobs:
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
+          ruby-version: 3.3.6
           bundler-cache: true
 
       - name: Restore Pods cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
@@ -57,7 +57,7 @@ jobs:
         working-directory: ./ios
 
       - name: Build IOS App (ad-hoc)
-        uses: yukiarrr/ios-build-action@v1.11.0
+        uses: yukiarrr/ios-build-action@v1.12.0
         with:
           project-path: ios/NaviHomeClient.xcodeproj
           p12-base64: ${{ secrets.IOS_P12_BASE64 }}
@@ -70,7 +70,7 @@ jobs:
           scheme: NaviHomeClient
 
       - name: Upload artifact to GitHub
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ipa
           path: ./**.ipa

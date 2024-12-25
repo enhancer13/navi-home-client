@@ -4,7 +4,7 @@ import FastImage from 'react-native-fast-image';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {useTheme} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 import {IMediaSource} from "../../IMediaSource";
 
 type ThumbnailItemProps = {

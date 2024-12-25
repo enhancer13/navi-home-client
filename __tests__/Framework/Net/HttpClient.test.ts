@@ -9,8 +9,16 @@ describe('HttpClient', () => {
     const timeout = 1000;
     const client = new HttpClient(timeout);
 
+    beforeAll(() => {
+        fetchMock.mockGlobal();
+    });
+
     afterEach(() => {
-        fetchMock.reset();
+        fetchMock.clearHistory();
+    });
+
+    afterAll(() => {
+        fetchMock.unmockGlobal();
     });
 
     // GIVEN a GET request
@@ -28,8 +36,8 @@ describe('HttpClient', () => {
 
         // Assert
         expect(response).toEqual(responseBody);
-        expect(fetchMock.calls().length).toEqual(1);
-        expect(fetchMock.calls()[0][0]).toEqual(url);
+        expect(fetchMock.callHistory.calls().length).toEqual(1);
+        expect(fetchMock.callHistory.calls()[0].url).toEqual(url);
     });
 
     // GIVEN a POST request
@@ -48,8 +56,8 @@ describe('HttpClient', () => {
 
         // Assert
         expect(response).toEqual(responseBody);
-        expect(fetchMock.calls().length).toEqual(1);
-        expect(fetchMock.calls()[0][0]).toEqual(url);
+        expect(fetchMock.callHistory.calls().length).toEqual(1);
+        expect(fetchMock.callHistory.calls()[0].url).toEqual(url);
     });
 
     // GIVEN a PUT request
@@ -68,8 +76,8 @@ describe('HttpClient', () => {
 
         // Assert
         expect(response).toEqual(responseBody);
-        expect(fetchMock.calls().length).toEqual(1);
-        expect(fetchMock.calls()[0][0]).toEqual(url);
+        expect(fetchMock.callHistory.calls().length).toEqual(1);
+        expect(fetchMock.callHistory.calls()[0].url).toEqual(url);
     });
 
     // GIVEN a DELETE request
@@ -88,8 +96,8 @@ describe('HttpClient', () => {
 
         // Assert
         expect(response).toEqual(responseBody);
-        expect(fetchMock.calls().length).toEqual(1);
-        expect(fetchMock.calls()[0][0]).toEqual(url);
+        expect(fetchMock.callHistory.calls().length).toEqual(1);
+        expect(fetchMock.callHistory.calls()[0].url).toEqual(url);
     });
 
     // GIVEN a GET request
@@ -101,7 +109,7 @@ describe('HttpClient', () => {
         const url = serverAddress + path;
 
         // Delay the response longer than the specified timeout
-        fetchMock.mock(url, () => new Promise(resolve => setTimeout(() => resolve({status: 200}), timeout * 2)));
+        fetchMock.get(url, () => new Promise(resolve => setTimeout(() => resolve({status: 200}), timeout * 2)));
 
         // Act and Assert
         await expect(client.get(path, {authentication, headers})).rejects.toThrow('Connection timeout, service is unavailable.');
@@ -132,7 +140,7 @@ describe('HttpClient', () => {
         const {signal} = abortController;
 
         // Delay the response longer than the specified timeout
-        fetchMock.mock(
+        fetchMock.get(
             url,
             () => new Promise((resolve) => setTimeout(() => resolve({status: 200}), timeout * 2))
         );
@@ -157,7 +165,7 @@ describe('HttpClient', () => {
         const requestBody = JSON.stringify({field: "value"});
 
         // Delay the response longer than the specified timeout
-        fetchMock.mock(url, () => new Promise((resolve) => setTimeout(() => resolve({status: 200}), timeout * 2)));
+        fetchMock.post(url, () => new Promise((resolve) => setTimeout(() => resolve({status: 200}), timeout * 2)));
 
         const abortController = new AbortController();
         const {signal} = abortController;

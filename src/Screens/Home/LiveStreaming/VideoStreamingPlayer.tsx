@@ -11,7 +11,7 @@ import {LoadingActivityIndicator} from '../../../Components/Controls';
 import VideoPlayer from '../../../Features/VideoPlayer';
 import {useAuth} from '../../../Features/Authentication';
 import {useTheme, Text} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 import color from "color";
 
 const videoAspectRatio = 16 / 9;
@@ -75,7 +75,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
         );
         const videoRecordingControl = (
             <Ionicons
-                name="ios-recording-outline"
+                name="recording-outline"
                 color={videoRecorderActive ? 'white' : '#2d2d67'}
                 size={iconSize}
             />
@@ -89,7 +89,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
         );
         const cameraControl = (
             <Ionicons
-                name="ios-power"
+                name="power"
                 color={framesProducerActive ? 'white' : '#2d2d67'}
                 size={iconSize}
             />
@@ -100,7 +100,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                 color(theme.colors.primary).lighten(0.1).hex(),
                 color(theme.colors.primary).lighten(0.2).hex()]} style={styles.player.controls}>
                 <View style={styles.player.info}>
-                    <Text style={styles.player.infoText} adjustsFontSizeToFit>
+                    <Text style={styles.player.infoText} numberOfLines={1} ellipsizeMode="tail">
                         {streamingSource.name}
                     </Text>
                 </View>
@@ -150,7 +150,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                 showOnStart={true}
                 disableTimer={true}
                 disposeOnPause={true}
-                disableFullscreen={true} // react-native-video 6.0.1 alpha doesn't support fullscreen yet
+                disableFullscreen={false}
                 alwaysShowBottomControls={true}
                 tapAnywhereToPause={false}
                 doubleTapTime={400}
@@ -236,10 +236,10 @@ const createStyles = (theme: Theme, playerControlsHeight: number, iconSize: numb
             },
             info: {
                 flex: 0.33,
+                height: playerControlsHeight,
             },
             infoText: {
                 color: theme.colors.onPrimary,
-                fontSize: playerControlsHeight,
                 textAlign: 'center',
                 textAlignVertical: 'center',
             },

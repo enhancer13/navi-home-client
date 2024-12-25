@@ -33,8 +33,8 @@ export const useAuthenticationData = () => {
             await initializeServerData();
 
             if (__DEV__) {
-                setUsername('test');
-                setPassword('111111');
+                setUsername('root');
+                setPassword('enhancer2030');
                 setServerName(Platform.OS === 'ios' ? 'ios-dev' : 'android-dev');
             }
         }

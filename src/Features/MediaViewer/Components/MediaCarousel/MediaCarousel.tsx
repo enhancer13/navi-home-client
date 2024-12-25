@@ -6,8 +6,7 @@ import {useCarouselControls} from "./Hooks/useCarouselControls";
 import {widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {ThumbnailItem} from "./ThumbnailItem";
 import {VideoElement} from "./VideoElement";
-import {useTheme} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme, useTheme} from "react-native-paper";
 import {IMediaSource} from "../../IMediaSource";
 import {IMediaCarouselProps} from "./IMediaCarouselProps";
 

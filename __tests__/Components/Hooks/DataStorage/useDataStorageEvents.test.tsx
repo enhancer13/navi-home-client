@@ -1,6 +1,6 @@
 // noinspection JSVoidFunctionReturnValueUsed
 
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import {mock, instance, verify, anything} from "ts-mockito";
 import IDataStorage from "../../../../src/Framework/Data/DataStorage/IDataStorage";
 import {IStorageItem, DataStorageEventTypes} from "../../../../src/Framework/Data/DataStorage";

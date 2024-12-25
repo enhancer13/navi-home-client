@@ -1,6 +1,6 @@
 import {usePopupMessage} from "../../../Features/Messaging";
 import {useEffect, useState} from "react";
-import Keychain from "react-native-keychain";
+import * as Keychain from "react-native-keychain";
 import {useNavigation} from "@react-navigation/native";
 import {useAuth} from "../../../Features/Authentication";
 import {useApplicationSettings} from "../../../Features/DataStorage/Hooks/useApplicationSettings";

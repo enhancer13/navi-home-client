@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {usePopupMessage} from '../../Features/Messaging';
 import SafeAreaView from "../../Components/Layout/SafeAreaView";
 import {useTheme, Surface, IconButton, Button, Text} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 import {useAuthenticationData} from "./Hooks/useAuthenticationData";
 import {useAuthenticationActions} from "./Hooks/useAuthenticationActions";
 import FastImage from "react-native-fast-image";
@@ -115,7 +115,7 @@ export const LoginScreen: React.FC = () => {
     }, [setPassword]);
 
     return (
-        <SafeAreaView ignoreTopInsets={true} style={styles.container}>
+        <SafeAreaView ignoreTopInsets={true} enableKeyboardAvoiding={true} style={styles.container}>
             <LoadingAnimation />
             <Animated.View
                 style={[

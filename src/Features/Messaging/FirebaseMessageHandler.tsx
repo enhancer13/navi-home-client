@@ -67,12 +67,12 @@ export const FirebaseMessageHandler = () => {
     }
 
     if (remoteMessage.data?.messaging) {
-      showApplicationMessage(remoteMessage.data.messaging);
+      showApplicationMessage(remoteMessage.data.messaging as string);
       return;
     }
 
     if (remoteMessage.data?.dataMessage) {
-      dispatchDataMessageEvent(remoteMessage.data.dataMessage);
+      dispatchDataMessageEvent(remoteMessage.data.dataMessage as string);
     }
   };
 

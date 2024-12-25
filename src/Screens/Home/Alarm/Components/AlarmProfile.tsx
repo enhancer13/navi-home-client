@@ -12,7 +12,7 @@ import {useAlarmProfileActions} from "../Hooks/useAlarmProfileActions";
 import {IAlarmProfile} from "../../../../BackendTypes/Entities/IAlarmProfile";
 import {EntityViewComponentProps} from "../../../../Features/EntityList/EntityListScreen";
 import {LayoutChangeEvent} from "react-native/Libraries/Types/CoreEventTypes";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 
 const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
     const alarmProfile = entity as IAlarmProfile;
@@ -22,7 +22,7 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
 
     const theme = useTheme();
     const styles = useMemo(() => createStyles(theme), [theme]);
-    const [width, setWidth] = useState(0);
+    const [width, setWidth] = useState(1);
     const activeColor = theme.colors.primary;
     const inactiveColor = theme.colors.onSurfaceVariant;
 
@@ -64,7 +64,7 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
                     <Text numberOfLines={1}>{alarmProfile.profileName}</Text>
                     <View style={styles.alarmActionsContainer}>
                         <View style={styles.usersContainer}>
-                            <Text numberOfLines={1} style={styles.usersText}>
+                            <Text numberOfLines={1} style={styles.usersText} ellipsizeMode="tail">
                                 {alarmProfile.users.map(user => user.username).join(', ')}
                             </Text>
                         </View>
@@ -124,10 +124,11 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     usersContainer: {
         opacity: 0.4,
+        flexDirection: 'row',
     },
     usersText: {
         fontSize: 12,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
     verticalDivider: {
         height: '90%',

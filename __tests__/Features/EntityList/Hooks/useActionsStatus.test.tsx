@@ -1,6 +1,6 @@
 // noinspection DuplicatedCode
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { mock, instance, when } from 'ts-mockito';
 import {IEntityDefinition} from "../../../../src/Framework/Data/DataManager";
 import {ListItem} from "../../../../src/Features/EntityList/ListItem";

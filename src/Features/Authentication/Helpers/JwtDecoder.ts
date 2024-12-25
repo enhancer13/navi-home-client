@@ -1,4 +1,4 @@
-import decodeJWT, {JwtPayload} from 'jwt-decode';
+import {jwtDecode, JwtPayload} from 'jwt-decode';
 import moment from "moment/moment";
 import {IJwtDecoder} from "./IJwtDecoder";
 
@@ -19,7 +19,7 @@ export class JwtDecoder implements IJwtDecoder {
         if (!jwtToken) {
             throw new Error('JWT token is undefined');
         }
-        const decoded = decodeJWT<JwtPayload>(jwtToken);
+        const decoded = jwtDecode<JwtPayload>(jwtToken);
         if (!decoded.exp) {
             throw new Error('Decoded JWT token is invalid, expiration is not defined');
         }

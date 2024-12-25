@@ -11,7 +11,7 @@ import {
 } from "../../../../../Features/EntityList/Hooks/useVolatileEntityCollection";
 import {IEntityDataManager} from "../../../../../Framework/Data/DataManager/IEntityDataManager";
 import {IMediaGalleryFile} from "../../../../../BackendTypes";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 import SafeAreaView from "../../../../../Components/Layout/SafeAreaView";
 import {IMediaSource} from "../../../../../Features/MediaViewer/IMediaSource";
 import {useMediaFileActions} from "./Hooks/useMediaFileActions";

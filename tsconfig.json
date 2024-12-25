@@ -1,16 +1,9 @@
-// prettier-ignore
 {
-  "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
+  "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
-    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
-    "target": "es2022",
-    "lib": [
-      "dom",
-      "es2022",
-      "esnext.asynciterable"
-    ],
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
+    "skipLibCheck": true,
+    "paths": {
+      "react": [ "./node_modules/@types/react" ]
+    }
   }
 }

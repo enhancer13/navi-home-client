@@ -4,7 +4,7 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import SafeAreaView from '../../Components/Layout/SafeAreaView';
 import {ServerInfo, serverInfoStorage} from "../../Features/DataStorage";
 import {IconButton, TextInput, Text, useTheme} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {MD3Theme as Theme} from "react-native-paper";
 import {useServerActions} from "./Hooks/useServerActions";
 import {LoadingActivityIndicator} from "../../Components/Controls";
 import {AppHeader} from "../../Components/Layout";

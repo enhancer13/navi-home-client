@@ -6,13 +6,21 @@ jest.mock('@react-native-firebase/messaging', () => ({
   })),
 }));
 
+jest.mock('@react-native-firebase/auth', () => ({
+  __esModule: true,
+  default: () => ({
+    signInWithEmailAndPassword: jest.fn(),
+    createUserWithEmailAndPassword: jest.fn(),
+    signOut: jest.fn(),
+  }),
+}));
+
 jest.mock('react-native-device-info', () => {
   return {
     isTablet: jest.fn(() => false),
     getDeviceTypeSync: jest.fn(),
   }
 });
-
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
