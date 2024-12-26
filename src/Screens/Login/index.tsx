@@ -8,15 +8,13 @@ import {useNavigation} from '@react-navigation/native';
 import {usePopupMessage} from '../../Features/Messaging';
 import SafeAreaView from "../../Components/Layout/SafeAreaView";
 import {useTheme, Surface, IconButton, Button, Text} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper";
+import {MD3Theme as Theme} from 'react-native-paper';
 import {useAuthenticationData} from "./Hooks/useAuthenticationData";
 import {useAuthenticationActions} from "./Hooks/useAuthenticationActions";
-import FastImage from "react-native-fast-image";
 import {ListTextInputItem} from "../../Components/Controls/ListItems";
 import {RootNavigationProp} from "../../RootStackNavigator";
 
 const loginContainerWidth = Math.min(wp('95%'), 500);
-const developerLogoSize = loginContainerWidth * 0.3;
 const iconSize = loginContainerWidth * 0.07;
 const rowHeight = loginContainerWidth * 0.11;
 
@@ -101,11 +99,6 @@ export const LoginScreen: React.FC = () => {
                            size={iconSize}/>;
     }, [handleBiometryAuthenticate, biometryType, biometryActive, theme]);
 
-    const developerIcon = useMemo(() => {
-        return  theme.dark ? require('./Resources/enhancer13_logo_inverted.png') :
-            require('./Resources/enhancer13_logo.png');
-    }, [theme]);
-
     const handleUsernameChanged = useCallback((value: string) => {
         setUsername(value);
     }, [setUsername]);
@@ -115,7 +108,7 @@ export const LoginScreen: React.FC = () => {
     }, [setPassword]);
 
     return (
-        <SafeAreaView ignoreTopInsets={true} enableKeyboardAvoiding={true} style={styles.container}>
+        <SafeAreaView ignoreTopInsets={true} style={styles.container}>
             <LoadingAnimation />
             <Animated.View
                 style={[
@@ -125,8 +118,7 @@ export const LoginScreen: React.FC = () => {
                         transform: [{scale: loginFormAnimationValueRef.current}],
                     },
                 ]}>
-                <FastImage source={developerIcon} style={styles.developerIcon}/>
-                <Text variant="displayLarge" style={styles.logoText}>Navi Home</Text>
+                <Text variant="displayMedium" style={styles.logoText}>Navi Home</Text>
                 <Surface style={styles.formContainer} elevation={3}>
                     <View style={styles.credentialsContainer}>
                         <ListTextInputItem
@@ -181,7 +173,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: loginContainerWidth,
-        bottom: '10%',
+        top: '10%',
     },
     credentialsContainer: {
         alignItems: 'center',
@@ -201,7 +193,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         width: '80%',
     },
     logoText: {
-        marginBottom: 50,
+        marginBottom: 40,
         color: theme.colors.primary
     },
     passwordChangeContainer: {
@@ -238,11 +230,5 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     iconInactive: {
         color: theme.colors.onSurfaceDisabled,
-    },
-    developerIcon: {
-        width: developerLogoSize,
-        height: developerLogoSize,
-        opacity: 0.5,
-        marginBottom: -developerLogoSize * 0.1
     },
 });

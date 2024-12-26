@@ -29,7 +29,7 @@ const backgroundIcons: IBackgroundIcon[] = [
   {
     image: require('./Images/smart_lamp.png'),
     style: {
-      top: '20%',
+      top: '60%',
       left: '40%',
     },
     delay: 400,
@@ -44,15 +44,15 @@ const backgroundIcons: IBackgroundIcon[] = [
     delay: 800,
     property: 'smart_sensors',
   },
-  // {
-  //   image: require('./Images/remote_control.png'),
-  //   style: {
-  //     top: '45%',
-  //     left: '45%',
-  //   },
-  //   delay: 300,
-  //   property: 'remote_control',
-  // },
+  {
+    image: require('./Images/remote_control.png'),
+    style: {
+      top: '45%',
+      left: '45%',
+    },
+    delay: 300,
+    property: 'remote_control',
+  },
   {
     image: require('./Images/smart_lock.png'),
     style: {

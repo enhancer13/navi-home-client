@@ -19,6 +19,9 @@ export class DataContext<TStorageItem extends IStorageItem> implements IDataCont
   }
 
   public async saveMultiple(entities: Array<TStorageItem>): Promise<void> {
+    if (entities.length === 0) {
+      return Promise.resolve();
+    }
     const keys = await this.getNextKeys(entities.length);
     entities.forEach((entity, index) => (entity.key = keys[index]));
     await AsyncStorage.multiSet(entities.map(x => [x.key, JSON.stringify(x)]));
