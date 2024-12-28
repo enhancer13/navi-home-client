@@ -1,6 +1,6 @@
-import {EntityFieldInputTypes, IEntityFieldDefinition} from "../../../../src/BackendTypes";
-import {EntityFactory, IEntityDefinition} from "../../../../src/Framework/Data/DataManager";
-import {instance, mock, when} from "ts-mockito";
+import {EntityFieldInputTypes, IEntityFieldDefinition} from '../../../../src/BackendTypes';
+import {EntityFactory, IEntityDefinition} from '../../../../src/Framework/Data/DataManager';
+import {instance, mock, when} from 'ts-mockito';
 
 describe('EntityFactory', () => {
     let entityDefinitionMock: IEntityDefinition;
@@ -60,7 +60,7 @@ describe('EntityFactory', () => {
             instance(birthDateFieldDefinitionMock),
             instance(genderFieldDefinitionMock),
             instance(categoryFieldDefinitionMock),
-            instance(tagsFieldDefinitionMock)
+            instance(tagsFieldDefinitionMock),
         ]);
     });
 

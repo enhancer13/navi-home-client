@@ -1,6 +1,6 @@
-import {VolatileDataCollection, VolatileDataCollectionEventTypes} from "../../../Framework/Data/DataManager";
-import {IEntity} from "../../../BackendTypes";
-import {useEffect, useState} from "react";
+import {VolatileDataCollection, VolatileDataCollectionEventTypes} from '../../../Framework/Data/DataManager';
+import {IEntity} from '../../../BackendTypes';
+import {useEffect, useState} from 'react';
 
 export const useDataCollectionLoadingState = (volatileDataCollection: VolatileDataCollection<IEntity> | null) => {
     const [loading, setLoading] = useState(false);

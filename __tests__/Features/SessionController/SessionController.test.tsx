@@ -1,10 +1,10 @@
 import {render, waitFor} from '@testing-library/react-native';
-import React from 'react'
+import React from 'react';
 import {StackActions, useNavigation} from '@react-navigation/native';
-import {usePopupMessage} from "../../../src/Features/Messaging";
-import {useAuth} from "../../../src/Features/Authentication";
-import {SessionController} from "../../../src/Features/SessionController";
-import moment from "moment/moment";
+import {usePopupMessage} from '../../../src/Features/Messaging';
+import {useAuth} from '../../../src/Features/Authentication';
+import {SessionController} from '../../../src/Features/SessionController';
+import moment from 'moment/moment';
 
 jest.mock('../../../src/Features/Messaging', () => ({
     usePopupMessage: jest.fn(),
@@ -35,7 +35,7 @@ describe('SessionController', () => {
         // Arrange
         (useAuth as jest.Mock).mockReturnValue({
             authentication: {
-                expirationDateTime: moment('2023-03-28T12:00:00Z')
+                expirationDateTime: moment('2023-03-28T12:00:00Z'),
             },
             logout: jest.fn(),
         });

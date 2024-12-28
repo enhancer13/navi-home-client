@@ -10,7 +10,7 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => 
     const {title, message, onConfirm, onCancel} = props;
 
     const handleCancel = useCallback(() => {
-        onCancel?.()
+        onCancel?.();
     }, [onCancel]);
 
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
-import {EntityListScreen} from "../../../../../Features/EntityList/EntityListScreen";
-import {EntityNames} from "../../../../../BackendTypes";
-import {VideoSource} from "./VideoSource";
+import {EntityListScreen} from '../../../../../Features/EntityList/EntityListScreen';
+import {EntityNames} from '../../../../../BackendTypes';
+import {VideoSource} from './VideoSource';
 
 export const VideoSourcesScreen: React.FC = () => {
     return (
@@ -11,4 +11,4 @@ export const VideoSourcesScreen: React.FC = () => {
             backButton={true}
         />
     );
-}
+};

@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Animated, View, StyleSheet} from 'react-native';
-import {MediaCarousel} from "./Components/MediaCarousel/MediaCarousel";
-import {IMediaViewerProps} from "./IMediaViewerProps";
-import {FadeAnimation} from "../../Animations";
-import {LayoutChangeEvent} from "react-native/Libraries/Types/CoreEventTypes";
-import {useTheme} from "react-native-paper";
+import {MediaCarousel} from './Components/MediaCarousel/MediaCarousel';
+import {IMediaViewerProps} from './IMediaViewerProps';
+import {FadeAnimation} from '../../Animations';
+import {LayoutChangeEvent} from 'react-native/Libraries/Types/CoreEventTypes';
+import {useTheme} from 'react-native-paper';
 
 
 const DEFAULT_FADE_ANIMATION_DURATION = 500;
@@ -23,7 +23,7 @@ export const MediaViewer: React.FC<IMediaViewerProps> = (props: IMediaViewerProp
 
     const onLayout = useCallback((event: LayoutChangeEvent) => {
         if (event.nativeEvent.layout.width !== width) {
-            setWidth(event.nativeEvent.layout.width)
+            setWidth(event.nativeEvent.layout.width);
             setHeight(event.nativeEvent.layout.height);
             setLayout(true);
         }
@@ -56,6 +56,6 @@ export const MediaViewer: React.FC<IMediaViewerProps> = (props: IMediaViewerProp
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        overflow: 'hidden'
-    }
+        overflow: 'hidden',
+    },
 });

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import {ListItem} from "../ListItem";
-import {IEntityDefinition} from "../../../Framework/Data/DataManager";
-import {ActionsStatus} from "../Components/EntityActionsBar";
+import {ListItem} from '../ListItem';
+import {IEntityDefinition} from '../../../Framework/Data/DataManager';
+import {ActionsStatus} from '../Components/EntityActionsBar';
 
 export const useActionsStatus = (items: ListItem[], selectedItems: ListItem[], entityDefinition: IEntityDefinition | undefined) => {
     const [actionsStatus, setActionsStatus] = useState<ActionsStatus>({
@@ -26,7 +26,7 @@ export const useActionsStatus = (items: ListItem[], selectedItems: ListItem[], e
 
             const canSave = (databaseMethods.update && databaseMethods.create && allItemsAreNewOrModified) ||
                 (databaseMethods.update && allItemsAreModified) ||
-                (databaseMethods.create && allItemsAreNew)
+                (databaseMethods.create && allItemsAreNew);
 
             setActionsStatus({
                 canCreate: databaseMethods.create,

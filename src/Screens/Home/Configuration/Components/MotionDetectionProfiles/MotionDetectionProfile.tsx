@@ -1,12 +1,12 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {EntityViewComponentProps} from "../../../../../Features/EntityList/EntityListScreen";
-import {IMotionDetectionProfile} from "../../../../../BackendTypes";
-import {EntityViewContainer} from "../../../../../Features/EntityList/EntityViewContainer";
-import {Divider, Text, useTheme} from "react-native-paper";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {LabelTextItem} from "../../../../../Components/Controls";
-import AntDesign from "react-native-vector-icons/AntDesign";
+import {EntityViewComponentProps} from '../../../../../Features/EntityList/EntityListScreen';
+import {IMotionDetectionProfile} from '../../../../../BackendTypes';
+import {EntityViewContainer} from '../../../../../Features/EntityList/EntityViewContainer';
+import {Divider, Text, useTheme} from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {LabelTextItem} from '../../../../../Components/Controls';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export const MotionDetectionProfile: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     const motionDetectionProfile = entity as IMotionDetectionProfile;
@@ -32,7 +32,7 @@ export const MotionDetectionProfile: React.FC<EntityViewComponentProps> = ({enti
             </View>
         </EntityViewContainer>
     );
-}
+};
 
 const styles = StyleSheet.create({
     rowContainer: {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     bold: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     checkboxItem: {
         paddingVertical: 0,
@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     divider: {
-        marginVertical: 5
-    }
+        marginVertical: 5,
+    },
 });

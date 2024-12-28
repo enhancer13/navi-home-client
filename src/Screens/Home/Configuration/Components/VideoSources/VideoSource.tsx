@@ -1,13 +1,13 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {EntityViewComponentProps} from "../../../../../Features/EntityList/EntityListScreen";
-import {IVideoSource} from "../../../../../BackendTypes";
-import {EntityViewContainer} from "../../../../../Features/EntityList/EntityViewContainer";
-import {Divider, Text, useTheme} from "react-native-paper";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Ionicon from "react-native-vector-icons/Ionicons";
-import Entypo from "react-native-vector-icons/Entypo";
-import {LabelCheckboxItem, LabelTextItem} from "../../../../../Components/Controls";
+import {EntityViewComponentProps} from '../../../../../Features/EntityList/EntityListScreen';
+import {IVideoSource} from '../../../../../BackendTypes';
+import {EntityViewContainer} from '../../../../../Features/EntityList/EntityViewContainer';
+import {Divider, Text, useTheme} from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {LabelCheckboxItem, LabelTextItem} from '../../../../../Components/Controls';
 
 export const VideoSource: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     const videoSource = entity as IVideoSource;
@@ -39,7 +39,7 @@ export const VideoSource: React.FC<EntityViewComponentProps> = ({entity, width})
             </View>
         </EntityViewContainer>
     );
-}
+};
 
 const styles = StyleSheet.create({
     rowContainer: {
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     bold: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     checkboxItem: {
         paddingVertical: 0,
@@ -63,6 +63,6 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     divider: {
-        marginVertical: 5
-    }
+        marginVertical: 5,
+    },
 });

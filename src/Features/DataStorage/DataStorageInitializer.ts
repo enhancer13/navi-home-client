@@ -1,8 +1,8 @@
 import {ApplicationSettings} from './Settings/ApplicationSettings';
-import {ServerInfo} from "./ServerInfo/ServerInfo";
-import {serverInfoStorage} from "./ServerInfo/ServerInfoStorage";
-import {applicationSettingsStorage} from "./Settings/ApplicationSettingsStorage";
-import {Appearance} from "react-native";
+import {ServerInfo} from './ServerInfo/ServerInfo';
+import {serverInfoStorage} from './ServerInfo/ServerInfoStorage';
+import {applicationSettingsStorage} from './Settings/ApplicationSettingsStorage';
+import {Appearance} from 'react-native';
 
 class DataStorageInitializer {
     async initialize(): Promise<void> {

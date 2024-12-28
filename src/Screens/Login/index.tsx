@@ -6,13 +6,13 @@ import {DropDownListPicker, LoadingActivityIndicator} from '../../Components/Con
 import LoadingAnimation from './Animations/LoadingAnimation';
 import {useNavigation} from '@react-navigation/native';
 import {usePopupMessage} from '../../Features/Messaging';
-import SafeAreaView from "../../Components/Layout/SafeAreaView";
-import {useTheme, Surface, IconButton, Button, Text} from "react-native-paper";
+import SafeAreaView from '../../Components/Layout/SafeAreaView';
+import {useTheme, Surface, IconButton, Button, Text} from 'react-native-paper';
 import {MD3Theme as Theme} from 'react-native-paper';
-import {useAuthenticationData} from "./Hooks/useAuthenticationData";
-import {useAuthenticationActions} from "./Hooks/useAuthenticationActions";
-import {ListTextInputItem} from "../../Components/Controls/ListItems";
-import {RootNavigationProp} from "../../RootStackNavigator";
+import {useAuthenticationData} from './Hooks/useAuthenticationData';
+import {useAuthenticationActions} from './Hooks/useAuthenticationActions';
+import {ListTextInputItem} from '../../Components/Controls/ListItems';
+import {RootNavigationProp} from '../../RootStackNavigator';
 
 const loginContainerWidth = Math.min(wp('95%'), 500);
 const iconSize = loginContainerWidth * 0.07;
@@ -28,7 +28,7 @@ export const LoginScreen: React.FC = () => {
         serverName,
         setUsername,
         setPassword,
-        setServerName
+        setServerName,
     } = useAuthenticationData();
     const {
         biometryActive,
@@ -49,7 +49,7 @@ export const LoginScreen: React.FC = () => {
             Animated.timing(loginFormAnimationValueRef.current, {
                 toValue: 1,
                 duration: 700,
-                useNativeDriver: true
+                useNativeDriver: true,
             }),
         ]).start();
     };
@@ -90,7 +90,7 @@ export const LoginScreen: React.FC = () => {
 
         const faceIdBiometry = biometryType === Keychain.BIOMETRY_TYPE.FACE || biometryType === Keychain.BIOMETRY_TYPE.FACE_ID;
         const iconColor = biometryActive ? theme.colors.onSurface : theme.colors.onSurfaceDisabled;
-        const icon = faceIdBiometry ? "face-recognition" : "fingerprint";
+        const icon = faceIdBiometry ? 'face-recognition' : 'fingerprint';
         return <IconButton icon={icon}
                            onPress={handleBiometryAuthenticate}
                            iconColor={iconColor}
@@ -152,7 +152,7 @@ export const LoginScreen: React.FC = () => {
                             <Button compact={true} mode="contained"
                                     style={styles.submitButton}
                                     onPress={handleCredentialsAuthenticate}>
-                                {"SUBMIT"}
+                                {'SUBMIT'}
                             </Button>
                             {biometryIcon}
                         </View>
@@ -173,7 +173,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: loginContainerWidth,
-        top: '10%',
+        top: '20%',
     },
     credentialsContainer: {
         alignItems: 'center',
@@ -194,7 +194,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     logoText: {
         marginBottom: 40,
-        color: theme.colors.primary
+        color: theme.colors.primary,
     },
     passwordChangeContainer: {
         alignItems: 'center',
@@ -204,7 +204,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         width: '90%',
     },
     serverPickerContainer: {
-        width: loginContainerWidth * 0.45
+        width: loginContainerWidth * 0.45,
     },
     loadingIndicator: {
         height: rowHeight,

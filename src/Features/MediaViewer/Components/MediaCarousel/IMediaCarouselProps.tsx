@@ -1,6 +1,6 @@
-import {IMediaSource} from "../../IMediaSource";
-import {StyleProp} from "react-native/Libraries/StyleSheet/StyleSheet";
-import {ViewStyle} from "react-native";
+import {IMediaSource} from '../../IMediaSource';
+import {StyleProp} from 'react-native/Libraries/StyleSheet/StyleSheet';
+import {ViewStyle} from 'react-native';
 
 export interface IMediaCarouselProps {
     mediaSources: IMediaSource[];

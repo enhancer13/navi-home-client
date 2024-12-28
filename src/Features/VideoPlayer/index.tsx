@@ -15,14 +15,14 @@ import {
 import padStart from 'lodash/padStart';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import type {OnPlaybackStateChangedData} from "react-native-video/src/specs/VideoNativeComponent.ts";
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import type {OnPlaybackStateChangedData} from 'react-native-video/src/specs/VideoNativeComponent.ts';
 
 type VideoPlayerProps = {
     uri?: string;
     thumbUri?: string;
     headers: { [key: string]: string } | undefined;
-    resizeMode?: "stretch" | "contain" | "cover" | "none" | undefined;
+    resizeMode?: 'stretch' | 'contain' | 'cover' | 'none' | undefined;
     rate?: number;
     volume: number;
     muted?: boolean;
@@ -78,7 +78,7 @@ interface VideoPlayerState {
     rate?: number;
     volume: number;
     muted?: boolean;
-    resizeMode?: "stretch" | "contain" | "cover" | "none" | undefined;
+    resizeMode?: 'stretch' | 'contain' | 'cover' | 'none' | undefined;
     duration: number;
     currentTime: number;
     paused: boolean;
@@ -304,7 +304,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
             seekerWidth: 0,
             ref: Video,
             scrubbingTimeStep: this.props.scrubbing || 0,
-            tapAnywhereToPause: this.props.tapAnywhereToPause
+            tapAnywhereToPause: this.props.tapAnywhereToPause,
         };
 
         this.mounted = false;
@@ -390,7 +390,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
         const {duration = 0} = data;
         this.setState({
             duration,
-            loading: false
+            loading: false,
         });
 
         if (this.state.showControls) {
@@ -403,7 +403,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
     }
 
     _onPlaybackStateChanged(e: OnPlaybackStateChangedData) {
-        console.debug('onPlaybackStateChanged')
+        console.debug('onPlaybackStateChanged');
         this.setState({
             paused: false,
         });
@@ -429,7 +429,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
     }
 
     _onPlaybackRateChange({playbackRate}: { playbackRate: any; }) {
-        console.debug('onPlaybackRateChange', playbackRate)
+        console.debug('onPlaybackRateChange', playbackRate);
     }
 
     /**
@@ -452,7 +452,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
             }
 
             this.setState({
-                currentTime: data.currentTime
+                currentTime: data.currentTime,
             });
         }
     }
@@ -467,7 +467,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
         if (state.scrubbing) {
             // Seeking may be false here if the user released the seek bar while the player was still processing
             // the last seek command. In this case, perform the steps that have been postponed.
-            let {paused} = this.state
+            let {paused} = this.state;
             if (!state.seeking) {
                 this.setControlTimeout();
                 paused = state.originallyPaused;
@@ -476,7 +476,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
             this.setState({
                 scrubbing: false,
                 currentTime: data.currentTime,
-                paused
+                paused,
             });
         }
     }
@@ -757,11 +757,11 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
     /**
      * Rewind forward
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     _rewindForward() {
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     _onEnd() {
         console.debug('onEnd reached');
         this.setState({paused: true});
@@ -1103,7 +1103,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
                 }
                 this.setState({
                     paused,
-                    seeking
+                    seeking,
                 });
             },
         });
@@ -1143,7 +1143,7 @@ export default class VideoPlayer extends Component<VideoPlayerProps, VideoPlayer
                 const state = this.state;
                 this.setControlTimeout();
                 this.setState({
-                    volumeOffset: state.volumePosition
+                    volumeOffset: state.volumePosition,
                 });
             },
         });

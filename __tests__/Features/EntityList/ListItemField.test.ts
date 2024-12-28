@@ -1,5 +1,5 @@
-import {IUser} from "../../../src/BackendTypes";
-import {ListItemField} from "../../../src/Features/EntityList/ListItemField";
+import {IUser} from '../../../src/BackendTypes';
+import {ListItemField} from '../../../src/Features/EntityList/ListItemField';
 
 describe('EditorField', () => {
     // GIVEN an ItemField with a collection of IEntity (IUser)
@@ -26,7 +26,7 @@ describe('EditorField', () => {
             },
         ];
 
-        const editorField = new ListItemField("users", users);
+        const editorField = new ListItemField('users', users);
 
         // Act
         editorField.setValue(users);
@@ -42,7 +42,7 @@ describe('EditorField', () => {
         // Arrange
         const emptyArray1: unknown[] = [];
         const emptyArray2: unknown[] = [];
-        const editorField = new ListItemField("user", emptyArray1);
+        const editorField = new ListItemField('user', emptyArray1);
 
         // Act
         editorField.setValue(emptyArray2);
@@ -76,7 +76,7 @@ describe('EditorField', () => {
             },
         ];
 
-        const editorField = new ListItemField("users", users);
+        const editorField = new ListItemField('users', users);
 
         // Act
         editorField.setValue([]);
@@ -129,7 +129,7 @@ describe('EditorField', () => {
             },
         ];
 
-        const editorField = new ListItemField("users", users);
+        const editorField = new ListItemField('users', users);
 
         // Act
         editorField.setValue(updatedUsers);
@@ -182,7 +182,7 @@ describe('EditorField', () => {
             },
         ];
 
-        const editorField = new ListItemField("users", users);
+        const editorField = new ListItemField('users', users);
 
         // Act
         editorField.setValue(usersDifferentOrder);
@@ -236,7 +236,7 @@ describe('EditorField', () => {
             },
         ];
 
-        const editorField = new ListItemField("users", users);
+        const editorField = new ListItemField('users', users);
 
         // Act
         editorField.setValue(usersDifferentOrder);
@@ -252,10 +252,10 @@ describe('EditorField', () => {
     it('should return false when comparing the same collection of numbers', () => {
         // Arrange
         const numbers: number[] = [
-            1, 2, 3, 4, 5
+            1, 2, 3, 4, 5,
         ];
 
-        const editorField = new ListItemField("numbers", numbers);
+        const editorField = new ListItemField('numbers', numbers);
 
         // Act
         editorField.setValue(numbers);
@@ -271,9 +271,9 @@ describe('EditorField', () => {
     it('should return false when comparing the collection of numbers with another collection but with the same numbers', () => {
         // Arrange
         const numbers: number[] = [
-            1, 2, 3, 4, 5
+            1, 2, 3, 4, 5,
         ];
-        const editorField = new ListItemField("numbers", numbers);
+        const editorField = new ListItemField('numbers', numbers);
 
         // Act
         const newNumbers = [1, 2, 3, 4, 5];
@@ -290,9 +290,9 @@ describe('EditorField', () => {
     it('should return false when comparing the collection of numbers with another collection but with the same numbers but in different order', () => {
         // Arrange
         const numbers: number[] = [
-            1, 2, 3, 4, 5
+            1, 2, 3, 4, 5,
         ];
-        const editorField = new ListItemField("numbers", numbers);
+        const editorField = new ListItemField('numbers', numbers);
 
         // Act
         const newNumbers = [5, 2, 1, 4, 3];
@@ -309,9 +309,9 @@ describe('EditorField', () => {
     it('should return false when comparing the collection of numbers with another collection but with the different numbers', () => {
         // Arrange
         const numbers: number[] = [
-            1, 2, 3, 4, 5
+            1, 2, 3, 4, 5,
         ];
-        const editorField = new ListItemField("numbers", numbers);
+        const editorField = new ListItemField('numbers', numbers);
 
         // Act
         const newNumbers = [5, 6, 1, 4, 3];
@@ -328,9 +328,9 @@ describe('EditorField', () => {
     it('should return true when comparing the collection of numbers with null', () => {
         // Arrange
         const numbers: number[] = [
-            1, 2, 3, 4, 5
+            1, 2, 3, 4, 5,
         ];
-        const editorField = new ListItemField("numbers", numbers);
+        const editorField = new ListItemField('numbers', numbers);
 
         // Act
         editorField.setValue(null);
@@ -353,7 +353,7 @@ describe('EditorField', () => {
             admin: false,
             userRoles: [],
         };
-        const editorField = new ListItemField("user", user);
+        const editorField = new ListItemField('user', user);
 
         // Act
         const updatedUser: IUser = {
@@ -385,7 +385,7 @@ describe('EditorField', () => {
             admin: false,
             userRoles: [],
         };
-        const editorField = new ListItemField("user", user);
+        const editorField = new ListItemField('user', user);
 
         // Act
         const updatedUser: IUser = {
@@ -416,7 +416,7 @@ describe('EditorField', () => {
             admin: false,
             userRoles: [],
         };
-        const editorField = new ListItemField("user", user);
+        const editorField = new ListItemField('user', user);
 
         // Act
         editorField.setValue(null);
@@ -431,7 +431,7 @@ describe('EditorField', () => {
     // EXPECT isModified() to return true
     it('should return true when comparing null with entity', () => {
         // Arrange
-        const editorField = new ListItemField("user", null);
+        const editorField = new ListItemField('user', null);
 
         // Act
         const user: IUser = {
@@ -462,7 +462,7 @@ describe('EditorField', () => {
             admin: false,
             userRoles: [],
         };
-        const editorField = new ListItemField("user", user);
+        const editorField = new ListItemField('user', user);
         editorField.setValue(null);
 
         // Act

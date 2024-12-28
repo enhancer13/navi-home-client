@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export const useLoadingDelay = (externalLoading: boolean) => {
     const [loading, setLoading] = useState(false);

@@ -1,7 +1,7 @@
-import React, {useMemo} from "react";
-import {StyleSheet, View} from "react-native";
-import _ from "lodash";
-import {Text, useTheme} from "react-native-paper";
+import React, {useMemo} from 'react';
+import {StyleSheet, View} from 'react-native';
+import _ from 'lodash';
+import {Text, useTheme} from 'react-native-paper';
 
 type AlarmDayOfWeekProps = {
     dayOfWeek: string;
@@ -22,7 +22,7 @@ export const AlarmDayOfWeek: React.FC<AlarmDayOfWeekProps> = ({dayOfWeek, isActi
             <Text style={[styles.alarmDayOfWeekText, {color: textColor}]}>{dayOfWeekName}</Text>
         </View>
     );
-}
+};
 
 // noinspection JSSuspiciousNameCombination
 const createStyles = (containerWidth: number) => StyleSheet.create({
@@ -36,5 +36,5 @@ const createStyles = (containerWidth: number) => StyleSheet.create({
     },
     alarmDayOfWeekText: {
         fontSize: containerWidth * 0.35,
-    }
+    },
 });

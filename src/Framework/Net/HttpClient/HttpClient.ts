@@ -1,8 +1,8 @@
 import IHttpClient from './IHttpClient';
-import {ErrorResponse} from "../../../BackendTypes";
-import {HttpRequestOptions} from "./HttpRequestOptions";
-import {HttpMethod} from "./HttpMethod";
-import {AuthenticationFailed} from "../../../Errors/AuthenticationFailed";
+import {ErrorResponse} from '../../../BackendTypes';
+import {HttpRequestOptions} from './HttpRequestOptions';
+import {HttpMethod} from './HttpMethod';
+import {AuthenticationFailed} from '../../../Errors/AuthenticationFailed';
 
 export default class HttpClient implements IHttpClient {
     private readonly _timeout: number;
@@ -39,9 +39,9 @@ export default class HttpClient implements IHttpClient {
                 ...authentication?.authorizationHeader,
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
-                ...headers
+                ...headers,
             },
-            signal
+            signal,
         };
 
         if (body) {
@@ -51,19 +51,19 @@ export default class HttpClient implements IHttpClient {
         const fetchPromise = fetch(path, options)
             .then(this.checkResponse)
             .then(response => {
-                const contentType = response.headers.get("content-type");
-                if (contentType && contentType.indexOf("application/json") !== -1) {
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.indexOf('application/json') !== -1) {
                     return response.json();
                 }
                 return response.text();
             });
 
         const timeoutPromise = new Promise((_, reject) => {
-                const timeoutId = setTimeout(() => reject(new Error("Connection timeout, service is unavailable.")), this._timeout);
+                const timeoutId = setTimeout(() => reject(new Error('Connection timeout, service is unavailable.')), this._timeout);
 
-                signal?.addEventListener("abort", () => {
+                signal?.addEventListener('abort', () => {
                     clearTimeout(timeoutId);
-                    reject(new Error("The user aborted a request."));
+                    reject(new Error('The user aborted a request.'));
                 });
             }
         );

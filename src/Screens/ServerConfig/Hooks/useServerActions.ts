@@ -1,10 +1,10 @@
-import {ServerInfo, serverInfoStorage} from "../../../Features/DataStorage";
-import {httpClient} from "../../../Framework/Net/HttpClient/HttpClient";
-import {IApplicationInfo} from "../../../BackendTypes";
-import {backendEndpoints} from "../../../Config/BackendEndpoints";
-import {useEffect, useState} from "react";
-import {usePopupMessage} from "../../../Features/Messaging";
-import {useNavigation} from "@react-navigation/native";
+import {ServerInfo, serverInfoStorage} from '../../../Features/DataStorage';
+import {httpClient} from '../../../Framework/Net/HttpClient/HttpClient';
+import {IApplicationInfo} from '../../../BackendTypes';
+import {backendEndpoints} from '../../../Config/BackendEndpoints';
+import {useEffect, useState} from 'react';
+import {usePopupMessage} from '../../../Features/Messaging';
+import {useNavigation} from '@react-navigation/native';
 
 
 export const useServerActions = (serverInfo: ServerInfo) => {
@@ -72,7 +72,7 @@ export const useServerActions = (serverInfo: ServerInfo) => {
             return false;
         }
         return true;
-    }
+    };
 
     return { busy, doAdd, doEdit, doDelete, doConnectionTest };
 };

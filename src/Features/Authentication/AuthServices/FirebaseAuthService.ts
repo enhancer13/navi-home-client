@@ -5,7 +5,7 @@ import {IFirebaseAuthService} from './IFirebaseAuthService';
 import {Authentication} from '../Authentication';
 import IHttpClient from '../../../Framework/Net/HttpClient/IHttpClient';
 import {IServiceAccount, ServiceAccountTypes} from '../../../BackendTypes';
-import {httpClient} from "../../../Framework/Net/HttpClient/HttpClient";
+import {httpClient} from '../../../Framework/Net/HttpClient/HttpClient';
 
 export class FirebaseAuthService implements IFirebaseAuthService {
   private readonly _httpClient: IHttpClient;
@@ -54,6 +54,6 @@ export class FirebaseAuthService implements IFirebaseAuthService {
   }
 }
 
-const firebaseAuthService= new FirebaseAuthService(httpClient);
+const firebaseAuthService = new FirebaseAuthService(httpClient);
 export {firebaseAuthService};
 

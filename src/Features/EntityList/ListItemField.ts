@@ -1,5 +1,5 @@
-import {IEntity} from "../../BackendTypes";
-import {cloneDeep, isEqual, sortBy} from "lodash";
+import {IEntity} from '../../BackendTypes';
+import {cloneDeep, isEqual, sortBy} from 'lodash';
 
 export class ListItemField {
     private readonly _fieldName: string;

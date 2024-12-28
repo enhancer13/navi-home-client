@@ -6,12 +6,12 @@ import {backendEndpoints} from '../../../Config/BackendEndpoints';
 import {useAuth} from '../../../Features/Authentication';
 import {httpClient} from '../../../Framework/Net/HttpClient/HttpClient';
 import {IServicesStatusContainer, IApplicationStatus} from '../../../BackendTypes';
-import SafeAreaView from "../../../Components/Layout/SafeAreaView";
-import {widthPercentageToDP as wp} from "react-native-responsive-screen";
-import {getDeviceTypeSync, isTablet} from "react-native-device-info";
-import {useLoadingDelay} from "../../../Components/Hooks/useLoadingDelay";
-import {ModalLoadingActivityIndicator} from "../../../Components/Controls";
-import {useTheme} from "react-native-paper";
+import SafeAreaView from '../../../Components/Layout/SafeAreaView';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {getDeviceTypeSync, isTablet} from 'react-native-device-info';
+import {useLoadingDelay} from '../../../Components/Hooks/useLoadingDelay';
+import {ModalLoadingActivityIndicator} from '../../../Components/Controls';
+import {useTheme} from 'react-native-paper';
 
 const columnCount = (isTablet() || getDeviceTypeSync() === 'Desktop') ? 2 : 1;
 
@@ -107,6 +107,6 @@ export const LiveStreamingScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-    }
-})
+        flex: 1,
+    },
+});

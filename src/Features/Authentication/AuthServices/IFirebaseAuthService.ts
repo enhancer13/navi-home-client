@@ -1,5 +1,5 @@
 import {Authentication} from '../Authentication';
-import {IServiceAccount} from "../../../BackendTypes";
+import {IServiceAccount} from '../../../BackendTypes';
 
 export interface IFirebaseAuthService {
   signIn(authentication: Authentication): Promise<IServiceAccount>;

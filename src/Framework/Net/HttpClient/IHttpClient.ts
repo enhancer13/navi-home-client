@@ -1,5 +1,5 @@
-import {HttpRequestOptions} from "./HttpRequestOptions";
-import {HttpMethod} from "./HttpMethod";
+import {HttpRequestOptions} from './HttpRequestOptions';
+import {HttpMethod} from './HttpMethod';
 
 export default interface IHttpClient {
     get<TResponse>(url: string, options?: HttpRequestOptions): Promise<TResponse>;

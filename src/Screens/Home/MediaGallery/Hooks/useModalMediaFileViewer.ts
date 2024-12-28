@@ -1,5 +1,5 @@
-import {useCallback, useEffect, useState} from "react";
-import {IMediaGalleryFile} from "../../../../BackendTypes";
+import {useCallback, useEffect, useState} from 'react';
+import {IMediaGalleryFile} from '../../../../BackendTypes';
 
 export const useModalMediaFileViewer = () => {
     const [visible, setVisible] = useState(false);
@@ -14,8 +14,8 @@ export const useModalMediaFileViewer = () => {
     }, []);
 
     useEffect(() => {
-        setVisible(currentMediaFile !== null)
+        setVisible(currentMediaFile !== null);
     }, [currentMediaFile]);
 
     return {mediaViewerVisible: visible, currentMediaFile, openViewer, closeViewer};
-}
+};

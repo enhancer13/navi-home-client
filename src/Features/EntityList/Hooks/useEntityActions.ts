@@ -1,9 +1,9 @@
-import {ListItem} from "../ListItem";
-import {IEntityDataManager} from "../../../Framework/Data/DataManager/IEntityDataManager";
-import {IEntity} from "../../../BackendTypes";
-import React from "react";
-import {usePopupMessage} from "../../Messaging";
-import {entityFactory} from "../../../Framework/Data/DataManager";
+import {ListItem} from '../ListItem';
+import {IEntityDataManager} from '../../../Framework/Data/DataManager/IEntityDataManager';
+import {IEntity} from '../../../BackendTypes';
+import React from 'react';
+import {usePopupMessage} from '../../Messaging';
+import {entityFactory} from '../../../Framework/Data/DataManager';
 
 export const useEntityActions = (entityDataManager: IEntityDataManager<IEntity>, selectedItems: ListItem[], setItems: React.Dispatch<React.SetStateAction<ListItem[]>>) => {
     const {showSuccess, showError} = usePopupMessage();
@@ -28,8 +28,8 @@ export const useEntityActions = (entityDataManager: IEntityDataManager<IEntity>,
     const doRevert = () => {
         setItems(prevItems => {
             selectedItems.forEach(item => item.undoPendingChanges());
-            return prevItems.filter((item) => !(item.isNew() && selectedItems.some((selectedItem) => selectedItem.equals(item))))
-        })
+            return prevItems.filter((item) => !(item.isNew() && selectedItems.some((selectedItem) => selectedItem.equals(item))));
+        });
     };
 
     const doSave = async (items?: ListItem[]) => {
@@ -43,7 +43,7 @@ export const useEntityActions = (entityDataManager: IEntityDataManager<IEntity>,
         const newListItems = items.filter(entity => entity.isNew());
         const newEntities = newListItems.map(x => x.getEntity());
 
-        if (newEntities.length == 0) {
+        if (newEntities.length === 0) {
             return;
         }
 
@@ -62,7 +62,7 @@ export const useEntityActions = (entityDataManager: IEntityDataManager<IEntity>,
         const modifiedFieldNames = modifiedListItems.map(x => x.getModifiedFieldNames());
         const modifiedEntities = modifiedListItems.map(x => x.getEntity());
 
-        if (modifiedEntities.length == 0) {
+        if (modifiedEntities.length === 0) {
             return;
         }
 
@@ -79,7 +79,7 @@ export const useEntityActions = (entityDataManager: IEntityDataManager<IEntity>,
         setItems(prevItems => prevItems.filter(x => !(x.isNew() && selectedItems.includes(x))));
         const itemsToDelete = selectedItems.filter(entity => !entity.isNew());
 
-        if (itemsToDelete.length == 0) {
+        if (itemsToDelete.length === 0) {
             return;
         }
 
@@ -93,4 +93,4 @@ export const useEntityActions = (entityDataManager: IEntityDataManager<IEntity>,
     };
 
     return {doSave, doDelete, doCopy, doCreate, doRevert};
-}
+};

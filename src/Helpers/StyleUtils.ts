@@ -1,5 +1,5 @@
 import {MD3Theme as Theme} from 'react-native-paper';
-import {Animated} from "react-native";
+import {Animated} from 'react-native';
 
 export const elevationShadowStyle = (theme: Theme, elevation = 3) => {
     return {
@@ -21,7 +21,7 @@ export const animatedElevationShadowStyle = (theme: Theme, elevation: Animated.A
                 inputRange: [0, 10],
                 outputRange: [0, 5],
                 extrapolate: 'clamp',
-            })
+            }),
         }, // iOS
         shadowOpacity: elevation.interpolate({
             inputRange: [0, 10],

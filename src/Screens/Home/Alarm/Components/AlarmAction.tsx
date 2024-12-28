@@ -1,11 +1,11 @@
-import React from "react";
-import {StyleSheet, View} from "react-native";
-import {AlarmActions} from "../../../../BackendTypes";
-import {useTheme} from "react-native-paper";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Entypo from "react-native-vector-icons/Entypo";
-import Fontisto from "react-native-vector-icons/Fontisto";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
+import {AlarmActions} from '../../../../BackendTypes';
+import {useTheme} from 'react-native-paper';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const AlarmActionIcons = Object.freeze({
     SAVE_LOG: {
@@ -46,11 +46,11 @@ export const AlarmAction: React.FC<AlarmActionProps> = ({alarmAction, isActive, 
             {AlarmActionIcons[alarmAction].getIcon(iconColor, containerWidth)}
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     alarmActionContainer: {
         alignItems: 'center',
         marginRight: 8,
-    }
+    },
 });

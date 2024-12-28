@@ -1,8 +1,8 @@
-import {useEffect, useState} from "react";
-import {IEntity} from "../../../BackendTypes";
-import {IEntityDefinition, IFilterQuery, VolatileDataCollection,} from "../../../Framework/Data/DataManager";
-import {IEntityDataManager} from "../../../Framework/Data/DataManager/IEntityDataManager";
-import {useAsyncError} from "../../ErrorBoundary/Hooks/useAsyncError";
+import {useEffect, useState} from 'react';
+import {IEntity} from '../../../BackendTypes';
+import {IEntityDefinition, IFilterQuery, VolatileDataCollection} from '../../../Framework/Data/DataManager';
+import {IEntityDataManager} from '../../../Framework/Data/DataManager/IEntityDataManager';
+import {useAsyncError} from '../../ErrorBoundary/Hooks/useAsyncError';
 
 export type ParentEntityRestriction = {
     entity: IEntity;
@@ -11,7 +11,7 @@ export type ParentEntityRestriction = {
 
 export const useVolatileEntityCollection = <TEntity extends IEntity>(entityDataManager: IEntityDataManager<TEntity>, filterQuery = '', itemsPerPage?: number, parentEntityRestriction?: ParentEntityRestriction) => {
     const [volatileDataCollection, setVolatileDataCollection] = useState<VolatileDataCollection<TEntity> | null>(null);
-    const withAsyncThrow = useAsyncError()
+    const withAsyncThrow = useAsyncError();
 
     useEffect(() => {
         let dataCollection: VolatileDataCollection<TEntity>;
@@ -24,7 +24,7 @@ export const useVolatileEntityCollection = <TEntity extends IEntity>(entityDataM
 
         return () => {
             dataCollection?.dispose();
-        }
+        };
     }, [entityDataManager]);
 
     useEffect(() => {
@@ -41,11 +41,11 @@ export const useVolatileEntityCollection = <TEntity extends IEntity>(entityDataM
             const {entity, entityDefinition} = parentEntityRestriction;
             const primarySearchFieldName = entityDefinition.getPrimarySearchFieldName();
             query.extraCondition = {
-                [primarySearchFieldName]: entity[primarySearchFieldName] as string
-            }
+                [primarySearchFieldName]: entity[primarySearchFieldName] as string,
+            };
         }
         return query;
     };
 
     return volatileDataCollection;
-}
+};

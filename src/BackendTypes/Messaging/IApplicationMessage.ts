@@ -1,4 +1,4 @@
-import {MessageType} from "./Enums/MessageType";
+import {MessageType} from './Enums/MessageType';
 
 export interface IApplicationMessage {
   type: MessageType;

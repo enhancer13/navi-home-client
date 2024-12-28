@@ -1,19 +1,19 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {IconButton, Text, useTheme, Divider, HelperText} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper";
-import {useNavigation, useRoute} from "@react-navigation/native";
-import {AccountRouteProps} from "../index";
-import {elevationShadowStyle} from "../../../../Helpers/StyleUtils";
-import {usePopupMessage} from "../../../../Features/Messaging";
-import {AppHeader} from "../../../../Components/Layout";
-import {LoadingActivityIndicator} from "../../../../Components/Controls";
-import {httpClient} from "../../../../Framework/Net/HttpClient/HttpClient";
-import {backendEndpoints} from "../../../../Config/BackendEndpoints";
-import {IPasswordChangeRequest} from "../../../../BackendTypes/Requests/IPasswordChangeRequest";
-import {useAuth} from "../../../../Features/Authentication";
-import {ListTextInputItem} from "../../../../Components/Controls/ListItems";
+import {IconButton, Text, useTheme, Divider, HelperText} from 'react-native-paper';
+import {MD3Theme as Theme} from 'react-native-paper';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {AccountRouteProps} from '../index';
+import {elevationShadowStyle} from '../../../../Helpers/StyleUtils';
+import {usePopupMessage} from '../../../../Features/Messaging';
+import {AppHeader} from '../../../../Components/Layout';
+import {LoadingActivityIndicator} from '../../../../Components/Controls';
+import {httpClient} from '../../../../Framework/Net/HttpClient/HttpClient';
+import {backendEndpoints} from '../../../../Config/BackendEndpoints';
+import {IPasswordChangeRequest} from '../../../../BackendTypes/Requests/IPasswordChangeRequest';
+import {useAuth} from '../../../../Features/Authentication';
+import {ListTextInputItem} from '../../../../Components/Controls/ListItems';
 
 const iconSize = hp(5);
 
@@ -67,7 +67,7 @@ export const ChangePasswordScreen: React.FC = () => {
             const passwordChangeRequest: IPasswordChangeRequest = {
                 oldPassword: previousPassword,
                 newPassword,
-                repNewPassword: newPasswordRepeat
+                repNewPassword: newPasswordRepeat,
             };
             const json = JSON.stringify(passwordChangeRequest);
             await httpClient.put(backendEndpoints.PasswordChange, {body: json, authentication});
@@ -90,10 +90,10 @@ export const ChangePasswordScreen: React.FC = () => {
             <View style={styles.passwordChangeContainer}>
                 <View style={styles.surface}>
                     <View>
-                        <Text variant={"labelLarge"}>{'Please enter the previous password:'}</Text>
+                        <Text variant={'labelLarge'}>{'Please enter the previous password:'}</Text>
                         <ListTextInputItem title={'Previous password:'} secureTextEntry value={previousPassword} onValueChanged={handlePreviousPasswordChange} />
                         <Divider style={styles.divider}/>
-                        <Text variant={"labelLarge"}>{'Please enter the new password:'}</Text>
+                        <Text variant={'labelLarge'}>{'Please enter the new password:'}</Text>
                         <ListTextInputItem title={'New password'} secureTextEntry value={newPassword} onValueChanged={handleNewPasswordChange} />
                         <ListTextInputItem title={'Repeat new password'} secureTextEntry value={newPasswordRepeat} onValueChanged={handleNewPasswordRepeat} />
                         <HelperText type="info" visible={validationError.length > 0}>
@@ -119,7 +119,7 @@ export const ChangePasswordScreen: React.FC = () => {
                 </View>
             </View>
         </>
-    )
+    );
 };
 
 const createStyles = (theme: Theme) => {
@@ -154,10 +154,10 @@ const createStyles = (theme: Theme) => {
             justifyContent: 'space-between',
         },
         textInput: {
-            marginBottom: 10
+            marginBottom: 10,
         },
         divider: {
             marginVertical: 10,
-        }
+        },
     });
 };

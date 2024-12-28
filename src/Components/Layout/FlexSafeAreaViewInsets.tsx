@@ -1,8 +1,8 @@
 import {Platform, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import React, {useMemo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useTheme} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper";
+import {useTheme} from 'react-native-paper';
+import {MD3Theme as Theme} from 'react-native-paper';
 
 interface IFlexSafeAreaViewInsetsProps {
   children: React.ReactNode;

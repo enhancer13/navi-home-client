@@ -5,8 +5,8 @@ import {backendEndpoints} from '../../Config/BackendEndpoints';
 import {useAuth} from '../Authentication';
 import {IApplicationInfo, IApplicationMessage, IApplicationDataMessage, MessageType} from '../../BackendTypes';
 import {usePopupMessage} from './FlashMessageContext';
-import {httpClient} from "../../Framework/Net/HttpClient/HttpClient";
-import {firebaseAuthService} from "../Authentication/AuthServices/FirebaseAuthService";
+import {httpClient} from '../../Framework/Net/HttpClient/HttpClient';
+import {firebaseAuthService} from '../Authentication/AuthServices/FirebaseAuthService';
 
 export const FirebaseMessageHandler = () => {
   const {authentication} = useAuth();

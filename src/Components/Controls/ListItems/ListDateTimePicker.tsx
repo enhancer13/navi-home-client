@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Moment, { Moment as MomentTypes } from 'moment';
-import {Divider, IconButton, List, useTheme} from 'react-native-paper';
+import { Divider, IconButton, List, useTheme } from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
-import {applicationConstants} from "../../../Config/ApplicationConstants";
-import {backendConstants} from "../../../Config/BackendConstants";
+import { applicationConstants } from '../../../Config/ApplicationConstants';
+import { backendConstants } from '../../../Config/BackendConstants';
 
 declare type Props = {
     title: string;
@@ -13,7 +13,7 @@ declare type Props = {
     onChange: (value: string | null) => void;
 };
 
-export const ListDateTimePicker: React.FC<Props> = ({title, mode, value, readonly, onChange}) => {
+export const ListDateTimePicker: React.FC<Props> = ({ title, mode, value, readonly, onChange }) => {
     const [showPicker, setShowPicker] = useState(false);
     const [momentValue, setMomentValue] = useState<MomentTypes | null>(null);
     const theme = useTheme();
@@ -38,36 +38,40 @@ export const ListDateTimePicker: React.FC<Props> = ({title, mode, value, readonl
         }
     };
 
-    const labeledInputIconName = mode === 'time' ? 'clock-time-nine-outline' : 'calendar';
-    const iconColor = theme.colors.primary;
+    const renderRightIcons = () => {
+        const labeledInputIconName = mode === 'time' ? 'clock-time-nine-outline' : 'calendar';
+        const iconColor = theme.colors.primary;
+
+        return (
+            <>
+                <IconButton icon="delete-outline" iconColor={iconColor} onPress={() => onChange(null)} />
+                <IconButton icon={labeledInputIconName} iconColor={iconColor} onPress={() => setShowPicker(true)} />
+            </>
+        );
+    };
 
     return (
         <>
             <List.Item
                 title={momentValue ? momentValue.format(applicationConstants.Formats[mode]) : ''}
                 description={title}
-                right={() =>
-                    <>
-                        <IconButton icon="delete-outline" iconColor={iconColor} onPress={() => onChange(null)}/>
-                        <IconButton icon={labeledInputIconName} iconColor={iconColor} onPress={() => setShowPicker(true)}/>
-                    </>
-                }
+                right={renderRightIcons}
             />
-            {!readonly &&
-              <DatePicker
-                theme={theme.dark ? 'dark' : 'light'}
-                modal
-                mode={mode}
-                open={showPicker}
-                date={momentValue ? momentValue.toDate() : new Date()}
-                onConfirm={date => {
-                    setShowPicker(false);
-                    onDateTimeChange(date);
-                }}
-                onCancel={() => setShowPicker(false)}
-              />
-            }
-            <Divider/>
+            {!readonly && (
+                <DatePicker
+                    theme={theme.dark ? 'dark' : 'light'}
+                    modal
+                    mode={mode}
+                    open={showPicker}
+                    date={momentValue ? momentValue.toDate() : new Date()}
+                    onConfirm={(date) => {
+                        setShowPicker(false);
+                        onDateTimeChange(date);
+                    }}
+                    onCancel={() => setShowPicker(false)}
+                />
+            )}
+            <Divider />
         </>
     );
-}
+};

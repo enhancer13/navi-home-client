@@ -1,8 +1,8 @@
 import {Animated, Pressable, StyleSheet, View} from 'react-native';
 import React, {useMemo, useRef} from 'react';
-import {ScaleAnimation} from "../../../../Animations";
-import {MD3Theme as Theme, useTheme} from "react-native-paper";
-import color from "color";
+import {ScaleAnimation} from '../../../../Animations';
+import {MD3Theme as Theme, useTheme} from 'react-native-paper';
+import color from 'color';
 
 const itemMargin = 1;
 const itemPadding = 3;
@@ -38,7 +38,7 @@ const SelectableItem: React.FC<SelectableItemProps> = (props) => {
             </Animated.View>
         </Pressable>
     );
-}
+};
 
 export default SelectableItem;
 
@@ -54,6 +54,6 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         zIndex: 999,
         position: 'absolute',
         width: '100%',
-        height: '100%'
+        height: '100%',
     },
 });

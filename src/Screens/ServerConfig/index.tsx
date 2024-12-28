@@ -2,15 +2,15 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import SafeAreaView from '../../Components/Layout/SafeAreaView';
-import {ServerInfo, serverInfoStorage} from "../../Features/DataStorage";
-import {IconButton, TextInput, Text, useTheme} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper";
-import {useServerActions} from "./Hooks/useServerActions";
-import {LoadingActivityIndicator} from "../../Components/Controls";
-import {AppHeader} from "../../Components/Layout";
-import {useRoute} from "@react-navigation/native";
-import {elevationShadowStyle} from "../../Helpers/StyleUtils";
-import {RootRouteProps} from "../../RootStackNavigator";
+import {ServerInfo, serverInfoStorage} from '../../Features/DataStorage';
+import {IconButton, TextInput, Text, useTheme} from 'react-native-paper';
+import {MD3Theme as Theme} from 'react-native-paper';
+import {useServerActions} from './Hooks/useServerActions';
+import {LoadingActivityIndicator} from '../../Components/Controls';
+import {AppHeader} from '../../Components/Layout';
+import {useRoute} from '@react-navigation/native';
+import {elevationShadowStyle} from '../../Helpers/StyleUtils';
+import {RootRouteProps} from '../../RootStackNavigator';
 
 const iconSize = hp(5);
 
@@ -52,7 +52,7 @@ export const ServerConfigScreen: React.FC = () => {
                             onChangeText={(value: string) =>
                                 setServerInfo((prevState) => ({
                                     ...prevState,
-                                    serverName: value
+                                    serverName: value,
                                 }))
                             }
                         />
@@ -63,7 +63,7 @@ export const ServerConfigScreen: React.FC = () => {
                             onChangeText={(value: string) =>
                                 setServerInfo((prevState) => ({
                                     ...prevState,
-                                    serverAddress: value
+                                    serverAddress: value,
                                 }))
                             }
                         />
@@ -86,13 +86,13 @@ export const ServerConfigScreen: React.FC = () => {
                         size={iconSize}
                         iconColor={iconColor}
                         onPress={() => {
-                            serverInfo.key ? doEdit() : doAdd()
+                            serverInfo.key ? doEdit() : doAdd();
                         }}
                     />
                 </View>
             </SafeAreaView>
         </>
-    )
+    );
 };
 
 const createStyles = (theme: Theme) => {
@@ -131,7 +131,7 @@ const createStyles = (theme: Theme) => {
             flex: 0.95,
         },
         textInput: {
-            marginBottom: 10
+            marginBottom: 10,
         },
     });
 };

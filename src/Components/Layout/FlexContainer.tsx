@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {useTheme} from "react-native-paper";
+import {useTheme} from 'react-native-paper';
 
 interface FlexContainerProps {
   children: React.ReactNode;

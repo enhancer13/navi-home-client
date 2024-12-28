@@ -1,6 +1,6 @@
 import {jwtDecode, JwtPayload} from 'jwt-decode';
-import moment from "moment/moment";
-import {IJwtDecoder} from "./IJwtDecoder";
+import moment from 'moment/moment';
+import {IJwtDecoder} from './IJwtDecoder';
 
 export class JwtDecoder implements IJwtDecoder {
     public getExpirationDate(jwtToken: string): Date {

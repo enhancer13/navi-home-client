@@ -1,7 +1,7 @@
-import React, {useMemo} from "react";
-import {Animated} from "react-native";
-import {Button} from "react-native-paper";
-import {AppHeader} from "../../../../Components/Layout";
+import React, {useMemo} from 'react';
+import {Animated} from 'react-native';
+import {Button} from 'react-native-paper';
+import {AppHeader} from '../../../../Components/Layout';
 
 type EntityEditorHeaderProps = {
     title: string;
@@ -18,14 +18,14 @@ export const EntityEditorHeader: React.FC<EntityEditorHeaderProps> = ({
                                                                           onCancel,
                                                                           onDone,
                                                                           scrollY,
-                                                                          scrollThreshold
+                                                                          scrollThreshold,
                                                                       }) => {
     const cancelIconButton = useMemo(() => {
-        return <Button icon="cancel" mode="text" onPress={onCancel}>Cancel</Button>
+        return <Button icon="cancel" mode="text" onPress={onCancel}>Cancel</Button>;
     }, [onCancel]);
 
     const doneIconButton = useMemo(() => {
-        return <Button icon="content-save-edit-outline" mode="text" onPress={onDone}>Done</Button>
+        return <Button icon="content-save-edit-outline" mode="text" onPress={onDone}>Done</Button>;
     }, [onDone]);
 
     return (
@@ -39,4 +39,4 @@ export const EntityEditorHeader: React.FC<EntityEditorHeaderProps> = ({
             scrollThreshold={scrollThreshold}
         />
     );
-}
+};

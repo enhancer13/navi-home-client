@@ -1,6 +1,6 @@
-import {Authentication} from "../../../Features/Authentication";
+import {Authentication} from '../../../Features/Authentication';
 
-import {HttpHeaders} from "./HttpHeaders";
+import {HttpHeaders} from './HttpHeaders';
 
 export declare type HttpRequestOptions = {
     authentication?: Authentication | null;

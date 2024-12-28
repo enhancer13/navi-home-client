@@ -1,8 +1,8 @@
-import {ICenterOn} from "./ICenterOn";
-import {GestureResponderEvent, LayoutChangeEvent, PanResponderGestureState, ViewStyle} from "react-native";
-import {IOnClick} from "./IOnClick";
-import {IOnMove} from "./IOnMove";
-import * as React from "react";
+import {ICenterOn} from './ICenterOn';
+import {GestureResponderEvent, LayoutChangeEvent, PanResponderGestureState, ViewStyle} from 'react-native';
+import {IOnClick} from './IOnClick';
+import {IOnMove} from './IOnMove';
+import * as React from 'react';
 
 export class ImageZoomProps {
     public cropWidth = 100;

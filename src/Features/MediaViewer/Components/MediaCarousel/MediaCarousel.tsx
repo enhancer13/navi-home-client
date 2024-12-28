@@ -1,14 +1,14 @@
-import React, {useEffect, useMemo, useRef} from "react";
-import {Animated, FlatList, I18nManager, ListRenderItem, StyleSheet, View} from "react-native";
-import {ImageElement} from "./ImageElement";
-import {useLoadMedia} from "./Hooks/useLoadMedia";
-import {useCarouselControls} from "./Hooks/useCarouselControls";
-import {widthPercentageToDP as wp} from "react-native-responsive-screen";
-import {ThumbnailItem} from "./ThumbnailItem";
-import {VideoElement} from "./VideoElement";
-import {MD3Theme as Theme, useTheme} from "react-native-paper";
-import {IMediaSource} from "../../IMediaSource";
-import {IMediaCarouselProps} from "./IMediaCarouselProps";
+import React, {useEffect, useMemo, useRef} from 'react';
+import {Animated, FlatList, I18nManager, ListRenderItem, StyleSheet, View} from 'react-native';
+import {ImageElement} from './ImageElement';
+import {useLoadMedia} from './Hooks/useLoadMedia';
+import {useCarouselControls} from './Hooks/useCarouselControls';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {ThumbnailItem} from './ThumbnailItem';
+import {VideoElement} from './VideoElement';
+import {MD3Theme as Theme, useTheme} from 'react-native-paper';
+import {IMediaSource} from '../../IMediaSource';
+import {IMediaCarouselProps} from './IMediaCarouselProps';
 
 const DEFAULT_SLIDE_ANIMATION_DURATION = 300;
 const thumbnailSize = wp(10);
@@ -25,7 +25,7 @@ export const MediaCarousel: React.FC<IMediaCarouselProps> = ({
                                                                  useNativeDriver,
                                                                  slideAnimationTime = DEFAULT_SLIDE_ANIMATION_DURATION,
                                                                  thumbnailsContainerStyle,
-                                                                 onCurrentMediaIndexChange
+                                                                 onCurrentMediaIndexChange,
                                                              }) => {
     const theme = useTheme();
     const styles = useMemo(() => createStyles(theme, containerWidth, containerHeight), [theme, containerWidth, containerHeight]);
@@ -38,7 +38,7 @@ export const MediaCarousel: React.FC<IMediaCarouselProps> = ({
         resetPosition,
         goBack,
         goNext,
-        goToIndex
+        goToIndex,
     } = useCarouselControls(mediaSources, containerWidth, useNativeDriver, slideAnimationTime);
     const thumbnailsFlatListRef = useRef<FlatList>(null);
 
@@ -84,7 +84,7 @@ export const MediaCarousel: React.FC<IMediaCarouselProps> = ({
             }
         };
         const flipThreshold = 0.5 * containerWidth;
-        const deltaPositionSign =  Math.sign(deltaPosition)
+        const deltaPositionSign =  Math.sign(deltaPosition);
         const moveForward = vxRTL < -0.7 || (deltaPositionSign < 0 && Math.abs(deltaPosition) > flipThreshold);
         const moveBackward = vxRTL > 0.7 || (deltaPositionSign > 0 && Math.abs(deltaPosition) > flipThreshold);
 
@@ -118,7 +118,7 @@ export const MediaCarousel: React.FC<IMediaCarouselProps> = ({
                 onPress={onThumbnailClick}
             />
         );
-    }
+    };
 
     if (mediaStatuses.length === 0) {
         return null;
@@ -153,10 +153,10 @@ export const MediaCarousel: React.FC<IMediaCarouselProps> = ({
                         onSwipeDown,
                     };
                     switch (mediaSource.mediaType) {
-                        case "IMAGE":
-                            return <ImageElement key={index} {...commonProps} />
-                        case "VIDEO":
-                            return <VideoElement key={index} {...commonProps} />
+                        case 'IMAGE':
+                            return <ImageElement key={index} {...commonProps} />;
+                        case 'VIDEO':
+                            return <VideoElement key={index} {...commonProps} />;
                         default:
                             throw new Error(`Unknown media type: ${mediaSource.mediaType}`);
                     }
@@ -191,7 +191,7 @@ const createStyles = (theme: Theme, containerWidth: number, containerHeight: num
     thumbnailsFlatList: {
         position: 'absolute',
         bottom: 0,
-        alignSelf: 'center'
-    }
-})
+        alignSelf: 'center',
+    },
+});
 

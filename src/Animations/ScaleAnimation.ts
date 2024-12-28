@@ -1,5 +1,5 @@
-import {Animated} from "react-native";
-import {BaseAnimation} from "./BaseAnimation";
+import {Animated} from 'react-native';
+import {BaseAnimation} from './BaseAnimation';
 
 export class ScaleAnimation extends BaseAnimation {
   private readonly _dimension;

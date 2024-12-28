@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import Feather from "react-native-vector-icons/Feather";
+import Feather from 'react-native-vector-icons/Feather';
 
 const FontsLoader = {
   load() {

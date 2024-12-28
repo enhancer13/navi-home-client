@@ -1,5 +1,5 @@
-import IBackendEntityDefinition from "../../../BackendTypes/EntityEditor/IEntityDefinition";
-import {IStorageItem} from "../DataStorage";
+import IBackendEntityDefinition from '../../../BackendTypes/EntityEditor/IEntityDefinition';
+import {IStorageItem} from '../DataStorage';
 
 export interface IEntityDefinition extends IBackendEntityDefinition, IStorageItem {
     getJwtControllerUrl(): string;

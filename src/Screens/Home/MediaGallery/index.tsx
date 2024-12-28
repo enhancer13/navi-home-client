@@ -1,13 +1,13 @@
 import React from 'react';
 import {MediaFolderViewer} from './MediaFolderViewer';
 import {MediaFileViewer} from './MediaFileViewer';
-import {NavigationProp, RouteProp} from "@react-navigation/native";
-import {IMediaGalleryFolder} from "../../../BackendTypes";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {NavigationProp, RouteProp} from '@react-navigation/native';
+import {IMediaGalleryFolder} from '../../../BackendTypes';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 export type GalleryStackParamList = {
-    "Media Folder Viewer": React.FC;
-    "Media File Viewer":  { folder: IMediaGalleryFolder; };
+    'Media Folder Viewer': React.FC;
+    'Media File Viewer':  { folder: IMediaGalleryFolder; };
 };
 export type GalleryRouteProps<RouteName extends keyof GalleryStackParamList> = RouteProp<GalleryStackParamList, RouteName>;
 export type GalleryNavigationProp = NavigationProp<GalleryStackParamList>;
@@ -21,4 +21,4 @@ export const MediaGalleryStackNavigator = () => {
       <StackNavigator.Screen name="Media File Viewer" component={MediaFileViewer} />
     </StackNavigator.Navigator>
   );
-}
+};

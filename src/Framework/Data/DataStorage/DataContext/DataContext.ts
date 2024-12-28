@@ -1,7 +1,7 @@
 import {IStorageItem} from '../IStorageItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IDataContext} from './IDataContext';
-import {IMapper} from "./IMapper";
+import {IMapper} from './IMapper';
 
 export class DataContext<TStorageItem extends IStorageItem> implements IDataContext<TStorageItem> {
   protected readonly _contextName: string;
@@ -79,7 +79,7 @@ export class DataContext<TStorageItem extends IStorageItem> implements IDataCont
     const keys = await this.getAllKeys();
     let nextSerialNumber = 1;
     if (keys.length !== 0) {
-      const serialNumbers = keys.map(x => parseInt(x.slice(0, this._contextName.length)));
+      const serialNumbers = keys.map(x => parseInt(x.slice(0, this._contextName.length), 10)); // Explicit radix
       nextSerialNumber = Math.max(...serialNumbers) + 1;
     }
     return Array.from(Array(count).keys()).map(() => `${this._contextName}_${nextSerialNumber++}`);

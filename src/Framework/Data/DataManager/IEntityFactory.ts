@@ -1,5 +1,5 @@
-import {IEntity} from "../../../BackendTypes";
-import {IEntityDefinition} from "./IEntityDefinition";
+import {IEntity} from '../../../BackendTypes';
+import {IEntityDefinition} from './IEntityDefinition';
 
 export interface IEntityFactory {
     create(entityDefinition: IEntityDefinition): IEntity;

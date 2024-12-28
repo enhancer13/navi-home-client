@@ -1,6 +1,6 @@
-import {Animated, I18nManager} from "react-native";
-import {useRef, useState} from "react";
-import {IMediaSource} from "../../../IMediaSource";
+import {Animated, I18nManager} from 'react-native';
+import {useRef, useState} from 'react';
+import {IMediaSource} from '../../../IMediaSource';
 
 export const useCarouselControls = (mediaSources: IMediaSource[], containerWidth: number, useNativeDriver: boolean, slideAnimationTime: number) => {
     const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
@@ -41,7 +41,7 @@ export const useCarouselControls = (mediaSources: IMediaSource[], containerWidth
             duration: 150,
             useNativeDriver: useNativeDriver,
         }).start();
-    }
+    };
 
     return {
         currentMediaIndex,
@@ -51,6 +51,6 @@ export const useCarouselControls = (mediaSources: IMediaSource[], containerWidth
         resetPosition,
         goBack,
         goNext,
-        goToIndex
+        goToIndex,
     };
-}
+};

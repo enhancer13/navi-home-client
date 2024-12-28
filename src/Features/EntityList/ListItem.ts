@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
-import {IEntity} from "../../BackendTypes";
-import {ListItemField} from "./ListItemField";
-import {IEntityFactory, IEntityDefinition} from "../../Framework/Data/DataManager";
+import {IEntity} from '../../BackendTypes';
+import {ListItemField} from './ListItemField';
+import {IEntityFactory, IEntityDefinition} from '../../Framework/Data/DataManager';
 
 export class ListItem {
     private readonly _originalEntity: IEntity;

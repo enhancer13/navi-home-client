@@ -16,7 +16,7 @@ export const SessionController: React.FC = () => {
     navigation.dispatch(StackActions.popToTop());
     await logout();
     showWarning('Your session has expired, please login');
-  }
+  };
 
   const verifySession = async () => {
     if (!authenticationRef.current) {
@@ -27,10 +27,10 @@ export const SessionController: React.FC = () => {
     const expirationDateTime = moment(authenticationRef.current.expirationDateTime);
     const currentTime = moment();
     const secondsToExpireLeft = expirationDateTime.diff(currentTime, 'seconds');
-
     if (secondsToExpireLeft > 60) {
       return;
     }
+
     if (secondsToExpireLeft > 0) {
       showWarning(`Your session will expire in ${secondsToExpireLeft} seconds.`);
       return;
@@ -45,4 +45,4 @@ export const SessionController: React.FC = () => {
   });
 
   return null;
-}
+};

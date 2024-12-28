@@ -1,10 +1,10 @@
 import {StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import React, {useMemo} from 'react';
-import {EntityViewComponentProps} from "../../../../Features/EntityList/EntityListScreen";
-import {IMediaGalleryFolder} from "../../../../BackendTypes";
-import {useTheme, Text} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper";
+import {EntityViewComponentProps} from '../../../../Features/EntityList/EntityListScreen';
+import {IMediaGalleryFolder} from '../../../../BackendTypes';
+import {useTheme, Text} from 'react-native-paper';
+import {MD3Theme as Theme} from 'react-native-paper';
 
 const mediaFolderPropsAreEqual = (prevProps: EntityViewComponentProps, nextProps: EntityViewComponentProps): boolean => {
     const prevEntity = prevProps.entity as IMediaGalleryFolder;
@@ -78,5 +78,5 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         right: '10%',
         top: '25%',
         width: '26%',
-    }
+    },
 });

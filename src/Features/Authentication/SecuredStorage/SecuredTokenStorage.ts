@@ -2,7 +2,7 @@ import {UserCredentials} from 'react-native-keychain';
 import * as Keychain from 'react-native-keychain';
 import ISecuredTokenStorage from './ISecuredTokenStorage';
 import {ITokenPair} from '../../../BackendTypes';
-import type {GetOptions} from "react-native-keychain/src/types.ts";
+import type {GetOptions} from 'react-native-keychain/src/types.ts';
 
 class SecuredTokenStorage implements ISecuredTokenStorage {
   public async saveTokenPair(serverName: string, username: string, tokenPair: ITokenPair): Promise<void> {
@@ -32,7 +32,7 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
     const accessToken = await this.getAccessToken(serverName, username);
     return {
       accessToken,
-      refreshToken
+      refreshToken,
     };
   }
 
@@ -50,8 +50,8 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
     const refreshTokenKey = this.getRefreshTokenKey(serverName, username);
     const options = {
       authenticationPrompt: {
-        title: 'Please verify your identity.'
-      }
+        title: 'Please verify your identity.',
+      },
     };
     const refreshTokenData = await this.getInternetCredentials(refreshTokenKey, options);
     if (typeof refreshTokenData === 'boolean') {

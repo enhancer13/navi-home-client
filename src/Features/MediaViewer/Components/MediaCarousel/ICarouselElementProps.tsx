@@ -1,5 +1,5 @@
-import {IMediaSource} from "../../IMediaSource";
-import {IMediaStatus} from "../../IMediaStatus";
+import {IMediaSource} from '../../IMediaSource';
+import {IMediaStatus} from '../../IMediaStatus';
 
 export interface ICarouselElementProps {
     index: number;

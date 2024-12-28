@@ -4,9 +4,9 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import SelectableItem from './SelectableItem';
 import FlexContainer from '../../../../Components/Layout/FlexContainer';
 import {ActivityIndicator, MD3Theme} from 'react-native-paper';
-import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
-import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
-import {sortBy} from "lodash";
+import {NativeSyntheticEvent} from 'react-native/Libraries/Types/CoreEventTypes';
+import {NativeScrollEvent} from 'react-native/Libraries/Components/ScrollView/ScrollView';
+import {sortBy} from 'lodash';
 
 interface Props<TItem> {
     refreshing: boolean;
@@ -37,14 +37,14 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
     }
 
     static getDerivedStateFromProps(nextProps: Props<any>, prevState: State<any>) {
-        const newItems = [...nextProps.items]
+        const newItems = [...nextProps.items];
         const keyExtractor = nextProps.keyExtractor;
         const selectedKeys = prevState.selectedKeys.filter(x => newItems.some(y => keyExtractor(y) === x));
         return {
             ...prevState,
             items: newItems,
-            selectedKeys
-        }
+            selectedKeys,
+        };
     }
 
     selectAll(): void {
@@ -52,7 +52,7 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
             return {
                 ...prevState,
                 selectedKeys: prevState.items.map(this.props.keyExtractor),
-                selectionActive: true
+                selectionActive: true,
             };
         });
     }
@@ -61,7 +61,7 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
         this.setState((prevState) => {
             return {
                 ...prevState,
-                selectedKeys: []
+                selectedKeys: [],
             };
         });
     }
@@ -70,8 +70,8 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
         this.setState(prevState => {
             return {
                 ...prevState,
-                selectionActive: true
-            }
+                selectionActive: true,
+            };
         });
     }
 
@@ -80,8 +80,8 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
             return {
                 ...prevState,
                 selectedKeys: [],
-                selectionActive: false
-            }
+                selectionActive: false,
+            };
         });
     }
 
@@ -102,17 +102,17 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
         this.setState(prevState => {
             let selectedKeys: string[] = [];
             if (!this.state.selectionActive) {
-                selectedKeys = [...prevState.selectedKeys]
+                selectedKeys = [...prevState.selectedKeys];
                 selectedKeys.push(this.props.keyExtractor(item));
             }
 
             return {
                 ...prevState,
                 selectedKeys: [...new Set(selectedKeys)],
-                selectionActive: !prevState.selectionActive
-            }
+                selectionActive: !prevState.selectionActive,
+            };
         });
-    }
+    };
 
     onItemPress = (item: TItem) => {
         if (!this.state.selectionActive) {
@@ -125,15 +125,15 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
             const pressedItemKey = this.props.keyExtractor(item);
             const index = selectedItemKeys.indexOf(pressedItemKey);
             if (index > -1) {
-                selectedItemKeys = selectedItemKeys.filter(x => x != pressedItemKey);
+                selectedItemKeys = selectedItemKeys.filter(x => x !== pressedItemKey);
             } else {
                 selectedItemKeys.push(pressedItemKey);
             }
             return {
                 ...prevState,
-                selectedKeys: [...new Set(selectedItemKeys)]
-            }
-        })
+                selectedKeys: [...new Set(selectedItemKeys)],
+            };
+        });
     };
 
     renderSelectableItem: ListRenderItem<TItem> = ({item}) => {
@@ -152,7 +152,7 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
     };
 
     componentDidUpdate(prevProps: Readonly<Props<TItem>>, prevState: Readonly<State<TItem>>) {
-        if (prevState.selectionActive != this.state.selectionActive) {
+        if (prevState.selectionActive !== this.state.selectionActive) {
             if (this.state.selectionActive) {
                 this.props.onSelectionStarted();
             } else {
@@ -162,7 +162,7 @@ export default class SelectableList<TItem> extends React.Component<Props<TItem>,
 
         const sortedPreviousSelectedIds = sortBy(prevState.selectedKeys);
         const sortedSelectedIds = sortBy(this.state.selectedKeys);
-        if (sortedPreviousSelectedIds.length != sortedSelectedIds.length || !sortedPreviousSelectedIds.every((elem, i) => elem === sortedSelectedIds[i])) {
+        if (sortedPreviousSelectedIds.length !== sortedSelectedIds.length || !sortedPreviousSelectedIds.every((elem, i) => elem === sortedSelectedIds[i])) {
             this.props.onSelectionChanged(this.getSelectedItems());
         }
     }
@@ -202,5 +202,5 @@ const styles = StyleSheet.create({
     },
     flatList: {
         paddingTop: 5,
-    }
+    },
 });

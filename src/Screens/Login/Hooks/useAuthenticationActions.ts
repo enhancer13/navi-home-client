@@ -1,9 +1,9 @@
-import {usePopupMessage} from "../../../Features/Messaging";
-import {useEffect, useState} from "react";
-import * as Keychain from "react-native-keychain";
-import {useNavigation} from "@react-navigation/native";
-import {useAuth} from "../../../Features/Authentication";
-import {useApplicationSettings} from "../../../Features/DataStorage/Hooks/useApplicationSettings";
+import {usePopupMessage} from '../../../Features/Messaging';
+import {useEffect, useState} from 'react';
+import * as Keychain from 'react-native-keychain';
+import {useNavigation} from '@react-navigation/native';
+import {useAuth} from '../../../Features/Authentication';
+import {useApplicationSettings} from '../../../Features/DataStorage/Hooks/useApplicationSettings';
 
 export const useAuthenticationActions = () => {
     const {showError} = usePopupMessage();
@@ -67,6 +67,6 @@ export const useAuthenticationActions = () => {
         busy,
         authenticate,
         authenticateWithBiometry,
-        authenticateWithCredentials
+        authenticateWithCredentials,
     };
 };

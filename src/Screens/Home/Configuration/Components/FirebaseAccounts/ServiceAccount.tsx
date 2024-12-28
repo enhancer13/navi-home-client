@@ -1,12 +1,12 @@
-import {StyleSheet, View} from "react-native";
-import React, {useMemo} from "react";
-import {EntityViewComponentProps} from "../../../../../Features/EntityList/EntityListScreen";
-import {IServiceAccount} from "../../../../../BackendTypes";
-import {MD3Theme as Theme, useTheme, Text, Divider} from "react-native-paper";
-import {EntityViewContainer} from "../../../../../Features/EntityList/EntityViewContainer";
-import {snakeToPascal} from "../../../../../Helpers/StringUtils";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {LabelTextItem} from "../../../../../Components/Controls";
+import {StyleSheet, View} from 'react-native';
+import React, {useMemo} from 'react';
+import {EntityViewComponentProps} from '../../../../../Features/EntityList/EntityListScreen';
+import {IServiceAccount} from '../../../../../BackendTypes';
+import {MD3Theme as Theme, useTheme, Text, Divider} from 'react-native-paper';
+import {EntityViewContainer} from '../../../../../Features/EntityList/EntityViewContainer';
+import {snakeToPascal} from '../../../../../Helpers/StringUtils';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {LabelTextItem} from '../../../../../Components/Controls';
 
 export const ServiceAccount: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     const serviceAccount = entity as IServiceAccount;
@@ -41,31 +41,31 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     rowContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
     },
     primaryIconContainer: {
-        alignItems: 'center'
+        alignItems: 'center',
     },
     serviceAccountContainer: {
         flexGrow: 1,
-        padding: 10
+        padding: 10,
     },
     adminText: {
         color: theme.colors.primary,
         marginTop: 5,
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     userRolesContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
     divider: {
-        marginVertical: 10
+        marginVertical: 10,
     },
     text: {
         marginVertical: 2,
     },
     bold: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
 });

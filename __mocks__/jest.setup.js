@@ -19,25 +19,25 @@ jest.mock('react-native-device-info', () => {
   return {
     isTablet: jest.fn(() => false),
     getDeviceTypeSync: jest.fn(),
-  }
+  };
 });
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
 jest.mock('@react-navigation/native', () => {
-  const actualNav = jest.requireActual("@react-navigation/native");
+  const actualNav = jest.requireActual('@react-navigation/native');
   return {
     ...actualNav,
     useNavigation: jest.fn(() => ({
       dispatch: jest.fn(),
-      setOptions: jest.fn()
+      setOptions: jest.fn(),
     })),
     useRoute: jest.fn(),
     createNavigatorFactory: jest.fn(),
     StackActions: {
       popToTop: jest.fn(),
     },
-  }
+  };
 });
 
 jest.mock('@react-native-async-storage/async-storage', () => {
@@ -76,4 +76,6 @@ jest.mock('react-native-keychain', () => {
   };
 });
 
+global.setImmediate = (fn, ...args) => setTimeout(fn, 0, ...args);
 
+require('jest-fetch-mock').enableMocks();

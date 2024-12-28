@@ -1,12 +1,12 @@
 import React, {useEffect, useState, useMemo, useRef} from 'react';
-import {DropDownListPicker} from "../DropDownListPicker";
-import {useEntityDataManager} from "../../Hooks/EntityDataManager/useEntityDataManager";
-import {IPageQuery} from "../../../Framework/Data/DataManager";
-import {IEntity} from "../../../BackendTypes";
-import {List} from "react-native-paper";
-import {ValueType} from "react-native-dropdown-picker";
-import {isArray} from "lodash";
-import {isEntity, isEntityArray} from "../../../Helpers/EntityUtils";
+import {DropDownListPicker} from '../DropDownListPicker';
+import {useEntityDataManager} from '../../Hooks/EntityDataManager/useEntityDataManager';
+import {IPageQuery} from '../../../Framework/Data/DataManager';
+import {IEntity} from '../../../BackendTypes';
+import {List} from 'react-native-paper';
+import {ValueType} from 'react-native-dropdown-picker';
+import {isArray} from 'lodash';
+import {isEntity, isEntityArray} from '../../../Helpers/EntityUtils';
 
 declare type Props = {
     title: string;
@@ -25,7 +25,7 @@ export const ListEntityDropDownListPicker: React.FC<Props> = ({
                                                                   multiple,
                                                                   readonly,
                                                                   onChange,
-                                                                  titleFormatter
+                                                                  titleFormatter,
                                                               }) => {
     const [entities, setEntities] = useState<IEntity[]>([]);
     const [loading, setLoading] = useState(false);

@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, Animated, View} from 'react-native';
-import {useToggle} from "../Hooks/useToggle";
-import {useNavigation} from "@react-navigation/native";
-import {SearchBar} from "./SearchBar";
-import {animatedElevationShadowStyle} from "../../Helpers/StyleUtils";
-import {IconButton, MD3Theme as Theme, useTheme, Text} from "react-native-paper";
-import SafeAreaView from "./SafeAreaView";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
+import {useToggle} from '../Hooks/useToggle';
+import {useNavigation} from '@react-navigation/native';
+import {SearchBar} from './SearchBar';
+import {animatedElevationShadowStyle} from '../../Helpers/StyleUtils';
+import {IconButton, MD3Theme as Theme, useTheme, Text} from 'react-native-paper';
+import SafeAreaView from './SafeAreaView';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 interface AppHeaderProps {
     title?: string;
@@ -33,7 +33,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                                                        scrollThreshold = 0,
                                                        enableTitleAnimation = false,
                                                        leftControl,
-                                                       rightControl
+                                                       rightControl,
                                                    }) => {
     const navigation = useNavigation();
     const [searchActive, toggleSearchActive] = useToggle(false);
@@ -76,27 +76,27 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     return (
         <SafeAreaView style={styles.container}>
             <View style={[styles.header, {height: height}]}>
-                {leftControl ? leftControl : <IconButton icon={"arrow-left"} onPress={handleBackPress}
+                {leftControl ? leftControl : <IconButton icon={'arrow-left'} onPress={handleBackPress}
                                                          iconColor={enableBackButton ? theme.colors.onBackground : backgroundColor}/>}
                 <Animated.View style={enableTitleAnimation ? {
                     transform: [{translateY: titleTranslateY}],
-                    opacity: titleOpacity
+                    opacity: titleOpacity,
                 } : {}}>
                     {title && <Text numberOfLines={1} variant="titleMedium" style={styles.title}>{title}</Text>}
                     {subtitle &&
                       <Text numberOfLines={1} variant="labelMedium" style={styles.subheaderText}>{subtitle}</Text>}
                 </Animated.View>
-                {rightControl ? rightControl : <IconButton icon={"magnify"} onPress={handleSearchPress}
+                {rightControl ? rightControl : <IconButton icon={'magnify'} onPress={handleSearchPress}
                                                            iconColor={enableSearch ? theme.colors.onBackground : backgroundColor}/>}
             </View>
             {enableSearch &&
               <SearchBar searchActive={searchActive} onSearchQueryChange={handleSearchQueryChange} debounceTime={500}/>}
         </SafeAreaView>
     );
-}
+};
 
 const createStyles = (theme: Theme, backgroundColor: string, elevation: Animated.AnimatedInterpolation<number>) => StyleSheet.create({
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
     // @ts-ignore
     container: {
         ...animatedElevationShadowStyle(theme, elevation),
@@ -112,7 +112,7 @@ const createStyles = (theme: Theme, backgroundColor: string, elevation: Animated
         justifyContent: 'space-between',
         zIndex: 1,
         backgroundColor,
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     title: {
         color: theme.colors.onBackground,
@@ -121,7 +121,7 @@ const createStyles = (theme: Theme, backgroundColor: string, elevation: Animated
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 1,
-        backgroundColor
+        backgroundColor,
     },
     subheaderText: {
         color: theme.colors.onBackground,

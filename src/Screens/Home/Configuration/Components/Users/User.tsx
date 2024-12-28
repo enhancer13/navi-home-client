@@ -1,11 +1,11 @@
-import {StyleSheet, View} from "react-native";
-import React, {useMemo} from "react";
-import {EntityViewComponentProps} from "../../../../../Features/EntityList/EntityListScreen";
-import {IUser} from "../../../../../BackendTypes";
-import {MD3Theme as Theme, useTheme, Text, Divider} from "react-native-paper";
-import {EntityViewContainer} from "../../../../../Features/EntityList/EntityViewContainer";
-import {toCapitalized} from "../../../../../Helpers/StringUtils";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {StyleSheet, View} from 'react-native';
+import React, {useMemo} from 'react';
+import {EntityViewComponentProps} from '../../../../../Features/EntityList/EntityListScreen';
+import {IUser} from '../../../../../BackendTypes';
+import {MD3Theme as Theme, useTheme, Text, Divider} from 'react-native-paper';
+import {EntityViewContainer} from '../../../../../Features/EntityList/EntityViewContainer';
+import {toCapitalized} from '../../../../../Helpers/StringUtils';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export const User: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     const user = entity as IUser;
@@ -13,7 +13,7 @@ export const User: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     const styles = useMemo(() => createStyles(theme), [theme]);
 
     const renderUserRoles = useMemo(() => {
-        return <Text variant={'labelLarge'}>{user.userRoles.map(userRole => toCapitalized(userRole.userRole)).join(', ')}</Text>
+        return <Text variant={'labelLarge'}>{user.userRoles.map(userRole => toCapitalized(userRole.userRole)).join(', ')}</Text>;
     }, [user.userRoles]);
 
     const primaryIconSize = width / 10;
@@ -44,22 +44,22 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         alignItems: 'center',
     },
     primaryIconContainer: {
-        alignItems: 'center'
+        alignItems: 'center',
     },
     serviceAccountContainer: {
         flexGrow: 1,
-        padding: 10
+        padding: 10,
     },
     adminText: {
         color: theme.colors.primary,
         marginTop: 5,
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     userRolesContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
     divider: {
-        marginVertical: 10
-    }
+        marginVertical: 10,
+    },
 });

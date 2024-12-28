@@ -1,4 +1,4 @@
-import {EntityEditorEventTypes} from "./EntityEditorEventTypes";
+import {EntityEditorEventTypes} from './EntityEditorEventTypes';
 
 export interface IEntityEditedEvent {
     entityName: string;

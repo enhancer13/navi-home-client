@@ -1,5 +1,5 @@
 import {IStorageItem} from './IStorageItem';
-import {DataStorageEventTypes} from "./DataStorage";
+import {DataStorageEventTypes} from './DataStorage';
 
 export default interface IDataStorage<TStorageItem extends IStorageItem> {
   save(item: TStorageItem): Promise<void>;

@@ -2,10 +2,10 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {backendEndpoints} from '../../../../Config/BackendEndpoints';
-import {EntityViewComponentProps} from "../../../../Features/EntityList/EntityListScreen";
-import {IMediaGalleryFile, MediaGalleryFileTypes} from "../../../../BackendTypes";
-import {useAuth} from "../../../../Features/Authentication";
-import {IconButton, useTheme} from "react-native-paper";
+import {EntityViewComponentProps} from '../../../../Features/EntityList/EntityListScreen';
+import {IMediaGalleryFile, MediaGalleryFileTypes} from '../../../../BackendTypes';
+import {useAuth} from '../../../../Features/Authentication';
+import {IconButton, useTheme} from 'react-native-paper';
 
 const mediaFilePropsAreEqual = (prevProps: EntityViewComponentProps, nextProps: EntityViewComponentProps): boolean => {
     return (

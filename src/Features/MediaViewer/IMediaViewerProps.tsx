@@ -1,7 +1,7 @@
-import {ReactNode} from "react";
-import {ViewStyle} from "react-native";
-import {IMediaSource} from "./IMediaSource";
-import {StyleProp} from "react-native/Libraries/StyleSheet/StyleSheet";
+import {ReactNode} from 'react';
+import {ViewStyle} from 'react-native';
+import {IMediaSource} from './IMediaSource';
+import {StyleProp} from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 export interface IMediaViewerProps {
     mediaSources: IMediaSource[];

@@ -1,11 +1,11 @@
-import {IEntity, IPage} from "../../../BackendTypes";
-import {EntityDefinition} from "./EntityDefinition";
-import {IEntityDataManager} from "./IEntityDataManager";
-import IHttpClient from "../../Net/HttpClient/IHttpClient";
-import {Authentication} from "../../../Features/Authentication";
-import {CreateEntityActionRequest} from "./EntityActionRequests/CreateEntityActionRequest";
-import {DeleteEntityActionRequest} from "./EntityActionRequests/DeleteEntityActionRequest";
-import {UpdateEntityActionRequest} from "./EntityActionRequests/UpdateEntityActionRequest";
+import {IEntity, IPage} from '../../../BackendTypes';
+import {EntityDefinition} from './EntityDefinition';
+import {IEntityDataManager} from './IEntityDataManager';
+import IHttpClient from '../../Net/HttpClient/IHttpClient';
+import {Authentication} from '../../../Features/Authentication';
+import {CreateEntityActionRequest} from './EntityActionRequests/CreateEntityActionRequest';
+import {DeleteEntityActionRequest} from './EntityActionRequests/DeleteEntityActionRequest';
+import {UpdateEntityActionRequest} from './EntityActionRequests/UpdateEntityActionRequest';
 
 export interface IFilterQuery {
     sort?: string;

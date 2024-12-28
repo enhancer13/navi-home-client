@@ -1,7 +1,7 @@
 import React from 'react';
-import {EntityListScreen} from "../../../../../Features/EntityList/EntityListScreen";
-import {EntityNames} from "../../../../../BackendTypes";
-import {User} from "./User";
+import {EntityListScreen} from '../../../../../Features/EntityList/EntityListScreen';
+import {EntityNames} from '../../../../../BackendTypes';
+import {User} from './User';
 
 export const UsersScreen: React.FC = () => {
     return (
@@ -11,4 +11,4 @@ export const UsersScreen: React.FC = () => {
             backButton={true}
         />
     );
-}
+};

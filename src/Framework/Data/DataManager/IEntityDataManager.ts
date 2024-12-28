@@ -1,6 +1,6 @@
-import {IEntity, IPage} from "../../../BackendTypes";
-import {IFilterQuery, IPageQuery} from "./EntityDataManager";
-import {IEntityDefinition} from "./IEntityDefinition";
+import {IEntity, IPage} from '../../../BackendTypes';
+import {IFilterQuery, IPageQuery} from './EntityDataManager';
+import {IEntityDefinition} from './IEntityDefinition';
 
 export interface IEntityDataManager<TEntity extends IEntity> {
     get(pageQuery: IPageQuery, filterQuery?: IFilterQuery): Promise<IPage<TEntity>>;

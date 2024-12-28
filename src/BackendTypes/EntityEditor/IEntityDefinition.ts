@@ -1,6 +1,6 @@
-import {IEntityFieldDefinition} from "./IEntityFieldDefinition";
-import {IEntityDatabaseMethods} from "./IEntityDatabaseMethods";
-import {ControllerAuthorizations} from "./Enums/ControllerAuthorizations";
+import {IEntityFieldDefinition} from './IEntityFieldDefinition';
+import {IEntityDatabaseMethods} from './IEntityDatabaseMethods';
+import {ControllerAuthorizations} from './Enums/ControllerAuthorizations';
 
 export default interface IEntityDefinition {
     objectName: string;

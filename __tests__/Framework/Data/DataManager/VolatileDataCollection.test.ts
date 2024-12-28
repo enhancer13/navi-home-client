@@ -1,15 +1,15 @@
 // noinspection DuplicatedCode
 
-import {IEntityDataManager} from "../../../../src/Framework/Data/DataManager/IEntityDataManager";
-import {EntityEditorEventTypes, IEntity, IEntityEditedEvent} from "../../../../src/BackendTypes";
+import {IEntityDataManager} from '../../../../src/Framework/Data/DataManager/IEntityDataManager';
+import {EntityEditorEventTypes, IEntity, IEntityEditedEvent} from '../../../../src/BackendTypes';
 import {
     IEntityDefinition,
     VolatileDataCollection,
-    VolatileDataCollectionEventTypes
-} from "../../../../src/Framework/Data/DataManager";
-import {anything, deepEqual, instance, mock, resetCalls, verify, when} from "ts-mockito";
-import {EventRegister} from "react-native-event-listeners";
-import {assertTrueAtLeast, tryVerify, waitUntil} from "../../../../src/TestUtils/test-utils";
+    VolatileDataCollectionEventTypes,
+} from '../../../../src/Framework/Data/DataManager';
+import {anything, deepEqual, instance, mock, resetCalls, verify, when} from 'ts-mockito';
+import {EventRegister} from 'react-native-event-listeners';
+import {assertTrueAtLeast, tryVerify, waitUntil} from '../../../../src/TestUtils/test-utils';
 
 describe('VolatileDataCollection', () => {
     let entityDataManagerMock: IEntityDataManager<IEntity>;
@@ -41,7 +41,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 1,
                     total_elements: 0,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             // Act
@@ -61,14 +61,15 @@ describe('VolatileDataCollection', () => {
                     last_page: 1,
                     total_elements: 0,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             // Act
             await volatileDataCollection.init();
 
             // Assert
-            expect(volatileDataCollection["_loadedPageNumbers"]).toContain(1);
+            // @ts-ignore
+            expect(volatileDataCollection._loadedPageNumbers).toContain(1);
         });
 
         test('should load the first page with the given size', async () => {
@@ -82,7 +83,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 1,
                     total_elements: 0,
                     current_page: 1,
-                    elements_per_page: 45
+                    elements_per_page: 45,
                 });
 
             // Act
@@ -98,7 +99,7 @@ describe('VolatileDataCollection', () => {
                 sort: 'desc',
                 search: 'SearchFieldValue',
                 equal: true,
-                extraCondition: {'id': '102'}
+                extraCondition: {'id': '102'},
             };
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), filterQuery);
             when(entityDataManagerMock.get(anything(), anything()))
@@ -108,7 +109,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 1,
                     total_elements: 0,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             // Act
@@ -123,7 +124,7 @@ describe('VolatileDataCollection', () => {
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock));
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             const totalElements = 100;
             when(entityDataManagerMock.get(anything(), anything()))
@@ -133,7 +134,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 50,
                     total_elements: totalElements,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             // Act
@@ -145,16 +146,16 @@ describe('VolatileDataCollection', () => {
     });
 
     describe('get', () => {
-        test("should throw an error when trying to retrieve an element from an empty collection", async () => {
+        test('should throw an error when trying to retrieve an element from an empty collection', async () => {
             const collection = new VolatileDataCollection(instance(entityDataManagerMock));
             await expect(collection.get(0)).rejects.toThrowError();
         });
 
-        test("should retrieve an element without additional fetch when the element is within a loaded page)", async () => {
+        test('should retrieve an element without additional fetch when the element is within a loaded page)', async () => {
             //Arrange
             const testData = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             when(entityDataManagerMock.get(anything(), anything()))
                 .thenResolve({
@@ -163,7 +164,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 4,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -178,15 +179,15 @@ describe('VolatileDataCollection', () => {
             verify(entityDataManagerMock.get(deepEqual({page: 1, size: 2}), anything())).never();
         });
 
-        test("should fetch an element using the data manager when the element is within an unloaded page", async () => {
+        test('should fetch an element using the data manager when the element is within an unloaded page', async () => {
             //Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             const testDataPage2 = [
                 {id: 3},
-                {id: 4}
+                {id: 4},
             ];
 
             when(entityDataManagerMock.get(deepEqual({page: 1, size: 2}), anything()))
@@ -196,7 +197,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 4,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 2, size: 2}), anything()))
                 .thenResolve({
@@ -205,7 +206,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 4,
                     current_page: 2,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const collection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -219,15 +220,15 @@ describe('VolatileDataCollection', () => {
             verify(entityDataManagerMock.get(deepEqual({page: 2, size: 2}), anything())).once();
         });
 
-        test("should fetch an element using the data manager and specified filter when the element is within an unloaded page", async () => {
+        test('should fetch an element using the data manager and specified filter when the element is within an unloaded page', async () => {
             //Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             const testDataPage2 = [
                 {id: 3},
-                {id: 4}
+                {id: 4},
             ];
 
             when(entityDataManagerMock.get(deepEqual({page: 1, size: 2}), anything()))
@@ -237,7 +238,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 4,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 2, size: 2}), anything()))
                 .thenResolve({
@@ -246,14 +247,14 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 4,
                     current_page: 2,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const filterQuery = {
                 sort: 'desc',
                 search: 'SearchFieldValue',
                 equal: true,
-                extraCondition: {'id': '102'}
+                extraCondition: {'id': '102'},
             };
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), filterQuery, 2);
             await volatileDataCollection.init();
@@ -265,15 +266,15 @@ describe('VolatileDataCollection', () => {
             verify(entityDataManagerMock.get(deepEqual({page: 2, size: 2}), filterQuery)).once();
         });
 
-        test("should update count when fetching element within an unloaded page and number of total number elements was changed after initialization", async () => {
+        test('should update count when fetching element within an unloaded page and number of total number elements was changed after initialization', async () => {
             //Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             const testDataPage2 = [
                 {id: 3},
-                {id: 4}
+                {id: 4},
             ];
 
             when(entityDataManagerMock.get(deepEqual({page: 1, size: 2}), anything()))
@@ -283,7 +284,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 4,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const newNumberOfTotalElements = 6;
@@ -294,14 +295,14 @@ describe('VolatileDataCollection', () => {
                     last_page: 3,
                     total_elements: newNumberOfTotalElements,
                     current_page: 2,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const filterQuery = {
                 sort: 'desc',
                 search: 'SearchFieldValue',
                 equal: true,
-                extraCondition: {'id': '102'}
+                extraCondition: {'id': '102'},
             };
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), filterQuery, 2);
             await volatileDataCollection.init();
@@ -319,7 +320,7 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
 
             when(entityDataManagerMock.get(anything(), anything()))
@@ -329,7 +330,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 0,
                     total_elements: 0, // initial state collection is empty
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 })
                 .thenResolve({
                     data: testDataPage1,
@@ -337,8 +338,8 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 2, // after refresh collection is not empty
                     current_page: 1,
-                    elements_per_page: 2
-                })
+                    elements_per_page: 2,
+                });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
             await volatileDataCollection.init();
@@ -356,11 +357,11 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             const testDataPage2 = [
                 {id: 3},
-                {id: 4}
+                {id: 4},
             ];
             when(entityDataManagerMock.get(anything(), anything()))
                 .thenResolve({
@@ -369,7 +370,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 4,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 })
                 .thenResolve({
                     data: testDataPage2,
@@ -377,7 +378,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 4,
                     current_page: 2,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -398,7 +399,7 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
 
             when(entityDataManagerMock.get(anything(), anything()))
@@ -408,7 +409,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 2,
                     total_elements: 4,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -427,15 +428,15 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             const testDataPage3 = [
                 {id: 5},
-                {id: 6}
+                {id: 6},
             ];
             const testDataPage4 = [
                 {id: 7},
-                {id: 8}
+                {id: 8},
             ];
 
             when(entityDataManagerMock.get(deepEqual({page: 1, size: 2}), anything()))
@@ -445,7 +446,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 3, size: 2}), anything()))
                 .thenResolve({
@@ -454,7 +455,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 3,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 4, size: 2}), anything()))
                 .thenResolve({
@@ -463,7 +464,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 4,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -486,7 +487,7 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
 
             when(entityDataManagerMock.get(anything(), anything()))
@@ -496,7 +497,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 1,
                     total_elements: 2,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 })
                 .thenResolve({
                     data: [],
@@ -504,7 +505,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 0,
                     total_elements: 0,
                     current_page: 0,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -521,7 +522,7 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
 
             when(entityDataManagerMock.get(anything(), anything()))
@@ -531,7 +532,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 5,
                     total_elements: 9,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 })
                 .thenResolve({
                     data: [
@@ -541,7 +542,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 1,
                     total_elements: 1,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -551,8 +552,10 @@ describe('VolatileDataCollection', () => {
             await volatileDataCollection.refresh();
 
             // Assert
-            expect(volatileDataCollection["_pages"].length).toEqual(1);
-            expect(volatileDataCollection["_pages"][0].data).toEqual([{id: 1}]);
+            // @ts-ignore
+            expect(volatileDataCollection._pages.length).toEqual(1);
+            // @ts-ignore
+            expect(volatileDataCollection._pages[0].data).toEqual([{id: 1}]);
         });
     });
 
@@ -567,7 +570,8 @@ describe('VolatileDataCollection', () => {
             volatileDataCollection.dispose();
 
             // Assert
-            expect(volatileDataCollection["_eventEmitter"].listenerCount(VolatileDataCollectionEventTypes.DataChanged)).toBe(0);
+            // @ts-ignore
+            expect(volatileDataCollection._eventEmitter.listenerCount(VolatileDataCollectionEventTypes.DataChanged)).toBe(0);
         });
 
         it('should unsubscribe from eventRegistry when dispose is called', async () => {
@@ -581,8 +585,8 @@ describe('VolatileDataCollection', () => {
                     last_page: 1,
                     total_elements: 0,
                     current_page: 1,
-                    elements_per_page: 0
-                })
+                    elements_per_page: 0,
+                });
             await volatileDataCollection.init();
 
             // Act
@@ -595,7 +599,7 @@ describe('VolatileDataCollection', () => {
         it('should clear collection data when dispose is called', async () => {
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
 
             when(entityDataManagerMock.get(anything(), anything()))
@@ -605,7 +609,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 1,
                     total_elements: 2,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -615,10 +619,14 @@ describe('VolatileDataCollection', () => {
             volatileDataCollection.dispose();
 
             // Assert
-            expect(volatileDataCollection["_pages"]).toEqual([]);
-            expect(volatileDataCollection["_count"]).toBe(0);
-            expect(volatileDataCollection["_totalPages"]).toBe(0);
-            expect(volatileDataCollection["_loadedPageNumbers"].size).toBe(0);
+            // @ts-ignore
+            expect(volatileDataCollection._pages).toEqual([]);
+            // @ts-ignore
+            expect(volatileDataCollection._count).toBe(0);
+            // @ts-ignore
+            expect(volatileDataCollection._totalPages).toBe(0);
+            // @ts-ignore
+            expect(volatileDataCollection._loadedPageNumbers.size).toBe(0);
         });
     });
 
@@ -632,10 +640,10 @@ describe('VolatileDataCollection', () => {
                     last_page: 0,
                     total_elements: 0,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             const entityDefinitionMock = mock<IEntityDefinition>();
-            when(entityDefinitionMock.objectName).thenReturn("TestEntityEvent");
+            when(entityDefinitionMock.objectName).thenReturn('TestEntityEvent');
             when(entityDataManagerMock.entityDefinition).thenReturn(instance(entityDefinitionMock));
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -647,18 +655,18 @@ describe('VolatileDataCollection', () => {
 
             // Act
             const entityEditedEvent: IEntityEditedEvent = {
-                entityName: "testentityevent",
+                entityName: 'testentityevent',
                 entityIds: [10],
-                eventType: EntityEditorEventTypes.CREATED
-            }
+                eventType: EntityEditorEventTypes.CREATED,
+            };
             EventRegister.emit('entityEditor', entityEditedEvent);
 
             // Assert
             await waitUntil(() =>
                 tryVerify(
                     () => {
-                        expect(firstListenerMock).toBeCalledTimes(1)
-                        expect(secondListenerMock).toBeCalledTimes(1)
+                        expect(firstListenerMock).toBeCalledTimes(1);
+                        expect(secondListenerMock).toBeCalledTimes(1);
                     },
                     true
                 )
@@ -669,7 +677,7 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
 
             when(entityDataManagerMock.get(anything(), anything()))
@@ -679,7 +687,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 1,
                     total_elements: 2,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -693,7 +701,7 @@ describe('VolatileDataCollection', () => {
             await volatileDataCollection.get(0);
 
             // Assert
-            expect(loadingListenerMock).toBeCalledTimes(0)
+            expect(loadingListenerMock).toBeCalledTimes(0);
         });
 
         test('should distribute Loading and Loaded events only once when loading multiple pages', async () => {
@@ -702,36 +710,36 @@ describe('VolatileDataCollection', () => {
                 .thenResolve({
                     data: [
                         {id: 1},
-                        {id: 2}
+                        {id: 2},
                     ],
                     current_elements: 2,
                     last_page: 3,
                     total_elements: 6,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 })
                 .thenResolve({
                     data: [
                         {id: 2},
-                        {id: 3}
+                        {id: 3},
                     ],
                     current_elements: 2,
                     last_page: 3,
                     total_elements: 6,
                     current_page: 2,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 })
                 .thenResolve({
                     data: [
                         {id: 4},
-                        {id: 5}
+                        {id: 5},
                     ],
                     current_elements: 2,
                     last_page: 3,
                     total_elements: 6,
                     current_page: 3,
-                    elements_per_page: 2
-                })
+                    elements_per_page: 2,
+                });
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
             const loadingListenerMock = jest.fn();
@@ -746,8 +754,8 @@ describe('VolatileDataCollection', () => {
             await volatileDataCollection.refresh();
 
             // Assert
-            expect(loadingListenerMock).toBeCalledTimes(1)
-            expect(loadedListenerMock).toBeCalledTimes(1)
+            expect(loadingListenerMock).toBeCalledTimes(1);
+            expect(loadedListenerMock).toBeCalledTimes(1);
         });
     });
 
@@ -756,15 +764,15 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             const testDataPage3 = [
                 {id: 5},
-                {id: 6}
+                {id: 6},
             ];
             const testDataPage4 = [
                 {id: 7},
-                {id: 8}
+                {id: 8},
             ];
 
             when(entityDataManagerMock.get(deepEqual({page: 1, size: 2}), anything()))
@@ -774,7 +782,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 3, size: 2}), anything()))
                 .thenResolve({
@@ -783,7 +791,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 3,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 4, size: 2}), anything()))
                 .thenResolve({
@@ -792,10 +800,10 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 4,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             const entityDefinitionMock = mock<IEntityDefinition>();
-            when(entityDefinitionMock.objectName).thenReturn("TestEntityEvent");
+            when(entityDefinitionMock.objectName).thenReturn('TestEntityEvent');
             when(entityDataManagerMock.entityDefinition).thenReturn(instance(entityDefinitionMock));
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -806,10 +814,10 @@ describe('VolatileDataCollection', () => {
 
             // Act
             const entityEditedEvent: IEntityEditedEvent = {
-                entityName: "testentityevent",
+                entityName: 'testentityevent',
                 entityIds: [8, 3, 5], // 8 is on page 4, 3 is not loaded, 5 is on page 3
-                eventType: EntityEditorEventTypes.UPDATED
-            }
+                eventType: EntityEditorEventTypes.UPDATED,
+            };
             EventRegister.emit('entityEditor', entityEditedEvent);
             await waitUntil(() =>
                 tryVerify(
@@ -832,7 +840,7 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
 
             when(entityDataManagerMock.get(deepEqual({page: 1, size: 2}), anything()))
@@ -842,10 +850,10 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             const entityDefinitionMock = mock<IEntityDefinition>();
-            when(entityDefinitionMock.objectName).thenReturn("TestEntityEvent");
+            when(entityDefinitionMock.objectName).thenReturn('TestEntityEvent');
             when(entityDataManagerMock.entityDefinition).thenReturn(instance(entityDefinitionMock));
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -854,10 +862,10 @@ describe('VolatileDataCollection', () => {
 
             // Act
             const entityEditedEvent: IEntityEditedEvent = {
-                entityName: "testentityevent",
+                entityName: 'testentityevent',
                 entityIds: [3], // page 2 is not loaded
-                eventType: EntityEditorEventTypes.UPDATED
-            }
+                eventType: EntityEditorEventTypes.UPDATED,
+            };
             EventRegister.emit('entityEditor', entityEditedEvent);
             await assertTrueAtLeast(() =>
                 tryVerify(() => verify(entityDataManagerMock.get(deepEqual({page: 2, size: 2}), anything())).never(), true),
@@ -865,22 +873,22 @@ describe('VolatileDataCollection', () => {
             );
 
             // Assert
-            verify(entityDataManagerMock.get(deepEqual({page: 2, size: 2}), anything())).never()
+            verify(entityDataManagerMock.get(deepEqual({page: 2, size: 2}), anything())).never();
         });
 
         test('entity created event should trigger refreshing of all loaded pages', async () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             const testDataPage3 = [
                 {id: 5},
-                {id: 6}
+                {id: 6},
             ];
             const testDataPage4 = [
                 {id: 7},
-                {id: 8}
+                {id: 8},
             ];
 
             when(entityDataManagerMock.get(deepEqual({page: 1, size: 2}), anything()))
@@ -890,7 +898,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 3, size: 2}), anything()))
                 .thenResolve({
@@ -899,7 +907,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 3,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 4, size: 2}), anything()))
                 .thenResolve({
@@ -908,10 +916,10 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 4,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             const entityDefinitionMock = mock<IEntityDefinition>();
-            when(entityDefinitionMock.objectName).thenReturn("TestEntityEvent");
+            when(entityDefinitionMock.objectName).thenReturn('TestEntityEvent');
             when(entityDataManagerMock.entityDefinition).thenReturn(instance(entityDefinitionMock));
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -922,10 +930,10 @@ describe('VolatileDataCollection', () => {
 
             // Act
             const entityEditedEvent: IEntityEditedEvent = {
-                entityName: "testentityevent",
+                entityName: 'testentityevent',
                 entityIds: [10],
-                eventType: EntityEditorEventTypes.CREATED
-            }
+                eventType: EntityEditorEventTypes.CREATED,
+            };
             EventRegister.emit('entityEditor', entityEditedEvent);
             await waitUntil(() =>
                 tryVerify(
@@ -949,15 +957,15 @@ describe('VolatileDataCollection', () => {
             // Arrange
             const testDataPage1 = [
                 {id: 1},
-                {id: 2}
+                {id: 2},
             ];
             const testDataPage3 = [
                 {id: 5},
-                {id: 6}
+                {id: 6},
             ];
             const testDataPage4 = [
                 {id: 7},
-                {id: 8}
+                {id: 8},
             ];
 
             when(entityDataManagerMock.get(deepEqual({page: 1, size: 2}), anything()))
@@ -967,7 +975,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 3, size: 2}), anything()))
                 .thenResolve({
@@ -976,7 +984,7 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 3,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             when(entityDataManagerMock.get(deepEqual({page: 4, size: 2}), anything()))
                 .thenResolve({
@@ -985,10 +993,10 @@ describe('VolatileDataCollection', () => {
                     last_page: 4,
                     total_elements: 8,
                     current_page: 4,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             const entityDefinitionMock = mock<IEntityDefinition>();
-            when(entityDefinitionMock.objectName).thenReturn("TestEntityEvent");
+            when(entityDefinitionMock.objectName).thenReturn('TestEntityEvent');
             when(entityDataManagerMock.entityDefinition).thenReturn(instance(entityDefinitionMock));
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -999,10 +1007,10 @@ describe('VolatileDataCollection', () => {
 
             // Act
             const entityEditedEvent: IEntityEditedEvent = {
-                entityName: "testentityevent",
+                entityName: 'testentityevent',
                 entityIds: [10],
-                eventType: EntityEditorEventTypes.DELETED
-            }
+                eventType: EntityEditorEventTypes.DELETED,
+            };
             EventRegister.emit('entityEditor', entityEditedEvent);
             await waitUntil(() =>
                 tryVerify(
@@ -1031,10 +1039,10 @@ describe('VolatileDataCollection', () => {
                     last_page: 0,
                     total_elements: 0,
                     current_page: 1,
-                    elements_per_page: 2
+                    elements_per_page: 2,
                 });
             const entityDefinitionMock = mock<IEntityDefinition>();
-            when(entityDefinitionMock.objectName).thenReturn("TestEntityEvent");
+            when(entityDefinitionMock.objectName).thenReturn('TestEntityEvent');
             when(entityDataManagerMock.entityDefinition).thenReturn(instance(entityDefinitionMock));
 
             const volatileDataCollection = new VolatileDataCollection(instance(entityDataManagerMock), undefined, 2);
@@ -1043,10 +1051,10 @@ describe('VolatileDataCollection', () => {
 
             // Act
             const entityEditedEvent: IEntityEditedEvent = {
-                entityName: "differenttestentityevent",
+                entityName: 'differenttestentityevent',
                 entityIds: [10],
-                eventType: EntityEditorEventTypes.CREATED
-            }
+                eventType: EntityEditorEventTypes.CREATED,
+            };
             EventRegister.emit('entityEditor', entityEditedEvent);
             await assertTrueAtLeast(() =>
                 tryVerify(() => verify(entityDataManagerMock.get(anything(), anything())).never(), true),

@@ -1,7 +1,7 @@
-import {EntityFieldInputTypes} from "./Enums/EntityFieldInputTypes";
-import {EntityFieldSearchPolicies} from "./Enums/EntityFieldSearchPolicies";
-import {IEntityFieldValidator} from "./IEntityFieldValidator";
-import {ControllerAuthorizations} from "./Enums/ControllerAuthorizations";
+import {EntityFieldInputTypes} from './Enums/EntityFieldInputTypes';
+import {EntityFieldSearchPolicies} from './Enums/EntityFieldSearchPolicies';
+import {IEntityFieldValidator} from './IEntityFieldValidator';
+import {ControllerAuthorizations} from './Enums/ControllerAuthorizations';
 
 export interface IEntityFieldDefinition {
     primarySearchField: boolean;

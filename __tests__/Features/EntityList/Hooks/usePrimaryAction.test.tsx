@@ -1,13 +1,13 @@
 // noinspection DuplicatedCode
 
 import {renderHook, act} from '@testing-library/react';
-import {ListItem} from "../../../../src/Features/EntityList/ListItem";
-import {ActionsStatus} from "../../../../src/Features/EntityList/Components/EntityActionsBar";
-import {usePrimaryAction} from "../../../../src/Features/EntityList";
-import React from "react";
-import SelectableList from "../../../../src/Features/EntityList/Components/SelectableList/SelectableList";
-import {instance, mock, when} from "ts-mockito";
-import {MD3LightTheme} from "react-native-paper";
+import {ListItem} from '../../../../src/Features/EntityList/ListItem';
+import {ActionsStatus} from '../../../../src/Features/EntityList/Components/EntityActionsBar';
+import {usePrimaryAction} from '../../../../src/Features/EntityList';
+import React from 'react';
+import SelectableList from '../../../../src/Features/EntityList/Components/SelectableList/SelectableList';
+import {instance, mock, when} from 'ts-mockito';
+import {MD3LightTheme} from 'react-native-paper';
 
 jest.mock('../../../../src/Features/EntityList/Components/SelectableList/SelectableList'); // adjust the path to your SelectableList component
 
@@ -29,7 +29,7 @@ describe('usePrimaryAction', () => {
             canDelete: false,
             canSelectAll: false,
             canDeselectAll: false,
-            canSelect: false
+            canSelect: false,
         };
         selectableListRef = {
             current: new SelectableList({
@@ -45,7 +45,7 @@ describe('usePrimaryAction', () => {
                 renderItem: jest.fn(),
                 keyExtractor: jest.fn(),
                 onScroll: jest.fn(),
-                theme: MD3LightTheme
+                theme: MD3LightTheme,
             }),
         };
 

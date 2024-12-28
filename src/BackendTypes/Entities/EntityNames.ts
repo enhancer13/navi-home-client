@@ -9,4 +9,4 @@ export const EntityNames = {
     User: 'User',
     AlarmProfile: 'AlarmProfile',
     ServiceAccount: 'ServiceAccount',
-}
+};

@@ -1,8 +1,8 @@
-import {IUser} from "./IUser";
-import {IVideoSource} from "./IVideoSource";
-import {IAlarmDayOfWeek} from "./IAlarmDayOfWeek";
-import {IAlarmAction} from "./IAlarmAction";
-import {IEntity} from "./IEntity";
+import {IUser} from './IUser';
+import {IVideoSource} from './IVideoSource';
+import {IAlarmDayOfWeek} from './IAlarmDayOfWeek';
+import {IAlarmAction} from './IAlarmAction';
+import {IEntity} from './IEntity';
 
 export interface IAlarmProfile extends IEntity {
     profileName: string;

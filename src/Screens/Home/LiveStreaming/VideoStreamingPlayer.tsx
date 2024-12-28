@@ -10,9 +10,9 @@ import {ApplicationServices, IServicesStatus} from '../../../BackendTypes';
 import {LoadingActivityIndicator} from '../../../Components/Controls';
 import VideoPlayer from '../../../Features/VideoPlayer';
 import {useAuth} from '../../../Features/Authentication';
-import {useTheme, Text} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper";
-import color from "color";
+import {useTheme, Text} from 'react-native-paper';
+import {MD3Theme as Theme} from 'react-native-paper';
+import color from 'color';
 
 const videoAspectRatio = 16 / 9;
 
@@ -32,7 +32,7 @@ interface VideoStreamingPlayerProps {
 
 const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                                                                        streamingSource,
-                                                                       width
+                                                                       width,
                                                                    }) => {
     const {authentication} = useAuth();
     const playerRef = useRef<VideoPlayer | null>(null);
@@ -44,7 +44,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
     const toggleAppService = async (service: ApplicationServices, currentState: boolean): Promise<void> => {
         const path = backendEndpoints.Services.APPLICATION_SERVICE_ACTION(service, streamingSource.id, currentState);
         await httpClient.put(path, {authentication});
-    }
+    };
 
     const renderControl = (children: React.ReactNode, callback?: () => Promise<void>) => {
         return (
@@ -126,7 +126,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                 framesStreamerReady,
                 framesStreamerActive,
                 framesProducerActive,
-                framesProducerConnectionError
+                framesProducerConnectionError,
             },
             uri,
             thumbUri,
@@ -244,5 +244,5 @@ const createStyles = (theme: Theme, playerControlsHeight: number, iconSize: numb
                 textAlignVertical: 'center',
             },
         }),
-    }
+    };
 };
