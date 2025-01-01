@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {TouchableOpacity, StyleSheet, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,11 +8,11 @@ import {backendEndpoints} from '../../../Config/BackendEndpoints';
 import {httpClient} from '../../../Framework/Net/HttpClient/HttpClient';
 import {ApplicationServices, IServicesStatus} from '../../../BackendTypes';
 import {LoadingActivityIndicator} from '../../../Components/Controls';
-import VideoPlayer from '../../../Features/VideoPlayer';
 import {useAuth} from '../../../Features/Authentication';
 import {useTheme, Text} from 'react-native-paper';
 import {MD3Theme as Theme} from 'react-native-paper';
 import color from 'color';
+import {VideoPlayer} from "../../../Features/VideoPlayer";
 
 const videoAspectRatio = 16 / 9;
 
@@ -35,7 +35,6 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                                                                        width,
                                                                    }) => {
     const {authentication} = useAuth();
-    const playerRef = useRef<VideoPlayer | null>(null);
     const theme = useTheme();
     const playerControlsHeight = (0.08 * width) / videoAspectRatio;
     const iconSize = playerControlsHeight * 0.9;
@@ -135,26 +134,9 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
         if (!framesProducerActive || framesProducerConnectionError || !framesStreamerActive || !framesStreamerReady) {
             return renderStatus();
         }
+
         return (
-            <VideoPlayer
-                ref={playerRef}
-                uri={uri}
-                thumbUri={thumbUri}
-                headers={headers}
-                nativeControls={false}
-                muted={true}
-                disableFocus={true}
-                paused={true}
-                style={{aspectRatio: videoAspectRatio}}
-                disableSeekbar={true}
-                showOnStart={true}
-                disableTimer={true}
-                disposeOnPause={true}
-                disableFullscreen={false}
-                alwaysShowBottomControls={true}
-                tapAnywhereToPause={false}
-                doubleTapTime={400}
-            />
+            <VideoPlayer isLive sourceUri={uri} posterUri={thumbUri} headers={headers} aspectRatio={videoAspectRatio}/>
         );
     };
 

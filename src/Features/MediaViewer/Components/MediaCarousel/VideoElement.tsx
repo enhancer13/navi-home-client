@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
-import VideoPlayer from '../../../VideoPlayer';
 import {MediaElement} from './MediaElement';
 import {IMediaStatus} from '../../IMediaStatus';
 import {ICarouselElementProps} from './ICarouselElementProps';
+import {VideoPlayer, VideoPlayerRef} from "../../../VideoPlayer";
 
 export const VideoElement: React.FC<ICarouselElementProps> = ({
                                                                   index,
@@ -18,7 +18,7 @@ export const VideoElement: React.FC<ICarouselElementProps> = ({
                                                                   onResponderRelease,
                                                                   onHorizontalOuterRangeOffset,
                                                               }) => {
-    const videoPlayerRef = useRef<VideoPlayer>(null);
+    const videoPlayerRef = useRef<VideoPlayerRef>(null);
     const [videoStatus, setVideoStatus] = useState<IMediaStatus>(mediaStatus);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export const VideoElement: React.FC<ICarouselElementProps> = ({
         }
     }, [index, currentMediaIndex]);
 
-    const thumbnailUri = mediaSource.thumbnail?.url ? encodeURI(mediaSource.thumbnail.url) : undefined;
+    const aspectRatio = videoStatus.width / videoStatus.height;
 
     return (
         <MediaElement
@@ -54,15 +54,10 @@ export const VideoElement: React.FC<ICarouselElementProps> = ({
         >
             <VideoPlayer
                 ref={videoPlayerRef}
-                paused={true}
-                uri={encodeURI(mediaSource.url)}
-                thumbUri={thumbnailUri}
+                posterUri={mediaSource.thumbnail?.url}
+                sourceUri={mediaSource.url}
                 headers={mediaSource.props.source.headers}
-                tapAnywhereToPause={false}
-                disableFullscreen={true} // react-native-video 6.0.1 alpha doesn't support fullscreen yet
-                doubleTapTime={300}
-                externalScreenTouchProvider={true}
-                hideBottomControlsWhenPaused={false}
+                aspectRatio={aspectRatio}
             />
         </MediaElement>
     );

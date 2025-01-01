@@ -27,6 +27,7 @@ export const PopupMessageProvider: React.FC<Props> = ({children}) => {
             duration: 2000,
             color: white,
             backgroundColor: success,
+            position: 'top',
         });
     }, [success, white]);
 
@@ -35,7 +36,7 @@ export const PopupMessageProvider: React.FC<Props> = ({children}) => {
             message,
             type: 'danger',
             duration: 10000,
-            position: 'bottom',
+            position: 'top',
             color: white,
             backgroundColor: error,
         });
@@ -48,6 +49,7 @@ export const PopupMessageProvider: React.FC<Props> = ({children}) => {
             duration: 10000,
             color: white,
             backgroundColor: warning,
+            position: 'top',
         });
     }, [white, warning]);
 
@@ -58,6 +60,7 @@ export const PopupMessageProvider: React.FC<Props> = ({children}) => {
             duration: 5000,
             color: white,
             backgroundColor: information,
+            position: 'top',
         });
     }, [white, information]);
 
