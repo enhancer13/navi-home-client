@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {TouchableOpacity, StyleSheet, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,11 +8,11 @@ import {backendEndpoints} from '../../../Config/BackendEndpoints';
 import {httpClient} from '../../../Framework/Net/HttpClient/HttpClient';
 import {ApplicationServices, IServicesStatus} from '../../../BackendTypes';
 import {LoadingActivityIndicator} from '../../../Components/Controls';
-import VideoPlayer from '../../../Features/VideoPlayer';
 import {useAuth} from '../../../Features/Authentication';
-import {useTheme, Text} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
-import color from "color";
+import {useTheme, Text} from 'react-native-paper';
+import {MD3Theme as Theme} from 'react-native-paper';
+import color from 'color';
+import {VideoPlayer} from '../../../Features/VideoPlayer';
 
 const videoAspectRatio = 16 / 9;
 
@@ -32,10 +32,9 @@ interface VideoStreamingPlayerProps {
 
 const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                                                                        streamingSource,
-                                                                       width
+                                                                       width,
                                                                    }) => {
     const {authentication} = useAuth();
-    const playerRef = useRef<VideoPlayer | null>(null);
     const theme = useTheme();
     const playerControlsHeight = (0.08 * width) / videoAspectRatio;
     const iconSize = playerControlsHeight * 0.9;
@@ -44,7 +43,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
     const toggleAppService = async (service: ApplicationServices, currentState: boolean): Promise<void> => {
         const path = backendEndpoints.Services.APPLICATION_SERVICE_ACTION(service, streamingSource.id, currentState);
         await httpClient.put(path, {authentication});
-    }
+    };
 
     const renderControl = (children: React.ReactNode, callback?: () => Promise<void>) => {
         return (
@@ -75,7 +74,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
         );
         const videoRecordingControl = (
             <Ionicons
-                name="ios-recording-outline"
+                name="recording-outline"
                 color={videoRecorderActive ? 'white' : '#2d2d67'}
                 size={iconSize}
             />
@@ -89,7 +88,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
         );
         const cameraControl = (
             <Ionicons
-                name="ios-power"
+                name="power"
                 color={framesProducerActive ? 'white' : '#2d2d67'}
                 size={iconSize}
             />
@@ -100,7 +99,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                 color(theme.colors.primary).lighten(0.1).hex(),
                 color(theme.colors.primary).lighten(0.2).hex()]} style={styles.player.controls}>
                 <View style={styles.player.info}>
-                    <Text style={styles.player.infoText} adjustsFontSizeToFit>
+                    <Text style={styles.player.infoText} numberOfLines={1} ellipsizeMode="tail">
                         {streamingSource.name}
                     </Text>
                 </View>
@@ -126,7 +125,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                 framesStreamerReady,
                 framesStreamerActive,
                 framesProducerActive,
-                framesProducerConnectionError
+                framesProducerConnectionError,
             },
             uri,
             thumbUri,
@@ -135,26 +134,9 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
         if (!framesProducerActive || framesProducerConnectionError || !framesStreamerActive || !framesStreamerReady) {
             return renderStatus();
         }
+
         return (
-            <VideoPlayer
-                ref={playerRef}
-                uri={uri}
-                thumbUri={thumbUri}
-                headers={headers}
-                nativeControls={false}
-                muted={true}
-                disableFocus={true}
-                paused={true}
-                style={{aspectRatio: videoAspectRatio}}
-                disableSeekbar={true}
-                showOnStart={true}
-                disableTimer={true}
-                disposeOnPause={true}
-                disableFullscreen={true} // react-native-video 6.0.1 alpha doesn't support fullscreen yet
-                alwaysShowBottomControls={true}
-                tapAnywhereToPause={false}
-                doubleTapTime={400}
-            />
+            <VideoPlayer isLive sourceUri={uri} posterUri={thumbUri} headers={headers} aspectRatio={videoAspectRatio}/>
         );
     };
 
@@ -236,13 +218,13 @@ const createStyles = (theme: Theme, playerControlsHeight: number, iconSize: numb
             },
             info: {
                 flex: 0.33,
+                height: playerControlsHeight,
             },
             infoText: {
                 color: theme.colors.onPrimary,
-                fontSize: playerControlsHeight,
                 textAlign: 'center',
                 textAlignVertical: 'center',
             },
         }),
-    }
+    };
 };

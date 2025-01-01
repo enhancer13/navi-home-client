@@ -2,10 +2,10 @@ import React, {useMemo} from 'react';
 import {Pressable, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {useTheme} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
-import {IMediaSource} from "../../IMediaSource";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useTheme} from 'react-native-paper';
+import {MD3Theme as Theme} from 'react-native-paper';
+import {IMediaSource} from '../../IMediaSource';
 
 type ThumbnailItemProps = {
     item: IMediaSource;
@@ -41,7 +41,7 @@ export const ThumbnailItem: React.FC<ThumbnailItemProps> = ({item, index, size, 
                     uri: thumbnail.url,
                     priority: FastImage.priority.normal,
                     headers: item.props.source.headers,
-                    cache: FastImage.cacheControl.immutable
+                    cache: FastImage.cacheControl.immutable,
                 }}
             />
         </Pressable>

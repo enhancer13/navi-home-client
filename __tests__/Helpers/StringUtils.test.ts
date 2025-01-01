@@ -1,4 +1,4 @@
-import {snakeToPascal} from "../../src/Helpers/StringUtils";
+import {snakeToPascal} from '../../src/Helpers/StringUtils';
 
 describe('snakeToPascal', () => {
     it('converts snake case to start case', () => {

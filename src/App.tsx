@@ -4,14 +4,14 @@ import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import {LoginScreen} from './Screens/Login';
 import {ServerConfigScreen} from './Screens/ServerConfig';
 import {HomeScreen} from './Screens/Home';
-import {AppStatusBar} from "./Components/Layout/AppStatusBar";
-import {NativeStackNavigationOptions} from "@react-navigation/native-stack";
-import {useTheme} from "react-native-paper";
-import {RootStackNavigator} from "./RootStackNavigator";
+import {AppStatusBar} from './Components/Layout/AppStatusBar';
+import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
+import {useTheme} from 'react-native-paper';
+import {RootStackNavigator} from './RootStackNavigator';
 
 const screenOptions: NativeStackNavigationOptions = {
     headerShown: false,
-}
+};
 
 const App = () => {
     const theme = useTheme();

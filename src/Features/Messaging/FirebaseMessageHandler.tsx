@@ -5,8 +5,8 @@ import {backendEndpoints} from '../../Config/BackendEndpoints';
 import {useAuth} from '../Authentication';
 import {IApplicationInfo, IApplicationMessage, IApplicationDataMessage, MessageType} from '../../BackendTypes';
 import {usePopupMessage} from './FlashMessageContext';
-import {httpClient} from "../../Framework/Net/HttpClient/HttpClient";
-import {firebaseAuthService} from "../Authentication/AuthServices/FirebaseAuthService";
+import {httpClient} from '../../Framework/Net/HttpClient/HttpClient';
+import {firebaseAuthService} from '../Authentication/AuthServices/FirebaseAuthService';
 
 export const FirebaseMessageHandler = () => {
   const {authentication} = useAuth();
@@ -67,12 +67,12 @@ export const FirebaseMessageHandler = () => {
     }
 
     if (remoteMessage.data?.messaging) {
-      showApplicationMessage(remoteMessage.data.messaging);
+      showApplicationMessage(remoteMessage.data.messaging as string);
       return;
     }
 
     if (remoteMessage.data?.dataMessage) {
-      dispatchDataMessageEvent(remoteMessage.data.dataMessage);
+      dispatchDataMessageEvent(remoteMessage.data.dataMessage as string);
     }
   };
 

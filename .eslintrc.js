@@ -1,18 +1,6 @@
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react', 'react-hooks'],
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-  ],
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
+  extends: '@react-native',
   rules: {
     '@typescript-eslint/no-shadow': ['off'],
     '@typescript-eslint/no-explicit-any': 'off',

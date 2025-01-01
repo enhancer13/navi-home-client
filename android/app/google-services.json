@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "178941582773",
+    "project_id": "navihome-d7ce4",
+    "storage_bucket": "navihome-d7ce4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178941582773:android:7823f3c158446d3f0ccdfc",
+        "android_client_info": {
+          "package_name": "com.navi.navihome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178941582773-ge1stcq5o0u3cdkk3jkqogk7893ick18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMHftHcAiGaPVGn1paUQjnj2Xb7fmCFDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178941582773-ge1stcq5o0u3cdkk3jkqogk7893ick18.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "178941582773-1edl4jtcnqjj5dql3tbjvtkhk0qrrt6i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.navi.navihome"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,7 @@
-import React, {ComponentType} from "react";
-import {IconProps} from "react-native-vector-icons/Icon";
-import {StyleSheet, View} from "react-native";
-import {useTheme, Text} from "react-native-paper";
+import React, {ComponentType} from 'react';
+import {IconProps} from 'react-native-vector-icons/Icon';
+import {StyleSheet, View} from 'react-native';
+import {useTheme, Text} from 'react-native-paper';
 
 interface IconTextItemProps {
     labelText: string;
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     bold: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     icon: {
         marginRight: 10,

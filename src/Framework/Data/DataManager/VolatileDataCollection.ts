@@ -1,9 +1,9 @@
-import {IEntityDataManager} from "./IEntityDataManager";
-import {EntityEditorEventTypes, IEntity, IEntityEditedEvent} from "../../../BackendTypes";
-import {IFilterQuery} from "./EntityDataManager";
-import {EventRegister} from "react-native-event-listeners";
+import {IEntityDataManager} from './IEntityDataManager';
+import {EntityEditorEventTypes, IEntity, IEntityEditedEvent} from '../../../BackendTypes';
+import {IFilterQuery} from './EntityDataManager';
+import {EventRegister} from 'react-native-event-listeners';
 import {EventEmitter} from 'events';
-import {Page} from "./Page";
+import {Page} from './Page';
 
 export enum VolatileDataCollectionEventTypes {
     DataChanged = 'dataChanged',
@@ -84,7 +84,7 @@ export class VolatileDataCollection<TEntity extends IEntity> implements AsyncIte
 
     public dispose(): void {
         console.debug(`VolatileDataCollection: Disposing volatile data collection for entity ${this._entityDataManager.entityDefinition.objectName}...`);
-        if (typeof this._firebaseMessageListener === "string") {
+        if (typeof this._firebaseMessageListener === 'string') {
             EventRegister.removeEventListener(this._firebaseMessageListener);
         }
         this._eventEmitter.removeAllListeners();
@@ -114,7 +114,7 @@ export class VolatileDataCollection<TEntity extends IEntity> implements AsyncIte
 
             const pageQuery = {
                 page: pageNumber,
-                size: this._pageSize
+                size: this._pageSize,
             };
 
             let loadedPage;
@@ -146,12 +146,12 @@ export class VolatileDataCollection<TEntity extends IEntity> implements AsyncIte
 
     private async handleEntityEditorEvent(entityEditorEvent: IEntityEditedEvent) {
         const entityName = this._entityDataManager.entityDefinition.objectName.toLowerCase();
-        console.debug(`${entityName} - ${entityEditorEvent.entityName}`)
+        console.debug(`${entityName} - ${entityEditorEvent.entityName}`);
         if (entityEditorEvent.entityName !== entityName) {
             return;
         }
 
-        console.debug(`VolatileDataCollection: received entityEditor event for ${entityName} with eventType ${entityEditorEvent.eventType} and id's ${entityEditorEvent.entityIds}`)
+        console.debug(`VolatileDataCollection: received entityEditor event for ${entityName} with eventType ${entityEditorEvent.eventType} and id's ${entityEditorEvent.entityIds}`);
         switch (entityEditorEvent.eventType) {
             case EntityEditorEventTypes.CREATED:
             case EntityEditorEventTypes.DELETED: {

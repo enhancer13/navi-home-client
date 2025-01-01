@@ -2,8 +2,8 @@ import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import DropDownPicker, {ItemType, ValueType} from 'react-native-dropdown-picker';
 import {StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import isEqual from 'lodash/isEqual';
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
-import {useTheme} from "react-native-paper";
+import {MD3Theme as Theme} from 'react-native-paper';
+import {useTheme} from 'react-native-paper';
 
 interface DropDownListPickerProps<T extends ValueType> {
     selectedItem: null | T | T[];
@@ -22,7 +22,7 @@ export const DropDownListPicker: React.FC<DropDownListPickerProps<any>> = ({
                                                                                disabled,
                                                                                containerStyle,
                                                                                multiple = false,
-                                                                               loading = false
+                                                                               loading = false,
                                                                            }) => {
     const [open, setOpen] = useState<boolean>(false);
     const [prevSelectedItem, setPrevSelectedItem] = useState<any | null>(null);

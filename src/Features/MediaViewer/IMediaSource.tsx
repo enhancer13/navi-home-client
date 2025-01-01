@@ -1,6 +1,6 @@
-import {IMediaGalleryFile, MediaGalleryFileTypes} from "../../BackendTypes";
+import {IMediaGalleryFile, MediaGalleryFileTypes} from '../../BackendTypes';
 
-import {IThumbnailInfo} from "./IThumbnailInfo";
+import {IThumbnailInfo} from './IThumbnailInfo';
 
 export interface IMediaSource {
     mediaType: MediaGalleryFileTypes;

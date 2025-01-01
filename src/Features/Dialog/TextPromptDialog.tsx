@@ -11,11 +11,11 @@ export const TextPromptDialog: React.FC<TextPromptDialogProps> = (props) => {
     const [text, setText] = React.useState<string>('');
 
     const handleCancel = useCallback(() => {
-        onCancel?.()
+        onCancel?.();
     }, [onCancel]);
 
     const handleConfirm = useCallback(() => {
-        onConfirm(text)
+        onConfirm(text);
     }, [onConfirm, text]);
 
     return (

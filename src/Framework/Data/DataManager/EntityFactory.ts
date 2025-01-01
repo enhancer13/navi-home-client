@@ -1,6 +1,6 @@
-import IEntityDefinition from "../../../BackendTypes/EntityEditor/IEntityDefinition";
-import {IEntity, EntityFieldInputTypes} from "../../../BackendTypes";
-import {IEntityFactory} from "./IEntityFactory";
+import IEntityDefinition from '../../../BackendTypes/EntityEditor/IEntityDefinition';
+import {IEntity, EntityFieldInputTypes} from '../../../BackendTypes';
+import {IEntityFactory} from './IEntityFactory';
 
 export class EntityFactory implements IEntityFactory {
     private static _entityIdSequences = new Map<string, number>();

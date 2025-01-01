@@ -1,6 +1,8 @@
-import Keychain, {Options, SharedWebCredentials} from 'react-native-keychain';
+import {UserCredentials} from 'react-native-keychain';
+import * as Keychain from 'react-native-keychain';
 import ISecuredTokenStorage from './ISecuredTokenStorage';
 import {ITokenPair} from '../../../BackendTypes';
+import type {GetOptions} from 'react-native-keychain/src/types.ts';
 
 class SecuredTokenStorage implements ISecuredTokenStorage {
   public async saveTokenPair(serverName: string, username: string, tokenPair: ITokenPair): Promise<void> {
@@ -30,7 +32,7 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
     const accessToken = await this.getAccessToken(serverName, username);
     return {
       accessToken,
-      refreshToken
+      refreshToken,
     };
   }
 
@@ -48,8 +50,8 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
     const refreshTokenKey = this.getRefreshTokenKey(serverName, username);
     const options = {
       authenticationPrompt: {
-        title: 'Please verify your identity.'
-      }
+        title: 'Please verify your identity.',
+      },
     };
     const refreshTokenData = await this.getInternetCredentials(refreshTokenKey, options);
     if (typeof refreshTokenData === 'boolean') {
@@ -61,7 +63,7 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
 
   public async hasAccessToken(serverName: string, username: string): Promise<boolean> {
     const accessTokenKey = this.getAccessTokenKey(serverName, username);
-    return !!(await Keychain.hasInternetCredentials(accessTokenKey));
+    return await Keychain.hasInternetCredentials(accessTokenKey);
   }
 
   public async removeTokenPair(serverName: string, username: string): Promise<void> {
@@ -69,7 +71,7 @@ class SecuredTokenStorage implements ISecuredTokenStorage {
     await Keychain.resetInternetCredentials(this.getRefreshTokenKey(serverName, username));
   }
 
-  private async getInternetCredentials(tokenKey: string, options?: Options): Promise<false | SharedWebCredentials> {
+  private async getInternetCredentials(tokenKey: string, options?: GetOptions): Promise<false | UserCredentials> {
     try {
       return await Keychain.getInternetCredentials(tokenKey, options);
     } catch (error: any) {

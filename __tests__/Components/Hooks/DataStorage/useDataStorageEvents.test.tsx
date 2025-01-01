@@ -1,10 +1,10 @@
 // noinspection JSVoidFunctionReturnValueUsed
 
-import { renderHook, act } from '@testing-library/react-hooks';
-import {mock, instance, verify, anything} from "ts-mockito";
-import IDataStorage from "../../../../src/Framework/Data/DataStorage/IDataStorage";
-import {IStorageItem, DataStorageEventTypes} from "../../../../src/Framework/Data/DataStorage";
-import {useDataStorageEvents} from "../../../../src/Features/DataStorage/Hooks/useDataStorageEvents";
+import { renderHook, act } from '@testing-library/react';
+import {mock, instance, verify, anything} from 'ts-mockito';
+import IDataStorage from '../../../../src/Framework/Data/DataStorage/IDataStorage';
+import {IStorageItem, DataStorageEventTypes} from '../../../../src/Framework/Data/DataStorage';
+import {useDataStorageEvents} from '../../../../src/Features/DataStorage/Hooks/useDataStorageEvents';
 
 describe('useDataStorageEvents', () => {
     let storageMock: IDataStorage<IStorageItem>;

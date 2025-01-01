@@ -1,6 +1,6 @@
 import React from 'react';
 import {fireEvent, render} from '@testing-library/react-native';
-import {ListNumericInputItem} from "../../../../src/Components/Controls/ListItems";
+import {ListNumericInputItem} from '../../../../src/Components/Controls/ListItems';
 
 describe('ListNumericInputItem', () => {
     let mockOnValueChanged: (value: number | null) => void;
@@ -44,7 +44,7 @@ describe('ListNumericInputItem', () => {
         const input = getByTestId('text-input-flat');
 
         // Assert
-        expect(input.props.value).toBe("");
+        expect(input.props.value).toBe('');
     });
 
     it('renders decimal value 123.45 as "123.45"', () => {
@@ -61,7 +61,7 @@ describe('ListNumericInputItem', () => {
         const input = getByTestId('text-input-flat');
 
         // Assert
-        expect(input.props.value).toBe("123.45");
+        expect(input.props.value).toBe('123.45');
     });
 
     it('calls onValueChanged when integer value changes', () => {
@@ -141,10 +141,10 @@ describe('ListNumericInputItem', () => {
         fireEvent.changeText(input, 'abc');
 
         // Assert
-        expect(input.props.value).toBe("123");
+        expect(input.props.value).toBe('123');
     });
 
-    it("onValueChanged is not called when user enters non-numeric value", () => {
+    it('onValueChanged is not called when user enters non-numeric value', () => {
         // Arrange
         const { getByTestId } = render(
             <ListNumericInputItem
@@ -198,7 +198,7 @@ describe('ListNumericInputItem', () => {
         const input = getByTestId('text-input-flat');
 
         // Act
-        fireEvent.changeText(input, " ");
+        fireEvent.changeText(input, ' ');
 
         // Assert
         expect(mockOnValueChanged).not.toHaveBeenCalled();
@@ -218,9 +218,9 @@ describe('ListNumericInputItem', () => {
         const input = getByTestId('text-input-flat');
 
         // Act
-        fireEvent.changeText(input, " ");
+        fireEvent.changeText(input, ' ');
 
         // Assert
-        expect(input.props.value).toBe("");
+        expect(input.props.value).toBe('');
     });
 });

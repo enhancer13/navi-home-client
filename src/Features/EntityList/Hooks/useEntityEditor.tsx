@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import {ListItem} from "../ListItem";
+import {useEffect, useState} from 'react';
+import {ListItem} from '../ListItem';
 
 export const useEntityEditor = () => {
     const [visible, setVisible] = useState(false);
@@ -13,12 +13,12 @@ export const useEntityEditor = () => {
     const closeEditor = () => {
         setDataChanged({});
         setCurrentListItem(null);
-    }
+    };
 
     useEffect(() => {
-        setVisible(currentListItem !== null)
+        setVisible(currentListItem !== null);
     }, [currentListItem]);
 
 
     return {editorVisible: visible, editorListItem: currentListItem, dataChanged, openEditor, closeEditor};
-}
+};

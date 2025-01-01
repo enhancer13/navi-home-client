@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
-import {authenticationInfoStorage, ServerInfo, serverInfoStorage} from "../../../Features/DataStorage";
-import {Platform} from "react-native";
-import {useDataStorageEvents} from "../../../Features/DataStorage/Hooks/useDataStorageEvents";
-import {DataStorageEventTypes} from "../../../Framework/Data/DataStorage";
+import {authenticationInfoStorage, ServerInfo, serverInfoStorage} from '../../../Features/DataStorage';
+import {Platform} from 'react-native';
+import {useDataStorageEvents} from '../../../Features/DataStorage/Hooks/useDataStorageEvents';
+import {DataStorageEventTypes} from '../../../Framework/Data/DataStorage';
 
 export const useAuthenticationData = () => {
     const [username, setUsername] = useState<string>('');
@@ -33,8 +33,8 @@ export const useAuthenticationData = () => {
             await initializeServerData();
 
             if (__DEV__) {
-                setUsername('test');
-                setPassword('111111');
+                setUsername('root');
+                setPassword('enhancer2030');
                 setServerName(Platform.OS === 'ios' ? 'ios-dev' : 'android-dev');
             }
         }

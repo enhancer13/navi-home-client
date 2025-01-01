@@ -1,18 +1,18 @@
-import {Animated, StyleSheet, View} from "react-native";
-import React, {useEffect, useMemo, useRef, useState} from "react";
-import {EntityViewContainer} from "../../../../Features/EntityList/EntityViewContainer";
-import {Divider, IconButton, Text, useTheme} from "react-native-paper";
-import {AlarmActions, DayOfWeeks} from "../../../../BackendTypes";
-import {ScaleAnimation} from "../../../../Animations";
-import {useDialog} from "../../../../Features/Dialog";
-import {AlarmSuspendDialog} from "./AlarmSuspendDialog";
-import {AlarmDayOfWeek} from "./AlarmDayOfWeek";
-import {AlarmAction} from "./AlarmAction";
-import {useAlarmProfileActions} from "../Hooks/useAlarmProfileActions";
-import {IAlarmProfile} from "../../../../BackendTypes/Entities/IAlarmProfile";
-import {EntityViewComponentProps} from "../../../../Features/EntityList/EntityListScreen";
-import {LayoutChangeEvent} from "react-native/Libraries/Types/CoreEventTypes";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
+import {Animated, StyleSheet, View} from 'react-native';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {EntityViewContainer} from '../../../../Features/EntityList/EntityViewContainer';
+import {Divider, IconButton, Text, useTheme} from 'react-native-paper';
+import {AlarmActions, DayOfWeeks} from '../../../../BackendTypes';
+import {ScaleAnimation} from '../../../../Animations';
+import {useDialog} from '../../../../Features/Dialog';
+import {AlarmSuspendDialog} from './AlarmSuspendDialog';
+import {AlarmDayOfWeek} from './AlarmDayOfWeek';
+import {AlarmAction} from './AlarmAction';
+import {useAlarmProfileActions} from '../Hooks/useAlarmProfileActions';
+import {IAlarmProfile} from '../../../../BackendTypes/Entities/IAlarmProfile';
+import {EntityViewComponentProps} from '../../../../Features/EntityList/EntityListScreen';
+import {LayoutChangeEvent} from 'react-native/Libraries/Types/CoreEventTypes';
+import {MD3Theme as Theme} from 'react-native-paper';
 
 const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
     const alarmProfile = entity as IAlarmProfile;
@@ -22,14 +22,14 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
 
     const theme = useTheme();
     const styles = useMemo(() => createStyles(theme), [theme]);
-    const [width, setWidth] = useState(0);
+    const [width, setWidth] = useState(1);
     const activeColor = theme.colors.primary;
     const inactiveColor = theme.colors.onSurfaceVariant;
 
     const showSuspendDialog = () => {
         openDialog(AlarmSuspendDialog, () => ({
             title: 'Please choose suspend time:',
-            onConfirm: suspendAlarmProfile
+            onConfirm: suspendAlarmProfile,
         }));
     };
 
@@ -64,7 +64,7 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
                     <Text numberOfLines={1}>{alarmProfile.profileName}</Text>
                     <View style={styles.alarmActionsContainer}>
                         <View style={styles.usersContainer}>
-                            <Text numberOfLines={1} style={styles.usersText}>
+                            <Text numberOfLines={1} style={styles.usersText} ellipsizeMode="tail">
                                 {alarmProfile.users.map(user => user.username).join(', ')}
                             </Text>
                         </View>
@@ -75,7 +75,7 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
                                     containerWidth={width * 0.05}
                                     alarmAction={alarmAction as keyof typeof AlarmActions}
                                     isActive={alarmProfile.alarmActions.some(x => x.alarmAction === alarmAction)}
-                                />
+                                />;
                             })}
                         </View>
                     </View>
@@ -86,8 +86,8 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
                                 key={dayOfWeek}
                                 containerWidth={width * 0.07}
                                 dayOfWeek={dayOfWeek}
-                                isActive={alarmProfile.alarmDaysOfWeek.some(x => x.alarmDayOfWeek == dayOfWeek)}
-                            />
+                                isActive={alarmProfile.alarmDaysOfWeek.some(x => x.alarmDayOfWeek === dayOfWeek)}
+                            />;
                         })}
                     </View>
                 </View>
@@ -99,7 +99,7 @@ const AlarmProfile: React.FC<EntityViewComponentProps> = ({entity}) => {
 const createStyles = (theme: Theme) => StyleSheet.create({
     rowContainer: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     columnContainer: {
         alignItems: 'center',
@@ -107,7 +107,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     alarmProfileContainer: {
         flexGrow: 1,
-        padding: 10
+        padding: 10,
     },
     alarmActionsContainer: {
         borderBottomWidth: 0.3,
@@ -124,19 +124,20 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     usersContainer: {
         opacity: 0.4,
+        flexDirection: 'row',
     },
     usersText: {
         fontSize: 12,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
     verticalDivider: {
         height: '90%',
         width: 1,
-        color: theme.colors.outlineVariant
+        color: theme.colors.outlineVariant,
     },
     alarmToggle: {
         zIndex: 1, //android layout issue
-    }
+    },
 });
 
 export default AlarmProfile;

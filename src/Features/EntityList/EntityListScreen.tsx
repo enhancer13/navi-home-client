@@ -1,17 +1,17 @@
-import React, {useCallback, useRef, useState} from "react";
-import {IEntity} from "../../BackendTypes";
-import {ListItem} from "./ListItem";
-import {Animated, StyleSheet, View} from "react-native";
-import EntityList from "./EntityList";
-import {getDeviceTypeSync, isTablet} from "react-native-device-info";
-import {useEntityDataManager} from "../../Components/Hooks/EntityDataManager/useEntityDataManager";
-import {EntityEditor} from "./Components/EntityEditor/EntityEditor";
-import {useEntityEditor} from "./Hooks/useEntityEditor";
-import {StatusBadge} from "./Components/StatusBadge";
-import {ParentEntityRestriction} from "./Hooks/useVolatileEntityCollection";
-import {AppHeader} from "../../Components/Layout";
-import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
-import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
+import React, {useCallback, useRef, useState} from 'react';
+import {IEntity} from '../../BackendTypes';
+import {ListItem} from './ListItem';
+import {Animated, StyleSheet, View} from 'react-native';
+import EntityList from './EntityList';
+import {getDeviceTypeSync, isTablet} from 'react-native-device-info';
+import {useEntityDataManager} from '../../Components/Hooks/EntityDataManager/useEntityDataManager';
+import {EntityEditor} from './Components/EntityEditor/EntityEditor';
+import {useEntityEditor} from './Hooks/useEntityEditor';
+import {StatusBadge} from './Components/StatusBadge';
+import {ParentEntityRestriction} from './Hooks/useVolatileEntityCollection';
+import {AppHeader} from '../../Components/Layout';
+import {NativeScrollEvent} from 'react-native/Libraries/Components/ScrollView/ScrollView';
+import {NativeSyntheticEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 
 export interface EntityViewComponentProps {
     entity: IEntity;
@@ -38,9 +38,9 @@ const defaultState: State = {
     itemsCount: 0,
     selectionActive: false,
     selectedItemsCount: 0,
-}
+};
 
-const tabletMode = (isTablet() || getDeviceTypeSync() === 'Desktop')
+const tabletMode = (isTablet() || getDeviceTypeSync() === 'Desktop');
 const defaultItemsPerPage = tabletMode ? 100 : 50;
 const defaultColumnsCount = tabletMode ? 2 : 1;
 
@@ -51,7 +51,7 @@ export const EntityListScreen: React.FC<EntityListScreenProps> = ({
                                                                       enableSearch = true,
                                                                       onItemPress,
                                                                       columnCount = defaultColumnsCount,
-                                                                      parentEntityRestriction
+                                                                      parentEntityRestriction,
                                                                   }) => {
     const [state, setState] = useState<State>(defaultState);
     const [queryFilter, setQueryFilter] = useState('');
@@ -130,7 +130,7 @@ export const EntityListScreen: React.FC<EntityListScreenProps> = ({
             />
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -141,5 +141,5 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '5%',
         right: '5%',
-    }
+    },
 });

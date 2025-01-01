@@ -1,4 +1,4 @@
-import {IStorageItem} from "../IStorageItem";
+import {IStorageItem} from '../IStorageItem';
 
 export interface IMapper<TStorageItem extends IStorageItem> {
     map(data: unknown): TStorageItem;

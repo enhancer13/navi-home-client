@@ -1,13 +1,13 @@
-import React, {useCallback, useMemo} from "react";
-import {useTheme, Text, ActivityIndicator, MD3Theme} from "react-native-paper";
-import {useCalculateDimensions} from "./Hooks/useCalculateDimensions";
-import get from "lodash/get";
-import {IMediaStatus} from "../../IMediaStatus";
-import {StyleSheet, View} from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
-import MediaViewer from "../MediaZoom/MediaZoom";
-import {IMediaSource} from "../../IMediaSource";
+import React, {useCallback, useMemo} from 'react';
+import {useTheme, Text, ActivityIndicator, MD3Theme} from 'react-native-paper';
+import {useCalculateDimensions} from './Hooks/useCalculateDimensions';
+import get from 'lodash/get';
+import {IMediaStatus} from '../../IMediaStatus';
+import {StyleSheet, View} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import MediaViewer from '../MediaZoom/MediaZoom';
+import {IMediaSource} from '../../IMediaSource';
 
 export type MediaElementProps = {
     index: number;
@@ -43,8 +43,8 @@ export const MediaElement: React.FC<MediaElementProps> = ({
     const theme = useTheme();
     const styles = useMemo(() => createStyles(containerWidth, containerHeight), [containerWidth, containerHeight]);
     const {width, height} = useCalculateDimensions(
-        get(mediaStatus, "width"),
-        get(mediaStatus, "height"),
+        get(mediaStatus, 'width'),
+        get(mediaStatus, 'height'),
         containerWidth,
         containerHeight
     );
@@ -75,11 +75,11 @@ export const MediaElement: React.FC<MediaElementProps> = ({
     );
 
     switch (mediaStatus.status) {
-        case "loading":
+        case 'loading':
             return renderLoading(index, theme);
-        case "fail":
+        case 'fail':
             return renderFail(index, theme);
-        case "success":
+        case 'success':
             return (
                 <MediaViewer
                     key={index}
@@ -95,11 +95,11 @@ export const MediaElement: React.FC<MediaElementProps> = ({
                     enableSwipeDown={true}
                     onSwipeDown={onSwipeDown}
                     maxOverflow={containerWidth}
-                    pinchToZoom={mediaSource.mediaType === "IMAGE"}
-                    enableDoubleClickZoom={mediaSource.mediaType === "IMAGE"}
+                    pinchToZoom={mediaSource.mediaType === 'IMAGE'}
+                    enableDoubleClickZoom={mediaSource.mediaType === 'IMAGE'}
                     style={{backgroundColor: theme.colors.background}}
                 >
-                    {typeof children === "function" ? children(width, height) : children}
+                    {typeof children === 'function' ? children(width, height) : children}
                 </MediaViewer>
             );
     }
@@ -110,7 +110,7 @@ const createStyles = (containerWidth: number, containerHeight: number) => StyleS
         width: containerWidth,
         height: containerHeight,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
 });
 

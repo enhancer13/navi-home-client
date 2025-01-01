@@ -1,7 +1,7 @@
 import React from 'react';
-import {EntityListScreen} from "../../../../../Features/EntityList/EntityListScreen";
-import {EntityNames} from "../../../../../BackendTypes";
-import {VideoRecordingProfile} from "./VideoRecordingProfile";
+import {EntityListScreen} from '../../../../../Features/EntityList/EntityListScreen';
+import {EntityNames} from '../../../../../BackendTypes';
+import {VideoRecordingProfile} from './VideoRecordingProfile';
 
 export const VideoRecordingProfilesScreen: React.FC = () => {
     return (
@@ -11,4 +11,4 @@ export const VideoRecordingProfilesScreen: React.FC = () => {
             backButton={true}
         />
     );
-}
+};

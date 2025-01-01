@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <domain-config>
-        <domain includeSubdomains="true">ip-2c41.proline.net.ua</domain>
-        <domain includeSubdomains="true">77.121.5.210</domain>
-        <domain includeSubdomains="true">176.104.16.214</domain>
-        <trust-anchors>
-            <certificates src="@raw/navihomeprodip2c41"/>
-            <certificates src="@raw/navihomeyudin"/>
-            <certificates src="@raw/navihomeyalinka"/>
-            <certificates src="user"/>
-            <certificates src="system"/>
-        </trust-anchors>
-    </domain-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">10.0.1.1</domain>

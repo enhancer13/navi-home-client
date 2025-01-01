@@ -1,4 +1,4 @@
-import {Animated} from "react-native";
+import {Animated} from 'react-native';
 
 export abstract class BaseAnimation {
     protected _animatedValue: Animated.Value;

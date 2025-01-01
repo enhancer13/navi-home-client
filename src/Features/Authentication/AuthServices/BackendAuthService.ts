@@ -5,10 +5,10 @@ import {ITokenPair} from '../../../BackendTypes';
 import ISecuredTokenStorage from '../SecuredStorage/ISecuredTokenStorage';
 import IHttpClient from '../../../Framework/Net/HttpClient/IHttpClient';
 import {backendEndpoints} from '../../../Config/BackendEndpoints';
-import {IJwtDecoder} from "../Helpers/IJwtDecoder";
-import jwtDecoder from "../Helpers/JwtDecoder";
-import {httpClient} from "../../../Framework/Net/HttpClient/HttpClient";
-import {securedTokenStorage} from "../SecuredStorage/SecuredTokenStorage";
+import {IJwtDecoder} from '../Helpers/IJwtDecoder';
+import jwtDecoder from '../Helpers/JwtDecoder';
+import {httpClient} from '../../../Framework/Net/HttpClient/HttpClient';
+import {securedTokenStorage} from '../SecuredStorage/SecuredTokenStorage';
 
 const AUTHORIZATION_HEADER_KEY = 'Authorization';
 
@@ -69,7 +69,7 @@ export class BackendAuthService implements IBackendAuthService {
 
     private createAuthorizationHeader(accessToken: string): { [key: string]: string } {
         return {
-            [AUTHORIZATION_HEADER_KEY]: `Bearer ${accessToken}`
+            [AUTHORIZATION_HEADER_KEY]: `Bearer ${accessToken}`,
         };
     }
 

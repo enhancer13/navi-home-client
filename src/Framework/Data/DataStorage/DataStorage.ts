@@ -2,9 +2,9 @@ import IDataStorage from './IDataStorage';
 import {IStorageItem} from './IStorageItem';
 import {IDataContext} from './DataContext/IDataContext';
 import {DataContext} from './DataContext/DataContext';
-import {IMapper} from "./DataContext/IMapper";
-import {DefaultMapper} from "./DataContext/DefaultMapper";
-import {EventEmitter} from "events";
+import {IMapper} from './DataContext/IMapper';
+import {DefaultMapper} from './DataContext/DefaultMapper';
+import {EventEmitter} from 'events';
 
 export enum DataStorageEventTypes {
     DataChanged = 'dataChanged',

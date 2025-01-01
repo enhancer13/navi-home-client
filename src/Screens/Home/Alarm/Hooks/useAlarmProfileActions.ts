@@ -1,9 +1,9 @@
-import {IAlarmProfile} from "../../../../BackendTypes/Entities/IAlarmProfile";
-import {useEntityDataManager} from "../../../../Components/Hooks/EntityDataManager/useEntityDataManager";
-import {useCallback} from "react";
+import {IAlarmProfile} from '../../../../BackendTypes/Entities/IAlarmProfile';
+import {useEntityDataManager} from '../../../../Components/Hooks/EntityDataManager/useEntityDataManager';
+import {useCallback} from 'react';
 
 export const useAlarmProfileActions = (alarmProfile: IAlarmProfile) => {
-    const entityDataManager = useEntityDataManager("AlarmProfile");
+    const entityDataManager = useEntityDataManager('AlarmProfile');
 
     const alarmProfileToggle = useCallback(async () => {
         await entityDataManager?.updateSingle({...alarmProfile, active: !alarmProfile.active}, ['active']);
@@ -14,4 +14,4 @@ export const useAlarmProfileActions = (alarmProfile: IAlarmProfile) => {
     }, [alarmProfile, entityDataManager]);
 
     return { alarmProfileToggle, suspendAlarmProfile };
-}
+};

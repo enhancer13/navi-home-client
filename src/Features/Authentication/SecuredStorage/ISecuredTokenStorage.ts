@@ -1,4 +1,4 @@
-import {ITokenPair} from "../../../BackendTypes";
+import {ITokenPair} from '../../../BackendTypes';
 
 export default interface ISecuredTokenStorage {
   saveTokenPair(serverName: string, username: string, tokenPair: ITokenPair): Promise<void>;

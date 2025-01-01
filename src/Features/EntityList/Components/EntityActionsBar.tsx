@@ -1,10 +1,10 @@
-import {MD3Theme as Theme, Text, useTheme} from "react-native-paper";
-import React, {useEffect, useMemo, useRef, useState} from "react";
-import {Animated, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle} from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {ScaleAnimation, RotateAnimation, ResizeAnimation, SlideAnimation, FadeAnimation} from "../../../Animations";
-import {ConfirmationDialog, useDialog} from "../../Dialog";
-import {elevationShadowStyle} from "../../../Helpers/StyleUtils";
+import {MD3Theme as Theme, Text, useTheme} from 'react-native-paper';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {Animated, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ScaleAnimation, RotateAnimation, ResizeAnimation, SlideAnimation, FadeAnimation} from '../../../Animations';
+import {ConfirmationDialog, useDialog} from '../../Dialog';
+import {elevationShadowStyle} from '../../../Helpers/StyleUtils';
 
 const AnimatedPaperText = Animated.createAnimatedComponent(Text);
 
@@ -60,7 +60,7 @@ export const EntityActionsBar: React.FC<ActionBarProps> = ({
                                                                stopSelection,
                                                                primaryLabel,
                                                                onPrimary,
-                                                               containerStyle
+                                                               containerStyle,
                                                            }) => {
     const theme = useTheme();
     const {openDialog} = useDialog();
@@ -79,12 +79,12 @@ export const EntityActionsBar: React.FC<ActionBarProps> = ({
     const confirmAction = (actionName: string, action: () => void) => {
         openDialog(ConfirmationDialog,
             () => ({
-                title: "Confirm action",
+                title: 'Confirm action',
                 message: `Are you sure you want to ${actionName} the selected item(s)?`,
                 onConfirm: action,
             }),
         );
-    }
+    };
 
     useEffect(() => {
         const newActionButtons: ActionButtonProps[] = [
@@ -147,7 +147,7 @@ export const EntityActionsBar: React.FC<ActionBarProps> = ({
         mainLabelFadeAnimationRef.current.getAnimation(0, totalAnimationDuration / 2).start(() => {
             setMainLabelText(extended ? 'Cancel' : primaryLabelRef.current);
             mainLabelFadeAnimationRef.current.getAnimation(1, totalAnimationDuration / 2).start();
-        })
+        });
 
         if (extended) {
             startSelection();
@@ -164,7 +164,7 @@ export const EntityActionsBar: React.FC<ActionBarProps> = ({
     const cancelAction = () => {
         setExtended(false);
         stopSelection();
-    }
+    };
 
     const iconSize = height * 0.6;
     const iconSpacing = iconSize * 0.6;
@@ -174,7 +174,7 @@ export const EntityActionsBar: React.FC<ActionBarProps> = ({
         const style = actionButtonSlideAnimationRef.current.getStyle(animatedValue => {
             return animatedValue.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, -(index) * (iconSize + iconSpacing)]
+                outputRange: [0, -(index) * (iconSize + iconSpacing)],
             });
         });
 
@@ -213,23 +213,23 @@ const createStyles = (theme: Theme, height: number) =>
         container: {
             ...elevationShadowStyle(theme),
             height,
-            flexDirection: "row",
-            alignItems: "center",
+            flexDirection: 'row',
+            alignItems: 'center',
             borderRadius: 20,
             backgroundColor: theme.colors.primary,
             opacity: 0.9,
-            position: "absolute",
+            position: 'absolute',
             bottom: 10,
             right: 10,
         },
         actionButton: {
-            position: "absolute",
+            position: 'absolute',
             right: 0,
         },
         fabContainer: {
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
             borderRadius: 20,
             paddingHorizontal: 12,
             paddingVertical: 4,
@@ -245,8 +245,8 @@ const createStyles = (theme: Theme, height: number) =>
             zIndex: 10,
         },
         actionButtonsContainer: {
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
         },
     });

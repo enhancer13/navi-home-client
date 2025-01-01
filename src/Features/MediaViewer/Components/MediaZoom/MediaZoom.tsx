@@ -1,8 +1,8 @@
 import {Animated, LayoutChangeEvent, PanResponder, StyleSheet, View} from 'react-native';
-import * as React from "react";
-import {ICenterOn} from "./ICenterOn";
-import {ImageZoomProps} from "./ImageZoomProps";
-import {ImageZoomState} from "./ImageZoomState";
+import * as React from 'react';
+import {ICenterOn} from './ICenterOn';
+import {ImageZoomProps} from './ImageZoomProps';
+import {ImageZoomState} from './ImageZoomState';
 
 // clone of react-native-image-pan-zoom with minor bug fixes
 export default class ImageViewer extends React.Component<ImageZoomProps, ImageZoomState> {
@@ -34,9 +34,9 @@ export default class ImageViewer extends React.Component<ImageZoomProps, ImageZo
     private centerDiffX = 0;
     private centerDiffY = 0;
 
-    private singleClickTimeout: number | undefined;
+    private singleClickTimeout: NodeJS.Timeout | undefined;
 
-    private longPressTimeout: number | undefined;
+    private longPressTimeout: NodeJS.Timeout | undefined;
 
     private lastClickTime = 0;
 
@@ -543,6 +543,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
-        backgroundColor: 'transparent'
-    }
-})
+        backgroundColor: 'transparent',
+    },
+});

@@ -1,7 +1,7 @@
 import React from 'react';
-import {EntityListScreen} from "../../../../../Features/EntityList/EntityListScreen";
-import {EntityNames} from "../../../../../BackendTypes";
-import {ObjectDetectionProfile} from "./ObjectDetectionProfile";
+import {EntityListScreen} from '../../../../../Features/EntityList/EntityListScreen';
+import {EntityNames} from '../../../../../BackendTypes';
+import {ObjectDetectionProfile} from './ObjectDetectionProfile';
 
 export const ObjectDetectionProfilesScreen: React.FC = () => {
     return (
@@ -11,4 +11,4 @@ export const ObjectDetectionProfilesScreen: React.FC = () => {
             backButton={true}
         />
     );
-}
+};

@@ -1,6 +1,6 @@
-import {EntityDefinition} from "./EntityDefinition";
-import {IMapper} from "../DataStorage/DataContext/IMapper";
-import IEntityDefinition from "../../../BackendTypes/EntityEditor/IEntityDefinition";
+import {EntityDefinition} from './EntityDefinition';
+import {IMapper} from '../DataStorage/DataContext/IMapper';
+import IEntityDefinition from '../../../BackendTypes/EntityEditor/IEntityDefinition';
 
 export class EntityDefinitionMapper implements IMapper<EntityDefinition> {
     public map(data: unknown): EntityDefinition {

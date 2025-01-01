@@ -1,10 +1,10 @@
-import ISecuredTokenStorage from "../../../../src/Features/Authentication/SecuredStorage/ISecuredTokenStorage";
-import IHttpClient from "../../../../src/Framework/Net/HttpClient/IHttpClient";
-import {ITokenPair, IUser} from "../../../../src/BackendTypes";
-import {BackendAuthService} from "../../../../src/Features/Authentication/AuthServices/BackendAuthService";
-import {IJwtDecoder} from "../../../../src/Features/Authentication/Helpers/IJwtDecoder";
-import Keychain from "react-native-keychain";
-import {Authentication} from "../../../../src/Features/Authentication";
+import ISecuredTokenStorage from '../../../../src/Features/Authentication/SecuredStorage/ISecuredTokenStorage';
+import IHttpClient from '../../../../src/Framework/Net/HttpClient/IHttpClient';
+import {ITokenPair, IUser} from '../../../../src/BackendTypes';
+import {BackendAuthService} from '../../../../src/Features/Authentication/AuthServices/BackendAuthService';
+import {IJwtDecoder} from '../../../../src/Features/Authentication/Helpers/IJwtDecoder';
+import Keychain from 'react-native-keychain';
+import {Authentication} from '../../../../src/Features/Authentication';
 
 const tokenStorageMock: jest.Mocked<ISecuredTokenStorage> = {
     saveTokenPair: jest.fn(),
@@ -20,13 +20,13 @@ const httpClientMock: jest.Mocked<IHttpClient> = {
     get: jest.fn(),
     post: jest.fn(),
     delete: jest.fn(),
-    send: jest.fn()
+    send: jest.fn(),
 };
 
 const jwtDecoderMock: jest.Mocked<IJwtDecoder> = {
     getExpirationDate: jest.fn(),
     isExpired: jest.fn(),
-}
+};
 
 const tokenPair: ITokenPair = {
     accessToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgwMjk0NTk4LCJqdGkiOiJiZWNjNmE2ZC1jNzFmLTQwMTktYmI1Ny0zNjEyMmQ4MDY1NDMifQ.EBJ5QGn7eJ0f4C625eVotFBeixXxa3GmimHLR_gdKKY',
@@ -44,7 +44,7 @@ describe('BackendAuthService', () => {
     beforeEach(() => {
         authService = new BackendAuthService(jwtDecoderMock, tokenStorageMock, httpClientMock);
         jest.resetAllMocks();
-        jest.resetModules()
+        jest.resetModules();
     });
 
     describe('authenticateByCredentials', () => {
@@ -54,9 +54,9 @@ describe('BackendAuthService', () => {
                 id: 1,
                 username: 'testUsername',
                 admin: false,
-                email: "",
-                password: "testPassword",
-                userRoles: []
+                email: '',
+                password: 'testPassword',
+                userRoles: [],
             };
             httpClientMock.put.mockResolvedValue(tokenPair);
             httpClientMock.get.mockResolvedValue(expectedUser);
@@ -65,7 +65,7 @@ describe('BackendAuthService', () => {
             await authService.authenticateByCredentials(username, password, serverName, serverAddress);
 
             // Assert
-            expect(httpClientMock.put).toHaveBeenCalledWith( "https://myserver.com/api/jwt/auth/login", {"body": "{\"username\":\"testUser\",\"password\":\"testPassword\"}"});
+            expect(httpClientMock.put).toHaveBeenCalledWith( 'https://myserver.com/api/jwt/auth/login', {'body': '{"username":"testUser","password":"testPassword"}'});
         });
 
         it('should request authenticated user and return an authentication object', async () => {
@@ -74,9 +74,9 @@ describe('BackendAuthService', () => {
                 id: 1,
                 username: 'testUsername',
                 admin: false,
-                email: "",
-                password: "testPassword",
-                userRoles: []
+                email: '',
+                password: 'testPassword',
+                userRoles: [],
             };
             httpClientMock.put.mockResolvedValue(tokenPair);
             httpClientMock.get.mockResolvedValue(expectedUser);
@@ -85,7 +85,7 @@ describe('BackendAuthService', () => {
             const authentication = await authService.authenticateByCredentials(username, password, serverName, serverAddress);
 
             // Assert
-            expect(httpClientMock.get).toHaveBeenCalledWith("/api/jwt/authentication/info/user", {authentication});
+            expect(httpClientMock.get).toHaveBeenCalledWith('/api/jwt/authentication/info/user', {authentication});
             expect(authentication.user).toEqual(expectedUser);
         });
 
@@ -95,9 +95,9 @@ describe('BackendAuthService', () => {
                 id: 1,
                 username: 'testUsername',
                 admin: false,
-                email: "",
-                password: "testPassword",
-                userRoles: []
+                email: '',
+                password: 'testPassword',
+                userRoles: [],
             };
             httpClientMock.put.mockResolvedValue(tokenPair);
             httpClientMock.get.mockResolvedValue(expectedUser);
@@ -147,7 +147,7 @@ describe('BackendAuthService', () => {
             const authentication = await authService.authenticateByBiometric(username, serverName, serverAddress);
 
             // Assert
-            expect(httpClientMock.put).toHaveBeenCalledWith("https://myserver.com/api/jwt/users/token/refresh", {"body": "{\"accessToken\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgwMjk0NTk4LCJqdGkiOiJiZWNjNmE2ZC1jNzFmLTQwMTktYmI1Ny0zNjEyMmQ4MDY1NDMifQ.EBJ5QGn7eJ0f4C625eVotFBeixXxa3GmimHLR_gdKKY\",\"refreshToken\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgwMjk0NjI4LCJqdGkiOiJmNjVhOTVjMC1jMWZhLTQzY2YtYTgwMy1lOWY0ZjU3YTQ4MDkifQ.as7DLXmJQxgv1b9w-l-qQmuh4jZ5XWZaqEIMrWBtIrI\"}"});
+            expect(httpClientMock.put).toHaveBeenCalledWith('https://myserver.com/api/jwt/users/token/refresh', {'body': '{"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgwMjk0NTk4LCJqdGkiOiJiZWNjNmE2ZC1jNzFmLTQwMTktYmI1Ny0zNjEyMmQ4MDY1NDMifQ.EBJ5QGn7eJ0f4C625eVotFBeixXxa3GmimHLR_gdKKY","refreshToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgwMjk0NjI4LCJqdGkiOiJmNjVhOTVjMC1jMWZhLTQzY2YtYTgwMy1lOWY0ZjU3YTQ4MDkifQ.as7DLXmJQxgv1b9w-l-qQmuh4jZ5XWZaqEIMrWBtIrI"}'});
             expect(authentication).toBeInstanceOf(Authentication);
         });
 
@@ -213,9 +213,9 @@ describe('BackendAuthService', () => {
                 return false;
             });
             const newTokenPair = {
-                accessToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgxMDYzOTg5LCJqdGkiOiJkMTg1ODJlNi0wNWEzLTQxZGItYWJhYi1iZjI2ODNmMzMyMTYifQ.DumQKK8d9P6Hu9tSseR7gNNgtmA2nQbbQK7uW76B420",
-                refreshToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgxNjY2OTg5LCJqdGkiOiI5OGNkNTJkMC0yOWYzLTRkNjgtOTU1NC03ZGQxMWIxNmJjNjYifQ.FSP4QiMIoM82touSxTJ0K1X9UOLYdLQcz7NIpcx8QFE"
-            }
+                accessToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgxMDYzOTg5LCJqdGkiOiJkMTg1ODJlNi0wNWEzLTQxZGItYWJhYi1iZjI2ODNmMzMyMTYifQ.DumQKK8d9P6Hu9tSseR7gNNgtmA2nQbbQK7uW76B420',
+                refreshToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgxNjY2OTg5LCJqdGkiOiI5OGNkNTJkMC0yOWYzLTRkNjgtOTU1NC03ZGQxMWIxNmJjNjYifQ.FSP4QiMIoM82touSxTJ0K1X9UOLYdLQcz7NIpcx8QFE',
+            };
             httpClientMock.put.mockResolvedValue(newTokenPair);
 
             // Act

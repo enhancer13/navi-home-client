@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState} from "react";
+import React, {createContext, useContext, useState} from 'react';
 
 interface DialogContextType {
     dialog: React.ReactElement | null;
@@ -23,7 +23,7 @@ export interface DialogContentProps {
 const DialogContext = createContext<DialogContextType>({
     dialog: null,
     openDialog: () => undefined,
-    closeDialog: () => undefined
+    closeDialog: () => undefined,
 });
 
 export const DialogProvider: React.FC<DialogProviderProps> = ({children}) => {

@@ -1,24 +1,24 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Modal, StyleSheet, View} from 'react-native';
 import {backendEndpoints} from '../../../../../Config/BackendEndpoints';
-import {heightPercentageToDP as hp,} from 'react-native-responsive-screen';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {MediaViewer} from '../../../../../Features/MediaViewer/MediaViewer';
-import {useAuth} from "../../../../../Features/Authentication";
-import {IconButton, useTheme} from "react-native-paper";
+import {useAuth} from '../../../../../Features/Authentication';
+import {IconButton, useTheme} from 'react-native-paper';
 import {
     ParentEntityRestriction,
-    useVolatileEntityCollection
-} from "../../../../../Features/EntityList/Hooks/useVolatileEntityCollection";
-import {IEntityDataManager} from "../../../../../Framework/Data/DataManager/IEntityDataManager";
-import {IMediaGalleryFile} from "../../../../../BackendTypes";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
-import SafeAreaView from "../../../../../Components/Layout/SafeAreaView";
-import {IMediaSource} from "../../../../../Features/MediaViewer/IMediaSource";
-import {useMediaFileActions} from "./Hooks/useMediaFileActions";
-import {VolatileDataCollectionEventTypes} from "../../../../../Framework/Data/DataManager";
-import {elevationShadowStyle} from "../../../../../Helpers/StyleUtils";
-import {LoadingActivityIndicator} from "../../../../../Components/Controls";
-import {useLoadingState} from "../../../../../Components/Hooks/useLoadingState";
+    useVolatileEntityCollection,
+} from '../../../../../Features/EntityList/Hooks/useVolatileEntityCollection';
+import {IEntityDataManager} from '../../../../../Framework/Data/DataManager/IEntityDataManager';
+import {IMediaGalleryFile} from '../../../../../BackendTypes';
+import {MD3Theme as Theme} from 'react-native-paper';
+import SafeAreaView from '../../../../../Components/Layout/SafeAreaView';
+import {IMediaSource} from '../../../../../Features/MediaViewer/IMediaSource';
+import {useMediaFileActions} from './Hooks/useMediaFileActions';
+import {VolatileDataCollectionEventTypes} from '../../../../../Framework/Data/DataManager';
+import {elevationShadowStyle} from '../../../../../Helpers/StyleUtils';
+import {LoadingActivityIndicator} from '../../../../../Components/Controls';
+import {useLoadingState} from '../../../../../Components/Hooks/useLoadingState';
 
 const largeIconSize = hp(7);
 const barHeight = largeIconSize / 1.5;
@@ -67,7 +67,7 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
                 mediaGalleryFiles.push(...page.data);
             }
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
 
         const mediaData = mediaGalleryFiles.map(mediaGalleryFile => {
@@ -77,14 +77,14 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
                 height: mediaGalleryFile.height,
                 mediaType: mediaGalleryFile.fileType,
                 thumbnail: {
-                    url: authentication.serverAddress + backendEndpoints.MediaGallery.MEDIA_THUMB(mediaGalleryFile)
+                    url: authentication.serverAddress + backendEndpoints.MediaGallery.MEDIA_THUMB(mediaGalleryFile),
                 },
                 props: {
                     source: {
-                        headers: authentication.authorizationHeader
-                    }
+                        headers: authentication.authorizationHeader,
+                    },
                 },
-                mediaFile: mediaGalleryFile
+                mediaFile: mediaGalleryFile,
             };
         });
 
@@ -155,12 +155,12 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
             </SafeAreaView>
         </Modal>
     );
-}
+};
 
 const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         alignItems: 'stretch',
-        flex: 1
+        flex: 1,
     },
     footer: {
         ...elevationShadowStyle(theme),

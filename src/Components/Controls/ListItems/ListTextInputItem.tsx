@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import {TextInput} from "react-native-paper";
-import {StyleSheet, View} from "react-native";
-import {useToggle} from "../../Hooks/useToggle";
-import {StyleProp} from "react-native/Libraries/StyleSheet/StyleSheet";
-import {TextStyle} from "react-native/Libraries/StyleSheet/StyleSheetTypes";
-import {ListIcon} from "./ListIcon";
+import React, {useEffect, useState} from 'react';
+import {TextInput} from 'react-native-paper';
+import {StyleSheet, View} from 'react-native';
+import {useToggle} from '../../Hooks/useToggle';
+import {StyleProp} from 'react-native/Libraries/StyleSheet/StyleSheet';
+import {TextStyle} from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import {ListIcon} from './ListIcon';
 
 export interface InputProps {
     title?: string;
@@ -18,13 +18,13 @@ export interface InputProps {
 }
 
 interface TextInputProps extends InputProps {
-    inputMode?: "text" | "email";
+    inputMode?: 'text' | 'email';
     value: string;
     onValueChanged?: (value: string) => void;
 }
 
 export const ListTextInputItem: React.FC<TextInputProps> = ({
-                                                                title = "",
+                                                                title = '',
                                                                 value,
                                                                 placeholder,
                                                                 onValueChanged,
@@ -33,7 +33,7 @@ export const ListTextInputItem: React.FC<TextInputProps> = ({
                                                                 style,
                                                                 icon,
                                                                 iconColor,
-                                                                iconBackgroundColor
+                                                                iconBackgroundColor,
                                                             }) => {
     const [inputValue, setInputValue] = useState<string | null>(value as string);
     const [hidePassword, toggleHidePassword] = useToggle(secureTextEntry);
@@ -61,7 +61,7 @@ export const ListTextInputItem: React.FC<TextInputProps> = ({
                 placeholder={placeholder}
                 mode="flat"
                 label={title}
-                value={inputValue ?? ""}
+                value={inputValue ?? ''}
                 onChangeText={handleInputChanged}
                 disabled={readonly}
                 secureTextEntry={hidePassword}
@@ -69,7 +69,7 @@ export const ListTextInputItem: React.FC<TextInputProps> = ({
                 right={
                     secureTextEntry && (
                         <TextInput.Icon
-                            icon={secureTextEntry ? "eye" : "eye-off"}
+                            icon={secureTextEntry ? 'eye' : 'eye-off'}
                             onPress={toggleHidePassword}
                         />
                     )
@@ -81,11 +81,11 @@ export const ListTextInputItem: React.FC<TextInputProps> = ({
 
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
+        width: '100%',
         marginBottom: 5,
-        alignItems: "center",
+        alignItems: 'center',
     },
     textInput: {
-        width: "100%",
+        width: '100%',
     },
 });

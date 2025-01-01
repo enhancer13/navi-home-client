@@ -1,13 +1,13 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {EntityViewComponentProps} from "../../../../../Features/EntityList/EntityListScreen";
-import {IVideoStreamingProfile} from "../../../../../BackendTypes";
-import {EntityViewContainer} from "../../../../../Features/EntityList/EntityViewContainer";
-import {Divider, Text, useTheme} from "react-native-paper";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Feather from "react-native-vector-icons/Feather";
-import {LabelCheckboxItem, LabelTextItem} from "../../../../../Components/Controls";
+import {EntityViewComponentProps} from '../../../../../Features/EntityList/EntityListScreen';
+import {IVideoStreamingProfile} from '../../../../../BackendTypes';
+import {EntityViewContainer} from '../../../../../Features/EntityList/EntityViewContainer';
+import {Divider, Text, useTheme} from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
+import {LabelCheckboxItem, LabelTextItem} from '../../../../../Components/Controls';
 
 export const VideoStreamingProfile: React.FC<EntityViewComponentProps> = ({entity, width}) => {
     const videoStreamingProfile = entity as IVideoStreamingProfile;
@@ -35,7 +35,7 @@ export const VideoStreamingProfile: React.FC<EntityViewComponentProps> = ({entit
             </View>
         </EntityViewContainer>
     );
-}
+};
 
 const styles = StyleSheet.create({
     rowContainer: {
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     bold: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     checkboxItem: {
         paddingVertical: 0,
@@ -59,6 +59,6 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     divider: {
-        marginVertical: 5
-    }
+        marginVertical: 5,
+    },
 });

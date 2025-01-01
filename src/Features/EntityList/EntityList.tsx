@@ -1,20 +1,20 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import SelectableList from './Components/SelectableList/SelectableList';
 import {ListItem} from './ListItem';
-import {useActionsStatus} from "./Hooks/useActionsStatus";
-import {EntityActionsBar} from "./Components/EntityActionsBar";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
-import {IEntity} from "../../BackendTypes";
-import {useEntityListData} from "./Hooks/useEntityListData";
-import {IEntityDataManager} from "../../Framework/Data/DataManager/IEntityDataManager";
-import {useEntityActions} from "./Hooks/useEntityActions";
-import FlexContainer from "../../Components/Layout/FlexContainer";
-import {ModalLoadingActivityIndicator} from "../../Components/Controls";
-import {usePrimaryAction} from "./Hooks/usePrimaryAction";
-import {ParentEntityRestriction} from "./Hooks/useVolatileEntityCollection";
-import {useTheme} from "react-native-paper";
-import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
-import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
+import {useActionsStatus} from './Hooks/useActionsStatus';
+import {EntityActionsBar} from './Components/EntityActionsBar';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {IEntity} from '../../BackendTypes';
+import {useEntityListData} from './Hooks/useEntityListData';
+import {IEntityDataManager} from '../../Framework/Data/DataManager/IEntityDataManager';
+import {useEntityActions} from './Hooks/useEntityActions';
+import FlexContainer from '../../Components/Layout/FlexContainer';
+import {ModalLoadingActivityIndicator} from '../../Components/Controls';
+import {usePrimaryAction} from './Hooks/usePrimaryAction';
+import {ParentEntityRestriction} from './Hooks/useVolatileEntityCollection';
+import {useTheme} from 'react-native-paper';
+import {NativeSyntheticEvent} from 'react-native/Libraries/Types/CoreEventTypes';
+import {NativeScrollEvent} from 'react-native/Libraries/Components/ScrollView/ScrollView';
 
 
 declare type Props = {
@@ -45,7 +45,7 @@ const EntityList: React.FC<Props> = ({
                                          onItemsCountChanged,
                                          parentEntityRestriction,
                                          extraData,
-                                         onScroll
+                                         onScroll,
                                      }) => {
     const [selectionActive, setSelectionActive] = useState(false);
     const [selectedItems, setSelectedItems] = useState<ListItem[]>([]);
@@ -61,7 +61,7 @@ const EntityList: React.FC<Props> = ({
         items,
         setItems,
         fetchNextPage,
-        refreshPages
+        refreshPages,
     } = useEntityListData(entityDataManager, queryFilter, itemsPerPage, parentEntityRestriction);
     const {doSave, doCreate, doDelete, doCopy, doRevert} = useEntityActions(entityDataManager, selectedItems, setItems);
     const actionsStatus = useActionsStatus(items, selectedItems, entityDefinition);
@@ -86,7 +86,7 @@ const EntityList: React.FC<Props> = ({
 
     const onSelectionListItemPress = (item: ListItem) => {
         onItemPress?.(item);
-    }
+    };
 
     const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
         scrollPositionRef.current = event.nativeEvent.contentOffset.y;
@@ -138,6 +138,6 @@ const EntityList: React.FC<Props> = ({
             />
         </FlexContainer>
     );
-}
+};
 
 export default EntityList;

@@ -1,16 +1,21 @@
-import fetchMock from 'fetch-mock';
-import HttpClient from "../../../src/Framework/Net/HttpClient/HttpClient";
-import {Authentication} from "../../../src/Features/Authentication";
+import HttpClient from '../../../src/Framework/Net/HttpClient/HttpClient';
+import { Authentication } from '../../../src/Features/Authentication';
+import fetchMock from 'jest-fetch-mock';
 
 describe('HttpClient', () => {
     const serverAddress = 'https://api.myserver.com';
-    const authentication: Authentication = new Authentication("Dummy", serverAddress, {Authorization: 'Bearer token'}, new Date());
-    const headers = {'Custom-Header': 'customValue'};
+    const authentication: Authentication = new Authentication(
+        'Dummy',
+        serverAddress,
+        { Authorization: 'Bearer token' },
+        new Date()
+    );
+    const headers = { 'Custom-Header': 'customValue' };
     const timeout = 1000;
     const client = new HttpClient(timeout);
 
-    afterEach(() => {
-        fetchMock.reset();
+    beforeEach(() => {
+        fetchMock.resetMocks();
     });
 
     // GIVEN a GET request
@@ -20,16 +25,25 @@ describe('HttpClient', () => {
         // Arrange
         const path = '/get';
         const url = serverAddress + path;
-        const responseBody = {message: 'Success'};
-        fetchMock.getOnce(url, {body: responseBody});
+        const responseBody = { message: 'Success' };
+        fetchMock.mockResponseOnce(JSON.stringify(responseBody), { status: 200, headers: { 'content-type': 'application/json' } });
 
         // Act
-        const response = await client.get(path, {authentication, headers});
+        const response = await client.get(path, { authentication, headers });
 
         // Assert
         expect(response).toEqual(responseBody);
-        expect(fetchMock.calls().length).toEqual(1);
-        expect(fetchMock.calls()[0][0]).toEqual(url);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(fetchMock).toHaveBeenCalledWith(url, {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer token',
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Custom-Header': 'customValue',
+            },
+            signal: undefined,
+        });
     });
 
     // GIVEN a POST request
@@ -39,17 +53,27 @@ describe('HttpClient', () => {
         // Arrange
         const path = '/post';
         const url = serverAddress + path;
-        const requestBody = JSON.stringify({field: 'value'});
-        const responseBody = {message: 'Success'};
-        fetchMock.postOnce(url, {body: responseBody});
+        const requestBody = JSON.stringify({ field: 'value' });
+        const responseBody = { message: 'Success' };
+        fetchMock.mockResponseOnce(JSON.stringify(responseBody), { status: 200, headers: { 'content-type': 'application/json' } });
 
         // Act
-        const response = await client.post(path, {body: requestBody, authentication, headers});
+        const response = await client.post(path, { body: requestBody, authentication, headers });
 
         // Assert
         expect(response).toEqual(responseBody);
-        expect(fetchMock.calls().length).toEqual(1);
-        expect(fetchMock.calls()[0][0]).toEqual(url);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(fetchMock).toHaveBeenCalledWith(url, {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer token',
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Custom-Header': 'customValue',
+            },
+            body: requestBody,
+            signal: undefined,
+        });
     });
 
     // GIVEN a PUT request
@@ -59,17 +83,27 @@ describe('HttpClient', () => {
         // Arrange
         const path = '/put';
         const url = serverAddress + path;
-        const requestBody = JSON.stringify({field: 'value'});
-        const responseBody = {message: 'Success'};
-        fetchMock.putOnce(url, {body: responseBody});
+        const requestBody = JSON.stringify({ field: 'value' });
+        const responseBody = { message: 'Success' };
+        fetchMock.mockResponseOnce(JSON.stringify(responseBody), { status: 200, headers: { 'content-type': 'application/json' } });
 
         // Act
-        const response = await client.put(path, {body: requestBody, authentication, headers});
+        const response = await client.put(path, { body: requestBody, authentication, headers });
 
         // Assert
         expect(response).toEqual(responseBody);
-        expect(fetchMock.calls().length).toEqual(1);
-        expect(fetchMock.calls()[0][0]).toEqual(url);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(fetchMock).toHaveBeenCalledWith(url, {
+            method: 'PUT',
+            headers: {
+                Authorization: 'Bearer token',
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Custom-Header': 'customValue',
+            },
+            body: requestBody,
+            signal: undefined,
+        });
     });
 
     // GIVEN a DELETE request
@@ -79,17 +113,27 @@ describe('HttpClient', () => {
         // Arrange
         const path = '/delete';
         const url = serverAddress + path;
-        const requestBody = JSON.stringify({field: 'value'});
-        const responseBody = {message: 'Success'};
-        fetchMock.deleteOnce(url, {body: responseBody});
+        const requestBody = JSON.stringify({ field: 'value' });
+        const responseBody = { message: 'Success' };
+        fetchMock.mockResponseOnce(JSON.stringify(responseBody), { status: 200, headers: { 'content-type': 'application/json' } });
 
         // Act
-        const response = await client.delete(path, {body: requestBody, authentication, headers});
+        const response = await client.delete(path, { body: requestBody, authentication, headers });
 
         // Assert
         expect(response).toEqual(responseBody);
-        expect(fetchMock.calls().length).toEqual(1);
-        expect(fetchMock.calls()[0][0]).toEqual(url);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(fetchMock).toHaveBeenCalledWith(url, {
+            method: 'DELETE',
+            headers: {
+                Authorization: 'Bearer token',
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Custom-Header': 'customValue',
+            },
+            body: requestBody,
+            signal: undefined,
+        });
     });
 
     // GIVEN a GET request
@@ -98,13 +142,16 @@ describe('HttpClient', () => {
     it('should throw a timeout error when the request times out', async () => {
         // Arrange
         const path = '/timeout';
-        const url = serverAddress + path;
 
-        // Delay the response longer than the specified timeout
-        fetchMock.mock(url, () => new Promise(resolve => setTimeout(() => resolve({status: 200}), timeout * 2)));
+        // Simulate a delayed response
+        fetchMock.mockImplementationOnce(() =>
+            new Promise((resolve) => setTimeout(() => resolve(new Response('', { status: 200, headers: { 'Content-Type': 'application/json' } })), timeout * 2))
+        );
 
         // Act and Assert
-        await expect(client.get(path, {authentication, headers})).rejects.toThrow('Connection timeout, service is unavailable.');
+        await expect(client.get(path, { authentication, headers })).rejects.toThrow(
+            'Connection timeout, service is unavailable.'
+        );
     });
 
     // GIVEN a request
@@ -113,12 +160,13 @@ describe('HttpClient', () => {
     it('should throw an error with status code and error message for failed requests', async () => {
         // Arrange
         const path = '/error';
-        const url = serverAddress + path;
-        const responseBody = {message: 'Failed', details: 'Invalid request'};
-        fetchMock.getOnce(url, {status: 400, body: responseBody});
+        const responseBody = { message: 'Failed', details: 'Invalid request' };
+        fetchMock.mockResponseOnce(JSON.stringify(responseBody), { status: 400, headers: { 'content-type': 'application/json' } });
 
         // Act and Assert
-        await expect(client.get(path, {authentication, headers})).rejects.toThrow(`Server returned status code 400: Failed (Invalid request)`);
+        await expect(client.get(path, { authentication, headers })).rejects.toThrow(
+            'Server returned status code 400: Failed (Invalid request)'
+        );
     });
 
     // GIVEN a GET request
@@ -127,46 +175,56 @@ describe('HttpClient', () => {
     it('should throw an abort error when the request is aborted', async () => {
         // Arrange
         const path = '/abort';
-        const url = serverAddress + path;
         const abortController = new AbortController();
-        const {signal} = abortController;
+        const { signal } = abortController;
 
-        // Delay the response longer than the specified timeout
-        fetchMock.mock(
-            url,
-            () => new Promise((resolve) => setTimeout(() => resolve({status: 200}), timeout * 2))
+        // Simulate a delayed response
+        fetchMock.mockImplementationOnce(
+            () =>
+                new Promise((resolve) =>
+                    setTimeout(() => resolve(new Response('', { status: 200, headers: { 'Content-Type': 'application/json' } })), timeout * 2)
+                )
         );
 
         // Act
-        const requestPromise = client.get(path, {authentication, headers, signal});
+        const requestPromise = client.get(path, { authentication, headers, signal });
 
         // Abort the request before the timeout
         setTimeout(() => abortController.abort(), timeout / 4);
 
         // Assert
-        await expect(requestPromise).rejects.toThrow("The user aborted a request.");
+        await expect(requestPromise).rejects.toThrow('The user aborted a request.');
     });
 
     // GIVEN a POST request
     // WHEN the request is aborted
     // EXPECT the request to be aborted without throwing a timeout error
-    it("should abort the request when the signal is triggered for POST requests", async () => {
+    it('should abort the request when the signal is triggered for POST requests', async () => {
         // Arrange
-        const path = "/abort-post";
-        const url = serverAddress + path;
-        const requestBody = JSON.stringify({field: "value"});
+        const path = '/abort-post';
+        const requestBody = JSON.stringify({ field: 'value' });
 
-        // Delay the response longer than the specified timeout
-        fetchMock.mock(url, () => new Promise((resolve) => setTimeout(() => resolve({status: 200}), timeout * 2)));
+        // Simulate a delayed response
+        fetchMock.mockImplementationOnce(
+            () =>
+                new Promise((resolve) =>
+                    setTimeout(() => resolve(new Response('', { status: 200, headers: { 'Content-Type': 'application/json' } })), timeout * 2)
+                )
+        );
 
         const abortController = new AbortController();
-        const {signal} = abortController;
+        const { signal } = abortController;
 
         // Act
-        const requestPromise = client.post(path, {body: requestBody, authentication, headers, signal});
+        const requestPromise = client.post(path, {
+            body: requestBody,
+            authentication,
+            headers,
+            signal,
+        });
         abortController.abort();
 
         // Assert
-        await expect(requestPromise).rejects.toThrow("The user aborted a request.");
+        await expect(requestPromise).rejects.toThrow('The user aborted a request.');
     });
 });

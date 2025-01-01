@@ -1,8 +1,8 @@
 import React, {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 import {Divider, List} from 'react-native-paper';
-import {DropDownListPicker} from "../DropDownListPicker";
-import {ItemType, ValueType} from "react-native-dropdown-picker";
+import {DropDownListPicker} from '../DropDownListPicker';
+import {ItemType, ValueType} from 'react-native-dropdown-picker';
 
 declare type Props<T extends ValueType> = {
     title: string;
@@ -19,7 +19,7 @@ export const ListDropDownListSinglePicker: React.FC<Props<string>> = ({
                                                                      items,
                                                                      readonly,
                                                                      onChange,
-                                                                     titleFormatter
+                                                                     titleFormatter,
                                                                  }) => {
 
     const formattedItems: ItemType<string>[] = useMemo(() => {
@@ -27,7 +27,7 @@ export const ListDropDownListSinglePicker: React.FC<Props<string>> = ({
             const itemLabel = titleFormatter ? titleFormatter(x) : x;
             return {
                 label: itemLabel,
-                value: x
+                value: x,
             };
         });
     }, [items, titleFormatter]);
@@ -44,10 +44,10 @@ export const ListDropDownListSinglePicker: React.FC<Props<string>> = ({
             <Divider style={styles.divider}/>
         </>
     );
-}
+};
 
 const styles = StyleSheet.create({
     divider: {
         marginVertical: 10,
-    }
+    },
 });

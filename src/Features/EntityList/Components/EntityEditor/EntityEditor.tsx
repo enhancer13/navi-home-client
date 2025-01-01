@@ -1,18 +1,18 @@
 import React, {useCallback, useEffect, useState, useMemo, useRef} from 'react';
 import {Animated, Modal, StyleSheet} from 'react-native';
-import {SafeAreaProvider} from "react-native-safe-area-context";
-import {groupBy} from "lodash";
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
-import SafeAreaView from "../../../../Components/Layout/SafeAreaView";
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {groupBy} from 'lodash';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import SafeAreaView from '../../../../Components/Layout/SafeAreaView';
 import {ListItem} from '../../ListItem';
-import {splitPascalCase} from "../../../../Helpers/StringUtils";
-import {EntityEditorHeader} from "./EntityEditorHeader";
-import {editorControlFactory} from "./EditorControlFactory";
-import {IEntityDefinition} from "../../../../Framework/Data/DataManager";
-import {IEntityFieldDefinition} from "../../../../BackendTypes";
-import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
-import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
-import {ISection, SectionList} from "../../../../Components/Layout";
+import {splitPascalCase} from '../../../../Helpers/StringUtils';
+import {EntityEditorHeader} from './EntityEditorHeader';
+import {editorControlFactory} from './EditorControlFactory';
+import {IEntityDefinition} from '../../../../Framework/Data/DataManager';
+import {IEntityFieldDefinition} from '../../../../BackendTypes';
+import {NativeSyntheticEvent} from 'react-native/Libraries/Types/CoreEventTypes';
+import {NativeScrollEvent} from 'react-native/Libraries/Components/ScrollView/ScrollView';
+import {ISection, SectionList} from '../../../../Components/Layout';
 
 type EntityEditorProps = {
     visible: boolean;
@@ -29,7 +29,7 @@ export const EntityEditor: React.FC<EntityEditorProps> = ({
                                                               visible,
                                                               listItem: initialListItem,
                                                               entityDefinition,
-                                                              onClose
+                                                              onClose,
                                                           }) => {
     const [itemChanged, setItemChanged] = useState<object>({});
     const [listItem, setListItem] = useState<ListItem | null>(null);
@@ -74,7 +74,7 @@ export const EntityEditor: React.FC<EntityEditorProps> = ({
             throw new Error('Invalid EntityEditor state: list item is null');
         }
 
-        initialListItem.copyFrom(listItem)
+        initialListItem.copyFrom(listItem);
         onClose();
     }, [initialListItem, listItem, onClose]);
 

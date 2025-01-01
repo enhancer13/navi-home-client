@@ -9,8 +9,8 @@ class ApplicationSettingsStorage extends DataStorage<ApplicationSettings> implem
 
     public async getApplicationSettings(): Promise<ApplicationSettings | null> {
         const applicationSettings = await this.getAll();
-        if (applicationSettings.length != 1) {
-            console.debug("Application settings cannot be retrieved, cause data storage is not initialized or contains more then one application settings");
+        if (applicationSettings.length !== 1) {
+            console.debug('Application settings cannot be retrieved, cause data storage is not initialized or contains more then one application settings');
             return null;
         }
         return applicationSettings[0];

@@ -1,6 +1,6 @@
-import {IMediaSource} from "../../../IMediaSource";
-import {IMediaStatus} from "../../../IMediaStatus";
-import {useEffect, useRef, useState} from "react";
+import {IMediaSource} from '../../../IMediaSource';
+import {IMediaStatus} from '../../../IMediaStatus';
+import {useEffect, useRef, useState} from 'react';
 import { Image } from 'react-native';
 
 export const useLoadMedia = (mediaSources: IMediaSource[]) => {
@@ -15,7 +15,7 @@ export const useLoadMedia = (mediaSources: IMediaSource[]) => {
     }, [mediaSources]);
 
     useEffect(() => {
-        if (!initialized && mediaStatuses.length != 0 && mediaStatuses.length === mediaSources.length) {
+        if (!initialized && mediaStatuses.length !== 0 && mediaStatuses.length === mediaSources.length) {
             setInitialized(true);
         }
     }, [mediaStatuses]);
@@ -73,7 +73,7 @@ export const useLoadMedia = (mediaSources: IMediaSource[]) => {
                 },
             );
         }
-    }
+    };
 
     return {initialized, mediaStatuses, loadMedia};
-}
+};

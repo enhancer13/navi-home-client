@@ -1,7 +1,7 @@
-import {useCallback, useEffect, useState} from "react";
-import { ApplicationSettings, applicationSettingsStorage } from "../index";
-import {DataStorageEventTypes} from "../../../Framework/Data/DataStorage";
-import {useDataStorageEvents} from "./useDataStorageEvents";
+import {useCallback, useEffect, useState} from 'react';
+import { ApplicationSettings, applicationSettingsStorage } from '../index';
+import {DataStorageEventTypes} from '../../../Framework/Data/DataStorage';
+import {useDataStorageEvents} from './useDataStorageEvents';
 
 export function useApplicationSettings() {
     const { subscribe } = useDataStorageEvents(applicationSettingsStorage);

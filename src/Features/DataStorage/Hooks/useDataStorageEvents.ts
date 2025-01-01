@@ -1,6 +1,6 @@
-import {useCallback, useEffect, useRef} from "react";
-import {DataStorageEventTypes, IStorageItem} from "../../../Framework/Data/DataStorage";
-import IDataStorage from "../../../Framework/Data/DataStorage/IDataStorage";
+import {useCallback, useEffect, useRef} from 'react';
+import {DataStorageEventTypes, IStorageItem} from '../../../Framework/Data/DataStorage';
+import IDataStorage from '../../../Framework/Data/DataStorage/IDataStorage';
 
 export function useDataStorageEvents<TStorage extends IDataStorage<IStorageItem>>(dataStorage: TStorage) {
     const eventHandlers = useRef<Map<DataStorageEventTypes, ((args?: any) => void)[]>>(new Map()).current;

@@ -1,4 +1,4 @@
-import {IEntityActionRequest, IEntity} from "../../../../BackendTypes";
+import {IEntityActionRequest, IEntity} from '../../../../BackendTypes';
 
 export class DeleteEntityActionRequest implements IEntityActionRequest {
     [key: string]: unknown;

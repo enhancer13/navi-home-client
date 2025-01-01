@@ -1,4 +1,4 @@
-import {IEntity, IEntityActionRequest, IFieldsDeleteRequest} from "../../../../BackendTypes";
+import { IEntity, IEntityActionRequest, IFieldsDeleteRequest } from '../../../../BackendTypes';
 
 export class UpdateEntityActionRequest implements IEntityActionRequest {
     [key: string]: unknown;
@@ -10,12 +10,14 @@ export class UpdateEntityActionRequest implements IEntityActionRequest {
         if (fieldNamesToDelete.length > 0) {
             this.fieldsDeleteRequest = {
                 entityId: entity.id,
-                fieldNames: modifiedFieldNames.filter(fieldName => entity[fieldName] === null)
+                fieldNames: fieldNamesToDelete,
             };
         }
 
-        modifiedFieldNames.filter(fieldName => !fieldNamesToDelete.includes(fieldName))
-            .forEach(fieldName => this[fieldName] = entity[fieldName]);
+        const remainingFieldNames = modifiedFieldNames.filter(fieldName => !fieldNamesToDelete.includes(fieldName));
+        remainingFieldNames.forEach(fieldName => {
+            this[fieldName] = entity[fieldName];
+        });
 
         if (entity.id > 0) {
             this.id = entity.id;

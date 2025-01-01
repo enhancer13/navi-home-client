@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Surface} from 'react-native-paper';
-import {LayoutChangeEvent} from "react-native/Libraries/Types/CoreEventTypes";
+import {LayoutChangeEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 
 declare type EntityViewContainerProps = {
     children: React.ReactNode;
@@ -14,7 +14,7 @@ export const EntityViewContainer: React.FC<EntityViewContainerProps> = ({childre
             {children}
         </Surface>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {

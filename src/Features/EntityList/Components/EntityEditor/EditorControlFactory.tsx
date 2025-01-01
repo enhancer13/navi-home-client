@@ -3,18 +3,18 @@ import {
     EntityFieldSearchPolicies,
     IEntity,
     IEntityFieldDefinition,
-} from "../../../../BackendTypes";
+} from '../../../../BackendTypes';
 import {
     ListDropDownListSinglePicker, ListEntityDropDownListPicker, ListDateTimePicker,
     ListNumericInputItem,
     ListSwitchItem,
     ListTextInputItem,
-} from "../../../../Components/Controls/ListItems";
-import {StatusBadge} from "../StatusBadge";
+} from '../../../../Components/Controls/ListItems';
+import {StatusBadge} from '../StatusBadge';
 import {StyleSheet, View} from 'react-native';
-import {snakeToPascal} from "../../../../Helpers/StringUtils";
-import React from "react";
-import {ListItem} from "../../ListItem";
+import {snakeToPascal} from '../../../../Helpers/StringUtils';
+import React from 'react';
+import {ListItem} from '../../ListItem';
 
 function fieldDefinitionTitleFormatter(value: string, definition: {[key: string]: string}): string {
     const allEqual = Object.entries(definition).every(([key, val]) => key === val);
@@ -57,7 +57,7 @@ class EditorControlFactory {
                             readonly={readonly}
                             value={value as string}
                             onValueChanged={(x) => updateFieldValue(fieldName, x)}
-                            inputMode={"email"}
+                            inputMode={'email'}
                         />
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
                     </View>
@@ -72,7 +72,7 @@ class EditorControlFactory {
                             readonly={readonly}
                             value={value as number}
                             onValueChanged={(x) => updateFieldValue(fieldName, x)}
-                            inputMode={fieldDataType === EntityFieldInputTypes.INTEGER ? "numeric" : "decimal"}
+                            inputMode={fieldDataType === EntityFieldInputTypes.INTEGER ? 'numeric' : 'decimal'}
                         />
                         <StatusBadge style={[styles.statusBadge, styles.statusBadgeRight]} status={fieldStatus}/>
                     </View>

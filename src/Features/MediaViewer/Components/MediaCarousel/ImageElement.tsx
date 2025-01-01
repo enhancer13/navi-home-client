@@ -1,7 +1,7 @@
-import React from "react";
-import {MediaElement} from "./MediaElement";
-import FastImage from "react-native-fast-image";
-import {ICarouselElementProps} from "./ICarouselElementProps";
+import React from 'react';
+import {MediaElement} from './MediaElement';
+import FastImage from 'react-native-fast-image';
+import {ICarouselElementProps} from './ICarouselElementProps';
 
 export const ImageElement: React.FC<ICarouselElementProps> = ({
                                                                   index,

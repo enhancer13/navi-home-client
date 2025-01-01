@@ -6,17 +6,15 @@ import {DropDownListPicker, LoadingActivityIndicator} from '../../Components/Con
 import LoadingAnimation from './Animations/LoadingAnimation';
 import {useNavigation} from '@react-navigation/native';
 import {usePopupMessage} from '../../Features/Messaging';
-import SafeAreaView from "../../Components/Layout/SafeAreaView";
-import {useTheme, Surface, IconButton, Button, Text} from "react-native-paper";
-import {MD3Theme as Theme} from "react-native-paper/lib/typescript/src/types";
-import {useAuthenticationData} from "./Hooks/useAuthenticationData";
-import {useAuthenticationActions} from "./Hooks/useAuthenticationActions";
-import FastImage from "react-native-fast-image";
-import {ListTextInputItem} from "../../Components/Controls/ListItems";
-import {RootNavigationProp} from "../../RootStackNavigator";
+import SafeAreaView from '../../Components/Layout/SafeAreaView';
+import {useTheme, Surface, IconButton, Button, Text} from 'react-native-paper';
+import {MD3Theme as Theme} from 'react-native-paper';
+import {useAuthenticationData} from './Hooks/useAuthenticationData';
+import {useAuthenticationActions} from './Hooks/useAuthenticationActions';
+import {ListTextInputItem} from '../../Components/Controls/ListItems';
+import {RootNavigationProp} from '../../RootStackNavigator';
 
 const loginContainerWidth = Math.min(wp('95%'), 500);
-const developerLogoSize = loginContainerWidth * 0.3;
 const iconSize = loginContainerWidth * 0.07;
 const rowHeight = loginContainerWidth * 0.11;
 
@@ -30,7 +28,7 @@ export const LoginScreen: React.FC = () => {
         serverName,
         setUsername,
         setPassword,
-        setServerName
+        setServerName,
     } = useAuthenticationData();
     const {
         biometryActive,
@@ -51,7 +49,7 @@ export const LoginScreen: React.FC = () => {
             Animated.timing(loginFormAnimationValueRef.current, {
                 toValue: 1,
                 duration: 700,
-                useNativeDriver: true
+                useNativeDriver: true,
             }),
         ]).start();
     };
@@ -92,7 +90,7 @@ export const LoginScreen: React.FC = () => {
 
         const faceIdBiometry = biometryType === Keychain.BIOMETRY_TYPE.FACE || biometryType === Keychain.BIOMETRY_TYPE.FACE_ID;
         const iconColor = biometryActive ? theme.colors.onSurface : theme.colors.onSurfaceDisabled;
-        const icon = faceIdBiometry ? "face-recognition" : "fingerprint";
+        const icon = faceIdBiometry ? 'face-recognition' : 'fingerprint';
         return <IconButton icon={icon}
                            onPress={handleBiometryAuthenticate}
                            iconColor={iconColor}
@@ -100,11 +98,6 @@ export const LoginScreen: React.FC = () => {
                            selected={false}
                            size={iconSize}/>;
     }, [handleBiometryAuthenticate, biometryType, biometryActive, theme]);
-
-    const developerIcon = useMemo(() => {
-        return  theme.dark ? require('./Resources/enhancer13_logo_inverted.png') :
-            require('./Resources/enhancer13_logo.png');
-    }, [theme]);
 
     const handleUsernameChanged = useCallback((value: string) => {
         setUsername(value);
@@ -125,8 +118,7 @@ export const LoginScreen: React.FC = () => {
                         transform: [{scale: loginFormAnimationValueRef.current}],
                     },
                 ]}>
-                <FastImage source={developerIcon} style={styles.developerIcon}/>
-                <Text variant="displayLarge" style={styles.logoText}>Navi Home</Text>
+                <Text variant="displayMedium" style={styles.logoText}>Navi Home</Text>
                 <Surface style={styles.formContainer} elevation={3}>
                     <View style={styles.credentialsContainer}>
                         <ListTextInputItem
@@ -160,7 +152,7 @@ export const LoginScreen: React.FC = () => {
                             <Button compact={true} mode="contained"
                                     style={styles.submitButton}
                                     onPress={handleCredentialsAuthenticate}>
-                                {"SUBMIT"}
+                                {'SUBMIT'}
                             </Button>
                             {biometryIcon}
                         </View>
@@ -181,7 +173,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: loginContainerWidth,
-        bottom: '10%',
+        top: '20%',
     },
     credentialsContainer: {
         alignItems: 'center',
@@ -201,8 +193,8 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         width: '80%',
     },
     logoText: {
-        marginBottom: 50,
-        color: theme.colors.primary
+        marginBottom: 40,
+        color: theme.colors.primary,
     },
     passwordChangeContainer: {
         alignItems: 'center',
@@ -212,7 +204,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         width: '90%',
     },
     serverPickerContainer: {
-        width: loginContainerWidth * 0.45
+        width: loginContainerWidth * 0.45,
     },
     loadingIndicator: {
         height: rowHeight,
@@ -238,11 +230,5 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     iconInactive: {
         color: theme.colors.onSurfaceDisabled,
-    },
-    developerIcon: {
-        width: developerLogoSize,
-        height: developerLogoSize,
-        opacity: 0.5,
-        marginBottom: -developerLogoSize * 0.1
     },
 });

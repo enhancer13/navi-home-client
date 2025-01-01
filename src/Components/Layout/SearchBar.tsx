@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet} from 'react-native';
 import {Searchbar as PaperSearchBar} from 'react-native-paper';
-import {FadeAnimation, ResizeAnimation, SlideAnimation} from "../../Animations";
+import {FadeAnimation, ResizeAnimation, SlideAnimation} from '../../Animations';
 
 declare type SearchBarProps = {
     searchActive: boolean;
@@ -16,19 +16,19 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                                                         searchActive,
                                                         onSearchQueryChange,
                                                         debounceTime,
-                                                        loading
+                                                        loading,
                                                     }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const searchBarSlideAnimation = useRef(new SlideAnimation('y', new Animated.Value(0))).current;
     const searchBarHeightAnimation = useRef(new ResizeAnimation('height', new Animated.Value(0))).current;
     const searchBarFadeAnimation = useRef(new FadeAnimation(new Animated.Value(0))).current;
-    const searchTimeoutRef = useRef<number | null>(null);
+    const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         Animated.parallel([
             searchBarFadeAnimation.getAnimation(searchActive ? 1 : 0, searchActive ? 250 : 100),
             searchBarSlideAnimation.getAnimation(searchActive ? 0 : -HEIGHT, 250),
-            searchBarHeightAnimation.getAnimation(searchActive ? HEIGHT : 0, 250)
+            searchBarHeightAnimation.getAnimation(searchActive ? HEIGHT : 0, 250),
         ]).start();
 
         return () => {
@@ -56,7 +56,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 styles.container,
                 searchBarSlideAnimation.getStyle(),
                 searchBarHeightAnimation.getStyle(),
-                searchBarFadeAnimation.getStyle()
+                searchBarFadeAnimation.getStyle(),
             ]}
         >
             <PaperSearchBar

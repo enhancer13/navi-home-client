@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import React, {useEffect, useState} from "react";
-import {Divider, List, Switch} from "react-native-paper";
-import {ListIcon} from "./ListIcon";
+import React, { useEffect, useState } from 'react';
+import { Divider, List, Switch } from 'react-native-paper';
+import { ListIcon } from './ListIcon';
 
 declare type Props = {
     title: string;
@@ -12,7 +12,7 @@ declare type Props = {
     iconColor?: string;
     iconBackgroundColor?: string;
     readonly?: boolean;
-}
+};
 
 export const ListSwitchItem: React.FC<Props> = ({
                                                     title,
@@ -22,33 +22,51 @@ export const ListSwitchItem: React.FC<Props> = ({
                                                     iconBackgroundColor,
                                                     value,
                                                     action,
-                                                    readonly}) => {
+                                                    readonly,
+                                                }) => {
     const [isSwitchOn, setIsSwitchOn] = useState(value);
 
     const onSwitchChanged = () => {
-        setIsSwitchOn(prevValue => {
+        setIsSwitchOn((prevValue) => {
             action(!prevValue);
             return !prevValue;
         });
     };
 
     useEffect(() => {
-        if (isSwitchOn != value) {
+        if (isSwitchOn !== value) { // Fixed `eqeqeq` warning
             setIsSwitchOn(value);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value])
+    }, [value, isSwitchOn]);
+
+    const renderLeftIcon = (props: any) => {
+        if (icon) {
+            return (
+                <ListIcon
+                    style={props.style}
+                    icon={icon}
+                    iconColor={iconColor}
+                    iconBackgroundColor={iconBackgroundColor}
+                />
+            );
+        }
+        return null;
+    };
+
+    const renderRightSwitch = () => (
+        <Switch value={isSwitchOn} disabled={readonly} onValueChange={onSwitchChanged} />
+    );
 
     return (
         <>
             <List.Item
                 title={title}
                 description={description}
-                left={(props) => icon &&
-                  <ListIcon style={props.style} icon={icon} iconColor={iconColor} iconBackgroundColor={iconBackgroundColor}/>}                right={() => <Switch value={isSwitchOn} disabled={readonly} onValueChange={onSwitchChanged}/>}
+                left={renderLeftIcon}
+                right={renderRightSwitch}
                 onPress={onSwitchChanged}
             />
-            <Divider/>
+            <Divider />
         </>
-    )
-}
+    );
+};

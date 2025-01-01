@@ -8,5 +8,5 @@ export * from './IEntityFactory';
 export * from './EntityActionRequests/DeleteEntityActionRequest';
 export * from './EntityActionRequests/CreateEntityActionRequest';
 export * from './EntityActionRequests/UpdateEntityActionRequest';
-export {Page} from "./Page";
+export {Page} from './Page';
 
