@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {MediaElement} from './MediaElement';
 import {IMediaStatus} from '../../IMediaStatus';
 import {ICarouselElementProps} from './ICarouselElementProps';
-import {VideoPlayer, VideoPlayerRef} from "../../../VideoPlayer";
+import {VideoPlayer, VideoPlayerRef} from '../../../VideoPlayer';
 
 export const VideoElement: React.FC<ICarouselElementProps> = ({
                                                                   index,

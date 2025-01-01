@@ -12,7 +12,7 @@ import {useAuth} from '../../../Features/Authentication';
 import {useTheme, Text} from 'react-native-paper';
 import {MD3Theme as Theme} from 'react-native-paper';
 import color from 'color';
-import {VideoPlayer} from "../../../Features/VideoPlayer";
+import {VideoPlayer} from '../../../Features/VideoPlayer';
 
 const videoAspectRatio = 16 / 9;
 
