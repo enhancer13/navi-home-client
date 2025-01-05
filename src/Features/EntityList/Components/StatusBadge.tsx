@@ -7,7 +7,7 @@ import {AppTheme} from '../../../AppTheme';
 declare type StatusBadgeProps = {
     status: 'new' | 'modified' | null;
     style?: StyleProp<TextStyle> | undefined;
-}
+};
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, style }) => {
     const theme = useTheme<AppTheme>();

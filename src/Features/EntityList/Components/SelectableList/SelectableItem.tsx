@@ -13,7 +13,7 @@ declare type SelectableItemProps = {
     width: number;
     onPress: () => void;
     onLongPress: () => void;
-}
+};
 
 const SelectableItem: React.FC<SelectableItemProps> = (props) => {
     const {content, selected, width, onPress, onLongPress} = props;

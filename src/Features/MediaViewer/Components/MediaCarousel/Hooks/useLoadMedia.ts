@@ -18,6 +18,7 @@ export const useLoadMedia = (mediaSources: IMediaSource[]) => {
         if (!initialized && mediaStatuses.length !== 0 && mediaStatuses.length === mediaSources.length) {
             setInitialized(true);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mediaStatuses]);
 
     const saveStatus = (index: number, mediaStatus: IMediaStatus) => {

@@ -14,7 +14,7 @@ export declare type SectionListProps = {
     containerStyle?: StyleProp<ViewStyle> | undefined;
     titleHeight?: number;
     onScroll?: | ((event: NativeSyntheticEvent<NativeScrollEvent>) => void) | undefined;
-}
+};
 
 export const SectionList: React.FC<SectionListProps> = ({
                                                             title,
@@ -68,7 +68,7 @@ export const SectionList: React.FC<SectionListProps> = ({
                 {section.items}
             </Surface>
         );
-    }, []);
+    }, [styles.section]);
 
     const handleScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
         scrollY.setValue(event.nativeEvent.contentOffset.y);

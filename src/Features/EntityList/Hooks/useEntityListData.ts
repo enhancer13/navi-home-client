@@ -38,10 +38,12 @@ export const useEntityListData = (entityDataManager: IEntityDataManager<IEntity>
         return () => {
             volatileDataCollection?.dispose();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [volatileDataCollection]);
 
     useEffect(() => {
         syncWithDataCollection();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
 
     useEffect(() => {

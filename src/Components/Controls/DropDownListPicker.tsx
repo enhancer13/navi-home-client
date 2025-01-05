@@ -35,6 +35,7 @@ export const DropDownListPicker: React.FC<DropDownListPickerProps<any>> = ({
         if (!isEqual(initialItems, items)) {
             setItems(initialItems);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialItems]);
 
     useEffect(() => {
@@ -42,25 +43,26 @@ export const DropDownListPicker: React.FC<DropDownListPickerProps<any>> = ({
             setSelectedItem(initialSelectedItem);
             setPrevSelectedItem(initialSelectedItem);
         }
+
         if (!multiple && selectedItem !== initialSelectedItem) {
             setSelectedItem(initialSelectedItem);
             setPrevSelectedItem(initialSelectedItem);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialSelectedItem]);
 
     const onChangeValue = useCallback((value: ValueType | ValueType[] | null) => {
-            if (multiple && !isEqual(prevSelectedItem, value)) {
-                setPrevSelectedItem(value);
-                onItemChanged?.(value);
-                return;
-            }
-            if (!multiple && prevSelectedItem !== value) {
-                setPrevSelectedItem(value);
-                onItemChanged?.(value);
-            }
-        },
-        [prevSelectedItem],
-    );
+        if (multiple && !isEqual(prevSelectedItem, value)) {
+            setPrevSelectedItem(value);
+            onItemChanged?.(value);
+            return;
+        }
+        if (!multiple && prevSelectedItem !== value) {
+            setPrevSelectedItem(value);
+            onItemChanged?.(value);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [prevSelectedItem]);
 
     return (
         <DropDownPicker

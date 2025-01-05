@@ -7,7 +7,7 @@ import {useAsyncError} from '../../ErrorBoundary/Hooks/useAsyncError';
 export type ParentEntityRestriction = {
     entity: IEntity;
     entityDefinition: IEntityDefinition;
-}
+};
 
 export const useVolatileEntityCollection = <TEntity extends IEntity>(entityDataManager: IEntityDataManager<TEntity>, filterQuery = '', itemsPerPage?: number, parentEntityRestriction?: ParentEntityRestriction) => {
     const [volatileDataCollection, setVolatileDataCollection] = useState<VolatileDataCollection<TEntity> | null>(null);
@@ -25,11 +25,13 @@ export const useVolatileEntityCollection = <TEntity extends IEntity>(entityDataM
         return () => {
             dataCollection?.dispose();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [entityDataManager]);
 
     useEffect(() => {
         const query = getFilterQuery();
         volatileDataCollection?.setFilterQuery(query);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterQuery]);
 
     const getFilterQuery = () => {

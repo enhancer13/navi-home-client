@@ -8,7 +8,7 @@ declare type SearchBarProps = {
     onSearchQueryChange: (query: string) => void;
     debounceTime?: number;
     loading?: boolean;
-}
+};
 
 const HEIGHT = 72;
 
@@ -36,7 +36,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 clearTimeout(searchTimeoutRef.current);
             }
         };
-    }, [searchActive]);
+    }, [searchActive, searchBarFadeAnimation, searchBarHeightAnimation, searchBarSlideAnimation]);
 
     const onSearchChange = (query: string) => {
         setSearchQuery(query);

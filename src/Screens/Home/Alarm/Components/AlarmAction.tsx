@@ -35,7 +35,7 @@ type AlarmActionProps = {
     alarmAction: keyof typeof AlarmActions;
     containerWidth: number;
     isActive: boolean;
-}
+};
 
 export const AlarmAction: React.FC<AlarmActionProps> = ({alarmAction, isActive, containerWidth}) => {
     const theme = useTheme();

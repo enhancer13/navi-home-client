@@ -34,7 +34,7 @@ export const useAuthenticationData = () => {
 
             if (__DEV__) {
                 setUsername('root');
-                setPassword('enhancer2030');
+                setPassword('111111');
                 setServerName(Platform.OS === 'ios' ? 'ios-dev' : 'android-dev');
             }
         }

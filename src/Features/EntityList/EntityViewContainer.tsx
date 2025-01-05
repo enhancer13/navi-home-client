@@ -6,7 +6,7 @@ import {LayoutChangeEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 declare type EntityViewContainerProps = {
     children: React.ReactNode;
     onLayout?: ((event: LayoutChangeEvent) => void) | undefined;
-}
+};
 
 export const EntityViewContainer: React.FC<EntityViewContainerProps> = ({children, onLayout}) => {
     return (
