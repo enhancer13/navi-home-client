@@ -24,7 +24,7 @@ declare type ActionBarProps = {
     primaryLabel: string;
     onPrimary: () => void;
     containerStyle?: StyleProp<ViewStyle>;
-}
+};
 
 export declare type ActionsStatus = {
     canCreate: boolean; // can create new items
@@ -36,14 +36,14 @@ export declare type ActionsStatus = {
     canCopy: boolean; // can copy selected items
     canSelectAll: boolean;
     canDeselectAll: boolean;
-}
+};
 
 declare type ActionButtonProps = {
     icon: string;
     onPress: () => void;
     disabled: boolean;
     label?: string;
-}
+};
 
 export const EntityActionsBar: React.FC<ActionBarProps> = ({
                                                                selectionActive,
@@ -125,6 +125,7 @@ export const EntityActionsBar: React.FC<ActionBarProps> = ({
             },
         ];
         setActionButtons(newActionButtons);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [actionsStatus]);
 
     useEffect(() => {
@@ -154,12 +155,13 @@ export const EntityActionsBar: React.FC<ActionBarProps> = ({
         } else {
             stopSelection();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [extended]);
 
     useEffect(() => {
         primaryLabelRef.current = primaryLabel;
         setMainLabelText(extended ? 'Cancel' : primaryLabel);
-    }, [primaryLabel]);
+    }, [extended, primaryLabel]);
 
     const cancelAction = () => {
         setExtended(false);

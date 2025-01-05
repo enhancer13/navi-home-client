@@ -5,7 +5,7 @@ import {EntityNames} from '../../../BackendTypes';
 
 export type AlarmProfilesScreenProp = {
     backButton?: boolean;
-}
+};
 
 export const AlarmProfilesScreen: React.FC<AlarmProfilesScreenProp> = ({backButton}) => {
     return (

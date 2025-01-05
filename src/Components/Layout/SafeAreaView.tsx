@@ -9,7 +9,7 @@ declare type FlexSafeAreaViewProps = {
     ignoreTopInsets?: boolean | undefined;
     ignoreBottomInsets?: boolean | undefined;
     style?: StyleProp<ViewStyle> | undefined;
-}
+};
 
 const SafeAreaView: React.FC<FlexSafeAreaViewProps> = ({
                                                            children,

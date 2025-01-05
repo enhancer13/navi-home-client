@@ -7,7 +7,7 @@ type AlarmDayOfWeekProps = {
     dayOfWeek: string;
     containerWidth: number;
     isActive: boolean;
-}
+};
 
 export const AlarmDayOfWeek: React.FC<AlarmDayOfWeekProps> = ({dayOfWeek, isActive, containerWidth}) => {
     const theme = useTheme();

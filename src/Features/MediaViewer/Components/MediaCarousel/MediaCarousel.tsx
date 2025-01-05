@@ -49,6 +49,7 @@ export const MediaCarousel: React.FC<IMediaCarouselProps> = ({
             goToIndex(index, 0);
             onCurrentMediaIndexChange && onCurrentMediaIndexChange(currentMediaIndex);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialized]);
 
     useEffect(() => {
@@ -59,6 +60,7 @@ export const MediaCarousel: React.FC<IMediaCarouselProps> = ({
             viewPosition: 0.5,
         });
         onCurrentMediaIndexChange && onCurrentMediaIndexChange(currentMediaIndex);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentMediaIndex]);
 
     const onHorizontalOuterRangeOffset = (offsetX = 0) => {

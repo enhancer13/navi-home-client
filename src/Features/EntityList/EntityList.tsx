@@ -31,7 +31,7 @@ declare type Props = {
     parentEntityRestriction?: ParentEntityRestriction;
     extraData?: object;
     onScroll?: | ((event: NativeSyntheticEvent<NativeScrollEvent>) => void) | undefined;
-}
+};
 
 const EntityList: React.FC<Props> = ({
                                          entityDataManager,

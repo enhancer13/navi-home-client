@@ -30,7 +30,7 @@ declare type Props = {
     mediaFileDataManager: IEntityDataManager<IMediaGalleryFile>;
     initialMediaFile: IMediaGalleryFile;
     onRequestClose: () => void;
-}
+};
 
 export const ModalMediaFileViewer: React.FC<Props> = ({
                                                           visible,
@@ -51,7 +51,7 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
     const theme = useTheme();
     const styles = useMemo(() => createStyles(theme), [theme]);
 
-    async function initializeMediaData() {
+    const initializeMediaData = useCallback(async () => {
         if (!volatileDataCollection || !authentication) {
             return;
         }
@@ -92,12 +92,12 @@ export const ModalMediaFileViewer: React.FC<Props> = ({
             onRequestClose();
         }
         setMediaSources(mediaData);
-    }
+    }, [volatileDataCollection, authentication, onRequestClose, setLoading]);
 
     useEffect(() => {
         initializeMediaData();
         volatileDataCollection?.on(VolatileDataCollectionEventTypes.DataChanged, initializeMediaData);
-    }, [authentication, volatileDataCollection]);
+    }, [authentication, volatileDataCollection, initializeMediaData]);
 
     useEffect(() => {
         const mediaFile = mediaSources[currentMediaIndex]?.mediaFile;

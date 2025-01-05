@@ -76,6 +76,7 @@ export const LiveStreamingScreen = () => {
                 EventRegister.removeEventListener(firebaseMessageListener);
             }
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const renderVideoPlayer: ListRenderItem<IStreamingSource> = ({item}) => {

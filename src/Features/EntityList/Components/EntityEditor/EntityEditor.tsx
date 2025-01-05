@@ -19,7 +19,7 @@ type EntityEditorProps = {
     listItem: ListItem | null;
     entityDefinition: IEntityDefinition;
     onClose: () => void;
-}
+};
 
 const HEADER_HEIGHT = hp(5);
 const LIST_TITLE_HEIGHT = HEADER_HEIGHT * 1.5;

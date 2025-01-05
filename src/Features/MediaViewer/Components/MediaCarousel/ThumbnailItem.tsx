@@ -13,7 +13,7 @@ type ThumbnailItemProps = {
     size: number;
     isSelected: boolean;
     onPress: (index: number) => void;
-}
+};
 
 export const ThumbnailItem: React.FC<ThumbnailItemProps> = ({item, index, size, isSelected, onPress}) => {
     const {thumbnail} = item;

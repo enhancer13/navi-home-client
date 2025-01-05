@@ -7,12 +7,14 @@ module.exports = {
     'no-shadow': 'off',
     'no-undef': 'off',
     'react/prop-types': 'error',
+    'semi': 'off',
+    '@typescript-eslint/semi': ['error'],
   },
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
       rules: {
-        '@typescript-eslint/explicit-module-boundary-types': 'off', // Disable explicit return types for React components
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
       },
     },
   ],

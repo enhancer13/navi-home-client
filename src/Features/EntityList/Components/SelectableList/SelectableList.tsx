@@ -28,7 +28,7 @@ declare type State<TItem> = {
     items: TItem[];
     selectedKeys: string[];
     selectionActive: boolean;
-}
+};
 
 export default class SelectableList<TItem> extends React.Component<Props<TItem>, State<TItem>> {
     constructor(props: Props<TItem>) {

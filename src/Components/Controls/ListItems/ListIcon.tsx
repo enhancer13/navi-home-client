@@ -8,7 +8,7 @@ export type ListIconProps = {
     iconColor?: string;
     iconBackgroundColor?: string;
     style?: StyleProp<ViewStyle>
-}
+};
 
 export const ListIcon: React.FC<ListIconProps> = ({
                                                       icon,

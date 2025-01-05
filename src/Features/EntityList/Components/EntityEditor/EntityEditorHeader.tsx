@@ -10,7 +10,7 @@ type EntityEditorHeaderProps = {
     onDone: () => void;
     scrollY: Animated.Value;
     scrollThreshold: number;
-}
+};
 
 export const EntityEditorHeader: React.FC<EntityEditorHeaderProps> = ({
                                                                           title,

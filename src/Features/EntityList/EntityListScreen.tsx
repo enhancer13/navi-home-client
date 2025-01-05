@@ -26,13 +26,13 @@ declare type EntityListScreenProps = {
     backButton?: boolean;
     enableSearch?: boolean;
     parentEntityRestriction?: ParentEntityRestriction;
-}
+};
 
 declare type State = {
     itemsCount: number;
     selectionActive: boolean;
     selectedItemsCount: number;
-}
+};
 
 const defaultState: State = {
     itemsCount: 0,
