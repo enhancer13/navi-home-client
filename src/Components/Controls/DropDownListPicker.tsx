@@ -44,7 +44,7 @@ export const DropDownListPicker: React.FC<DropDownListPickerProps<any>> = ({
             setPrevSelectedItem(initialSelectedItem);
         }
 
-        if (!multiple && selectedItem !== initialSelectedItem) {
+        if (!multiple && selectedItem !== initialSelectedItem && initialSelectedItem !== null) {
             setSelectedItem(initialSelectedItem);
             setPrevSelectedItem(initialSelectedItem);
         }
