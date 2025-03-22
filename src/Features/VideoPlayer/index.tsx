@@ -72,6 +72,11 @@ export const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
 
         const handleProgress = useCallback(() => {
             setLoading(false);
+            if (errorTimeoutRef.current) {
+                clearTimeout(errorTimeoutRef.current);
+                errorTimeoutRef.current = null;
+                setError(false);
+            }
         }, []);
 
         const poster: ReactVideoPoster = {
