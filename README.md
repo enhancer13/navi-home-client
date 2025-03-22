@@ -174,6 +174,11 @@ This project includes a Gemfile, it’s essential to install the specified Ruby 
 bundle install
 ```
 This ensures that all necessary Ruby dependencies, such as CocoaPods, are installed. ￼
+Then, and every time you update your native dependencies, run:
+
+```sh
+cd ios && bundle exec pod install
+```
 
 ### Step 3: Initialize the Metro Bundler
 

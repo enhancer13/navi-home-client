@@ -1,12 +1,13 @@
 import React, {
-    useRef,
     useImperativeHandle,
     forwardRef,
     useState,
     useCallback,
+    useEffect,
+    useRef,
 } from 'react';
 import {StyleSheet, View, ActivityIndicator, Text, TouchableOpacity, Image} from 'react-native';
-import Video, {VideoRef, BufferConfig, ReactVideoPoster, ReactVideoSource} from 'react-native-video';
+import Video, {ReactVideoPoster, ReactVideoSource} from 'react-native-video';
 
 export interface VideoPlayerRef {
     play: () => void;
@@ -22,16 +23,20 @@ interface VideoPlayerProps {
 }
 
 export const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
-    ({posterUri, sourceUri, headers = {}, aspectRatio = 16 / 9, isLive = false}, ref) => {
-        const videoRef = useRef<VideoRef>(null);
-
+    ({ posterUri, sourceUri, headers = {}, aspectRatio = 16 / 9, isLive = false }, ref) => {
         const [loading, setLoading] = useState(false);
         const [error, setError] = useState(false);
         const [videoKey, setVideoKey] = useState(0);
+        const [paused, setPaused] = useState(!isLive);
+        const errorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+        useEffect(() => {
+            setPaused(!isLive);
+        }, [isLive]);
 
         useImperativeHandle(ref, () => ({
-            play: () => videoRef.current?.resume(),
-            pause: () => videoRef.current?.pause(),
+            play: () => setPaused(false),
+            pause: () => setPaused(true),
         }));
 
         const handleRetry = useCallback(() => {
@@ -45,33 +50,39 @@ export const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
         }, []);
 
         const handleLoad = useCallback(() => {
+            if (errorTimeoutRef.current) {
+                clearTimeout(errorTimeoutRef.current);
+                errorTimeoutRef.current = null;
+            }
             setLoading(false);
             setError(false);
         }, []);
 
         const handleError = useCallback(() => {
             setLoading(false);
-            setError(true);
+            errorTimeoutRef.current = setTimeout(() => {
+                setError(true);
+                setPaused(true);
+            }, 300);
         }, []);
 
         const handleBuffer = useCallback((e: { isBuffering: boolean }) => {
             setLoading(e.isBuffering);
         }, []);
 
-        const bufferConfig: BufferConfig = {
-            live: { targetOffsetMs: 2000 },
-        };
+        const handleProgress = useCallback(() => {
+            setLoading(false);
+        }, []);
 
         const poster: ReactVideoPoster = {
             source: posterUri
-                ? { uri: encodeURI(posterUri), headers }
+                ? { uri: posterUri, headers }
                 : undefined,
         };
 
         const source: ReactVideoSource = {
-            uri: encodeURI(sourceUri),
+            uri: sourceUri,
             headers,
-            bufferConfig,
         };
 
         return (
@@ -79,17 +90,17 @@ export const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
                 {!error && (
                     <Video
                         key={videoKey}
-                        ref={videoRef}
                         source={source}
                         poster={poster}
-                        controls
-                        paused={!isLive}
+                        paused={paused}
+                        controls={true}
                         playWhenInactive={false}
                         style={styles.player}
                         onLoadStart={handleLoadStart}
                         onBuffer={handleBuffer}
                         onLoad={handleLoad}
                         onError={handleError}
+                        onProgress={handleProgress}
                     />
                 )}
 

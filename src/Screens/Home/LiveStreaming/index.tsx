@@ -54,6 +54,8 @@ export const LiveStreamingScreen = () => {
                 headers: authentication.authorizationHeader,
             });
         });
+
+        streamingSources.sort((a, b) => a.name.localeCompare(b.name));
         setStreamingSources(streamingSources);
     };
 
