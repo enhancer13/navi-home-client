@@ -63,7 +63,7 @@ export const VideoPlayer = forwardRef<VideoPlayerRef, VideoPlayerProps>(
             errorTimeoutRef.current = setTimeout(() => {
                 setError(true);
                 setPaused(true);
-            }, 300);
+            }, 3000);
         }, []);
 
         const handleBuffer = useCallback((e: { isBuffering: boolean }) => {
