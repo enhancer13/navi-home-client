@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import {authenticationInfoStorage, ServerInfo, serverInfoStorage} from '../../../Features/DataStorage';
-import {Platform} from 'react-native';
 import {useDataStorageEvents} from '../../../Features/DataStorage/Hooks/useDataStorageEvents';
 import {DataStorageEventTypes} from '../../../Framework/Data/DataStorage';
+import {Platform} from 'react-native';
 
 export const useAuthenticationData = () => {
     const [username, setUsername] = useState<string>('');
@@ -14,17 +14,19 @@ export const useAuthenticationData = () => {
     const initializeServerData = async () => {
         const servers = await serverInfoStorage.getAll();
         setServers(servers);
-        setServerName('');
 
-        // initialize user and server settings
         const authenticationInfo = await authenticationInfoStorage.getLast();
         if (authenticationInfo) {
             setUsername(authenticationInfo.username);
-
             const lastServerName = authenticationInfo.serverName;
             if (servers.length > 0 && servers.some(s => s.serverName === lastServerName)) {
                 setServerName(lastServerName);
+                return;
             }
+        }
+
+        if (servers.length > 0) {
+            setServerName(servers[0].serverName);
         }
     };
 

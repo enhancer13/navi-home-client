@@ -29,7 +29,7 @@ export const ListEntityDropDownListPicker: React.FC<Props> = ({
                                                               }) => {
     const [entities, setEntities] = useState<IEntity[]>([]);
     const [loading, setLoading] = useState(false);
-    const entitiesRef = useRef<IEntity[]>();
+    const entitiesRef = useRef<IEntity[]>([]);
     entitiesRef.current = entities;
 
     const entityDataManager = useEntityDataManager(entityName);

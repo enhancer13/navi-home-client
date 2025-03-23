@@ -39,12 +39,10 @@ export const ListTextInputItem: React.FC<TextInputProps> = ({
     const [hidePassword, toggleHidePassword] = useToggle(secureTextEntry);
 
     const handleInputChanged = (input: string) => {
-        setInputValue((prevValue) => {
-            if (prevValue !== input) {
-                onValueChanged?.(input);
-            }
-            return input;
-        });
+        if (inputValue !== input) {
+            setInputValue(input);
+            onValueChanged?.(input);
+        }
     };
 
     useEffect(() => {

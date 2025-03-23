@@ -3,7 +3,7 @@ import React, {useMemo} from 'react';
 import SelectableList from '../Components/SelectableList/SelectableList';
 import {ListItem} from '../ListItem';
 
-export const usePrimaryAction = (actionsStatus: ActionsStatus, selectableListRef: React.RefObject<SelectableList<ListItem>>, items: ListItem[], doSave: (items?: ListItem[]) => Promise<void>, doCreate: () => void)
+export const usePrimaryAction = (actionsStatus: ActionsStatus, selectableListRef: React.RefObject<SelectableList<ListItem> | null>, items: ListItem[], doSave: (items?: ListItem[]) => Promise<void>, doCreate: () => void)
     : [string, (() => void)] => {
 
     return useMemo(() => {

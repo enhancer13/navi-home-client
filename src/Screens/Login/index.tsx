@@ -70,7 +70,7 @@ export const LoginScreen: React.FC = () => {
     const handleServerAdd = useCallback(() => navigation.navigate('Server Config' as never), [navigation]);
 
     const handleServerChange = useCallback((value: string) => {
-        setServerName(value);
+        value && setServerName(value);
     }, [setServerName]);
 
     const handleBiometryAuthenticate = useCallback(async () => {
