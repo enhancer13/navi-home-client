@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {TouchableOpacity, StyleSheet, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,7 +12,8 @@ import {useAuth} from '../../../Features/Authentication';
 import {useTheme, Text} from 'react-native-paper';
 import {MD3Theme as Theme} from 'react-native-paper';
 import color from 'color';
-import {VideoPlayer} from '../../../Features/VideoPlayer';
+import {PlaybackState, VideoPlayer} from '../../../Features/VideoPlayer';
+import FastImage from 'react-native-fast-image';
 
 const videoAspectRatio = 16 / 9;
 
@@ -34,6 +35,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
                                                                        streamingSource,
                                                                        width,
                                                                    }) => {
+    const [paused, setPaused] = useState(true);
     const {authentication} = useAuth();
     const theme = useTheme();
     const playerControlsHeight = (0.08 * width) / videoAspectRatio;
@@ -44,6 +46,13 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
         const path = backendEndpoints.Services.APPLICATION_SERVICE_ACTION(service, streamingSource.id, currentState);
         await httpClient.put(path, {authentication});
     };
+
+    const handlePlaybackStateChange = useCallback(
+        (state: PlaybackState) => {
+            setPaused(state === 'paused');
+        },
+        [],
+    );
 
     const renderControl = (children: React.ReactNode, callback?: () => Promise<void>) => {
         return (
@@ -119,24 +128,63 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
         );
     };
 
-    const renderVideo = () => {
+    const renderPosterOverlay = () => (
+        <TouchableOpacity
+            style={styles.player.posterContainer}
+            onPress={() => setPaused(false)}
+            activeOpacity={0.8}>
+            <FastImage
+                source={{
+                    uri: streamingSource.thumbUri,
+                    headers: streamingSource.headers,
+                }}
+                style={styles.player.posterImage}
+            />
+            <Ionicons
+                name="play-circle"
+                size={64}
+                color="rgba(255,255,255,0.9)"
+                style={styles.player.playIcon}
+            />
+        </TouchableOpacity>
+    );
+
+    const renderVideoContent = () => {
         const {
+            uri,
+            thumbUri,
+            headers,
             servicesStatus: {
                 framesStreamerReady,
                 framesStreamerActive,
                 framesProducerActive,
                 framesProducerConnectionError,
             },
-            uri,
-            thumbUri,
-            headers,
         } = streamingSource;
-        if (!framesProducerActive || framesProducerConnectionError || !framesStreamerActive || !framesStreamerReady) {
+
+        if (
+            !framesProducerActive ||
+            framesProducerConnectionError ||
+            !framesStreamerActive ||
+            !framesStreamerReady
+        ) {
             return renderStatus();
         }
 
         return (
-            <VideoPlayer isLive sourceUri={uri} posterUri={thumbUri} headers={headers} aspectRatio={videoAspectRatio}/>
+            <>
+                {paused ? (
+                    renderPosterOverlay()
+                ) : (
+                    <VideoPlayer
+                        sourceUri={uri}
+                        posterUri={thumbUri}
+                        headers={headers}
+                        aspectRatio={videoAspectRatio}
+                        onPlaybackStateChange={handlePlaybackStateChange}
+                    />
+                )}
+            </>
         );
     };
 
@@ -174,7 +222,7 @@ const VideoStreamingPlayer: React.FC<VideoStreamingPlayerProps> = ({
 
     return (
         <View style={styles.player.container}>
-            {renderVideo()}
+            {renderVideoContent()}
             {renderBottomControls()}
         </View>
     );
@@ -200,6 +248,28 @@ const createStyles = (theme: Theme, playerControlsHeight: number, iconSize: numb
         player: StyleSheet.create({
             container: {
                 margin: 5,
+                borderRadius: 8,
+                overflow: 'hidden',
+            },
+            posterContainer: {
+                aspectRatio: videoAspectRatio,
+                width: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'black',
+                position: 'relative',
+            },
+            posterImage: {
+                ...StyleSheet.absoluteFillObject,
+                resizeMode: 'cover',
+            },
+            playIcon: {
+                zIndex: 1,
+                elevation: 2,
+                shadowColor: '#000',
+                shadowOffset: {width: 0, height: 2},
+                shadowOpacity: 0.3,
+                shadowRadius: 4,
             },
             control: {
                 marginRight: iconSize * 0.6,
